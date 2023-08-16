@@ -10,7 +10,8 @@ const schema = [
             cookie: { required: true, length: 26 },
             paula: { required: true, length: 64 },
             school: { required: true, type: "number", min: 1, max: 9999 },
-            user: { required: true, type: "number", min: 1 }
+            user: { required: true, type: "number", min: 1 },
+            conversation: { required: true, type: "number", min: 1 }
         }
     }
 ];
@@ -29,9 +30,9 @@ export default defineEventHandler(async (event) => {
         !patterns.MOODLE_COOKIE.test(query.cookie?.toString() || "")
     ) return setErrorResponse(res, 400, schema);
 
-    const { session, cookie, paula, school, user } = query;
+    const { session, cookie, paula, school, user, conversation } = query;
 
-    const rateLimit = handleRateLimit("/api/moodle/conversations.get", address);
+    const rateLimit = handleRateLimit("/api/moodle/messages.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
@@ -51,24 +52,30 @@ export default defineEventHandler(async (event) => {
             body: JSON.stringify([
                 { 
                     index: 0,
-                    methodname: "core_message_get_conversations",
+                    methodname: "core_message_get_conversation_messages",
                     args: {
-                        favourites: false,
-                        limitfrom: 0,
-                        limitnum: 51,
-                        mergeself: true,
-                        type: 1,
-                        userid: user
+                        convid: parseInt(conversation?.toString() || "0"),
+                        limitfrom: 1,
+                        limitnum: 101,
+                        newest: true,
+                        currentuserid: user
                     }
                 }
             ])
         });
-
+        
         const data = await response.json();
-        if (data[0].error)
-            return setErrorResponse(res, 401);
+        console.log(data[0]);
+        
+        if (!data[0].error)
+            return { error: false, ...data[0].data };
+        
+        // Let's hope these error codes are consistent, but who knows
+        if (data[0].exception.errorcode === "User is not part of conversation.")
+            return setErrorResponse(res, 403, "User is not part of conversation");
 
-        return { error: false, ...data[0].data };
+        return setErrorResponse(res, 401);
+
 
     } catch (error) {
         console.error(error);
