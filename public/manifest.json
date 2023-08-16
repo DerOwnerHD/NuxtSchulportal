@@ -1,0 +1,11 @@
+{
+    "name": "Schulportal",
+    "icons": [
+        {
+            "src": "icon.png",
+            "type": "image/png",
+            "sizes": "150x150"
+        }
+    ],
+    "start_url": "/"
+}

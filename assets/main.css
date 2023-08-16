@@ -1,0 +1,144 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    overflow: hidden;
+}
+#background {
+    background: linear-gradient(to bottom, #1e1e1e, #121212);
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    z-index: -2;
+}
+
+#background > #overlay {
+    height: inherit;
+    width: inherit;
+    opacity: 15%;
+    filter: blur(4px);
+}
+html {
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: contain;
+    touch-action: none;
+    -ms-touch-action: none;
+    --element-color: #2d2d2d;
+}
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+@font-face {
+    font-family: "SPBold";
+    src: url("/font/bold.otf");
+}
+@font-face {
+    font-family: "SPSemiBold";
+    src: url("/font/semibold.otf");
+}
+@font-face {
+    font-family: "SPRegular";
+    src: url("/font/regular.otf");
+}
+* {
+    font-family: "SPSemiBold";
+    user-select: none;
+}
+p {
+    color: white;
+}
+h1 {
+    font-family: "Bricolage Grotesque";
+    font-weight: bold;
+    color: white;
+}
+.rounded-button {
+    @apply p-1 rounded-full shadow-sm hover:active:scale-75 bg-[#4e5760] text-white;
+    transition: transform 0.2s ease-out;
+}
+.big-button {
+    @apply bg-white rounded-full w-64 h-8 drop-shadow-md hover:active:scale-90;
+    transition: transform 0.2s ease-out;
+}
+.card-icon {
+    width: 1rem;
+}
+#header {
+    background: linear-gradient(to bottom, #18d6ee, #3a7cd5);
+}
+.card > footer {
+    @apply mb-3 flex justify-center;
+    button {
+        @apply text-white px-2 rounded-full hover:active:scale-90 mx-1;
+        transition: transform 50ms;
+        background: #ffffff65;
+        span {
+            @apply ml-1.5;
+        }
+    }
+}
+.gradient-border::before {
+    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
+    background: var(--gradient);
+}
+.gradient-border > div {
+    background: linear-gradient(to bottom, #212121, #080808);
+    border-radius: inherit;
+}
+.warning {
+    @apply bg-yellow-500 border-yellow-500;
+}
+.info {
+    @apply bg-blue-500 border-blue-500;
+}
+.warning,
+.info {
+    line-height: 1.1rem;
+    @apply bg-opacity-30 border-[1px] w-fit rounded-md shadow-md justify-self-center text-[0.9rem] flex px-2 py-1;
+}
+.warning::before,
+.info::before {
+    @apply inline-flex self-center mr-2;
+}
+.warning::before {
+    content: "⚠";
+}
+.info::before {
+    content: "ℹ️";
+}
+.select {
+    @apply flex my-3 justify-center;
+    > div {
+        @apply border-white border-[1px] px-2 py-1 rounded-md mx-0.5;
+    }
+    > div[selected] {
+        @apply bg-[#ffffff50];
+    }
+}
+.spinner {
+    background: url("https://i.imgur.com/NCYL2PJ.png") no-repeat;
+    height: var(--size);
+    width: var(--size);
+    background-size: var(--size);
+    animation: 900ms spin infinite linear;
+}
+.basic-card {
+    background: linear-gradient(to bottom, #282828, #121212);
+    @apply w-80 shadow-lg rounded-xl mx-5 text-white py-3;
+    border-top: solid 1px;
+    border-image: linear-gradient(90deg, #282828 10%, #ffffff 50%, #282828 90%) 1;
+    h1 {
+        @apply text-2xl mt-1;
+    }
+}
+.button-with-symbol {
+    @apply rounded-full bg-white text-black mx-1.5 px-3 py-1 mt-2 hover:active:scale-[0.95];
+    svg {
+        @apply mr-1;
+    }
+}
