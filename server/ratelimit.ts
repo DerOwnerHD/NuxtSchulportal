@@ -32,6 +32,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/moodle/conversations.get",
+        interval: 10 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 

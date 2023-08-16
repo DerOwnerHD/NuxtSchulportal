@@ -31,7 +31,28 @@ export const patterns = {
     USERNAME: /^([A-Z]+\.[A-Z]+(?:-[A-Z]+)?|[A-Z]{3})$/i,
     BIRTHDAY: /^(([12][0-9]|0[1-9]|3[0-1])\.(0[1-9]|11|12)\.(?:19|20)\d{2})$/,
     PW_RESET_CODE: /^([a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4})$/i,
-    HEX_CODE: /^[a-f0-9]+$/
+    HEX_CODE: /^[a-f0-9]+$/,
+    MOODLE_SESSION: /^[a-z0-9]{10}$/i,
+    MOODLE_COOKIE: /^[a-z0-9]{26}$/
+};
+
+export const validateQuery = (
+    query: any,
+    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number } }
+): boolean => {
+    for (const key in schema) {
+        if (!key.length) continue;
+        const object = schema[key];
+        const value = query[key];
+        if (object.type === "number") {
+            const valueAsNumber = parseFloat(value);
+            if (!Number.isInteger(valueAsNumber)) return false;
+            if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
+        }
+        if ((value == undefined && object.required) || (object.length !== undefined && value.length !== object.length)) return false;
+    }
+
+    return true;
 };
 
 /**
@@ -44,7 +65,7 @@ export const patterns = {
 export const validateBody = (
     body: any,
     schema: {
-        [name: string]: {
+        [key: string]: {
             type: string;
             required: boolean;
             min?: number;

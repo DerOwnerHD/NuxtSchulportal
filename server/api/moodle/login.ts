@@ -84,7 +84,6 @@ export default defineEventHandler(async (event) => {
         // A successful request to login on Moodle must return a 303 code
         // along with a location header with a "testsession" redirect with the user ID
         const locationHeader = moodleLogin.headers.get("location");
-        console.log("HII TEH")
         if (moodleLogin.status !== 303 || locationHeader === null) return setErrorResponse(res, 401);
 
         const loginValidation = locationHeader.match(/^(?:https:\/\/mo(?:[0-9]{1,6})\.schule\.hessen\.de\/login\/index.php\?testsession=)([0-9]+)$/i);
@@ -102,14 +101,14 @@ export default defineEventHandler(async (event) => {
 
         const mainPageContent = removeBreaks(await mainPage.text());
         const sessionKeyMatch = mainPageContent.match(/(?:logout\.php\?sesskey=)([a-z0-9]{10})/i);
-        if (sessionKeyMatch === null || !sessionKeyMatch[1])
-            return setErrorResponse(res, 401);
+        if (sessionKeyMatch === null || !sessionKeyMatch[1]) return setErrorResponse(res, 401);
 
         return {
             error: false,
             cookie: moodleSession,
             session: sessionKeyMatch[1],
-            userId: parseInt(loginValidation[1])
+            paula: paulaCookie,
+            user: parseInt(loginValidation[1])
         };
     } catch (error) {
         console.error(error);
