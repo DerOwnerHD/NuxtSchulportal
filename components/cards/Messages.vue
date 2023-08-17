@@ -37,7 +37,46 @@
 </template>
 
 <script lang="ts">
-import { MoodleConversation } from "composables/apps";
+interface MoodleConversation {
+    id: number;
+    name: string;
+    subname: string | null;
+    icon: string | null;
+    type: number;
+    memberCount: number;
+    muted: boolean;
+    favorite: boolean;
+    unread: number | null;
+    members: MoodleMember[];
+    messages: MoodleMessage[];
+    canDeleteMessagesForEveryone: boolean;
+}
+interface MoodleMessage {
+    id: number;
+    author: number;
+    text: string;
+    timestamp: number;
+}
+interface MoodleMember {
+    id: number;
+    name: string;
+    profile: string;
+    avatar: {
+        small: string;
+        default: string;
+    };
+    online: boolean | null;
+    showStatus: boolean;
+    blocked: boolean;
+    contact: boolean;
+    deleted: boolean;
+    abilities: {
+        message: boolean;
+        messageIfBlocked: boolean;
+    };
+    requiresContact: boolean;
+    contactRequests: [];
+}
 export default defineComponent({
     name: "Messages",
     mounted() {

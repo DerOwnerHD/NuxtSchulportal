@@ -20,7 +20,7 @@ interface MoodleConversationsResponse {
     conversations: MoodleConversation[];
 }
 
-export interface MoodleConversation {
+interface MoodleConversation {
     id: number;
     name: string;
     subname: string | null;
