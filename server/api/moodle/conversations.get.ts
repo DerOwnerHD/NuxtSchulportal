@@ -1,6 +1,7 @@
 import { lookup } from "dns/promises";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { patterns, setErrorResponse, validateQuery } from "../../utils";
+import { MoodleConversation, transformMoodleConversation } from "../../moodle";
 
 const schema = [
     {
@@ -64,11 +65,22 @@ export default defineEventHandler(async (event) => {
             ])
         });
 
-        const data = await response.json();
-        if (data[0].error)
-            return setErrorResponse(res, 401);
+        const json = await response.json();
+        if (!json[0].error) {
+        
+            const data: {
+                conversations: MoodleConversation[]
+            } = json[0].data;
 
-        return { error: false, ...data[0].data };
+            const transformedData = {
+                conversations: data.conversations.map((conversation) => transformMoodleConversation(conversation))
+            };
+
+            return { error: false, ...transformedData };
+        
+        }
+
+        return setErrorResponse(res, 401);
 
     } catch (error) {
         console.error(error);

@@ -1,6 +1,7 @@
 import { lookup } from "dns/promises";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { patterns, setErrorResponse, validateQuery } from "../../utils";
+import { MoodleConversationMember, MoodleConversationMessage, transformMoodleMember, transformMoodleMessage } from "../../moodle";
 
 const schema = [
     {
@@ -64,14 +65,26 @@ export default defineEventHandler(async (event) => {
             ])
         });
         
-        const data = await response.json();
-        console.log(data[0]);
+        const json = await response.json();
+        if (!json[0].error) {
         
-        if (!data[0].error)
-            return { error: false, ...data[0].data };
+            const data: {
+                id: number;
+                members: MoodleConversationMember[];
+                messages: MoodleConversationMessage[];
+            } = json[0].data;
+
+            const transformedData = {
+                members: data.members.map((member) => transformMoodleMember(member)),
+                messages: data.messages.map((message) => transformMoodleMessage(message))
+            };
+
+            return { error: false, ...transformedData };
+        
+        }
         
         // Let's hope these error codes are consistent, but who knows
-        if (data[0].exception.errorcode === "User is not part of conversation.")
+        if (json[0].exception.errorcode === "User is not part of conversation.")
             return setErrorResponse(res, 403, "User is not part of conversation");
 
         return setErrorResponse(res, 401);
