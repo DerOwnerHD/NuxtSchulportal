@@ -22,9 +22,9 @@
                 </button>
             </div>
         </div>
-        <div v-else>
+        <div v-else id="main-content">
             <LoginMenu v-if="!credentials"></LoginMenu>
-            <main class="grid justify-center pt-2 w-screen" v-else-if="unrecoverableAPIError === null">
+            <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="unrecoverableAPIError === null">
                 <div v-if="tokenValid">
                     <Card
                         type="vplan"
@@ -36,6 +36,11 @@
                         gradient="linear-gradient(315deg, #008eff 0, #05e7ec 74%)"
                         :icon="['fas', 'hourglass-half']"
                         name="Stundenplan"></Card>
+                    <Card
+                        type="messages"
+                        gradient="linear-gradient(315deg, #fdbb2d 0, #fda52d 70%)"
+                        :icon="['fas', 'envelope-open-text']"
+                        name="Direktnachrichten"></Card>
                 </div>
                 <div v-else>
                     <div class="spinner mt-3 w-full" style="--size: 3rem"></div>
@@ -65,8 +70,9 @@ export default defineComponent({
         const login = await useLogin();
         console.log("Login: " + login);
         if (!login) return;
-
         tokenValid.value = true;
+
+        await useMoodleLogin();
     }
 });
 </script>
@@ -143,5 +149,9 @@ pre {
     .key {
         color: #e06c75;
     }
+}
+#main-content {
+    height: calc(100vh - 4rem);
+    overflow-y: visible;
 }
 </style>

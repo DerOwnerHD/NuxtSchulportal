@@ -12,7 +12,7 @@ export interface MoodleConversationMember {
     canmessageevenifblocked: boolean | null;
     canmessage: boolean | null;
     requirescontact: boolean | null;
-    contactrequests: []
+    contactrequests: [];
 }
 
 export interface MoodleConversationMessage {
@@ -39,12 +39,11 @@ export interface MoodleConversation {
 }
 
 export const transformMoodleMember = (member: MoodleConversationMember) => {
-
-    return { 
-        id: member.id, 
-        name: member.fullname, 
-        profile: member.profileurl, 
-        avatar: { small: member.profileimageurlsmall, default: member.profileimageurl } ,
+    return {
+        id: member.id,
+        name: member.fullname,
+        profile: member.profileurl,
+        avatar: { small: member.profileimageurlsmall, default: member.profileimageurl },
         online: member.isonline,
         showStatus: member.showonlinestatus,
         blocked: member.isblocked,
@@ -57,22 +56,18 @@ export const transformMoodleMember = (member: MoodleConversationMember) => {
         requiresContact: member.requirescontact,
         contactRequests: member.contactrequests
     };
-
-}
+};
 
 export const transformMoodleMessage = (message: MoodleConversationMessage) => {
-
-    return { 
+    return {
         id: message.id,
         author: message.useridfrom,
         text: message.text,
         timestamp: message.timecreated
     };
-
-}
+};
 
 export const transformMoodleConversation = (conversation: MoodleConversation) => {
-
     return {
         id: conversation.id,
         name: conversation.name,
@@ -88,6 +83,5 @@ export const transformMoodleConversation = (conversation: MoodleConversation) =>
         members: conversation.members.map((member) => transformMoodleMember(member)),
         messages: conversation.messages.map((message) => transformMoodleMessage(message)),
         canDeleteMessagesForEveryone: conversation.candeletemessagesforallusers
-    }
-
-}
+    };
+};

@@ -22,14 +22,15 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery(event);
-    
+
     const valid = validateQuery(query, schema.find((x) => x.method === "GET")?.query!);
     if (
-        !valid || 
-        !patterns.HEX_CODE.test(query.paula?.toString() || "") || 
+        !valid ||
+        !patterns.HEX_CODE.test(query.paula?.toString() || "") ||
         !patterns.MOODLE_SESSION.test(query.session?.toString() || "") ||
         !patterns.MOODLE_COOKIE.test(query.cookie?.toString() || "")
-    ) return setErrorResponse(res, 400, schema);
+    )
+        return setErrorResponse(res, 400, schema);
 
     const { session, cookie, paula, school, user, conversation } = query;
 
@@ -37,21 +38,20 @@ export default defineEventHandler(async (event) => {
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
-
         try {
             await lookup(`mo${school}.schule.hessen.de`);
         } catch (error) {
             return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
         }
 
-        const response = await fetch(`https://mo${ school }.schule.hessen.de/lib/ajax/service.php?sesskey=${ session }`, {
+        const response = await fetch(`https://mo${school}.schule.hessen.de/lib/ajax/service.php?sesskey=${session}`, {
             method: "POST",
             headers: {
-                Cookie: `MoodleSession=${ cookie?.toString() }; Paula=${ paula?.toString() }`,
+                Cookie: `MoodleSession=${cookie?.toString()}; Paula=${paula?.toString()}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify([
-                { 
+                {
                     index: 0,
                     methodname: "core_message_get_conversation_messages",
                     args: {
@@ -64,10 +64,9 @@ export default defineEventHandler(async (event) => {
                 }
             ])
         });
-        
+
         const json = await response.json();
         if (!json[0].error) {
-        
             const data: {
                 id: number;
                 members: MoodleConversationMember[];
@@ -80,19 +79,15 @@ export default defineEventHandler(async (event) => {
             };
 
             return { error: false, ...transformedData };
-        
         }
-        
+
         // Let's hope these error codes are consistent, but who knows
         if (json[0].exception.errorcode === "User is not part of conversation.")
             return setErrorResponse(res, 403, "User is not part of conversation");
 
         return setErrorResponse(res, 401);
-
-
     } catch (error) {
         console.error(error);
         return setErrorResponse(res, 500);
     }
-
 });

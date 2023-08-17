@@ -1,3 +1,5 @@
+import { Credentials } from "./auth";
+
 interface VPlanDay {
     date: string;
     day_of_week: string;
@@ -12,10 +14,60 @@ interface VertretungenResponse {
     last_updated: string;
 }
 
-enum APIFetchError {
-    Unauthorized,
-    TooManyRequests,
-    ServerError
+interface MoodleConversationsResponse {
+    error: boolean;
+    error_details?: any;
+    conversations: MoodleConversation[];
+}
+
+export interface MoodleConversation {
+    id: number;
+    name: string;
+    subname: string | null;
+    icon: string | null;
+    type: number;
+    memberCount: number;
+    muted: boolean;
+    favorite: boolean;
+    unread: number | null;
+    members: MoodleMember[];
+    messages: MoodleMessage[];
+    canDeleteMessagesForEveryone: boolean;
+}
+
+interface MoodleMessage {
+    id: number;
+    author: number;
+    text: string;
+    timestamp: number;
+}
+
+interface MoodleMember {
+    id: number;
+    name: string;
+    profile: string;
+    avatar: {
+        small: string;
+        default: string;
+    };
+    online: boolean | null;
+    showStatus: boolean;
+    blocked: boolean;
+    contact: boolean;
+    deleted: boolean;
+    abilities: {
+        message: boolean;
+        messageIfBlocked: boolean;
+    };
+    requiresContact: boolean;
+    contactRequests: [];
+}
+
+export enum APIFetchError {
+    Unauthorized = 401,
+    Forbidden = 403,
+    TooManyRequests = 429,
+    ServerError = 500
 }
 
 /**
@@ -34,7 +86,6 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
     // These could either be 401's, 429's or some other internal error
     if (fetchError.value !== null) {
         if (fetchError.value.status === 401) return APIFetchError.Unauthorized;
-
         if (fetchError.value.status === 429) return APIFetchError.TooManyRequests;
 
         return APIFetchError.ServerError;
@@ -45,4 +96,23 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
     const { error, ...plan } = data.value;
 
     return plan;
+};
+
+export const useConversations = async (): Promise<MoodleConversation[] | APIFetchError> => {
+    const credentials = useMoodleCredentials().value;
+    if (!credentials) return APIFetchError.Unauthorized;
+
+    const { data, error } = await useFetch<MoodleConversationsResponse>("/api/moodle/conversations", {
+        method: "GET",
+        query: {
+            ...credentials,
+            school: useCredentials<Credentials>().value.school
+        }
+    });
+
+    if (error.value !== null) return (error.value.status as APIFetchError) || APIFetchError.ServerError;
+
+    if (data.value === null) return APIFetchError.ServerError;
+
+    return data.value.conversations;
 };

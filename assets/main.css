@@ -2,7 +2,7 @@ body {
     width: 100vw;
     height: 100vh;
     background: black;
-    overflow: hidden;
+    overflow: scroll;
 }
 #background {
     background: linear-gradient(to bottom, #1e1e1e, #121212);
@@ -11,14 +11,15 @@ body {
     overflow: hidden;
     z-index: -2;
 }
-
 #background > #overlay {
     height: inherit;
     width: inherit;
     opacity: 15%;
     filter: blur(4px);
 }
-html {
+* {
+}
+:root {
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: contain;
     touch-action: none;
@@ -49,7 +50,8 @@ html {
     font-family: "SPSemiBold";
     user-select: none;
 }
-p {
+p,
+small {
     color: white;
 }
 h1 {

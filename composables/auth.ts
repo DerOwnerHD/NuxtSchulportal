@@ -1,4 +1,4 @@
-interface Credentials {
+export interface Credentials {
     username: string;
     password: string;
     school: number;
@@ -19,11 +19,32 @@ interface APIError {
     response: string;
     message: string;
 }
+interface MoodleLoginResponse {
+    error: boolean;
+    error_details?: any;
+    cookie: string;
+    session: string;
+    paula: string;
+    user: number;
+}
+interface MoodleCredentials {
+    cookie: string;
+    session: string;
+    paula: string;
+    user: number;
+}
+export interface MoodleState {
+    loggedIn: boolean;
+    conversations: [];
+    events: [];
+}
 
 import { callWithNuxt } from "nuxt/app";
 
 export const useCredentials = <T>() => useCookie<T | Credentials>("credentials");
 export const useToken = () => useCookie<string>("token");
+export const useSession = () => useCookie<string>("session");
+export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-credentials");
 
 /**
  * Validates the token stored in the credentials cookie
@@ -79,12 +100,44 @@ export const useLogin = async (): Promise<boolean> => {
         return false;
     }
 
-    if (!login.value?.token) {
+    if (!login.value?.token || !login.value.session) {
         (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
         return false;
     }
 
     useToken().value = login.value.token;
+    useSession().value = login.value.session;
+
+    return true;
+};
+
+export const useMoodleLogin = async (): Promise<boolean> => {
+    // The session token is required to proceed to Moodle login
+    if (!useSession().value || !useCredentials<Credentials>().value.school) return false;
+
+    // This will get used by other components when building
+    // message boards and other stuff relating to Moodle
+    useState("moodle").value = {
+        loggedIn: false,
+        conversations: [],
+        events: []
+    };
+
+    const { data, error: fetchError } = await useFetch<MoodleLoginResponse>("/api/moodle/login", {
+        method: "POST",
+        body: {
+            session: useSession().value,
+            school: useCredentials<Credentials>().value.school
+        },
+        retry: false
+    });
+
+    // It isn't dramatic if the Moodle login is not successful
+    if (fetchError.value !== null || data.value === null) return false;
+
+    useState<MoodleState>("moodle").value.loggedIn = true;
+    const { error, ...credentials } = data.value;
+    useMoodleCredentials().value = credentials;
 
     return true;
 };

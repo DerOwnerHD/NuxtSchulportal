@@ -15,12 +15,14 @@
         </header>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
         <CardsSPlan v-if="type === 'splan'"></CardsSPlan>
+        <CardsMessages v-if="type === 'messages'"></CardsMessages>
     </article>
 </template>
 
 <script lang="ts">
 import * as CardsSPlan from "./cards/SPlan.vue";
 import * as CardsVPlan from "./cards/VPlan.vue";
+import * as CardsMessages from "./cards/Messages.vue";
 export default defineComponent({
     name: "Card",
     props: {
