@@ -1,24 +1,22 @@
 <template>
-    <main>
+    <main v-if="cardsOpen.includes('messages')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
             <div>
-                <div class="text-center py-2" v-if="!conversations.length">
-                    <p>Wird geladen</p>
-                    <small>Dauert zu lange?</small>
-                    <br>
-                    <button class="button-with-symbol" onclick="location.reload()">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
-                        </ClientOnly>
-                        <span>Neu laden</span>
-                    </button>
+                <div class="grid place-content-center py-2" v-if="!conversations.length">
+                    <div class="spinner" style="--size: 2rem;"></div>
                 </div>
                 <ul v-else>
                     <li v-for="conversation of conversations.slice(0, 3)">
                         <img :src="conversation.icon || conversation.members[0].avatar.small || 'https://i.imgur.com/HaVDp4T.png'">
                         <div>
                             <p>{{ conversation.name || conversation.members[0].name || "<Unbenannt>" }}</p>
-                            <p>{{ conversation.messages[0].text.replace(/(<([^>]+)>)/ig, "") || "Keine Textnachricht" }}</p>
+                            <p v-if="conversation.messages[0].text !== ''">{{ conversation.messages[0].text }}</p>
+                            <p v-else>
+                                <ClientOnly>
+                                    <font-awesome-icon :icon="['far', 'image']"></font-awesome-icon>
+                                </ClientOnly>
+                                <span class="ml-1">Externe Medien</span>
+                            </p>
                         </div>
                     </li>
                 </ul>
@@ -85,15 +83,22 @@ export default defineComponent({
     data() {
         const conversations: MoodleConversation[] = [];
         return {
-            conversations
+            conversations,
+            cardsOpen: useState<Array<string>>("cards-open")
         }
     },
     methods: {
         async fetchMessages() {
+            console.log("fetching conversations")
             const conversations = await useConversations();
             if (!Array.isArray(conversations))
                 return;
-            this.conversations = conversations;
+            this.conversations = conversations
+                .map((conversation) => { 
+                    return { ...conversation, messages: conversation.messages
+                .map((message) => { 
+                    return { ...message, text: message.text.replace(/(<([^>]+)>)/ig, "") }
+                })}});
         }
     }
 });

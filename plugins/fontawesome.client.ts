@@ -13,6 +13,7 @@ import {
     faArrowRotateRight,
     faExpand,
     faChevronDown,
+    faChevronUp,
     faRepeat,
     faChild,
     faUser,
@@ -21,6 +22,7 @@ import {
     faHandsHoldingChild,
     faMagnifyingGlass
 } from "@fortawesome/free-solid-svg-icons";
+import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
 
 config.autoAddCss = false;
@@ -39,13 +41,15 @@ library.add(
     faExpand,
     faJsfiddle,
     faChevronDown,
+    faChevronUp,
     faRepeat,
     faChild,
     faUser,
     faClipboard,
     faUpRightFromSquare,
     faHandsHoldingChild,
-    faMagnifyingGlass
+    faMagnifyingGlass,
+    faImage
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

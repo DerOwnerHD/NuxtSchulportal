@@ -55,6 +55,9 @@ let tokenValid = ref(false);
 export default defineComponent({
     name: "App",
     async mounted() {
+        // We store which cards are opened in the local storage
+        useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
+
         if (!useCredentials().value) return;
 
         const isValid = await useTokenCheck();

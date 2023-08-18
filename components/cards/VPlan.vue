@@ -1,5 +1,5 @@
 <template>
-    <main>
+    <main v-if="cardsOpen.includes('vplan')">
         <div id="table" class="w-[90%] mx-[5%] rounded-2xl mb-2 text-white shadow-md z-0 relative gradient-border">
             <div class="flex rounded-[inherit] py-2 px-0"></div>
         </div>
@@ -21,9 +21,14 @@
     </footer>
 </template>
 
-<script>
+<script lang="ts">
 export default defineComponent({
-    name: "VPlan"
+    name: "VPlan",
+    data() {
+        return {
+            cardsOpen: useState<Array<string>>("cards-open")
+        }
+    }
 });
 </script>
 

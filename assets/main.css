@@ -76,9 +76,10 @@ h1 {
 .card > footer {
     @apply mb-3 flex justify-center;
     button {
-        @apply text-white px-2 rounded-full hover:active:scale-90 mx-1;
+        @apply text-white px-2 rounded-full hover:active:scale-90 mx-1 drop-shadow-md;
         transition: transform 50ms;
         background: #ffffff65;
+        text-shadow: 0 1px 5px #00000040;
         span {
             @apply ml-1.5;
         }

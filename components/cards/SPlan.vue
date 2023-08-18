@@ -1,5 +1,5 @@
 <template>
-    <main class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
+    <main class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]" v-if="cardsOpen.includes('splan')">
         <div class="py-1.5">
             <p class="text-center" id="splan-date">
                 <b></b><small>, <span id="splan-date-dow"></span></small>
@@ -26,9 +26,14 @@
     </footer>
 </template>
 
-<script>
+<script lang="ts">
 export default defineComponent({
-    name: "SPlan"
+    name: "SPlan",
+    data() {
+        return {
+            cardsOpen: useState<Array<string>>("cards-open")
+        }
+    }
 });
 </script>
 
