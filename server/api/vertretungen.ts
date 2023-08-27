@@ -1,4 +1,4 @@
-import { APIError, generateForwardedHeader, removeBreaks, setErrorResponse } from "../utils";
+import { APIError, generateDefaultHeaders, removeBreaks, setErrorResponse } from "../utils";
 import { JSDOM } from "jsdom";
 const ROW_ORDER = ["empty", "lesson", "class", "substitute", "teacher", "subject", "subject_old", "room", "note"];
 // Starts on sunday cos Date#getDay does too
@@ -11,10 +11,14 @@ export default defineEventHandler(async (event) => {
     if (req.method !== "GET") return setErrorResponse(res, 405);
 
     if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
+    if (!/^[a-z0-9]{26}$/.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
 
     try {
         const raw = await fetch("http://localhost/vertretungsplan.html", {
-            headers: [["Cookie", `sid=${encodeURIComponent(req.headers.authorization)}`], generateForwardedHeader(address)]
+            headers: {
+                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                ...generateDefaultHeaders(address)
+            }
         });
 
         if (raw.status !== 200) throw new APIError("Couldn't load VPlan");

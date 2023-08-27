@@ -27,7 +27,7 @@ export default defineComponent({
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open")
-        }
+        };
     }
 });
 </script>

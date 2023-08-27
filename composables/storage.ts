@@ -5,16 +5,11 @@
  * @returns The value in the localStorage for that key
  */
 export const useLocalStorage = (key: string, value?: string): void | string | null => {
+    if (!("localStorage" in window)) return;
 
-    if (!("localStorage" in window))
-        return;
+    if (value === undefined) return window.localStorage.getItem(key);
 
-    if (value === undefined)
-        return window.localStorage.getItem(key);
-
-    if (value === null)
-        return window.localStorage.removeItem(key);
+    if (value === null) return window.localStorage.removeItem(key);
 
     window.localStorage.setItem(key, value);
-
-}
+};

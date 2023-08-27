@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../../utils";
+import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../../utils";
 import { lookup } from "dns/promises";
 
 const schema = [
@@ -46,7 +46,8 @@ export default defineEventHandler(async (event) => {
         // authentication in form of a SPH-Session cookie (provided by user in POST request)
         const samlSingleSignOn = (
             await fetch("https://loginproxy1.schulportal.hessen.de/?url=" + Buffer.from(institutionLogin).toString("base64"), {
-                redirect: "manual"
+                redirect: "manual",
+                headers: generateDefaultHeaders(address)
             })
         ).headers.get("location");
 
@@ -57,7 +58,10 @@ export default defineEventHandler(async (event) => {
         const proxySingleSignOnArtifact = (
             await fetch(samlSingleSignOn, {
                 redirect: "manual",
-                headers: [["Cookie", "SPH-Session=" + session]]
+                headers: {
+                    Cookie: `SPH-Session=${session}`,
+                    ...generateDefaultHeaders(address)
+                }
             })
         ).headers.get("location");
 
@@ -68,7 +72,8 @@ export default defineEventHandler(async (event) => {
         // This Paula cookie is then needed for authentication in Moodle
         const redirectToMoodle = (
             await fetch(proxySingleSignOnArtifact, {
-                redirect: "manual"
+                redirect: "manual",
+                headers: generateDefaultHeaders(address)
             })
         ).headers;
         // This has to be dynamic so it can apply to multiple institutions
@@ -78,7 +83,10 @@ export default defineEventHandler(async (event) => {
 
         const moodleLogin = await fetch(institutionLogin, {
             redirect: "manual",
-            headers: [["Cookie", "Paula=" + paulaCookie]]
+            headers: {
+                Cookie: `Paula=${paulaCookie}`,
+                ...generateDefaultHeaders(address)
+            }
         });
 
         // A successful request to login on Moodle must return a 303 code
@@ -96,7 +104,10 @@ export default defineEventHandler(async (event) => {
         if (!moodleSession) return setErrorResponse(res, 401);
         const mainPage = await fetch(`https://mo${school}.schule.hessen.de/my/`, {
             redirect: "manual",
-            headers: [["Cookie", "MoodleSession=" + moodleSession]]
+            headers: {
+                Cookie: `MoodleSession=${moodleSession}`,
+                ...generateDefaultHeaders(address)
+            }
         });
 
         const mainPageContent = removeBreaks(await mainPage.text());

@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateForwardedHeader, parseCookie, patterns, removeBreaks, setErrorResponse, setResponse, validateBody } from "../utils";
+import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, setResponse, validateBody } from "../utils";
 // For some reason "Universität Kassel (Fachbereich 2) Kassel" has id 206568, like why?
 const schema = [
     {
@@ -40,7 +40,10 @@ export default defineEventHandler(async (event) => {
     try {
         const login = await fetch("https://login.bildung.hessen.de", {
             method: "POST",
-            headers: [["Content-Type", "application/x-www-form-urlencoded"], generateForwardedHeader(address)],
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                ...generateDefaultHeaders(address)
+            },
             body: requestForm,
             redirect: "manual"
         });
@@ -77,11 +80,11 @@ export default defineEventHandler(async (event) => {
             if (!token || token.length !== 64 || /[^0-9a-f]/gi.test(token)) return;
 
             const registerBrowser = await fetch("https://login.schulportal.hessen.de/registerbrowser", {
-                headers: [
-                    ["Content-Type", "application/x-www-form-urlencoded"],
-                    ["Cookie", "SPH-Session=" + session],
-                    generateForwardedHeader(address)
-                ],
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                    Cookie: `SPH-Session=${session}`,
+                    ...generateDefaultHeaders(address)
+                },
                 method: "POST",
                 body: [`token=${token}`, `fg=WeNeedToFillThese32CharactersMan`].join("&"),
                 redirect: "manual"
@@ -98,7 +101,10 @@ export default defineEventHandler(async (event) => {
         const connect = await fetch("https://connect.schulportal.hessen.de", {
             method: "HEAD",
             redirect: "manual",
-            headers: [["Cookie", "SPH-Session=" + session], generateForwardedHeader(address)]
+            headers: {
+                Cookie: `SPH-Session=${session}`,
+                ...generateDefaultHeaders(address)
+            }
         });
 
         const location = connect.headers.get("location");
@@ -108,7 +114,7 @@ export default defineEventHandler(async (event) => {
         const spLogin = await fetch(location, {
             method: "HEAD",
             redirect: "manual",
-            headers: [generateForwardedHeader(address)]
+            headers: generateDefaultHeaders(address)
         });
 
         if (!spLogin.headers.get("set-cookie")) return setErrorResponse(res, 503);

@@ -1,6 +1,6 @@
 import { lookup } from "dns/promises";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { patterns, setErrorResponse, validateQuery } from "../../utils";
+import { generateDefaultHeaders, patterns, setErrorResponse, validateQuery } from "../../utils";
 import { MoodleConversationMember, MoodleConversationMessage, transformMoodleMember, transformMoodleMessage } from "../../moodle";
 
 const schema = [
@@ -48,7 +48,8 @@ export default defineEventHandler(async (event) => {
             method: "POST",
             headers: {
                 Cookie: `MoodleSession=${cookie?.toString()}; Paula=${paula?.toString()}`,
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                ...generateDefaultHeaders(address)
             },
             body: JSON.stringify([
                 {

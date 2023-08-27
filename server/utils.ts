@@ -154,6 +154,13 @@ export const generateForwardedHeader = (address?: string): [string, string] => {
     return ["X-Forwarded-For", address || "127.0.0.1"];
 };
 
+export const generateDefaultHeaders = (address?: string) => {
+    return {
+        "X-Forwarded-For": address || "127.0.0.1",
+        "User-Agent": "NuxtSchulportal (https://github.com/DerOwnerHD/NuxtSchulportal)"
+    };
+};
+
 /**
  * A class used to catch errors that occurr when fetching data
  * from the Schulportal. It includes the choice to show that error

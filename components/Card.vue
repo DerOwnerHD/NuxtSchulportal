@@ -12,7 +12,9 @@
                     <h1>{{ name }}</h1>
                 </div>
             </div>
-            <button @click="toggleCardVisibiltiy" class="absolute right-5 top-2 rounded-full text-white w-7 h-7 shadow-md bg-[#ffffff65] hover:active:scale-[0.95]">
+            <button
+                @click="toggleCardVisibiltiy"
+                class="absolute right-5 top-2 rounded-full text-white w-7 h-7 shadow-md bg-[#ffffff65] hover:active:scale-[0.95]">
                 <ClientOnly>
                     <font-awesome-icon :icon="['fas', cardsOpen.includes(type) ? 'chevron-up' : 'chevron-down']"></font-awesome-icon>
                 </ClientOnly>
@@ -33,7 +35,7 @@ export default defineComponent({
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open")
-        }
+        };
     },
     methods: {
         toggleCardVisibiltiy() {
@@ -45,8 +47,7 @@ export default defineComponent({
             }
 
             const index = cardsOpen.value.indexOf(this.type);
-            if (index === -1)
-                return;
+            if (index === -1) return;
 
             cardsOpen.value.splice(index, 1);
             useLocalStorage("cards-open", JSON.stringify(cardsOpen.value));

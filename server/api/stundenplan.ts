@@ -1,4 +1,4 @@
-import { APIError, generateForwardedHeader, parseCookie, removeBreaks, setErrorResponse } from "../utils";
+import { APIError, generateDefaultHeaders, parseCookie, removeBreaks, setErrorResponse } from "../utils";
 import { JSDOM } from "jsdom";
 
 export default defineEventHandler(async (event) => {
@@ -8,13 +8,17 @@ export default defineEventHandler(async (event) => {
     if (req.method !== "GET") return setErrorResponse(res, 405);
 
     if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
+    if (!/^[a-z0-9]{26}$/.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
 
     try {
         // We don't want to follow redirects cause in case
         // we aren't logged in and should get redirected, we
         // want to prevent this unhandled behaviour
         const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php", {
-            headers: [["Cookie", `sid=${encodeURIComponent(req.headers.authorization)}`], generateForwardedHeader(address)],
+            headers: {
+                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                ...generateDefaultHeaders(address)
+            },
             redirect: "manual"
         });
 

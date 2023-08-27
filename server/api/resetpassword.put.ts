@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateForwardedHeader, parseJSONBody, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
+import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
 const schema = [
     {
         method: "PUT",
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = parseJSONBody(req);
+    const body = await readBody(event);
 
     const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
     if (!valid || !patterns.PW_RESET_CODE.test(body.code)) return setErrorResponse(res, 400, schema);
@@ -39,11 +39,11 @@ export default defineEventHandler(async (event) => {
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
             method: "POST",
-            headers: [
-                ["Cookie", `sid=${encodeURIComponent(sid)}`],
-                ["Content-Type", "application/x-www-form-urlencoded"],
-                generateForwardedHeader(address)
-            ],
+            headers: {
+                Cookie: `sid=${encodeURIComponent(sid)}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+                ...generateDefaultHeaders(address)
+            },
             body: requestForm
         });
 

@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { APIError, generateForwardedHeader, parseCookie, parseJSONBody, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
+import { APIError, generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
 const schema = [
     {
         method: "POST",
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = parseJSONBody(req);
+    const body = await readBody(event);
 
     const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
     // Just making sure the username isn't invalid (this is also tested in the frontend)
@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
         const firstStep = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder&i=" + school, {
             method: "GET",
             redirect: "manual",
-            headers: [generateForwardedHeader(address)]
+            headers: generateDefaultHeaders(address)
         });
 
         const { sid } = parseCookie(firstStep.headers.get("set-cookie") || "");
@@ -58,7 +58,11 @@ export default defineEventHandler(async (event) => {
 
         const secondStep = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
             method: "POST",
-            headers: [["Cookie", `sid=${sid}`], ["Content-Type", "application/x-www-form-urlencoded"], generateForwardedHeader(address)],
+            headers: {
+                Cookie: `sid=${sid}`,
+                "Content-Type": "application/x-www-form-urlencoded",
+                ...generateDefaultHeaders(address)
+            },
             body: requestForm
         });
 
