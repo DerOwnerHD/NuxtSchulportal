@@ -130,20 +130,11 @@
                     </div>
                     <p class="my-2 leading-4">Du hast einen Code per E-Mail erhalten<br />Dieser ist für 10 Minuten gültig</p>
                     <form name="reset-code" class="flex justify-center" @input="handleResetInput" @keyup="handleResetInput">
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
                         <span>-</span>
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
                         <span>-</span>
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
-                        <input required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
                     </form>
                 </div>
                 <div class="pw-reset" v-else-if="resetState === 3" stage="3">
@@ -188,7 +179,7 @@
         </footer>
         <dialog id="school-search" class="text-white w-80 h-[60vh] place-content-center rounded-xl focus:outline-none">
             <div class="grid w-full h-full place-content-center">
-                <div class="h-[60vh] py-2" v-if="search.loaded">
+                <div class="h-[60vh] py-3" v-if="search.loaded">
                     <div class="w-full flex justify-center">
                         <input
                             @input="searchSchools"
@@ -209,7 +200,10 @@
                                 <small>{{ school.town }}</small>
                             </li>
                         </ul>
-                        <p class="text-center text-lg" v-if="!search.results.length">Na los! Suche etwas...</p>
+                        <p class="text-center">
+                            <span v-if="search.query === ''">Na los! Suche etwas...</span>
+                            <span v-else-if="!search.results.length">Keine Ergebnisse gefunden</span>
+                        </p>
                     </div>
                 </div>
                 <div v-else class="spinner" style="--size: 4rem"></div>
@@ -256,7 +250,8 @@ export default defineComponent({
             search: {
                 loaded: false,
                 schools,
-                results
+                results,
+                query: ""
             }
         };
     },
@@ -267,6 +262,8 @@ export default defineComponent({
     },
     methods: {
         async showSchoolSearch() {
+            if (this.loginInProgress || this.resetInProgress || this.loginSuccessful)
+                return;
             const dialog = document.querySelector("dialog#school-search");
             if (!(dialog instanceof HTMLDialogElement)) return;
 
@@ -304,7 +301,9 @@ export default defineComponent({
         searchSchools(event: Event) {
             if (!(event.target instanceof HTMLInputElement)) return;
 
-            if (!event.target.value) return;
+            this.search.query = event.target.value;
+            if (!event.target.value)
+                return this.search.results = [];
 
             const regex = new RegExp(event.target.value, "i");
             this.search.results = this.search.schools.filter((school) => regex.test(school.name)).slice(0, 10);
