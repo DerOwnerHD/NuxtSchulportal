@@ -1,17 +1,14 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, setResponse, validateBody } from "../utils";
 // For some reason "Universität Kassel (Fachbereich 2) Kassel" has id 206568, like why?
-const schema = [
-    {
-        method: "POST",
-        body: {
-            username: { type: "string", required: true, max: 32 },
-            password: { type: "string", required: true, max: 100 },
-            school: { type: "number", required: true, max: 206568, min: 1 },
-            autologin: { type: "boolean", required: false }
-        }
+const schema = {
+    body: {
+        username: { type: "string", required: true, max: 32 },
+        password: { type: "string", required: true, max: 100 },
+        school: { type: "number", required: true, max: 206568, min: 1 },
+        autologin: { type: "boolean", required: false }
     }
-];
+};
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -23,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event);
 
-    const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
+    const valid = validateBody(body, schema.body);
     // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!valid || !patterns.USERNAME.test(body.username)) return setErrorResponse(res, 400, schema);
 

@@ -1,16 +1,13 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
-const schema = [
-    {
-        method: "PUT",
-        body: {
-            token: { type: "string", required: true, size: 64 },
-            ikey: { type: "string", required: true, size: 32 },
-            sid: { type: "string", required: true, size: 26 },
-            code: { type: "string", required: true, size: 14 }
-        }
+const schema = {
+    body: {
+        token: { type: "string", required: true, size: 64 },
+        ikey: { type: "string", required: true, size: 32 },
+        sid: { type: "string", required: true, size: 26 },
+        code: { type: "string", required: true, size: 14 }
     }
-];
+};
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -22,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event);
 
-    const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
+    const valid = validateBody(body, schema.body);
     if (!valid || !patterns.PW_RESET_CODE.test(body.code)) return setErrorResponse(res, 400, schema);
 
     const rateLimit = handleRateLimit("/api/resetpassword.put", address);

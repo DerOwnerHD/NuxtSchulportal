@@ -3,19 +3,16 @@ import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateDefaultHeaders, patterns, setErrorResponse, validateQuery } from "../../utils";
 import { MoodleConversationMember, MoodleConversationMessage, transformMoodleMember, transformMoodleMessage } from "../../moodle";
 
-const schema = [
-    {
-        method: "GET",
-        query: {
-            session: { required: true, length: 10 },
-            cookie: { required: true, length: 26 },
-            paula: { required: true, length: 64 },
-            school: { required: true, type: "number", min: 1, max: 9999 },
-            user: { required: true, type: "number", min: 1 },
-            conversation: { required: true, type: "number", min: 1 }
-        }
+const schema = {
+    query: {
+        session: { required: true, length: 10 },
+        cookie: { required: true, length: 26 },
+        paula: { required: true, length: 64 },
+        school: { required: true, type: "number", min: 1, max: 9999 },
+        user: { required: true, type: "number", min: 1 },
+        conversation: { required: true, type: "number", min: 1 }
     }
-];
+};
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -23,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     const query = getQuery(event);
 
-    const valid = validateQuery(query, schema.find((x) => x.method === "GET")?.query!);
+    const valid = validateQuery(query, schema.query);
     if (
         !valid ||
         !patterns.HEX_CODE.test(query.paula?.toString() || "") ||

@@ -2,15 +2,12 @@ import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../../utils";
 import { lookup } from "dns/promises";
 
-const schema = [
-    {
-        method: "POST",
-        body: {
-            session: { type: "string", required: true, size: 64 },
-            school: { type: "number", required: true, max: 206568, min: 1 }
-        }
+const schema = {
+    body: {
+        session: { type: "string", required: true, size: 64 },
+        school: { type: "number", required: true, max: 206568, min: 1 }
     }
-];
+};
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -22,7 +19,7 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event);
 
-    const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
+    const valid = validateBody(body, schema.body);
     // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!valid || !patterns.HEX_CODE.test(body.session)) return setErrorResponse(res, 400, schema);
 

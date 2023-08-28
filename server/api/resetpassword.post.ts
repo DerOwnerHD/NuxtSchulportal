@@ -1,16 +1,13 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { APIError, generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
-const schema = [
-    {
-        method: "POST",
-        body: {
-            username: { type: "string", required: true, max: 32 },
-            type: { type: "number", required: true, min: 0, max: 2 },
-            birthday: { type: "string", required: true },
-            school: { type: "number", required: true, max: 206568, min: 1 }
-        }
+const schema = {
+    body: {
+        username: { type: "string", required: true, max: 32 },
+        type: { type: "number", required: true, min: 0, max: 2 },
+        birthday: { type: "string", required: true },
+        school: { type: "number", required: true, max: 206568, min: 1 }
     }
-];
+};
 const USER_TYPE = ["Schueler", "Eltern", "Lehrer"];
 
 export default defineEventHandler(async (event) => {
@@ -23,7 +20,7 @@ export default defineEventHandler(async (event) => {
 
     const body = await readBody(event);
 
-    const valid = validateBody(body, schema.find((x) => x.method === "POST")?.body!);
+    const valid = validateBody(body, schema.body);
     // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!valid || !patterns.USERNAME.test(body.username) || !patterns.BIRTHDAY.test(body.birthday)) return setErrorResponse(res, 400, schema);
 
