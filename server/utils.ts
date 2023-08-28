@@ -38,12 +38,13 @@ export const patterns = {
 
 export const validateQuery = (
     query: any,
-    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number } }
+    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number; pattern?: RegExp } }
 ): boolean => {
     for (const key in schema) {
         if (!key.length) continue;
         const object = schema[key];
         const value = query[key];
+        if (typeof value === "string" && object.pattern && !object.pattern.test(value)) return false;
         if (object.type === "number") {
             const valueAsNumber = parseFloat(value);
             if (!Number.isInteger(valueAsNumber)) return false;

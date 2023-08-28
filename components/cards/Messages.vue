@@ -2,7 +2,7 @@
     <main v-if="cardsOpen.includes('messages')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
             <div>
-                <div class="grid place-content-center py-2" v-if="!conversations.length">
+                <div class="grid place-content-center py-2" v-if="conversations == undefined || !conversations.length">
                     <div class="spinner" style="--size: 2rem;"></div>
                 </div>
                 <ul v-else>
@@ -22,7 +22,7 @@
                 </ul>
             </div>
         </div>
-        <p v-if="conversations.length" class="text-sm text-center mb-1">Insgesamt {{ conversations.length }} Chats</p>
+        <p v-if="conversations && conversations.length" class="text-sm text-center mb-1">Insgesamt {{ conversations.length }} Chats</p>
     </main>
     <footer>
         <button>
@@ -77,13 +77,9 @@ interface MoodleMember {
 }
 export default defineComponent({
     name: "Messages",
-    mounted() {
-        this.fetchMessages();
-    },
     data() {
-        const conversations: MoodleConversation[] = [];
         return {
-            conversations,
+            conversations: useState<MoodleConversation[]>("moodle-conversations"),
             cardsOpen: useState<Array<string>>("cards-open")
         }
     },

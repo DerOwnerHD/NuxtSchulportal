@@ -58,8 +58,19 @@ export default defineComponent({
         // We store which cards are opened in the local storage
         useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
 
-        async function attemptLogin() {
+        await this.login();
+        if (!tokenValid.value) return;
 
+        const moodleLoggedIn = await this.moodleLogin();
+        if (!moodleLoggedIn) return;
+
+        const conversations = await useConversations();
+        if (!Array.isArray(conversations)) return;
+
+        useState("moodle-conversations", () => conversations);
+    },
+    methods: {
+        async login() {
             if (!useCredentials().value) return;
 
             const isValid = await useTokenCheck();
@@ -76,16 +87,20 @@ export default defineComponent({
             console.log("Login: " + login);
             if (!login) return;
             tokenValid.value = true;
+        },
+        async moodleLogin() {
+            const isValid = await useMoodleCheck();
+            console.log("Moodle session valid: " + isValid);
 
+            if (useState("api-error").value !== null) return false;
+            if (isValid) return true;
+
+            const login = await useMoodleLogin();
+            console.log("Moodle login: " + login);
+
+            if (!login) return false;
+            return true;
         }
-
-        await attemptLogin();
-        if (!tokenValid.value)
-            return;
-
-        const moodleLogin = await useMoodleLogin();
-        
-
     }
 });
 </script>

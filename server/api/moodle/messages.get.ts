@@ -29,10 +29,10 @@ export default defineEventHandler(async (event) => {
     )
         return setErrorResponse(res, 400, schema);
 
-    const { session, cookie, paula, school, user, conversation } = query;
-
     const rateLimit = handleRateLimit("/api/moodle/messages.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+
+    const { session, cookie, paula, school, user, conversation } = query;
 
     try {
         try {

@@ -350,6 +350,7 @@ export default defineComponent({
                     return this.showErrorMessage(login.status === 401 ? "Anmeldedaten falsch" : data.error_details || `Fehler (${login.status})`);
                 }
                 this.token = data.token;
+                useSession().value = data.session;
             } catch (error) {
                 return this.showErrorMessage("Netzwerkfehler");
             }

@@ -27,6 +27,12 @@ interface MoodleLoginResponse {
     paula: string;
     user: number;
 }
+interface MoodleCheckResponse {
+    error: boolean;
+    valid: boolean;
+    user: number | null;
+    remaining: number | null;
+}
 interface MoodleCredentials {
     cookie: string;
     session: string;
@@ -140,6 +146,30 @@ export const useMoodleLogin = async (): Promise<boolean> => {
     useMoodleCredentials().value = credentials;
 
     return true;
+};
+
+export const useMoodleCheck = async (): Promise<boolean> => {
+    const credentials = useMoodleCredentials().value;
+    if (!credentials || !useCredentials().value) return false;
+
+    const { data, error } = await useFetch<MoodleCheckResponse>("/api/moodle/check", {
+        method: "GET",
+        query: {
+            ...credentials,
+            school: useCredentials<null>().value?.school
+        },
+        retry: false
+    });
+
+    if (error.value !== null) {
+        useState<APIError>("api-error").value = {
+            response: syntaxHighlight(error.value.data),
+            message: "Konnte Moodledaten nicht überprüfen"
+        };
+        return false;
+    }
+
+    return data.value?.valid || false;
 };
 
 const syntaxHighlight = (json: any = {}) =>
