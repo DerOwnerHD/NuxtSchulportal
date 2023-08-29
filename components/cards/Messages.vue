@@ -1,12 +1,24 @@
 <template>
     <main v-if="cardsOpen.includes('messages')">
-        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
+        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
             <div>
                 <div class="grid place-content-center py-2" v-if="conversations == undefined || !conversations.length">
-                    <div class="spinner" style="--size: 2rem;"></div>
+                    <div class="error" v-if="appErrors['moodle-conversations'] != null">
+                        <span>{{ appErrors['moodle-conversations'] }}</span>
+                    </div>
+                    <div v-else class="spinner" style="--size: 2rem;"></div>
                 </div>
                 <ul v-else>
-                    <li v-for="conversation of conversations.slice(0, 3)">
+                    <li v-for="conversation of conversations.slice(0, 3)
+                    .map((conversation) => { return { 
+                        ...conversation, 
+                        messages: conversation.messages.map((message) => { 
+                            return { 
+                                ...message, 
+                                text: message.text.replace(/(<([^>]+)>)/ig, '') 
+                            }
+                        })
+                    }})">
                         <img :src="conversation.icon || conversation.members[0].avatar.small || 'https://i.imgur.com/HaVDp4T.png'">
                         <div>
                             <p>{{ conversation.name || conversation.members[0].name || "<Unbenannt>" }}</p>
@@ -25,7 +37,7 @@
         <p v-if="conversations && conversations.length" class="text-sm text-center mb-1">Insgesamt {{ conversations.length }} Chats</p>
     </main>
     <footer>
-        <button>
+        <button @click="useSheet('messages')">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
@@ -80,21 +92,9 @@ export default defineComponent({
     data() {
         return {
             conversations: useState<MoodleConversation[]>("moodle-conversations"),
-            cardsOpen: useState<Array<string>>("cards-open")
-        }
-    },
-    methods: {
-        async fetchMessages() {
-            console.log("fetching conversations")
-            const conversations = await useConversations();
-            if (!Array.isArray(conversations))
-                return;
-            this.conversations = conversations
-                .map((conversation) => { 
-                    return { ...conversation, messages: conversation.messages
-                .map((message) => { 
-                    return { ...message, text: message.text.replace(/(<([^>]+)>)/ig, "") }
-                })}});
+            cardsOpen: useState<Array<string>>("cards-open"),
+            appErrors: useState<{ [app: string]: string | null }>("app-errors"),
+            sheets: useState<{ open: string[] }>("sheets")
         }
     }
 });

@@ -48,6 +48,7 @@
             </main>
         </div>
     </div>
+    <BottomSheet v-if="sheetStates.open.includes('messages')" menu="messages"></BottomSheet>
 </template>
 
 <script lang="ts">
@@ -65,7 +66,10 @@ export default defineComponent({
         if (!moodleLoggedIn) return;
 
         const conversations = await useConversations();
-        if (!Array.isArray(conversations)) return;
+        if (!Array.isArray(conversations)) {
+            useState<AppErrorState>("app-errors").value["moodle-conversations"] = conversations;
+            return;
+        }
 
         useState("moodle-conversations", () => conversations);
     },
@@ -106,6 +110,20 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+interface SheetStates {
+    open: string[];
+}
+interface AppErrorState {
+    [app: string]: string | null;
+}
+// When using anonymous functions and directly declaring object,
+// we unfornuatly can't directly write the object, instead having
+// to use this ugly return logic
+const sheetStates = useState<SheetStates>("sheets", () => { return { open: [] } });
+// These app errors can be used on the home screen or on the sheets of
+// the corresponding apps, depends on when the error occured, either during
+// first load or a later load of the app from the API
+const appErrors = useState<AppErrorState>("app-errors", () => { return { "moodle-conversations": null } });
 if (process.client) document.addEventListener("load", () => (useState<boolean>("loaded").value = true));
 interface Credentials {
     username: string;

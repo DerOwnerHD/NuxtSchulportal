@@ -1,27 +1,34 @@
 <template>
-    <aside class="fixed w-full rounded-t-3xl" @touchstart="startDrag" @touchmove="updateDrag" @touchend="endDrag" :menu="menu">
-        <header class="flex place-content-center py-2 rounded-md">
-            <div class="w-10 h-1.5 rounded-full"></div>
-            <button
-                v-if="closable === '1'"
-                action="close"
-                @mousedown="closeMenu(200)"
-                class="absolute right-5 text-white w-9 h-9 grid place-content-center rounded-full drop-shadow-sm hover:active:scale-75">
-                <ClientOnly>
-                    <font-awesome-icon class="text-2xl" :icon="['fas', 'xmark']"></font-awesome-icon>
-                </ClientOnly>
-            </button>
-        </header>
-        <main class="text-center mb-5">
-            <SheetsLoginSheet v-if="menu === 'login'" @close="closeMenu(100)"></SheetsLoginSheet>
-        </main>
-    </aside>
+    <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu">
+        <aside class="fixed w-screen rounded-t-3xl focus:outline-none" @touchstart="startDrag" @touchmove="updateDrag" @touchend="endDrag" :menu="menu">
+            <header class="flex place-content-center py-2 rounded-md">
+                <div class="w-10 h-1.5 rounded-full"></div>
+            </header>
+            <main class="text-center mb-5">
+                <SheetsMessagesSheet v-if="menu === 'messages'" @close="closeMenu(null, 100)"></SheetsMessagesSheet>
+            </main>
+        </aside>
+    </div>
 </template>
 
 <script lang="ts">
 const elementsIgnoringMove: string[] = [];
 export default defineComponent({
     name: "BottomSheet",
+    async mounted() {
+        this.element.style.transform = `translateY(9999px)`;
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        console.log("2: " + Date.now());
+        this.element.animate([
+            { transform: `translateY(${ this.element.clientHeight }px)` },
+            { transform: `translateY(0px)` }
+        ], {
+            easing: "ease-in-out",
+            duration: this.element.clientHeight * 2.5
+        });
+        setTimeout(() => this.element.style.transform = "", this.element.clientHeight * 2.5);
+        this.backdrop.setAttribute("open", "");
+    },
     props: {
         menu: {
             type: String,
@@ -36,6 +43,9 @@ export default defineComponent({
     computed: {
         element(): HTMLElement {
             return document.querySelector(`aside[menu=${this.menu}]`) as HTMLElement;
+        },
+        backdrop(): HTMLDivElement {
+            return document.querySelector(`.aside-backdrop[menu=${this.menu}]`) as HTMLDivElement;
         }
     },
     methods: {
@@ -62,21 +72,26 @@ export default defineComponent({
             if (
                 this.element.clientHeight - parseInt(this.element.getAttribute("change") || "0") < this.element.clientHeight / 2 &&
                 this.closable === "1"
-            )
-                this.element.style.transform = `translateY(${this.element.clientHeight + 20}px)`;
+            ) this.closeMenu(null, 100);
             else this.element.style.transform = "";
             this.element.removeAttribute("start");
         },
-        closeMenu(waitTime: number) {
+        closeMenu(event?: Event | null, waitTime?: number) {
+            if (event != undefined) {
+                const target = event.target as HTMLElement;
+                if (!target.classList.contains("aside-backdrop")) return;
+            }
             // When called by a button we wait 200ms so we can fully see the button animation
             setTimeout(() => {
                 this.element.style.transform = `translateY(${this.element.clientHeight + 20}px)`;
                 this.element.setAttribute("moving", "");
+                this.backdrop.removeAttribute("open");
+                // This needs to be seperated as it's taking
+                // some time for the reactive effects to take place
                 setTimeout(() => {
-                    this.element.removeAttribute("moving");
-                    this.element.remove();
-                }, 510);
-            }, waitTime);
+                    useSheet(this.menu);
+                }, 500);
+            }, waitTime || 0);
         }
     }
 });
@@ -90,7 +105,13 @@ aside {
     transition: transform 50ms ease;
     z-index: 2;
 }
-
+.aside-backdrop {
+    background: transparent;
+    transition: background 500ms;
+}
+.aside-backdrop[open] {
+    background: #00000080;
+}
 aside[moving] {
     transition: transform 500ms ease-in-out;
     transition-delay: 100ms;

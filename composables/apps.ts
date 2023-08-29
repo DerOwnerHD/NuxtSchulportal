@@ -70,6 +70,8 @@ export enum APIFetchError {
     ServerError = 500
 }
 
+export const useSheetState = () => useState<{ open: string[] }>("sheets");
+
 /**
  * Fetches the data of the Vertretungsplan from the API
  * @returns A list of all the days listed on the plan or null - which would indicate that the client should reauthenticate
@@ -98,9 +100,9 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
     return plan;
 };
 
-export const useConversations = async (): Promise<MoodleConversation[] | APIFetchError> => {
+export const useConversations = async (): Promise<MoodleConversation[] | string> => {
     const credentials = useMoodleCredentials().value;
-    if (!credentials) return APIFetchError.Unauthorized;
+    if (!credentials) return "401: Unauthorized";
 
     const { data, error } = await useFetch<MoodleConversationsResponse>("/api/moodle/conversations", {
         method: "GET",
@@ -110,9 +112,21 @@ export const useConversations = async (): Promise<MoodleConversation[] | APIFetc
         }
     });
 
-    if (error.value !== null) return (error.value.status as APIFetchError) || APIFetchError.ServerError;
+    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
 
-    if (data.value === null) return APIFetchError.ServerError;
+    if (data.value === null) return "Serverfehler";
 
     return data.value.conversations;
 };
+
+export const useSheet = (sheet: string) => {
+
+    const sheets = useSheetState();
+
+    if (!sheets.value.open.includes(sheet))
+        return sheets.value.open.push(sheet);
+
+    const index = sheets.value.open.indexOf(sheet);
+    sheets.value.open.splice(index, 1);
+
+}

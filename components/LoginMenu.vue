@@ -72,10 +72,10 @@
                 <div class="spinner" style="--size: 2.5rem"></div>
                 <p class="text-center mt-0.5">Wird geladen</p>
             </div>
-            <div class="flex justify-center mt-2" v-if="errorMessage">
-                <p class="bg-red-500 w-fit px-2 rounded-full shadow-md">
+            <div class="error mt-2" v-if="errorMessage">
+                <span>
                     {{ errorMessage }}
-                </p>
+                </span>
             </div>
         </main>
         <footer class="mt-4 overflow-hidden basic-card" id="reset">
@@ -170,10 +170,10 @@
                     <div class="spinner" style="--size: 2.5rem"></div>
                     <p class="text-center mt-0.5">Wird geladen</p>
                 </div>
-                <div class="flex justify-center mt-2" v-if="resetErrorMessage">
-                    <p class="bg-red-500 w-fit px-2 rounded-full shadow-md">
+                <div class="error mt-2" v-if="resetErrorMessage">
+                    <span>
                         {{ resetErrorMessage }}
-                    </p>
+                    </span>
                 </div>
             </div>
         </footer>
@@ -262,8 +262,7 @@ export default defineComponent({
     },
     methods: {
         async showSchoolSearch() {
-            if (this.loginInProgress || this.resetInProgress || this.loginSuccessful)
-                return;
+            if (this.loginInProgress || this.resetInProgress || this.loginSuccessful) return;
             const dialog = document.querySelector("dialog#school-search");
             if (!(dialog instanceof HTMLDialogElement)) return;
 
@@ -302,8 +301,7 @@ export default defineComponent({
             if (!(event.target instanceof HTMLInputElement)) return;
 
             this.search.query = event.target.value;
-            if (!event.target.value)
-                return this.search.results = [];
+            if (!event.target.value) return (this.search.results = []);
 
             const regex = new RegExp(event.target.value, "i");
             this.search.results = this.search.schools.filter((school) => regex.test(school.name)).slice(0, 10);

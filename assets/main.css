@@ -145,3 +145,9 @@ h1 {
         @apply mr-1;
     }
 }
+.error {
+    @apply flex justify-center;
+    span {
+        @apply bg-red-500 w-fit px-2 rounded-full shadow-md;
+    }
+}
