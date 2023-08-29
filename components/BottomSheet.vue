@@ -1,6 +1,11 @@
 <template>
     <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu">
-        <aside class="fixed w-screen rounded-t-3xl focus:outline-none" @touchstart="startDrag" @touchmove="updateDrag" @touchend="endDrag" :menu="menu">
+        <aside
+            class="fixed w-screen rounded-t-3xl focus:outline-none"
+            @touchstart="startDrag"
+            @touchmove="updateDrag"
+            @touchend="endDrag"
+            :menu="menu">
             <header class="flex place-content-center py-2 rounded-md">
                 <div class="w-10 h-1.5 rounded-full"></div>
             </header>
@@ -18,15 +23,11 @@ export default defineComponent({
     async mounted() {
         this.element.style.transform = `translateY(9999px)`;
         await new Promise((resolve) => setTimeout(resolve, 500));
-        console.log("2: " + Date.now());
-        this.element.animate([
-            { transform: `translateY(${ this.element.clientHeight }px)` },
-            { transform: `translateY(0px)` }
-        ], {
+        this.element.animate([{ transform: `translateY(${this.element.clientHeight}px)` }, { transform: `translateY(0px)` }], {
             easing: "ease-in-out",
             duration: this.element.clientHeight * 2.5
         });
-        setTimeout(() => this.element.style.transform = "", this.element.clientHeight * 2.5);
+        setTimeout(() => (this.element.style.transform = ""), this.element.clientHeight * 2.5);
         this.backdrop.setAttribute("open", "");
     },
     props: {
@@ -72,7 +73,8 @@ export default defineComponent({
             if (
                 this.element.clientHeight - parseInt(this.element.getAttribute("change") || "0") < this.element.clientHeight / 2 &&
                 this.closable === "1"
-            ) this.closeMenu(null, 100);
+            )
+                this.closeMenu(null, 100);
             else this.element.style.transform = "";
             this.element.removeAttribute("start");
         },

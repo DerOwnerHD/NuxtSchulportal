@@ -1,6 +1,6 @@
 import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
 import { handleRateLimit, RateLimitAcceptance } from "../../ratelimit";
-import { lookup } from "dns/promises";
+import { lookupSchoolMoodle } from "../../moodle";
 
 const schema = {
     query: {
@@ -25,11 +25,8 @@ export default defineEventHandler(async (event) => {
     const { session, cookie, school } = query;
 
     try {
-        try {
-            await lookup(`mo${school}.schule.hessen.de`);
-        } catch (error) {
-            return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
-        }
+        const hasMoodle = await lookupSchoolMoodle(school);
+        if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
 
         const response = await fetch(`https://mo${school}.schule.hessen.de/lib/ajax/service.php?sesskey=${session}`, {
             method: "POST",

@@ -4,7 +4,7 @@
             <div>
                 <div class="grid place-content-center py-2" v-if="conversations == undefined || !conversations.length">
                     <div class="error" v-if="appErrors['moodle-conversations'] != null">
-                        <span>{{ appErrors['moodle-conversations'] }}</span>
+                        <span>{{ appErrors["moodle-conversations"] }}</span>
                     </div>
                     <div v-else class="spinner" style="--size: 2rem;"></div>
                 </div>

@@ -120,13 +120,10 @@ export const useConversations = async (): Promise<MoodleConversation[] | string>
 };
 
 export const useSheet = (sheet: string) => {
-
     const sheets = useSheetState();
 
-    if (!sheets.value.open.includes(sheet))
-        return sheets.value.open.push(sheet);
+    if (!sheets.value.open.includes(sheet)) return sheets.value.open.push(sheet);
 
     const index = sheets.value.open.indexOf(sheet);
     sheets.value.open.splice(index, 1);
-
-}
+};

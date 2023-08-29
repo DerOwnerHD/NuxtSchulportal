@@ -1,3 +1,5 @@
+import { lookup } from "dns/promises";
+
 export interface MoodleConversationMember {
     id: number;
     fullname: string;
@@ -84,4 +86,13 @@ export const transformMoodleConversation = (conversation: MoodleConversation) =>
         messages: conversation.messages.map((message) => transformMoodleMessage(message)),
         canDeleteMessagesForEveryone: conversation.candeletemessagesforallusers
     };
+};
+
+export const lookupSchoolMoodle = async (school: any): Promise<boolean> => {
+    try {
+        await lookup(`mo${school}.schule.hessen.de`);
+        return true;
+    } catch (error) {
+        return false;
+    }
 };

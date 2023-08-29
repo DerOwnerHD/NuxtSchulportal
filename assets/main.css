@@ -60,7 +60,7 @@ h1 {
     color: white;
 }
 .rounded-button {
-    @apply p-1 rounded-full shadow-sm hover:active:scale-75 bg-[#4e5760] text-white;
+    @apply p-1 rounded-full shadow-sm hover:active:scale-90 bg-[#4e5760] text-white;
     transition: transform 0.2s ease-out;
 }
 .big-button {
@@ -148,6 +148,6 @@ h1 {
 .error {
     @apply flex justify-center;
     span {
-        @apply bg-red-500 w-fit px-2 rounded-full shadow-md;
+        @apply bg-red-500 w-fit px-2 rounded-full shadow-md text-white;
     }
 }

@@ -38,18 +38,25 @@ export const patterns = {
 
 export const validateQuery = (
     query: any,
-    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number; pattern?: RegExp } }
+    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number; pattern?: RegExp; options?: any[] } }
 ): boolean => {
     for (const key in schema) {
         if (!key.length) continue;
+
         const object = schema[key];
         const value = query[key];
-        if (typeof value === "string" && object.pattern && !object.pattern.test(value)) return false;
+
+        // If either the pattern is incorrect or the value is not in the
+        // valid options, we don't allow the request to continue
+        if (typeof value === "string" && ((object.pattern && !object.pattern.test(value)) || (object.options && !object.options.includes(value))))
+            return false;
+
         if (object.type === "number") {
             const valueAsNumber = parseFloat(value);
             if (!Number.isInteger(valueAsNumber)) return false;
             if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
         }
+
         if ((value == undefined && object.required) || (object.length !== undefined && value.length !== object.length)) return false;
     }
 

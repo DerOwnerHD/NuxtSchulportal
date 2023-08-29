@@ -1,6 +1,6 @@
-import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../../utils";
-import { lookup } from "dns/promises";
+import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
+import { lookupSchoolMoodle } from "../../moodle";
 
 const schema = {
     body: {
@@ -33,11 +33,8 @@ export default defineEventHandler(async (event) => {
     try {
         // We need to ensure that a moodle link of that school actually exists
         // That could be mo1000.schule.hessen.de (which might not exist)
-        try {
-            await lookup(`mo${school}.schule.hessen.de`);
-        } catch (error) {
-            return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
-        }
+        const hasMoodle = await lookupSchoolMoodle(school);
+        if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
 
         // Sends request to SAMLSingleSignOn which provides a URL which actually requires
         // authentication in form of a SPH-Session cookie (provided by user in POST request)
