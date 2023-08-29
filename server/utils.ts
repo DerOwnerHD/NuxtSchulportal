@@ -163,6 +163,33 @@ export const generateDefaultHeaders = (address?: string) => {
 };
 
 /**
+ * Transforms the schema of an endpoint so it can be sent as
+ * valid JSON, so this function replaces the RegEx patterns
+ * with the stringified version of these patterns instead of
+ * the object, which is in JSON just {}.
+ * @param schema Schema of the endpoint (with query and/or body)
+ * @returns the modified schema
+ */
+export const transformEndpointSchema = (schema: any) => {
+    // We HAVE to create a copy of it or otherwise that reference would
+    // also modify our normal schema passed to this function (which would be BAD)
+    const transformedSchema = JSON.parse(JSON.stringify(schema));
+
+    const structures = ["body", "query"];
+    for (const structure of structures) {
+        if (schema[structure] === undefined) continue;
+        for (const key of Object.keys(schema[structure])) {
+            const value = schema[structure][key];
+            if (!value.pattern) continue;
+
+            transformedSchema[structure][key].pattern = value.pattern.toString();
+        }
+    }
+
+    return transformedSchema;
+};
+
+/**
  * A class used to catch errors that occurr when fetching data
  * from the Schulportal. It includes the choice to show that error
  * in the 500 API response back to the user.

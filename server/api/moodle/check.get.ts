@@ -1,4 +1,4 @@
-import { generateDefaultHeaders, patterns, setErrorResponse, validateQuery } from "../../utils";
+import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
 import { handleRateLimit, RateLimitAcceptance } from "../../ratelimit";
 import { lookup } from "dns/promises";
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const query = getQuery(event);
 
     const valid = validateQuery(query, schema.query);
-    if (!valid) return setErrorResponse(res, 400, schema);
+    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/moodle/messages.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
