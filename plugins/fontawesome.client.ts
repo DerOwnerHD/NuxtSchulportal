@@ -20,7 +20,10 @@ import {
     faClipboard,
     faUpRightFromSquare,
     faHandsHoldingChild,
-    faMagnifyingGlass
+    faMagnifyingGlass,
+    faStar,
+    faPeopleGroup,
+    faUserGroup
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -49,7 +52,10 @@ library.add(
     faUpRightFromSquare,
     faHandsHoldingChild,
     faMagnifyingGlass,
-    faImage
+    faImage,
+    faStar,
+    faPeopleGroup,
+    faUserGroup
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

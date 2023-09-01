@@ -56,8 +56,12 @@ let tokenValid = ref(false);
 export default defineComponent({
     name: "App",
     async mounted() {
+        // This would indicate the user isn't logged in
+        if (!useCookie("credentials").value) return;
+        const apps = ["vplan", "splan", "messages"];
         // We store which cards are opened in the local storage
         useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
+        useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
 
         await this.login();
         if (!tokenValid.value) return;
@@ -65,13 +69,7 @@ export default defineComponent({
         const moodleLoggedIn = await this.moodleLogin();
         if (!moodleLoggedIn) return;
 
-        const conversations = await useConversations();
-        if (!Array.isArray(conversations)) {
-            useState<AppErrorState>("app-errors").value["moodle-conversations"] = conversations;
-            return;
-        }
-
-        useState("moodle-conversations", () => conversations);
+        await this.loadConversations();
     },
     methods: {
         async login() {
@@ -104,12 +102,47 @@ export default defineComponent({
 
             if (!login) return false;
             return true;
+        },
+        async loadConversations() {
+            const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
+                personal: await useConversations(),
+                groups: await useConversations("groups"),
+                favorites: await useConversations("favorites"),
+                all: []
+            };
+            const conversationsInvalid = Object.values(conversations).reduce((invalid: string, value) => {
+                return Array.isArray(value) ? invalid : value;
+            }, "");
+            if (conversationsInvalid !== "") {
+                useState<AppErrorState>("app-errors").value["conversations"] = conversationsInvalid;
+                return;
+            }
+            let unreadCount = 0;
+            Object.values(conversations).forEach((group) => {
+                if (typeof group === "string") return;
+                group.forEach((conversation) => {
+                    if (conversations.all.find((x) => x.id === conversation.id)) return;
+                    conversations.all.push(conversation);
+                    unreadCount += conversation.unread || 0;
+                });
+            });
+            // We want to sort ALL conversations by latest message
+            conversations.all = conversations.all.sort((a, b) => {
+                if (!a.messages[0]) return 1;
+
+                if (!b.messages[0] || a.messages[0].timestamp > b.messages[0].timestamp) return -1;
+                else return 1;
+            });
+            useState<{ [app: string]: number }>("app-news").value.messages = unreadCount;
+            useState("moodle-conversations", () => conversations);
         }
     }
 });
 </script>
 
 <script setup lang="ts">
+import { MoodleConversation } from "./composables/apps";
+
 interface SheetStates {
     open: string[];
 }

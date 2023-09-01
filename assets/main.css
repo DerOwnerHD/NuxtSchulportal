@@ -76,8 +76,7 @@ h1 {
 .card > footer {
     @apply mb-3 flex justify-center;
     button {
-        @apply text-white px-2 rounded-full hover:active:scale-90 mx-1 drop-shadow-md;
-        transition: transform 50ms;
+        @apply text-white px-2 rounded-full hover:active:scale-95 mx-1 drop-shadow-md text-[1.1rem];
         background: #ffffff65;
         text-shadow: 0 1px 5px #00000040;
         span {
@@ -115,7 +114,7 @@ h1 {
     content: "ℹ️";
 }
 .select {
-    @apply flex my-3 justify-center;
+    @apply flex my-3 justify-center text-white;
     > div {
         @apply border-white border-[1px] px-2 py-1 rounded-md mx-0.5;
     }
@@ -146,8 +145,15 @@ h1 {
     }
 }
 .error {
-    @apply flex justify-center;
+    @apply flex justify-center max-w-[100vw];
     span {
-        @apply bg-red-500 w-fit px-2 rounded-full shadow-md text-white;
+        @apply bg-red-500 w-fit px-2 rounded-full shadow-md text-white whitespace-nowrap text-ellipsis overflow-hidden max-w-[100vw];
     }
+}
+.news-icon {
+    @apply bg-red-500 rounded-full grid place-content-center drop-shadow text-white;
+    --size: 1.25rem;
+    width: var(--size);
+    height: var(--size);
+    font-size: calc(var(--size) - 0.25rem);
 }

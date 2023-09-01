@@ -65,7 +65,7 @@ export const transformMoodleMessage = (message: MoodleConversationMessage) => {
         id: message.id,
         author: message.useridfrom,
         text: message.text,
-        timestamp: message.timecreated
+        timestamp: message.timecreated * 1000
     };
 };
 

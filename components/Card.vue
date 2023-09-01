@@ -3,12 +3,12 @@
         <header v-if="!disableHeader" class="grid my-2 justify-center relative">
             <div class="title relative z-[1] rounded-full shadow-md">
                 <div class="py-2 px-3 rounded-full flex items-center">
-                    <ClientOnly>
-                        <font-awesome-icon class="text-white text-xl mr-2 ml-1" :icon="icon"></font-awesome-icon>
-                        <div v-if="news" class="absolute bg-[red] rounded-full h-4 w-4 grid place-content-center left-6 top-1 drop-shadow">
-                            <div class="text-white text-sm">{{ news }}</div>
-                        </div>
-                    </ClientOnly>
+                    <div class="relative">
+                        <ClientOnly>
+                            <font-awesome-icon class="text-white text-xl mr-2 ml-1" :icon="icon"></font-awesome-icon>
+                        </ClientOnly>
+                        <span class="news-icon absolute top-[-0.25rem] right-0" style="--size: 1rem" v-if="news[type]">{{ news[type] }}</span>
+                    </div>
                     <h1>{{ name }}</h1>
                 </div>
             </div>
@@ -27,6 +27,9 @@
 </template>
 
 <script lang="ts">
+interface AppNews {
+    [app: string]: number | null;
+}
 import * as CardsSPlan from "./cards/SPlan.vue";
 import * as CardsVPlan from "./cards/VPlan.vue";
 import * as CardsMessages from "./cards/Messages.vue";
@@ -34,7 +37,8 @@ export default defineComponent({
     name: "Card",
     data() {
         return {
-            cardsOpen: useState<Array<string>>("cards-open")
+            cardsOpen: useState<Array<string>>("cards-open"),
+            news: useState<AppNews>("app-news")
         };
     },
     methods: {
@@ -69,10 +73,6 @@ export default defineComponent({
         name: {
             type: String,
             required: true
-        },
-        news: {
-            type: String,
-            required: false
         },
         disableHeader: {
             type: String,

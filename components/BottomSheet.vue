@@ -1,7 +1,7 @@
 <template>
     <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu">
         <aside
-            class="fixed w-screen rounded-t-3xl focus:outline-none"
+            class="fixed w-screen rounded-t-3xl overflow-visible max-h-[80vh] focus:outline-none"
             @touchstart="startDrag"
             @touchmove="updateDrag"
             @touchend="endDrag"
@@ -22,12 +22,12 @@ export default defineComponent({
     name: "BottomSheet",
     async mounted() {
         this.element.style.transform = `translateY(9999px)`;
-        await new Promise((resolve) => setTimeout(resolve, 500));
+        await useWait(500);
         this.element.animate([{ transform: `translateY(${this.element.clientHeight}px)` }, { transform: `translateY(0px)` }], {
             easing: "ease-in-out",
-            duration: this.element.clientHeight * 2.5
+            duration: 500
         });
-        setTimeout(() => (this.element.style.transform = ""), this.element.clientHeight * 2.5);
+        setTimeout(() => (this.element.style.transform = ""), 500);
         this.backdrop.setAttribute("open", "");
     },
     props: {
@@ -41,6 +41,15 @@ export default defineComponent({
             default: "1"
         }
     },
+    data() {
+        return {
+            dragStartTime: 0,
+            change: 0,
+            changeSinceLastUpdate: 0,
+            distanceFromTop: 0,
+            start: 0
+        }
+    },
     computed: {
         element(): HTMLElement {
             return document.querySelector(`aside[menu=${this.menu}]`) as HTMLElement;
@@ -51,17 +60,41 @@ export default defineComponent({
     },
     methods: {
         startDrag(event: TouchEvent) {
-            this.element.setAttribute("start", String(event.changedTouches[0].screenY));
-            this.element.removeAttribute("change");
+
+            const target = event.target as HTMLElement;
+            if (target.closest("#sheet-inner-content"))
+                return;
+
+            this.start = Math.floor(event.changedTouches[0].screenY);
+            this.change = 0;
+            this.changeSinceLastUpdate = 0;
+            this.distanceFromTop = this.element.getBoundingClientRect().top;
+            this.dragStartTime = Date.now();
+
         },
         updateDrag(event: TouchEvent) {
+
+            const target = event.target as HTMLElement;
+            if (target.closest("#sheet-inner-content"))
+                return;
+
             const elementType = (event.target as Element).nodeName;
             if (this.element.hasAttribute("moving") || elementsIgnoringMove.includes(elementType)) return;
-            const change = event.changedTouches[0].screenY - parseInt(this.element.getAttribute("start") || "0");
-            this.element.style.transform = "translateY(" + Math.max(change, -5) + "px)";
-            this.element.setAttribute("change", String(change));
+
+            const change = Math.floor(event.changedTouches[0].screenY - this.start);
+
+            this.changeSinceLastUpdate = event.changedTouches[0].screenY - this.change;
+            if (this.changeSinceLastUpdate < 0) this.dragStartTime = Date.now();
+
+            this.element.style.transform = `translateY(${Math.max(change, -5)}px)`;
+            this.change = change;
+
         },
         endDrag(event: TouchEvent) {
+
+            const target = event.target as HTMLElement;
+            if (target.closest("#sheet-inner-content"))
+                return;
             if (this.element.hasAttribute("moving")) return;
             // The drag is also detected when clicking on a button
             // in the top row - so we shall not run the actions in here
@@ -71,29 +104,47 @@ export default defineComponent({
             // The sheet shall be closed when the user has moved it down
             // by at least half - if not, we move it back up again
             if (
-                this.element.clientHeight - parseInt(this.element.getAttribute("change") || "0") < this.element.clientHeight / 2 &&
+                this.element.clientHeight - this.change < this.element.clientHeight / 2 &&
                 this.closable === "1"
-            )
-                this.closeMenu(null, 100);
-            else this.element.style.transform = "";
-            this.element.removeAttribute("start");
+            ) {
+                this.element.removeAttribute("moving");
+                this.closeMenu(null, 0);
+            } else {
+                this.element.style.transform = "";
+                this.dragStartTime = 0;
+            }
+            this.start = 0;
+
         },
         closeMenu(event?: Event | null, waitTime?: number) {
+
             if (event != undefined) {
                 const target = event.target as HTMLElement;
                 if (!target.classList.contains("aside-backdrop")) return;
             }
+            if (this.element.hasAttribute("moving")) return;
+
             // When called by a button we wait 200ms so we can fully see the button animation
             setTimeout(() => {
-                this.element.style.transform = `translateY(${this.element.clientHeight + 20}px)`;
+                const timePerPixel = (Date.now() - this.dragStartTime) / this.change;
+                const duration = this.dragStartTime === 0 ? 500 : Math.floor(timePerPixel * (this.element.clientHeight - this.change));
+                this.element.animate([
+                    { transform: `translateY(${this.dragStartTime === 0 ? 0 : this.element.getBoundingClientRect().top - this.distanceFromTop}px)` },
+                    { transform: `translateY(${this.element.clientHeight + 20}px)` }
+                ], {
+                    duration,
+                    easing: "ease-in-out",
+                    fill: "forwards"
+                })
                 this.element.setAttribute("moving", "");
                 this.backdrop.removeAttribute("open");
                 // This needs to be seperated as it's taking
                 // some time for the reactive effects to take place
                 setTimeout(() => {
                     useSheet(this.menu);
-                }, 500);
+                }, duration);
             }, waitTime || 0);
+
         }
     }
 });
@@ -102,9 +153,8 @@ export default defineComponent({
 <style scoped>
 aside {
     background: linear-gradient(to bottom, #1e1e1e, #121212);
-    padding-bottom: 5rem;
     bottom: -5px;
-    transition: transform 50ms ease;
+    transition: transform 10ms ease;
     z-index: 2;
 }
 .aside-backdrop {

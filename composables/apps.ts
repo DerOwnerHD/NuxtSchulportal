@@ -20,7 +20,7 @@ interface MoodleConversationsResponse {
     conversations: MoodleConversation[];
 }
 
-interface MoodleConversation {
+export interface MoodleConversation {
     id: number;
     name: string;
     subname: string | null;
@@ -35,14 +35,14 @@ interface MoodleConversation {
     canDeleteMessagesForEveryone: boolean;
 }
 
-interface MoodleMessage {
+export interface MoodleMessage {
     id: number;
     author: number;
     text: string;
     timestamp: number;
 }
 
-interface MoodleMember {
+export interface MoodleMember {
     id: number;
     name: string;
     profile: string;
@@ -82,7 +82,8 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
 
     const { data, error: fetchError } = await useFetch<VertretungenResponse>("/api/vertretungen", {
         method: "GET",
-        headers: { Authorization: token }
+        headers: { Authorization: token },
+        retry: false
     });
 
     // These could either be 401's, 429's or some other internal error
@@ -100,7 +101,7 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
     return plan;
 };
 
-export const useConversations = async (): Promise<MoodleConversation[] | string> => {
+export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {
     const credentials = useMoodleCredentials().value;
     if (!credentials) return "401: Unauthorized";
 
@@ -108,8 +109,10 @@ export const useConversations = async (): Promise<MoodleConversation[] | string>
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<Credentials>().value.school
-        }
+            school: useCredentials<Credentials>().value.school,
+            type
+        },
+        retry: false
     });
 
     if (error.value !== null) return error.value.data.error_details || "Serverfehler";
