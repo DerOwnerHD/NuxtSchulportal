@@ -48,7 +48,7 @@ export default defineComponent({
             changeSinceLastUpdate: 0,
             distanceFromTop: 0,
             start: 0
-        }
+        };
     },
     computed: {
         element(): HTMLElement {
@@ -60,23 +60,18 @@ export default defineComponent({
     },
     methods: {
         startDrag(event: TouchEvent) {
-
             const target = event.target as HTMLElement;
-            if (target.closest("#sheet-inner-content"))
-                return;
+            if (target.closest("#sheet-inner-content")) return;
 
             this.start = Math.floor(event.changedTouches[0].screenY);
             this.change = 0;
             this.changeSinceLastUpdate = 0;
             this.distanceFromTop = this.element.getBoundingClientRect().top;
             this.dragStartTime = Date.now();
-
         },
         updateDrag(event: TouchEvent) {
-
             const target = event.target as HTMLElement;
-            if (target.closest("#sheet-inner-content"))
-                return;
+            if (target.closest("#sheet-inner-content")) return;
 
             const elementType = (event.target as Element).nodeName;
             if (this.element.hasAttribute("moving") || elementsIgnoringMove.includes(elementType)) return;
@@ -88,13 +83,10 @@ export default defineComponent({
 
             this.element.style.transform = `translateY(${Math.max(change, -5)}px)`;
             this.change = change;
-
         },
         endDrag(event: TouchEvent) {
-
             const target = event.target as HTMLElement;
-            if (target.closest("#sheet-inner-content"))
-                return;
+            if (target.closest("#sheet-inner-content")) return;
             if (this.element.hasAttribute("moving")) return;
             // The drag is also detected when clicking on a button
             // in the top row - so we shall not run the actions in here
@@ -103,10 +95,7 @@ export default defineComponent({
             setTimeout(() => this.element.removeAttribute("moving"), 510);
             // The sheet shall be closed when the user has moved it down
             // by at least half - if not, we move it back up again
-            if (
-                this.element.clientHeight - this.change < this.element.clientHeight / 2 &&
-                this.closable === "1"
-            ) {
+            if (this.element.clientHeight - this.change < this.element.clientHeight / 2 && this.closable === "1") {
                 this.element.removeAttribute("moving");
                 this.closeMenu(null, 0);
             } else {
@@ -114,10 +103,8 @@ export default defineComponent({
                 this.dragStartTime = 0;
             }
             this.start = 0;
-
         },
         closeMenu(event?: Event | null, waitTime?: number) {
-
             if (event != undefined) {
                 const target = event.target as HTMLElement;
                 if (!target.classList.contains("aside-backdrop")) return;
@@ -128,14 +115,21 @@ export default defineComponent({
             setTimeout(() => {
                 const timePerPixel = (Date.now() - this.dragStartTime) / this.change;
                 const duration = this.dragStartTime === 0 ? 500 : Math.floor(timePerPixel * (this.element.clientHeight - this.change));
-                this.element.animate([
-                    { transform: `translateY(${this.dragStartTime === 0 ? 0 : this.element.getBoundingClientRect().top - this.distanceFromTop}px)` },
-                    { transform: `translateY(${this.element.clientHeight + 20}px)` }
-                ], {
-                    duration,
-                    easing: "ease-in-out",
-                    fill: "forwards"
-                })
+                this.element.animate(
+                    [
+                        {
+                            transform: `translateY(${
+                                this.dragStartTime === 0 ? 0 : this.element.getBoundingClientRect().top - this.distanceFromTop
+                            }px)`
+                        },
+                        { transform: `translateY(${this.element.clientHeight + 20}px)` }
+                    ],
+                    {
+                        duration,
+                        easing: "ease-in-out",
+                        fill: "forwards"
+                    }
+                );
                 this.element.setAttribute("moving", "");
                 this.backdrop.removeAttribute("open");
                 // This needs to be seperated as it's taking
@@ -144,7 +138,6 @@ export default defineComponent({
                     useSheet(this.menu);
                 }, duration);
             }, waitTime || 0);
-
         }
     }
 });

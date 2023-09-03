@@ -54,10 +54,8 @@ export default defineComponent({
     },
     methods: {
         async updateTypeSelection(id: string) {
-
             const sheet = document.querySelector(`aside[menu="messages"]`);
-            if (!(sheet instanceof HTMLElement) || sheet.hasAttribute("moving"))
-                return;
+            if (!(sheet instanceof HTMLElement) || sheet.hasAttribute("moving")) return;
 
             const previousHeight = sheet.clientHeight;
             sheet.style.height = `${previousHeight}px`;
@@ -83,15 +81,10 @@ export default defineComponent({
             const newHeight = sheet.clientHeight;
             sheet.style.height = `${Math.max(newHeight, previousHeight)}px`;
 
-            let movements = [
-                { transform: "translateY(0px)" },
-                { transform: `translateY(${previousHeight - newHeight}px)` }
-            ];
+            let movements = [{ transform: "translateY(0px)" }, { transform: `translateY(${previousHeight - newHeight}px)` }];
 
-            if (newHeight > previousHeight) movements = [
-                { transform: `translateY(${ newHeight - previousHeight }px)` },
-                { transform: "translateY(0px)" }
-            ];
+            if (newHeight > previousHeight)
+                movements = [{ transform: `translateY(${newHeight - previousHeight}px)` }, { transform: "translateY(0px)" }];
 
             const animation = sheet.animate(movements, {
                 duration: 500,
@@ -104,7 +97,6 @@ export default defineComponent({
             sheet.style.height = "";
 
             list.style.maxHeight = `${Math.floor(window.innerHeight - list.getBoundingClientRect().top)}px`;
-
         }
     }
 });

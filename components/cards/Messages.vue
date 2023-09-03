@@ -6,7 +6,7 @@
                     <div class="error" v-if="appErrors['conversations'] != null">
                         <span>{{ appErrors["conversations"] }}</span>
                     </div>
-                    <div v-else class="spinner" style="--size: 2rem;"></div>
+                    <div v-else class="spinner" style="--size: 2rem"></div>
                 </div>
                 <ConversationPreview v-else type="all" :splice="3"></ConversationPreview>
             </div>
@@ -29,12 +29,12 @@ export default defineComponent({
     name: "Messages",
     data() {
         return {
-            conversations: useState<{[type: string]: MoodleConversation[]}>("moodle-conversations"),
+            conversations: useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations"),
             cardsOpen: useState<Array<string>>("cards-open"),
             appErrors: useState<{ [app: string]: string | null }>("app-errors"),
             sheets: useState<{ open: string[] }>("sheets"),
             credentials: useMoodleCredentials()
-        }
+        };
     }
 });
 </script>

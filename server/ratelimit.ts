@@ -50,6 +50,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 5 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/stundenplan",
+        interval: 10 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 
