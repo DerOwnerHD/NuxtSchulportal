@@ -66,6 +66,8 @@ export default defineComponent({
         await this.login();
         if (!tokenValid.value) return;
 
+        this.loadSplan();
+
         const moodleLoggedIn = await this.moodleLogin();
         if (!moodleLoggedIn) return;
 
@@ -103,6 +105,13 @@ export default defineComponent({
             if (!login) return false;
             return true;
         },
+        async loadSplan() {
+            const plan = await useStundenplan();
+            // The plan is an array - if not it's an error
+            if (!Array.isArray(plan)) return (useAppErrors().value.stundenplan = plan);
+
+            useState("splan", () => plan);
+        },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
                 personal: await useConversations(),
@@ -110,13 +119,18 @@ export default defineComponent({
                 favorites: await useConversations("favorites"),
                 all: []
             };
+
+            // As we fetch three types of conversations at once, we need to check
+            // if any of them are invalid and then show that error to the user
             const conversationsInvalid = Object.values(conversations).reduce((invalid: string, value) => {
                 return Array.isArray(value) ? invalid : value;
             }, "");
+
             if (conversationsInvalid !== "") {
-                useState<AppErrorState>("app-errors").value["conversations"] = conversationsInvalid;
+                useAppErrors().value.conversations = conversationsInvalid;
                 return;
             }
+
             let unreadCount = 0;
             Object.values(conversations).forEach((group) => {
                 if (typeof group === "string") return;
@@ -126,6 +140,7 @@ export default defineComponent({
                     unreadCount += conversation.unread || 0;
                 });
             });
+
             // We want to sort ALL conversations by latest message
             conversations.all = conversations.all.sort((a, b) => {
                 if (!a.messages[0]) return 1;
@@ -133,6 +148,7 @@ export default defineComponent({
                 if (!b.messages[0] || a.messages[0].timestamp > b.messages[0].timestamp) return -1;
                 else return 1;
             });
+
             useState<{ [app: string]: number }>("app-news").value.messages = unreadCount;
             useState("moodle-conversations", () => conversations);
         }

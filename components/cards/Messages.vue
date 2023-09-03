@@ -11,7 +11,7 @@
                 <ConversationPreview v-else type="all" :splice="3"></ConversationPreview>
             </div>
         </div>
-        <p v-if="conversations && conversations.all.length" class="text-sm text-center mb-1">Insgesamt {{ conversations.all.length }} Chat(s)</p>
+        <p class="card-main-description" v-if="conversations && conversations.all.length">Insgesamt {{ conversations.all.length }} Chat(s)</p>
     </main>
     <footer>
         <button @click="useSheet('messages')">

@@ -157,3 +157,6 @@ h1 {
     height: var(--size);
     font-size: calc(var(--size) - 0.25rem);
 }
+.card-main-description {
+    @apply text-sm text-center mb-1;
+}

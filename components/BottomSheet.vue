@@ -125,7 +125,7 @@ export default defineComponent({
                         { transform: `translateY(${this.element.clientHeight + 20}px)` }
                     ],
                     {
-                        duration,
+                        duration: Math.max(duration, 1),
                         easing: "ease-in-out",
                         fill: "forwards"
                     }

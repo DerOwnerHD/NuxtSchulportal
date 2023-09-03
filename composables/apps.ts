@@ -70,7 +70,35 @@ export enum APIFetchError {
     ServerError = 500
 }
 
+interface StundenplanLesson {
+    lessons: number[];
+    classes: StudenplanClass[];
+}
+
+interface StudenplanClass {
+    teacher: string;
+    room: string;
+    name: string;
+}
+
+export interface Stundenplan {
+    days: StundenplanDay[];
+    start_date: string;
+    end_date: string | null;
+    lessons: number[][][];
+}
+
+interface StundenplanDay {
+    name: "Montag" | "Dienstag" | "Mittwoch" | "Donnerstag" | "Freitag";
+    lessons: StundenplanLesson[];
+}
+
+interface AppErrorState {
+    [app: string]: string | null;
+}
+
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
+export const useAppErrors = () => useState<AppErrorState>("app-errors");
 
 /**
  * Fetches the data of the Vertretungsplan from the API
@@ -88,10 +116,14 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
 
     // These could either be 401's, 429's or some other internal error
     if (fetchError.value !== null) {
-        if (fetchError.value.status === 401) return APIFetchError.Unauthorized;
-        if (fetchError.value.status === 429) return APIFetchError.TooManyRequests;
-
-        return APIFetchError.ServerError;
+        switch (fetchError.value.status) {
+            case 401:
+                return APIFetchError.Unauthorized;
+            case 429:
+                return APIFetchError.TooManyRequests;
+            default:
+                return APIFetchError.ServerError;
+        }
     }
 
     if (data.value === null) return APIFetchError.ServerError;
@@ -99,6 +131,23 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
     const { error, ...plan } = data.value;
 
     return plan;
+};
+
+export const useStundenplan = async (): Promise<Stundenplan[] | string> => {
+    const token = useToken().value;
+    if (!token) return "401: Unauthorized";
+
+    const { data, error: fetchError } = await useFetch<{ error: boolean; error_details?: any; plans: Stundenplan[] }>("/api/stundenplan", {
+        method: "GET",
+        headers: { Authorization: token },
+        retry: false
+    });
+
+    if (fetchError.value !== null) return fetchError.value.data.error_details || "Serverfehler";
+
+    if (data.value === null) return "Serverfehler";
+
+    return data.value?.plans;
 };
 
 export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {
