@@ -19,12 +19,12 @@
                 </p>
                 <div class="flex">
                     <div id="lessons" class="text-center mx-3">
-                        <p v-for="lesson of plans[selected].days[currentOrNextSchoolDay.getDay()].lessons">
+                        <p v-for="lesson of getSelectedDay.lessons">
                             {{ lesson.lessons.join(" - ") }}
                         </p>
                     </div>
                     <div id="classes" class="pl-3 mr-3 overflow-hidden">
-                        <p v-for="lesson of plans[selected].days[currentOrNextSchoolDay.getDay()].lessons">
+                        <p v-for="lesson of getSelectedDay.lessons">
                             <span v-if="!lesson.classes.length">-</span>
                             <span v-for="class_ of lesson.classes">
                                 <b>{{ class_.name }}</b>
@@ -72,15 +72,53 @@ export default defineComponent({
         };
     },
     computed: {
+        plansMergedLessons() {
+
+            return this.plans.map((plan) => {
+                return { 
+                    ...plan, 
+                    days: plan.days.map((day) => {
+
+                        const lessons: any[] = [];
+                        for (let i = day.lessons.length - 1; i >= 0; i--) {
+
+                            const lesson = day.lessons[i];
+                            if (!lesson || i === 0) {
+                                lessons.push(lesson);
+                                continue;
+                            }
+
+                            const previous = day.lessons[i - 1];
+
+                            if (JSON.stringify(lesson.classes) !== JSON.stringify(previous.classes)) lessons.push(lesson);
+                            else day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
+
+                        }
+
+                        // If the last merged lessons of the day are empty,
+                        // we can remove them from the array to not show them anymore
+                        if (!lessons[0].classes.length)
+                            delete lessons[0];
+
+
+                        return { ...day, lessons: lessons.reverse() };
+
+                    })
+                }
+            });
+
+        },
+        getSelectedDay() {
+            return this.plansMergedLessons[this.selected].days[this.currentOrNextSchoolDay.getDay() - 1];
+        },
         currentOrNextSchoolDay(): Date {
             const time = new Date();
             const nextDay = new Date();
             const dow = time.getDay();
+
             if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + ((1 + 7 - time.getDay()) % 7));
             // Past 6pm, we will show the plan for the next day
-            else if (time.getHours() >= 18) {
-                nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + ((1 + 7 - time.getDay()) % 7));
-            }
+            else if (time.getHours() >= 18) nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + ((1 + 7 - time.getDay()) % 7));
 
             return nextDay;
         },
