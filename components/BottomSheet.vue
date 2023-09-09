@@ -11,6 +11,7 @@
             </header>
             <main class="text-center mb-5">
                 <SheetsMessagesSheet v-if="menu === 'messages'" @close="closeMenu(null, 100)"></SheetsMessagesSheet>
+                <SheetsSPlanSheet v-if="menu === 'splan'" @close="closeMenu(null, 100)"></SheetsSPlanSheet>
             </main>
         </aside>
     </div>
@@ -147,7 +148,7 @@ export default defineComponent({
 aside {
     background: linear-gradient(to bottom, #1e1e1e, #121212);
     bottom: -5px;
-    transition: transform 10ms ease;
+    transition: transform 20ms ease;
     z-index: 2;
 }
 .aside-backdrop {

@@ -2,20 +2,21 @@
     <main v-if="cardsOpen.includes('splan')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
             <div class="grid place-content-center py-2" v-if="!plans || !plans.length">
-                <div class="error" v-if="appErrors.stundenplan">
-                    <span>{{ appErrors.stundenplan }}</span>
+                <div class="error" v-if="appErrors.splan">
+                    <span>{{ appErrors.splan }}</span>
                 </div>
                 <div class="spinner" style="--size: 2rem" v-else></div>
             </div>
             <div class="py-1.5" v-else>
                 <p class="text-center" id="splan-date">
-                    <b>{{ days[currentOrNextSchoolDay.getDay() - 1] }}</b
+                    <b>{{ days[currentOrSelectedDayIndex].substring(0, 2) }}</b
                     ><small
                         >, der
                         <span id="splan-date-dow"
                             >{{ currentOrNextSchoolDay.getDate() }}. {{ months[currentOrNextSchoolDay.getMonth()] }}</span
                         ></small
                     >
+                    <span class="bg-[#4e5760] rounded-full ml-2 px-1.5 text-sm" v-if="selectedDayRelative !== null">{{ selectedDayRelative }}</span>
                 </p>
                 <div class="flex">
                     <div id="lessons" class="text-center mx-3">
@@ -26,10 +27,10 @@
                     <div id="classes" class="pl-3 mr-3 overflow-hidden">
                         <p v-for="lesson of getSelectedDay.lessons">
                             <span v-if="!lesson.classes.length">-</span>
-                            <span v-for="class_ of lesson.classes">
-                                <b>{{ class_.name }}</b>
+                            <span v-for="cls of lesson.classes">
+                                <b>{{ cls.name }}</b>
                                 <small v-if="lesson.classes.length === 1">
-                                    in <b>{{ class_.room }}</b> bei <b>{{ class_.teacher }}</b>
+                                    in <b>{{ cls.room }}</b> bei <b>{{ cls.teacher }}</b>
                                 </small>
                             </span>
                         </p>
@@ -42,44 +43,52 @@
         </p>
     </main>
     <footer>
-        <button>
+        <button @click="useSheet('splan', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
             <span>Ganzer Plan</span>
         </button>
-        <button>
+        <button class="relative">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
             </ClientOnly>
             <span>Wechseln</span>
+            <select class="absolute h-full w-full left-0 opacity-0" @change="updateDaySelection">
+                <option v-for="(day, index) of days" :value="index" :selected="index + 1 === new Date().getDay() ? true : false">{{ day }}</option>
+            </select>
         </button>
     </footer>
 </template>
 
 <script lang="ts">
-import { Stundenplan } from "~/composables/apps";
 export default defineComponent({
     name: "SPlan",
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open"),
             plans: useState<Stundenplan[]>("splan"),
-            appErrors: useState<{ [app: string]: string | null }>("app-errors"),
+            appErrors: useAppErrors(),
             days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"],
             months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-            selected: 0
+            selected: -1,
+            day: -1
         };
     },
     computed: {
         plansMergedLessons() {
 
-            return this.plans.map((plan) => {
+            // If we do not make this deep copy, the splan useState hook
+            // would get overwritten with this data (which would break all
+            // other stuff and in case of a hot reload during development
+            // would cause lessons to be repeated (no no gud)
+            const plans: Stundenplan[] = JSON.parse(JSON.stringify(this.plans));
+            return plans.map((plan) => {
                 return { 
                     ...plan, 
                     days: plan.days.map((day) => {
 
-                        const lessons: any[] = [];
+                        const lessons: StundenplanLesson[] = [];
                         for (let i = day.lessons.length - 1; i >= 0; i--) {
 
                             const lesson = day.lessons[i];
@@ -98,8 +107,7 @@ export default defineComponent({
                         // If the last merged lessons of the day are empty,
                         // we can remove them from the array to not show them anymore
                         if (!lessons[0].classes.length)
-                            delete lessons[0];
-
+                            lessons.splice(0, 1);
 
                         return { ...day, lessons: lessons.reverse() };
 
@@ -108,24 +116,69 @@ export default defineComponent({
             });
 
         },
+        currentOrSelectedDayIndex() {
+            return this.day !== -1 ? this.day : this.currentOrNextSchoolDay.getDay() - 1;
+        },
         getSelectedDay() {
-            return this.plansMergedLessons[this.selected].days[this.currentOrNextSchoolDay.getDay() - 1];
+            if (this.selected !== -1) return this.plansMergedLessons[this.selected].days[this.currentOrSelectedDayIndex];
+            return (this.plansMergedLessons.find((x) => x.current) || this.plansMergedLessons[0]).days[this.currentOrSelectedDayIndex];
         },
         currentOrNextSchoolDay(): Date {
             const time = new Date();
             const nextDay = new Date();
             const dow = time.getDay();
 
-            if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + ((1 + 7 - time.getDay()) % 7));
+            const selectedDayOrMonday = this.day !== -1 ? this.day + 1 : 1;
+            
+            if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + (selectedDayOrMonday + 7 - time.getDay()) % 7);
             // Past 6pm, we will show the plan for the next day
-            else if (time.getHours() >= 18) nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + ((1 + 7 - time.getDay()) % 7));
+            else if (time.getHours() >= 18) nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + (selectedDayOrMonday + 7 - time.getDay()) % 7);
+            // Whenever the user attempts to see a day which is previous to the current
+            // in the current week, we load that from the next week (in anticipation that
+            // there might be a new plan next week, which is checked for below)
+            else if (this.day !== -1) nextDay.setDate(time.getDate() + (selectedDayOrMonday - time.getDay() + (this.day + 1 < dow ? 7 : 1)) % 7);
+
+            // This means the day we would show on the plan would
+            // already be outdated, so if a new plan would begin
+            // next monday, but we show the current plan which is
+            // only for this week, we would show wrong data
+            if (this.plans[0].end_date && nextDay > new Date(this.plans[0].end_date)) this.selected = 1;
+            else this.selected = -1;
 
             return nextDay;
         },
         startAndEndDays() {
-            const start = new Date(this.plans[this.selected].start_date);
-            const end = new Date(this.plans[this.selected].end_date || "");
+            const start = new Date(this.currentPlan.start_date);
+            const end = new Date(this.currentPlan.end_date || "");
             return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}. ${this.months[date.getMonth()]}`));
+        },
+        currentPlan() {
+            if (this.selected !== -1) return this.plans[this.selected];
+            return this.plans.find((x) => x.current) || this.plans[0];
+        },
+        selectedDayRelative() {
+
+            const check = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+            const now = new Date();
+            const next = this.currentOrNextSchoolDay;
+
+            if (check(now, next)) return "heute";
+
+            // If it is not today, then we might check
+            // if the date selected or automagically
+            // choosen is tomorrow or not
+            next.setDate(next.getDate() + 1);
+            if (check(now, next)) return "morgen";
+
+            return null;
+
+        }
+    },
+    methods: {
+        updateDaySelection(event: Event) {
+            if (!event.target || !(event.target instanceof HTMLSelectElement)) return;
+            this.day = parseInt(event.target.value);
         }
     }
 });

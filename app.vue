@@ -27,18 +27,23 @@
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="unrecoverableAPIError === null">
                 <div v-if="tokenValid">
                     <Card
+                        type="moodle"
+                        gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)"
+                        :icon="['fas', 'cloud']"
+                        name="SchulMoodle"></Card>
+                    <Card
                         type="vplan"
-                        gradient="linear-gradient(315deg, #168647 0, #24df62 70%)"
+                        gradient="linear-gradient(270deg, #168647 0, #24df62 70%)"
                         :icon="['fas', 'book']"
                         name="Vertretungsplan"></Card>
                     <Card
                         type="splan"
-                        gradient="linear-gradient(315deg, #008eff 0, #05e7ec 74%)"
+                        gradient="linear-gradient(270deg, #008eff 0, #05e7ec 74%)"
                         :icon="['fas', 'hourglass-half']"
                         name="Stundenplan"></Card>
                     <Card
                         type="messages"
-                        gradient="linear-gradient(315deg, #fdbb2d 0, #fda52d 70%)"
+                        gradient="linear-gradient(270deg, #fdbb2d 0, #fda52d 70%)"
                         :icon="['fas', 'envelope-open-text']"
                         name="Direktnachrichten"></Card>
                 </div>
@@ -49,6 +54,7 @@
         </div>
     </div>
     <BottomSheet v-if="sheetStates.open.includes('messages')" menu="messages"></BottomSheet>
+    <BottomSheet v-if="sheetStates.open.includes('splan')" menu="splan"></BottomSheet>
 </template>
 
 <script lang="ts">
@@ -108,8 +114,8 @@ export default defineComponent({
         async loadSplan() {
             const plan = await useStundenplan();
             // The plan is an array - if not it's an error
-            if (!Array.isArray(plan)) return (useAppErrors().value.stundenplan = plan);
-
+            if (!Array.isArray(plan)) return (useAppErrors().value.splan = plan);
+            if (plan.length > 1) useState<{ [app: string]: number }>("app-news").value.splan = plan.length - 1;
             useState("splan", () => plan);
         },
         async loadConversations() {

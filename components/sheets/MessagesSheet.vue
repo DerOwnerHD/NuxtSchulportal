@@ -21,7 +21,7 @@
                         {{ group.name }}
                     </div>
                 </div>
-                <div class="relative h-full overflow-hidden">
+                <div class="relative overflow-hidden">
                     <div class="error" v-if="!conversations || !conversations[selected]">
                         <span>Fehler</span>
                     </div>
@@ -40,7 +40,7 @@ export default defineComponent({
     emits: ["close"],
     data() {
         return {
-            appErrors: useState<{ [app: string]: string | null }>("app-errors"),
+            appErrors: useAppErrors(),
             conversationGroups: [
                 { id: "favorites", name: "Favoriten", icon: ["fas", "star"], selected: false },
                 { id: "groups", name: "Gruppen", icon: ["fas", "people-group"], selected: false },

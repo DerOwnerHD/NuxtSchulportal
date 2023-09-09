@@ -2,7 +2,6 @@ import { APIError, generateDefaultHeaders, parseCookie, removeBreaks, setErrorRe
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
 
-// TODO: Implement loading the other plans
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
@@ -41,14 +40,61 @@ export default defineEventHandler(async (event) => {
 
         const { window } = new JSDOM(html);
         const { document } = window;
+        
+        const initialPlan: PlanDate = { 
+            start: document.querySelector("#all .plan")?.getAttribute("data-date") || "", 
+            end: null,
+            current: true
+        };
 
-        const initialPlan: PlanLoadData = { start: document.querySelector("#all .plan")?.getAttribute("data-date") || "", end: null };
+        const selection = document.querySelector("#dateSelect");
+        if (selection !== null) {
+
+            for (const option of selection.children) {
+
+                const start = option.getAttribute("value");
+                if (!start) continue;
+                const plan: PlanDate = { start, end: null, current: false };
+                
+                const match = option.innerHTML.match(/(?:\(bis )(\d{2}\.\d{2}\.\d{4})/i);
+                if (match !== null && match[1]) {
+
+                    const transformed = match[1].split(".").reverse().join("-");
+
+                    // The selected one is always the current plan (which is already fetched)
+                    // Thus it should have an end date stored here, which we are attempting to get
+                    if (option.hasAttribute("selected")) {
+
+                        initialPlan.end = transformed;
+                        continue;
+
+                    }
+                        
+                    plan.end = transformed;
+
+                }
+                    
+                plans.push(await loadSplanForDate(plan, req.headers.authorization, true, address)); 
+                
+            }
+
+        }
 
         plans.push(await loadSplanForDate(initialPlan, req.headers.authorization, false, address, html));
 
         return {
             error: false,
-            plans
+            plans: plans.sort((a, b) => {
+
+                if (a.current) return -1;
+
+                const starts = [a, b].map((plan) => new Date(plan.start_date));
+                if (starts[0] > starts[1]) return 1;
+                if (starts[0] < starts[1]) return -1;
+
+                return 0;
+
+            })
         };
     } catch (error) {
         console.error(error);
@@ -56,12 +102,13 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-interface PlanLoadData {
+interface PlanDate {
     start: string;
     end: string | null;
+    current?: boolean;
 }
 
-async function loadSplanForDate(date: PlanLoadData, auth: string, load: boolean, address?: string, html?: string): Promise<Stundenplan> {
+async function loadSplanForDate(date: PlanDate, auth: string, load: boolean, address?: string, html?: string): Promise<Stundenplan> {
     if (load) {
         const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + date.start, {
             method: "GET",
@@ -87,6 +134,7 @@ async function loadSplanForDate(date: PlanLoadData, auth: string, load: boolean,
         ],
         start_date: date.start,
         end_date: date.end,
+        current: date.current ?? false,
         lessons: []
     };
 
@@ -140,9 +188,7 @@ async function loadSplanForDate(date: PlanLoadData, auth: string, load: boolean,
 
         day.lessons.sort((a, b) => {
             if (a.lessons[0] < b.lessons[0]) return -1;
-
             if (a.lessons[0] > b.lessons[0]) return 1;
-
             return 0;
         });
     }
@@ -184,6 +230,7 @@ interface Stundenplan {
     start_date: string;
     end_date: string | null;
     lessons: number[][][];
+    current: boolean;
 }
 
 interface Day {

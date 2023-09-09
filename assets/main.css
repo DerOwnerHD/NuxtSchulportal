@@ -5,7 +5,7 @@ body {
     overflow: scroll;
 }
 #background {
-    background: linear-gradient(to bottom, #1e1e1e, #121212);
+    background: #141414;
     height: 100vh;
     width: 100vw;
     overflow: hidden;
@@ -15,9 +15,7 @@ body {
     height: inherit;
     width: inherit;
     opacity: 15%;
-    filter: blur(4px);
-}
-* {
+    filter: blur(3px);
 }
 :root {
     -webkit-tap-highlight-color: transparent;
@@ -25,6 +23,7 @@ body {
     touch-action: none;
     -ms-touch-action: none;
     --element-color: #2d2d2d;
+    color: white;
 }
 @keyframes spin {
     from {
@@ -71,7 +70,7 @@ h1 {
     width: 1rem;
 }
 #header {
-    background: linear-gradient(to bottom, #18d6ee, #3a7cd5);
+    background: linear-gradient(to right, #18d6ee, #3a7cd5);
 }
 .card > footer {
     @apply mb-3 flex justify-center;

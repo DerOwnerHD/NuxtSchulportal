@@ -1,5 +1,5 @@
-export const useWait = async (ms: number) => {
-    return await new Promise((resolve) => setTimeout(resolve, ms));
+export const useWait = (ms: number) => {
+    return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
 export const DEFAULT_ERRORS: { [status: string]: string } = {

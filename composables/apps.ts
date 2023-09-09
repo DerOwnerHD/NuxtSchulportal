@@ -70,7 +70,7 @@ export enum APIFetchError {
     ServerError = 500
 }
 
-interface StundenplanLesson {
+export interface StundenplanLesson {
     lessons: number[];
     classes: StudenplanClass[];
 }
@@ -86,6 +86,7 @@ export interface Stundenplan {
     start_date: string;
     end_date: string | null;
     lessons: number[][][];
+    current: boolean;
 }
 
 interface StundenplanDay {
@@ -171,9 +172,10 @@ export const useConversations = async (type?: "favorites" | "groups"): Promise<M
     return data.value.conversations;
 };
 
-export const useSheet = (sheet: string) => {
+export const useSheet = (sheet: string, open?: boolean) => {
     const sheets = useSheetState();
 
+    if (sheets.value.open.includes(sheet) && open) return;
     if (!sheets.value.open.includes(sheet)) return sheets.value.open.push(sheet);
 
     const index = sheets.value.open.indexOf(sheet);

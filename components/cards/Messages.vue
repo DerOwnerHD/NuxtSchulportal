@@ -14,7 +14,7 @@
         <p class="card-main-description" v-if="conversations && conversations.all.length">Insgesamt {{ conversations.all.length }} Chat(s)</p>
     </main>
     <footer>
-        <button @click="useSheet('messages')">
+        <button @click="useSheet('messages', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
@@ -31,7 +31,7 @@ export default defineComponent({
         return {
             conversations: useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations"),
             cardsOpen: useState<Array<string>>("cards-open"),
-            appErrors: useState<{ [app: string]: string | null }>("app-errors"),
+            appErrors: useAppErrors(),
             sheets: useState<{ open: string[] }>("sheets"),
             credentials: useMoodleCredentials()
         };
