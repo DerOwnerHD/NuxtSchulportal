@@ -2,9 +2,9 @@
     <div class="relative">
         <h1>Stundenplan</h1>
         <ClientOnly>
-            <font-awesome-icon 
-                class="rounded-button absolute right-5 top-[-0.5rem] !p-2" 
-                :icon="['fas', 'up-right-from-square']" 
+            <font-awesome-icon
+                class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
+                :icon="['fas', 'up-right-from-square']"
                 onclick="window.open('https://start.schulportal.hessen.de/stundenplan.php')">
             </font-awesome-icon>
         </ClientOnly>
@@ -26,7 +26,9 @@
             <div class="spinner" style="--size: 2rem" v-else></div>
         </div>
         <main id="sheet-inner-content" v-else>
-            <small class="mt-[-0.5rem]">Ab {{ startAndEndDays[0] }}<span v-if="startAndEndDays[1] !== null"> bis {{ startAndEndDays[1] }}</span></small>
+            <small class="mt-[-0.5rem]"
+                >Ab {{ startAndEndDays[0] }}<span v-if="startAndEndDays[1] !== null"> bis {{ startAndEndDays[1] }}</span></small
+            >
             <table class="text-white text-center w-[90vw] ml-[5vw] mt-2 overflow-auto block pb-2">
                 <thead>
                     <tr>
@@ -37,21 +39,21 @@
                     <tr v-for="(row, index) of currentPlan.lessons">
                         <td>
                             <b>{{ index + 1 }}.</b>
-                            <br>
-                            <small style="line-height: 1; display: block; margin: 0.5rem 0;">
-                                {{ row[0][0] }}:{{ row[0][1] }}
-                                <br>-<br>
+                            <br />
+                            <small style="line-height: 1; display: block; margin: 0.5rem 0">
+                                {{ row[0][0] }}:{{ row[0][1] }} <br />-<br />
                                 {{ row[1][0] }}:{{ row[1][1] }}
                             </small>
                         </td>
-                        <td v-for="n in 5" 
-                            :class="getSpanForLessonAndDay(n - 1, index + 1)?.lessons[0] !== index + 1 ? 'hidden' : ''" 
+                        <td
+                            v-for="n in 5"
+                            :class="getSpanForLessonAndDay(n - 1, index + 1)?.lessons[0] !== index + 1 ? 'hidden' : ''"
                             :rowspan="getSpanForLessonAndDay(n - 1, index + 1)?.lessons.length">
                             <div class="lesson" v-for="lesson of currentPlan.days[n - 1].lessons.find((x) => x.lessons[0] === index + 1)?.classes">
                                 <b>{{ lesson.name }}</b>
-                                <br>
+                                <br />
                                 <small>{{ lesson.room }}</small>
-                                <br>
+                                <br />
                                 <small>{{ lesson.teacher }}</small>
                             </div>
                         </td>
@@ -92,13 +94,11 @@ export default defineComponent({
         plansMergedLessons() {
             const plans: Stundenplan[] = JSON.parse(JSON.stringify(this.plans));
             return plans.map((plan) => {
-                return { 
-                    ...plan, 
+                return {
+                    ...plan,
                     days: plan.days.map((day) => {
-
                         const lessons: StundenplanLesson[] = [];
                         for (let i = day.lessons.length - 1; i >= 0; i--) {
-
                             const lesson = day.lessons[i];
                             if (!lesson || i === 0) {
                                 lessons.push(lesson);
@@ -109,13 +109,11 @@ export default defineComponent({
 
                             if (JSON.stringify(lesson.classes) !== JSON.stringify(previous.classes)) lessons.push(lesson);
                             else day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
-
                         }
 
                         return { ...day, lessons: lessons.reverse() };
-
                     })
-                }
+                };
             });
         }
     },
@@ -124,28 +122,25 @@ export default defineComponent({
             return this.currentPlan.days[day].lessons.find((x) => x.lessons.includes(lesson));
         },
         startAndEndForDate(plan: Stundenplan) {
-
             const start = new Date(plan.start_date);
             const end = new Date(plan.end_date || "");
 
             return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`));
-            
         },
         updateSelectedPlan(event: Event) {
-
             if (!(event.target instanceof HTMLSelectElement)) return;
             this.selected = parseInt(event.target.value);
 
             const table = this.$el.querySelector("table");
             table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
-
         }
     }
 });
 </script>
 
 <style scoped>
-td, th {
+td,
+th {
     border: solid 1px #636363;
 }
 th {

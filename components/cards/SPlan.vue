@@ -77,20 +77,17 @@ export default defineComponent({
     },
     computed: {
         plansMergedLessons() {
-
             // If we do not make this deep copy, the splan useState hook
             // would get overwritten with this data (which would break all
             // other stuff and in case of a hot reload during development
             // would cause lessons to be repeated (no no gud)
             const plans: Stundenplan[] = JSON.parse(JSON.stringify(this.plans));
             return plans.map((plan) => {
-                return { 
-                    ...plan, 
+                return {
+                    ...plan,
                     days: plan.days.map((day) => {
-
                         const lessons: StundenplanLesson[] = [];
                         for (let i = day.lessons.length - 1; i >= 0; i--) {
-
                             const lesson = day.lessons[i];
                             if (!lesson || i === 0) {
                                 lessons.push(lesson);
@@ -101,20 +98,16 @@ export default defineComponent({
 
                             if (JSON.stringify(lesson.classes) !== JSON.stringify(previous.classes)) lessons.push(lesson);
                             else day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
-
                         }
 
                         // If the last merged lessons of the day are empty,
                         // we can remove them from the array to not show them anymore
-                        if (!lessons[0].classes.length)
-                            lessons.splice(0, 1);
+                        if (!lessons[0].classes.length) lessons.splice(0, 1);
 
                         return { ...day, lessons: lessons.reverse() };
-
                     })
-                }
+                };
             });
-
         },
         currentOrSelectedDayIndex() {
             return this.day !== -1 ? this.day : this.currentOrNextSchoolDay.getDay() - 1;
@@ -129,14 +122,15 @@ export default defineComponent({
             const dow = time.getDay();
 
             const selectedDayOrMonday = this.day !== -1 ? this.day + 1 : 1;
-            
-            if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + (selectedDayOrMonday + 7 - time.getDay()) % 7);
+
+            if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + ((selectedDayOrMonday + 7 - time.getDay()) % 7));
             // Past 6pm, we will show the plan for the next day
-            else if (time.getHours() >= 18) nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + (selectedDayOrMonday + 7 - time.getDay()) % 7);
+            else if (time.getHours() >= 18)
+                nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + ((selectedDayOrMonday + 7 - time.getDay()) % 7));
             // Whenever the user attempts to see a day which is previous to the current
             // in the current week, we load that from the next week (in anticipation that
             // there might be a new plan next week, which is checked for below)
-            else if (this.day !== -1) nextDay.setDate(time.getDate() + (selectedDayOrMonday - time.getDay() + (this.day + 1 < dow ? 7 : 1)) % 7);
+            else if (this.day !== -1) nextDay.setDate(time.getDate() + ((selectedDayOrMonday - time.getDay() + (this.day + 1 < dow ? 7 : 1)) % 7));
 
             // This means the day we would show on the plan would
             // already be outdated, so if a new plan would begin
@@ -157,7 +151,6 @@ export default defineComponent({
             return this.plans.find((x) => x.current) || this.plans[0];
         },
         selectedDayRelative() {
-
             const check = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
             const now = new Date();
@@ -172,7 +165,6 @@ export default defineComponent({
             if (check(now, next)) return "morgen";
 
             return null;
-
         }
     },
     methods: {

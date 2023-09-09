@@ -26,11 +26,7 @@
             <LoginMenu v-if="!credentials"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="unrecoverableAPIError === null">
                 <div v-if="tokenValid">
-                    <Card
-                        type="moodle"
-                        gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)"
-                        :icon="['fas', 'cloud']"
-                        name="SchulMoodle"></Card>
+                    <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
                     <Card
                         type="vplan"
                         gradient="linear-gradient(270deg, #168647 0, #24df62 70%)"

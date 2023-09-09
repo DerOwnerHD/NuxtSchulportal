@@ -40,44 +40,36 @@ export default defineEventHandler(async (event) => {
 
         const { window } = new JSDOM(html);
         const { document } = window;
-        
-        const initialPlan: PlanDate = { 
-            start: document.querySelector("#all .plan")?.getAttribute("data-date") || "", 
+
+        const initialPlan: PlanDate = {
+            start: document.querySelector("#all .plan")?.getAttribute("data-date") || "",
             end: null,
             current: true
         };
 
         const selection = document.querySelector("#dateSelect");
         if (selection !== null) {
-
             for (const option of selection.children) {
-
                 const start = option.getAttribute("value");
                 if (!start) continue;
                 const plan: PlanDate = { start, end: null, current: false };
-                
+
                 const match = option.innerHTML.match(/(?:\(bis )(\d{2}\.\d{2}\.\d{4})/i);
                 if (match !== null && match[1]) {
-
                     const transformed = match[1].split(".").reverse().join("-");
 
                     // The selected one is always the current plan (which is already fetched)
                     // Thus it should have an end date stored here, which we are attempting to get
                     if (option.hasAttribute("selected")) {
-
                         initialPlan.end = transformed;
                         continue;
-
                     }
-                        
+
                     plan.end = transformed;
-
                 }
-                    
-                plans.push(await loadSplanForDate(plan, req.headers.authorization, true, address)); 
-                
-            }
 
+                plans.push(await loadSplanForDate(plan, req.headers.authorization, true, address));
+            }
         }
 
         plans.push(await loadSplanForDate(initialPlan, req.headers.authorization, false, address, html));
@@ -85,7 +77,6 @@ export default defineEventHandler(async (event) => {
         return {
             error: false,
             plans: plans.sort((a, b) => {
-
                 if (a.current) return -1;
 
                 const starts = [a, b].map((plan) => new Date(plan.start_date));
@@ -93,7 +84,6 @@ export default defineEventHandler(async (event) => {
                 if (starts[0] < starts[1]) return -1;
 
                 return 0;
-
             })
         };
     } catch (error) {
