@@ -9,22 +9,28 @@
             <span class="text-3xl">Schulportal</span>
             <span class="mt-[-0.75rem] ml-0.5">HESSEN</span>
         </header>
-        <div v-if="unrecoverableAPIError !== null" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
+        <div v-if="criticalAPIError !== null" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
             <div id="api-error-display" class="basic-card px-4 overflow-y-scroll">
                 <h1>Fehler beim Laden</h1>
-                <p>{{ unrecoverableAPIError.message }}</p>
-                <pre class="whitespace-pre-wrap" v-html="unrecoverableAPIError.response"></pre>
+                <p>{{ criticalAPIError.message }}</p>
+                <pre class="whitespace-pre-wrap" v-html="criticalAPIError.response"></pre>
                 <button class="button-with-symbol" onclick="location.reload()">
                     <ClientOnly>
                         <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
                     </ClientOnly>
                     <span>Neu laden</span>
                 </button>
+                <button class="button-with-symbol" v-if="criticalAPIError.recoverable" @click="criticalAPIError = null">
+                    <ClientOnly>
+                        <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
+                    </ClientOnly>
+                    <span>Weiter</span>
+                </button>
             </div>
         </div>
         <div v-else id="main-content" class="pt-16">
             <LoginMenu v-if="!credentials"></LoginMenu>
-            <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="unrecoverableAPIError === null">
+            <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <div v-if="tokenValid">
                     <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
                     <Card
@@ -199,8 +205,9 @@ interface Credentials {
 interface APIError {
     response: string;
     message: string;
+    recoverable: boolean;
 }
-const unrecoverableAPIError = useState<APIError | null>("api-error", () => null);
+const criticalAPIError = useState<APIError | null>("api-error", () => null);
 const credentials = useCookie<Credentials>("credentials");
 
 function getSchoolBG() {

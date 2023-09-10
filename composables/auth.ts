@@ -18,6 +18,7 @@ interface LoginResponse {
 interface APIError {
     response: string;
     message: string;
+    recoverable: boolean;
 }
 interface MoodleLoginResponse {
     error: boolean;
@@ -75,7 +76,8 @@ export const useTokenCheck = async (): Promise<boolean> => {
         // (See https://github.com/nuxt/nuxt/issues/14269)
         (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
             response: syntaxHighlight(error.value.data),
-            message: "Anmeldung fehlgeschlagen"
+            message: "Anmeldung fehlgeschlagen",
+            recoverable: false
         };
 
         return false;
@@ -97,11 +99,12 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
     });
 
     if (error.value !== null) {
-        // @ts-expect-error
         if (failOnError)
+            // @ts-expect-error
             (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
                 response: syntaxHighlight(error.value?.data),
-                message: "Anmeldung fehlgeschlagen"
+                message: "Anmeldung fehlgeschlagen",
+                recoverable: false
             };
 
         return false;
@@ -140,7 +143,15 @@ export const useMoodleLogin = async (): Promise<boolean> => {
     });
 
     // It isn't dramatic if the Moodle login is not successful
-    if (fetchError.value !== null || data.value === null) return false;
+    if (fetchError.value !== null || data.value === null) {
+        useState<APIError>("api-error").value = {
+            response: syntaxHighlight(fetchError.value?.data || "Serverfehler"),
+            message: "Konnte Moodledaten nicht überprüfen",
+            recoverable: true
+        };
+        useAppErrors().value.conversations = "Serverfehler";
+        return false;
+    }
 
     useState<MoodleState>("moodle").value.loggedIn = true;
     const { error, ...credentials } = data.value;
@@ -165,8 +176,10 @@ export const useMoodleCheck = async (): Promise<boolean> => {
     if (error.value !== null) {
         useState<APIError>("api-error").value = {
             response: syntaxHighlight(error.value.data),
-            message: "Konnte Moodledaten nicht überprüfen"
+            message: "Konnte Moodledaten nicht überprüfen",
+            recoverable: true
         };
+        useAppErrors().value.conversations = "Serverfehler";
         return false;
     }
 

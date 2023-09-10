@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const valid = validateQuery(query, schema.query);
     if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
-    const rateLimit = handleRateLimit("/api/moodle/messages.get", address);
+    const rateLimit = handleRateLimit("/api/moodle/check.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const { session, cookie, school } = query;
