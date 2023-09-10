@@ -69,6 +69,7 @@ export default defineComponent({
         if (!tokenValid.value) return;
 
         this.loadSplan();
+        this.loadVplan();
 
         const moodleLoggedIn = await this.moodleLogin();
         if (!moodleLoggedIn) return;
@@ -113,6 +114,12 @@ export default defineComponent({
             if (!Array.isArray(plan)) return (useAppErrors().value.splan = plan);
             if (plan.length > 1) useState<{ [app: string]: number }>("app-news").value.splan = plan.length - 1;
             useState("splan", () => plan);
+        },
+        async loadVplan() {
+            const plan = await useVplan();
+            // The plan is an array - if not it's an error
+            if (typeof plan === "string") return (useAppErrors().value.splan = plan);
+            useState("vplan", () => plan);
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

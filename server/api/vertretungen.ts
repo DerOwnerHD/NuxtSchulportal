@@ -1,6 +1,5 @@
 import { APIError, generateDefaultHeaders, removeBreaks, setErrorResponse } from "../utils";
 import { JSDOM } from "jsdom";
-const ROW_ORDER = ["empty", "lesson", "class", "substitute", "teacher", "subject", "subject_old", "room", "note"];
 // Starts on sunday cos Date#getDay does too
 const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 
@@ -53,14 +52,16 @@ export default defineEventHandler(async (event) => {
             if (table === null) continue;
             const vertretungen: Vertretung[] = [];
             table.querySelectorAll("tbody > tr").forEach((entry) => {
-                
                 const children = Array.from(entry.children);
 
                 // This has to be done as there might be things like 1 - 10 in lessons
                 // which, if we would only convert the two to an array would result in
                 // weird behaviour we might not want to have. However we still just
                 // give the basic from-to back to the user in the API as seen below
-                const fromTo = children[1].innerHTML.trim().split(" - ").map((lesson) => parseInt(lesson));
+                const fromTo = children[1].innerHTML
+                    .trim()
+                    .split(" - ")
+                    .map((lesson) => parseInt(lesson));
                 const lessons = [];
                 for (let i = fromTo[0]; i < fromTo[1] + 1; i++) lessons.push(i);
 
@@ -78,7 +79,6 @@ export default defineEventHandler(async (event) => {
                     room: children[7].innerHTML.trim() || null,
                     note: children[8].innerHTML.trim() || null
                 });
-
             });
             response.days.push({
                 date: time,
@@ -92,7 +92,7 @@ export default defineEventHandler(async (event) => {
         return response;
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 503);
+        return setErrorResponse(res, 500);
     }
 });
 

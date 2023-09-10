@@ -1,16 +1,36 @@
 import { Credentials } from "./auth";
 
-interface VPlanDay {
+export interface VertretungsDay {
     date: string;
     day_of_week: string;
     relative: "heute" | "morgen" | "";
-    vertretungen: [];
+    vertretungen: Vertretung[];
     news: string[];
+}
+
+export interface Vertretungsplan {
+    days: VertretungsDay[];
+    last_updated: string;
+}
+
+export interface Vertretung {
+    lessons: {
+        list: number[];
+        from: number;
+        to: number;
+    };
+    class: string | null;
+    substitute: string | null;
+    teacher: string | null;
+    subject: string | null;
+    subject_old: string | null;
+    room: string | null;
+    note: string | null;
 }
 
 interface VertretungenResponse {
     error: boolean;
-    days: VPlanDay[];
+    days: VertretungsDay[];
     last_updated: string;
 }
 
@@ -105,9 +125,9 @@ export const useAppErrors = () => useState<AppErrorState>("app-errors");
  * Fetches the data of the Vertretungsplan from the API
  * @returns A list of all the days listed on the plan or null - which would indicate that the client should reauthenticate
  */
-export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay[] } | APIFetchError> => {
+export const useVplan = async (): Promise<{ last_updated: string; days: VertretungsDay[] } | string> => {
     const token = useToken().value;
-    if (!token) return APIFetchError.Unauthorized;
+    if (!token) return "401: Unauthorized";
 
     const { data, error: fetchError } = await useFetch<VertretungenResponse>("/api/vertretungen", {
         method: "GET",
@@ -115,19 +135,9 @@ export const useVplan = async (): Promise<{ last_updated: string; days: VPlanDay
         retry: false
     });
 
-    // These could either be 401's, 429's or some other internal error
-    if (fetchError.value !== null) {
-        switch (fetchError.value.status) {
-            case 401:
-                return APIFetchError.Unauthorized;
-            case 429:
-                return APIFetchError.TooManyRequests;
-            default:
-                return APIFetchError.ServerError;
-        }
-    }
+    if (fetchError.value !== null) return fetchError.value.data.error_details || "Serverfehler";
 
-    if (data.value === null) return APIFetchError.ServerError;
+    if (data.value === null) return "Serverfehler";
 
     const { error, ...plan } = data.value;
 
