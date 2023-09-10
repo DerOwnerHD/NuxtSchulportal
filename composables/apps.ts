@@ -201,5 +201,4 @@ export const useSheet = (sheet: string, open?: boolean) => {
     sheets.value.open.splice(index, 1);
 
     if (!sheets.value.open.length) body.style.overflow = "";
-
 };

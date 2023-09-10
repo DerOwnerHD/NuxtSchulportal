@@ -15,16 +15,16 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
 };
 
 export const INFO_DIALOGS: { [name: string]: InfoDialog } = {
-    AUTOMATIC_LOGIN: { 
-        disappearAfter: 2000, 
+    AUTOMATIC_LOGIN: {
+        disappearAfter: 2000,
         header: "Erneute Anmeldung erfolgreich",
-        icon: "done.png" 
+        icon: "done.png"
     },
-    AUTOMATIC_LOGIN_ERROR: { 
-        disappearAfter: 2000, 
-        header: "Anmeldung fehlgeschlagen", 
-        details: `Versuche es erneut`, 
-        icon: "error.png" 
+    AUTOMATIC_LOGIN_ERROR: {
+        disappearAfter: 2000,
+        header: "Anmeldung fehlgeschlagen",
+        details: `Versuche es erneut`,
+        icon: "error.png"
     }
 };
 

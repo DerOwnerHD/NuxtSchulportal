@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
         // The cookie might either be nonexistent or set to 0 if the user isn't logged in
         if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
 
-        const response: { error: boolean; days: VertretungsDay[]; last_updated: string | null, updating: boolean } = {
+        const response: { error: boolean; days: VertretungsDay[]; last_updated: string | null; updating: boolean } = {
             error: false,
             days: [],
             last_updated: null,

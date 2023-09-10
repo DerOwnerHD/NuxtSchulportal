@@ -1,5 +1,9 @@
 <template>
-    <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu" v-if="useSheetState().value.open.includes(menu)">
+    <div
+        class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]"
+        :menu="menu"
+        @click="closeMenu"
+        v-if="useSheetState().value.open.includes(menu)">
         <aside
             class="fixed w-screen rounded-t-3xl overflow-visible max-h-[80vh] focus:outline-none"
             @touchstart="startDrag"

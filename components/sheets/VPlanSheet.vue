@@ -13,7 +13,10 @@
                 onclick="window.open('https://start.schulportal.hessen.de/vertretungsplan.php')">
             </font-awesome-icon>
         </ClientOnly>
-        <button class="rounded-button absolute left-5 top-[-0.5rem] !p-2 !px-3 h-8 flex justify-center items-center" v-if="plan && plan.days" @click="openNewsSheet">
+        <button
+            class="rounded-button absolute left-5 top-[-0.5rem] !p-2 !px-3 h-8 flex justify-center items-center"
+            v-if="plan && plan.days"
+            @click="openNewsSheet">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
             </ClientOnly>
@@ -27,9 +30,7 @@
         </div>
         <main id="sheet-inner-content" v-else>
             <div class="flex justify-center w-screen my-2">
-                <div class="warning" v-if="plan.updating">
-                    Der Plan wird (angeblich) aktualisiert
-                </div>
+                <div class="warning" v-if="plan.updating">Der Plan wird (angeblich) aktualisiert</div>
             </div>
             <div class="select" id="vplan-day">
                 <div
@@ -37,7 +38,15 @@
                     :id="index.toString()"
                     :selected="selected === index ? '' : null"
                     @click="updateSelectedDay(index)">
-                    <span v-html="(() => { const date = new Date(day.date); return `<b>${days[date.getDay() - 1]}</b> ${addZeroToNumber(date.getDate())}.${addZeroToNumber(date.getMonth() + 1)}.` })()"></span>
+                    <span
+                        v-html="
+                            (() => {
+                                const date = new Date(day.date);
+                                return `<b>${days[date.getDay() - 1]}</b> ${addZeroToNumber(date.getDate())}.${addZeroToNumber(
+                                    date.getMonth() + 1
+                                )}.`;
+                            })()
+                        "></span>
                     <span class="bg-white text-black rounded-full ml-2 px-1.5 text-sm py-0.5 drop-shadow" v-if="day.relative">
                         {{ day.relative }}
                     </span>

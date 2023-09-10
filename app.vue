@@ -67,7 +67,7 @@ export default defineComponent({
         // We store which cards are opened in the local storage
         useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
         useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
-        
+
         await this.login();
         if (!tokenValid.value) return;
 
@@ -122,7 +122,7 @@ export default defineComponent({
             const plan = await useVplan();
             if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
             useState("vplan", () => plan);
-            useAppNews().value.vplan = plan.days.reduce((acc, day) => acc += day.vertretungen.length, 0);
+            useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

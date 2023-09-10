@@ -17,13 +17,21 @@
                         <ul v-else>
                             <li v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)">
                                 <span>[{{ lessons.list.length === 1 ? lessons.from : lessons.from + " - " + lessons.to }}]</span>
-                                <span>‎ <b>{{ subject || subject_old }}</b> </span>
-                                <span>‎ bei <b>{{ substitute || "-" }}</b></span>
+                                <span
+                                    >‎ <b>{{ subject || subject_old }}</b>
+                                </span>
+                                <span
+                                    >‎ bei <b>{{ substitute || "-" }}</b></span
+                                >
                                 <span v-if="teacher" v-html="` (${teacher})`"></span>
-                                <span v-if="room"> in <b>{{ room }}</b></span>
+                                <span v-if="room">
+                                    in <b>{{ room }}</b></span
+                                >
                                 <span v-if="note"> [{{ note }}]</span>
                             </li>
-                            <li v-if="day.vertretungen.length > 2">{{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}</li>
+                            <li v-if="day.vertretungen.length > 2">
+                                {{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}
+                            </li>
                         </ul>
                     </main>
                 </div>
@@ -48,7 +56,7 @@
 </template>
 
 <script lang="ts">
-import { INFO_DIALOGS } from '~/composables/utils';
+import { INFO_DIALOGS } from "~/composables/utils";
 
 export default defineComponent({
     name: "VPlan",
@@ -82,7 +90,7 @@ export default defineComponent({
                 const multiplier = steps.slice(0, iterator + 1).reduce((acc, value) => acc * value, 1);
                 if (difference < multiplier * steps[iterator + 1]) {
                     const number = Math.floor(difference / multiplier);
-                    return `${number} ${step}${number !== 1 ? "n": ""}`;
+                    return `${number} ${step}${number !== 1 ? "n" : ""}`;
                 }
 
                 iterator++;
@@ -104,7 +112,7 @@ export default defineComponent({
                 if (login) {
                     await this.refreshPlan();
                     await useWait(500);
-                    return useInfoDialog().value = { ...INFO_DIALOGS.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` };
+                    return (useInfoDialog().value = { ...INFO_DIALOGS.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` });
                 }
 
                 await useWait(500);
@@ -114,7 +122,7 @@ export default defineComponent({
 
             if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
             useState("vplan").value = plan;
-            useAppNews().value.vplan = plan.days.reduce((acc, day) => acc += day.vertretungen.length, 0);
+            useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
         }
     }
 });

@@ -98,10 +98,11 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
 
     if (error.value !== null) {
         // @ts-expect-error
-        if (failOnError) (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
-            response: syntaxHighlight(error.value?.data),
-            message: "Anmeldung fehlgeschlagen"
-        };
+        if (failOnError)
+            (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
+                response: syntaxHighlight(error.value?.data),
+                message: "Anmeldung fehlgeschlagen"
+            };
 
         return false;
     }
