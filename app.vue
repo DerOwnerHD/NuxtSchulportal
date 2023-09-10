@@ -5,7 +5,7 @@
         <div id="background" class="fixed">
             <div id="overlay" :style="getSchoolBG()"></div>
         </div>
-        <header id="header" class="sticky w-screen h-16 rounded-b-xl drop-shadow-lg flex place-items-center place-content-center text-white">
+        <header id="header" class="fixed w-screen h-16 rounded-b-xl drop-shadow-md flex place-items-center place-content-center text-white">
             <span class="text-3xl">Schulportal</span>
             <span class="mt-[-0.75rem] ml-0.5">HESSEN</span>
         </header>
@@ -22,7 +22,7 @@
                 </button>
             </div>
         </div>
-        <div v-else id="main-content">
+        <div v-else id="main-content" class="pt-16">
             <LoginMenu v-if="!credentials"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="unrecoverableAPIError === null">
                 <div v-if="tokenValid">
@@ -49,8 +49,11 @@
             </main>
         </div>
     </div>
-    <BottomSheet v-if="sheetStates.open.includes('messages')" menu="messages"></BottomSheet>
+    <BottomSheet v-if="sheetStates.open.includes('vplan')" menu="vplan"></BottomSheet>
+    <BottomSheet v-if="sheetStates.open.includes('vplan-news')" menu="vplan-news"></BottomSheet>
     <BottomSheet v-if="sheetStates.open.includes('splan')" menu="splan"></BottomSheet>
+    <BottomSheet v-if="sheetStates.open.includes('messages')" menu="messages"></BottomSheet>
+    <InfoDialog v-if="useInfoDialog().value"></InfoDialog>
 </template>
 
 <script lang="ts">
@@ -64,7 +67,7 @@ export default defineComponent({
         // We store which cards are opened in the local storage
         useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
         useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
-
+        
         await this.login();
         if (!tokenValid.value) return;
 
@@ -90,7 +93,7 @@ export default defineComponent({
                 return;
             }
 
-            const login = await useLogin();
+            const login = await useLogin(true);
             console.log("Login: " + login);
             if (!login) return;
             tokenValid.value = true;
@@ -112,14 +115,14 @@ export default defineComponent({
             const plan = await useStundenplan();
             // The plan is an array - if not it's an error
             if (!Array.isArray(plan)) return (useAppErrors().value.splan = plan);
-            if (plan.length > 1) useState<{ [app: string]: number }>("app-news").value.splan = plan.length - 1;
+            if (plan.length > 1) useAppNews().value.splan = plan.length - 1;
             useState("splan", () => plan);
         },
         async loadVplan() {
             const plan = await useVplan();
-            // The plan is an array - if not it's an error
-            if (typeof plan === "string") return (useAppErrors().value.splan = plan);
+            if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
             useState("vplan", () => plan);
+            useAppNews().value.vplan = plan.days.reduce((acc, day) => acc += day.vertretungen.length, 0);
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
@@ -158,7 +161,7 @@ export default defineComponent({
                 else return 1;
             });
 
-            useState<{ [app: string]: number }>("app-news").value.messages = unreadCount;
+            useAppNews().value.messages = unreadCount;
             useState("moodle-conversations", () => conversations);
         }
     }
@@ -183,8 +186,8 @@ const sheetStates = useState<SheetStates>("sheets", () => {
 // These app errors can be used on the home screen or on the sheets of
 // the corresponding apps, depends on when the error occured, either during
 // first load or a later load of the app from the API
-const appErrors = useState<AppErrorState>("app-errors", () => {
-    return { "moodle-conversations": null };
+useState<AppErrorState>("app-errors", () => {
+    return {};
 });
 if (process.client) document.addEventListener("load", () => (useState<boolean>("loaded").value = true));
 interface Credentials {

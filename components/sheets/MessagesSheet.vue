@@ -1,11 +1,19 @@
 <template>
     <div class="relative">
-        <h1>Direktnachrichten</h1>
+        <div class="flex w-screen items-center justify-center">
+            <ClientOnly>
+                <font-awesome-icon class="mr-2" :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
+            </ClientOnly>
+            <h1>Vertretungsplan</h1>
+        </div>
         <ClientOnly>
             <font-awesome-icon class="rounded-button absolute right-5 top-[-0.5rem] !p-2" :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
         </ClientOnly>
-        <div class="error" v-if="appErrors['conversations'] != null">
-            <span>{{ appErrors["conversations"] }}</span>
+        <div class="grid place-content-center py-2" v-if="!conversations || !conversations[selected]">
+            <div class="error" v-if="appErrors.conversations">
+                <span>{{ appErrors.conversations }}</span>
+            </div>
+            <div class="spinner" style="--size: 2rem" v-else></div>
         </div>
         <main id="sheet-inner-content" v-else>
             <div v-if="stage === 0">

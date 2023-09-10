@@ -11,7 +11,7 @@ export default defineEventHandler(async (event) => {
     if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
     if (!/^[a-z0-9]{26}$/.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
 
-    const rateLimit = handleRateLimit("/api/login", address);
+    const rateLimit = handleRateLimit("/api/stundenplan", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
@@ -162,8 +162,9 @@ async function loadSplanForDate(date: PlanDate, auth: string, load: boolean, add
                 iterator++;
             }
 
-            const lessons: number[] = rows === 2 ? [lesson, lesson + 1] : [lesson];
-            plan.days[day].lessons.push({ lessons: lessons, classes: classes });
+            const lessons: number[] = [];
+            for (let i = lesson; i < lesson + rows; i++) lessons.push(i);
+            plan.days[day].lessons.push({ lessons, classes });
         });
 
     for (const day of plan.days) {

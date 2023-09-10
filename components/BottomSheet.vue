@@ -1,5 +1,5 @@
 <template>
-    <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu">
+    <div class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]" :menu="menu" @click="closeMenu" v-if="useSheetState().value.open.includes(menu)">
         <aside
             class="fixed w-screen rounded-t-3xl overflow-visible max-h-[80vh] focus:outline-none"
             @touchstart="startDrag"
@@ -10,8 +10,10 @@
                 <div class="w-10 h-1.5 rounded-full"></div>
             </header>
             <main class="text-center mb-5">
-                <SheetsMessagesSheet v-if="menu === 'messages'" @close="closeMenu(null, 100)"></SheetsMessagesSheet>
+                <SheetsVPlanSheet v-if="menu === 'vplan'" @close="closeMenu(null, 100)"></SheetsVPlanSheet>
+                <SheetsVPlanNewsSheet v-if="menu === 'vplan-news'" @close="closeMenu(null, 100)"></SheetsVPlanNewsSheet>
                 <SheetsSPlanSheet v-if="menu === 'splan'" @close="closeMenu(null, 100)"></SheetsSPlanSheet>
+                <SheetsMessagesSheet v-if="menu === 'messages'" @close="closeMenu(null, 100)"></SheetsMessagesSheet>
             </main>
         </aside>
     </div>

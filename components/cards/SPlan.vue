@@ -13,10 +13,12 @@
                     ><small
                         >, der
                         <span id="splan-date-dow"
-                            >{{ currentOrNextSchoolDay.getDate() }}. {{ months[currentOrNextSchoolDay.getMonth()] }}</span
+                            >{{ new Date(nextOccuringSelectedDay).getDate() }}. {{ months[new Date(nextOccuringSelectedDay).getMonth()] }}</span
                         ></small
                     >
-                    <span class="bg-[#4e5760] rounded-full ml-2 px-1.5 text-sm" v-if="selectedDayRelative !== null">{{ selectedDayRelative }}</span>
+                    <span class="bg-[#4e5760] rounded-full ml-2 px-1.5 text-sm py-0.5" v-if="selectedDayRelative !== null">
+                        {{ selectedDayRelative }}
+                    </span>
                 </p>
                 <div class="flex">
                     <div id="lessons" class="text-center mx-3">
@@ -110,36 +112,30 @@ export default defineComponent({
             });
         },
         currentOrSelectedDayIndex() {
-            return this.day !== -1 ? this.day : this.currentOrNextSchoolDay.getDay() - 1;
+            return this.day !== -1 ? this.day : new Date(this.nextOccuringSelectedDay).getDay() - 1;
         },
         getSelectedDay() {
             if (this.selected !== -1) return this.plansMergedLessons[this.selected].days[this.currentOrSelectedDayIndex];
             return (this.plansMergedLessons.find((x) => x.current) || this.plansMergedLessons[0]).days[this.currentOrSelectedDayIndex];
         },
-        currentOrNextSchoolDay(): Date {
-            const time = new Date();
-            const nextDay = new Date();
-            const dow = time.getDay();
+        nextOccuringSelectedDay(): number {
+            const now = new Date();
+            const next = new Date();
+            const dow = now.getDay();
 
-            const selectedDayOrMonday = this.day !== -1 ? this.day + 1 : 1;
+            const mondayOrSelectedDay = this.day !== -1 ? this.day + 1 : 1;
 
-            if ([0, 6].includes(dow)) nextDay.setDate(time.getDate() + ((selectedDayOrMonday + 7 - time.getDay()) % 7));
-            // Past 6pm, we will show the plan for the next day
-            else if (time.getHours() >= 18)
-                nextDay.setDate(dow !== 5 ? time.getDate() + 1 : time.getDate() + ((selectedDayOrMonday + 7 - time.getDay()) % 7));
-            // Whenever the user attempts to see a day which is previous to the current
-            // in the current week, we load that from the next week (in anticipation that
-            // there might be a new plan next week, which is checked for below)
-            else if (this.day !== -1) nextDay.setDate(time.getDate() + ((selectedDayOrMonday - time.getDay() + (this.day + 1 < dow ? 7 : 1)) % 7));
+            if ([0, 6].includes(now.getDay())) next.setDate(now.getDate() + ((mondayOrSelectedDay + 7 - dow) % 7));
+            else if (now.getHours() >= 18 && this.day === -1) next.setDate(dow === 5 ? now.getDate() + ((1 + 7 - dow) % 7) : now.getDate() + 1);
 
             // This means the day we would show on the plan would
             // already be outdated, so if a new plan would begin
             // next monday, but we show the current plan which is
             // only for this week, we would show wrong data
-            if (this.plans[0].end_date && nextDay > new Date(this.plans[0].end_date)) this.selected = 1;
+            if (this.plans[0].end_date && next > new Date(this.plans[0].end_date)) this.selected = 1;
             else this.selected = -1;
 
-            return nextDay;
+            return next.getTime();
         },
         startAndEndDays() {
             const start = new Date(this.currentPlan.start_date);
@@ -154,14 +150,14 @@ export default defineComponent({
             const check = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
 
             const now = new Date();
-            const next = this.currentOrNextSchoolDay;
+            const next = new Date(this.nextOccuringSelectedDay);
 
             if (check(now, next)) return "heute";
 
             // If it is not today, then we might check
             // if the date selected or automagically
             // choosen is tomorrow or not
-            next.setDate(next.getDate() + 1);
+            now.setDate(now.getDate() + 1);
             if (check(now, next)) return "morgen";
 
             return null;

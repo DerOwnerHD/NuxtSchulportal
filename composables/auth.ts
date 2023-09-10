@@ -84,7 +84,7 @@ export const useTokenCheck = async (): Promise<boolean> => {
     return validation.value?.valid || false;
 };
 
-export const useLogin = async (): Promise<boolean> => {
+export const useLogin = async (failOnError: boolean): Promise<boolean> => {
     const nuxtApp = useNuxtApp();
 
     const credentials = useCredentials();
@@ -98,7 +98,7 @@ export const useLogin = async (): Promise<boolean> => {
 
     if (error.value !== null) {
         // @ts-expect-error
-        (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
+        if (failOnError) (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
             response: syntaxHighlight(error.value?.data),
             message: "Anmeldung fehlgeschlagen"
         };
@@ -107,7 +107,7 @@ export const useLogin = async (): Promise<boolean> => {
     }
 
     if (!login.value?.token || !login.value.session) {
-        (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
+        if (failOnError) (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
         return false;
     }
 

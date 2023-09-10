@@ -70,6 +70,7 @@ h1 {
     width: 1rem;
 }
 #header {
+    z-index: 2;
     background: linear-gradient(to right, #18d6ee, #3a7cd5);
 }
 .card > footer {
@@ -84,7 +85,7 @@ h1 {
     }
 }
 .gradient-border::before {
-    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
+    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""] w-[inherit];
     background: var(--gradient);
 }
 .gradient-border > div {

@@ -24,7 +24,11 @@ import {
     faStar,
     faPeopleGroup,
     faUserGroup,
-    faCloud
+    faCloud,
+    faClock,
+    faUserSlash,
+    faLocationDot,
+    faInfo
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -57,7 +61,11 @@ library.add(
     faStar,
     faPeopleGroup,
     faUserGroup,
-    faCloud
+    faCloud,
+    faClock,
+    faUserSlash,
+    faLocationDot,
+    faInfo
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

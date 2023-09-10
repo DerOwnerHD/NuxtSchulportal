@@ -27,9 +27,6 @@
 </template>
 
 <script lang="ts">
-interface AppNews {
-    [app: string]: number | null;
-}
 import * as CardsSPlan from "./cards/SPlan.vue";
 import * as CardsVPlan from "./cards/VPlan.vue";
 import * as CardsMessages from "./cards/Messages.vue";
@@ -38,7 +35,7 @@ export default defineComponent({
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open"),
-            news: useState<AppNews>("app-news")
+            news: useAppNews()
         };
     },
     methods: {

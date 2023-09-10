@@ -2,39 +2,43 @@
     <main v-if="cardsOpen.includes('vplan')">
         <div id="table" class="w-[90%] mx-[5%] rounded-2xl mb-2 text-white shadow-md z-0 relative gradient-border">
             <div class="grid place-content-center py-2" v-if="!plan">
-                <div class="error" v-if="appErrors.splan">
-                    <span>{{ appErrors.splan }}</span>
+                <div class="error" v-if="appErrors.vplan">
+                    <span>{{ appErrors.vplan }}</span>
                 </div>
                 <div class="spinner" style="--size: 2rem" v-else></div>
             </div>
             <div class="flex rounded-[inherit] py-2 px-1" v-else>
                 <div v-for="(day, index) of plan.days">
-                    <header>{{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small></header>
+                    <header>
+                        {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
+                    </header>
                     <main>
                         <p v-if="!day.vertretungen.length">Keine Vertretungen</p>
                         <ul v-else>
-                            <li v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen">
-                                [{{ lessons.list.length === 1 ? lessons.from : lessons.from + " - " + lessons.to }}] {{ subject || subject_old }}
-                                <span>bei {{ substitute || "-" }}</span>
-                                <span v-if="teacher" v-html="` (${ teacher })`"></span>
-                                <span v-if="room">in {{ room }}</span>
-                                <span v-if="note">({{ note }})</span>
+                            <li v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)">
+                                <span>[{{ lessons.list.length === 1 ? lessons.from : lessons.from + " - " + lessons.to }}]</span>
+                                <span>‎ <b>{{ subject || subject_old }}</b> </span>
+                                <span>‎ bei <b>{{ substitute || "-" }}</b></span>
+                                <span v-if="teacher" v-html="` (${teacher})`"></span>
+                                <span v-if="room"> in <b>{{ room }}</b></span>
+                                <span v-if="note"> [{{ note }}]</span>
                             </li>
+                            <li v-if="day.vertretungen.length > 2">{{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}</li>
                         </ul>
                     </main>
                 </div>
             </div>
         </div>
-        <p class="card-main-description">Aktualisert vor <span id="vplan-refresh"></span></p>
+        <p v-if="plan != null" class="card-main-description">Aktualisert vor {{ distanceToLastUpdated }}</p>
     </main>
     <footer>
-        <button>
+        <button @click="useSheet('vplan', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
             <span>Details</span>
         </button>
-        <button>
+        <button @click="refreshPlan">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
             </ClientOnly>
@@ -44,6 +48,8 @@
 </template>
 
 <script lang="ts">
+import { INFO_DIALOGS } from '~/composables/utils';
+
 export default defineComponent({
     name: "VPlan",
     data() {
@@ -58,11 +64,57 @@ export default defineComponent({
         datesForDays() {
             if (!this.plan?.days) return [];
             return this.plan.days.map((day) => {
-
                 const time = new Date(day.date);
                 return { day: time.getDate(), month: this.months[time.getMonth()] };
-
             });
+        },
+        distanceToLastUpdated() {
+            if (this.plan.last_updated === null) return "<unbekannt>";
+
+            const now = new Date();
+            const lastUpdated = new Date(this.plan.last_updated);
+
+            const steps = [1000, 60, 60, 24];
+            const difference = now.getTime() - lastUpdated.getTime();
+
+            let iterator = 0;
+            for (const step of ["Sekunde", "Minute", "Stunde"]) {
+                const multiplier = steps.slice(0, iterator + 1).reduce((acc, value) => acc * value, 1);
+                if (difference < multiplier * steps[iterator + 1]) {
+                    const number = Math.floor(difference / multiplier);
+                    return `${number} ${step}${number !== 1 ? "n": ""}`;
+                }
+
+                iterator++;
+            }
+
+            const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+            return `${days} Tag${days !== 1 ? "en" : ""}`;
+        }
+    },
+    methods: {
+        async refreshPlan(): Promise<any> {
+            if (useState("vplan").value == null && !useAppErrors().value.vplan) return;
+            useState("vplan").value = null;
+            useAppErrors().value.vplan = null;
+            const plan = await useVplan();
+
+            if (plan === "401: Unauthorized") {
+                const login = await useLogin(false);
+                if (login) {
+                    await this.refreshPlan();
+                    await useWait(500);
+                    return useInfoDialog().value = { ...INFO_DIALOGS.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` };
+                }
+
+                await useWait(500);
+
+                useInfoDialog().value = INFO_DIALOGS.AUTOMATIC_LOGIN_ERROR;
+            }
+
+            if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
+            useState("vplan").value = plan;
+            useAppNews().value.vplan = plan.days.reduce((acc, day) => acc += day.vertretungen.length, 0);
         }
     }
 });

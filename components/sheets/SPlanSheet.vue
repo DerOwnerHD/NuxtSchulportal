@@ -1,6 +1,11 @@
 <template>
     <div class="relative">
-        <h1>Stundenplan</h1>
+        <div class="flex w-screen items-center justify-center">
+            <ClientOnly>
+                <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
+            </ClientOnly>
+            <h1>Vertretungsplan</h1>
+        </div>
         <ClientOnly>
             <font-awesome-icon
                 class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
@@ -69,7 +74,7 @@ export default defineComponent({
     name: "SPlanSheet",
     emits: ["close"],
     async mounted() {
-        await useWait(1000);
+        await useWait(2000);
         if (!this.plans || !this.plans.length) return;
         const table = this.$el.querySelector("table");
         table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;

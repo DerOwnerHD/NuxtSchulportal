@@ -14,7 +14,7 @@
         }})">
             <aside class="relative">
                 <span class="absolute right-1 top-0 news-icon" v-if="conversation.unread">{{ conversation.unread }}</span>
-                <img :src="conversation.icon || conversation.members[0].avatar.small || 'https://i.imgur.com/HaVDp4T.png'">
+                <img :src="conversation.icon || proxyUserAvatar(conversation.members[0].avatar.small) || 'moodle-default.png'">
             </aside>
             <main>
                 <p>
@@ -38,7 +38,6 @@
 
 <script lang="ts">
 import { MoodleConversation } from "~/composables/apps";
-
 export default defineComponent({
     name: "ConversationPreview",
     props: {
@@ -66,6 +65,16 @@ export default defineComponent({
             conversations: useState<{[type: string]: MoodleConversation[]}>("moodle-conversations"),
             credentials: useMoodleCredentials()
         };
+    },
+    methods: {
+        proxyUserAvatar(avatar?: string) {
+
+            if (!avatar) return null;
+            const path = avatar.split(".schule.hessen.de")[1];
+            if (!/\/pluginfile.php\/\d{1,5}\/user\/icon\/sph\/.*/.test(path)) return "/moodle-default.png";
+            return `/api/moodle/proxy?cookie=${useMoodleCredentials().value.cookie}&school=${useCredentials<Credentials>().value.school}&path=${path}`;
+
+        }
     }
 })
 </script>

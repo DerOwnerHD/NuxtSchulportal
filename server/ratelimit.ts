@@ -56,6 +56,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/vertretungen",
+        interval: 10 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 
