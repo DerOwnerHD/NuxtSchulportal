@@ -47,7 +47,7 @@ export default defineEventHandler(async (event) => {
         };
 
         const { window } = new JSDOM(removeBreaks(await raw.text()));
-        const days = window.document.querySelectorAll("#content .panel.panel-info:not(#menue_tag)");
+        const days = window.document.querySelectorAll("#content .panel.panel-info:not(#menue_tag), #content .panel.panel-primary");
 
         // This is basically the "Der Vertretungsplan wird aktuell aktualisiert!" disclaimer, which
         // is most definitely bullshit, but it might still be important to show anyways lol

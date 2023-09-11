@@ -111,8 +111,7 @@ export default defineComponent({
         lastUpdated() {
             const time = new Date(this.plan.last_updated || NaN);
             if (isNaN(time.getTime())) return null;
-            return `Aktualisiert am 
-                ${addZeroToNumber(time.getDate())}.${addZeroToNumber(time.getMonth() + 1)}.${time.getFullYear()}
+            return `${addZeroToNumber(time.getDate())}.${addZeroToNumber(time.getMonth() + 1)}.${time.getFullYear()}
                 um ${addZeroToNumber(time.getHours())}:${addZeroToNumber(time.getMinutes())} Uhr`;
         }
     },

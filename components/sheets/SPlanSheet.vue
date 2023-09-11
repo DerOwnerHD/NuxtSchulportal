@@ -4,7 +4,7 @@
             <ClientOnly>
                 <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
             </ClientOnly>
-            <h1>Vertretungsplan</h1>
+            <h1>Stundenplan</h1>
         </div>
         <ClientOnly>
             <font-awesome-icon

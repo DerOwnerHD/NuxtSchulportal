@@ -4,7 +4,7 @@
             <ClientOnly>
                 <font-awesome-icon class="mr-2" :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
             </ClientOnly>
-            <h1>Vertretungsplan</h1>
+            <h1>Direktnachrichten</h1>
         </div>
         <ClientOnly>
             <font-awesome-icon class="rounded-button absolute right-5 top-[-0.5rem] !p-2" :icon="['fas', 'up-right-from-square']"></font-awesome-icon>

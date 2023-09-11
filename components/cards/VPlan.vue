@@ -7,7 +7,7 @@
                 </div>
                 <div class="spinner" style="--size: 2rem" v-else></div>
             </div>
-            <div class="flex rounded-[inherit] py-2 px-1" v-else>
+            <div class="flex rounded-[inherit] py-2 px-1 justify-center" v-else>
                 <div v-for="(day, index) of plan.days">
                     <header>
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
@@ -131,7 +131,6 @@ export default defineComponent({
 <style scoped>
 #table {
     > div > div {
-        @apply basis-[50%];
         header {
             text-align: center;
         }
