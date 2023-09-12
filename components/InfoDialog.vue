@@ -1,7 +1,7 @@
 <template>
-    <div class="info-dialog-wrapper fixed bottom-[-6rem] grid place-content-center w-screen z-[2]">
-        <aside class="w-72 h-16 rounded-full gradient-border grid relative overflow-hidden">
-            <div class="h-[inherit] flex items-center justify-center">
+    <div class="info-dialog-wrapper fixed bottom-[-6rem] grid place-content-center w-screen z-[4]">
+        <aside class="w-72 h-16 rounded-full gradient-border grid overflow-hidden">
+            <div class="h-[inherit] flex items-center justify-center z-[6]">
                 <img v-if="data?.icon" class="h-10 mr-2" :src="data.icon" />
                 <div>
                     <h2>{{ data?.header }}</h2>
@@ -44,7 +44,9 @@ aside {
     --gradient: linear-gradient(315deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
 }
 aside::before {
-    @apply z-[-1] m-[-2px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""] w-[inherit] place-self-center;
-    width: calc(18rem + 4px);
+    @apply z-[5] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow rounded-[inherit] content-[""];
+    width: calc(18rem + 6px);
+    left: calc(50% + 3px);
+    transform: translateX(-50%);
 }
 </style>

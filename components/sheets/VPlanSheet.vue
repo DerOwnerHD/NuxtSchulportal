@@ -77,7 +77,7 @@
                     </tbody>
                 </table>
                 <div class="flex justify-center" v-if="lastUpdated">
-                    <div class="mt-2 px-3 rounded-full bg-[#4e5760] w-fit drop-shadow">
+                    <div class="mt-2 px-3 rounded-full border-white border-[1px] w-fit drop-shadow">
                         <ClientOnly>
                             <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
                         </ClientOnly>

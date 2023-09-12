@@ -46,7 +46,7 @@
             </ClientOnly>
             <span>Details</span>
         </button>
-        <button @click="refreshPlan">
+        <button @click="refreshPlan(false)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
             </ClientOnly>
@@ -100,8 +100,8 @@ export default defineComponent({
         }
     },
     methods: {
-        async refreshPlan(): Promise<any> {
-            if (useState("vplan").value == null && !useAppErrors().value.vplan) return;
+        async refreshPlan(bypass: boolean): Promise<any> {
+            if (useState("vplan").value == null && !useAppErrors().value.vplan && !bypass) return;
             useState("vplan").value = null;
             useAppErrors().value.vplan = null;
             const plan = await useVplan();
@@ -109,7 +109,7 @@ export default defineComponent({
             if (plan === "401: Unauthorized") {
                 const login = await useLogin(false);
                 if (login) {
-                    await this.refreshPlan();
+                    await this.refreshPlan(true);
                     await useWait(500);
                     return (useInfoDialog().value = { ...INFO_DIALOGS.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` });
                 }

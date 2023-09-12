@@ -18,11 +18,11 @@
             </aside>
             <main>
                 <p>
-                    <b v-if="!conversation.name && conversation.members[0].id === credentials.user">[Notizen]</b>
+                    <b v-if="!conversation.name && conversation.members[0].id === moodleCredentials.user">[Notizen]</b>
                     {{ conversation.name || conversation.members[0].name || "<Unbenannt>" }}
                 </p>
                 <p v-if="conversation.messages[0].text !== ''">
-                    <b>{{ conversation.messages[0].author === credentials.user ? "Ich: " : "" }}</b>
+                    <b>{{ conversation.messages[0].author === moodleCredentials.user ? "Ich: " : "" }}</b>
                     {{ conversation.messages[0].text }}
                 </p>
                 <p v-else>
@@ -63,7 +63,8 @@ export default defineComponent({
     data() {
         return {
             conversations: useState<{[type: string]: MoodleConversation[]}>("moodle-conversations"),
-            credentials: useMoodleCredentials()
+            moodleCredentials: useMoodleCredentials(),
+            credentials: useCredentials<Credentials>()
         };
     },
     methods: {
@@ -72,7 +73,7 @@ export default defineComponent({
             if (!avatar) return null;
             const path = avatar.split(".schule.hessen.de")[1];
             if (!/\/pluginfile.php\/\d{1,5}\/user\/icon\/sph\/.*/.test(path)) return "/moodle-default.png";
-            return `/api/moodle/proxy?cookie=${useMoodleCredentials().value.cookie}&school=${useCredentials<Credentials>().value.school}&path=${path}`;
+            return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&path=${path}`;
 
         }
     }
