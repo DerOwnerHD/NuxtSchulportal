@@ -62,7 +62,7 @@ export default defineEventHandler(async (event) => {
 
             const day = matches[1].split(".").reverse().join("-");
             const time = matches[2];
-            return new Date(`${day} ${time}`).toString();
+            return `${day} ${time}`;
         })();
 
         for (const day of days) {

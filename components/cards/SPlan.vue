@@ -125,9 +125,10 @@ export default defineComponent({
 
             const mondayOrSelectedDay = this.day !== -1 ? this.day + 1 : 1;
 
-            if ([0, 6].includes(dow)) next.setDate(now.getDate() + (mondayOrSelectedDay + 7 - dow) % 7);
+            if ([0, 6].includes(dow)) next.setDate(now.getDate() + ((mondayOrSelectedDay + 7 - dow) % 7));
             else if (now.getHours() >= 18 && this.day === -1) next.setDate(dow === 5 ? now.getDate() + ((1 + 7 - dow) % 7) : now.getDate() + 1);
-            else if (dow > 0 && dow < 6) next.setDate(now.getDate() + ((this.day !== -1 ? this.day + 1 : dow) + (dow > this.day + 1 && this.day !== -1 ? 7 : 0) - dow) % 7);
+            else if (dow > 0 && dow < 6)
+                next.setDate(now.getDate() + (((this.day !== -1 ? this.day + 1 : dow) + (dow > this.day + 1 && this.day !== -1 ? 7 : 0) - dow) % 7));
 
             // This means the day we would show on the plan would
             // already be outdated, so if a new plan would begin

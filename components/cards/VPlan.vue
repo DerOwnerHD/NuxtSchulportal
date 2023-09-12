@@ -57,7 +57,6 @@
 
 <script lang="ts">
 import { INFO_DIALOGS } from "~/composables/utils";
-
 export default defineComponent({
     name: "VPlan",
     data() {
@@ -131,6 +130,7 @@ export default defineComponent({
 <style scoped>
 #table {
     > div > div {
+        min-width: 45%;
         header {
             text-align: center;
         }
