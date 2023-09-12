@@ -17,6 +17,30 @@ export interface MoodleConversationMember {
     contactrequests: [];
 }
 
+export interface MoodleCourse {
+    coursecategory: string;
+    courseimage: string;
+    enddate: number;
+    fullname: string;
+    fullnamedisplay: string;
+    hasprogress: boolean;
+    hidden: boolean;
+    id: number;
+    idnumber: string;
+    isfavourite: boolean;
+    pdfexportfont: string;
+    progress: number;
+    shortname: string;
+    showactivitydates: boolean;
+    showcompletionconditions: boolean;
+    showshortname: boolean;
+    startdate: number;
+    summary: string;
+    summaryformat: number;
+    viewurl: string;
+    visible: boolean;
+}
+
 export interface MoodleConversationMessage {
     id: number;
     useridfrom: number;
@@ -40,6 +64,65 @@ export interface MoodleConversation {
     candeletemessagesforallusers: boolean;
 }
 
+export interface MoodleEvent {
+    action: {
+        actionable: boolean;
+        itemcount: number;
+        name: string;
+        showitemcount: boolean;
+        url: string;
+    };
+    activityname: string;
+    activitystr: string;
+    candelete: boolean;
+    canedit: boolean;
+    categoryid: number | null;
+    component: string;
+    course: MoodleCourse;
+    deleteurl: string;
+    description: string;
+    descriptionformat: number;
+    editurl: string;
+    eventcount: number | null;
+    eventtype: string;
+    formattedlocation: string;
+    formattedtime: string;
+    groupid: number | null;
+    groupname: string | null;
+    icon: {
+        alttext: string;
+        component: string;
+        iconclass: string;
+        iconurl: string;
+        key: string;
+    };
+    id: number;
+    instance: number;
+    isactionevent: boolean;
+    iscategoryevent: boolean;
+    iscourseevent: boolean;
+    location: string;
+    modulename: string;
+    name: string;
+    normalisedeventtype: string;
+    normalisedeventtypetext: string;
+    overdue: boolean;
+    purpose: string;
+    repeatid: number | null;
+    subscription: {
+        displayeventsource: boolean;
+    };
+    timeduration: number;
+    timemodified: number;
+    timesort: number;
+    timestart: number;
+    timeusermidnight: number;
+    url: string;
+    userid: number;
+    viewurl: string;
+    visible: number;
+}
+
 export const transformMoodleMember = (member: MoodleConversationMember) => {
     return {
         id: member.id,
@@ -59,6 +142,46 @@ export const transformMoodleMember = (member: MoodleConversationMember) => {
         contactRequests: member.contactrequests
     };
 };
+
+export const transformMoodleCourse = (course: MoodleCourse) => {
+    return {
+        id: course.id,
+        category: course.coursecategory,
+        image: course.courseimage,
+        timestamps: {
+            start: course.startdate,
+            end: course.enddate
+        },
+        names: {
+            full: course.fullname,
+            display: course.fullnamedisplay,
+            short: course.shortname
+        },
+        progress: {
+            visible: course.hasprogress,
+            percentage: course.progress
+        },
+        // We just use hidden property and ignore visible (these things
+        // are pretty much just the same thing turned around)
+        hidden: course.hidden,
+        favorite: course.isfavourite,
+        exportFont: course.pdfexportfont,
+        properties: {
+            activityDates: course.showactivitydates,
+            completionConditions: course.showcompletionconditions,
+            shortName: course.showshortname
+        },
+        summary: {
+            text: course.summary,
+            format: course.summaryformat
+        },
+        link: course.viewurl
+    };
+}
+
+export const transformMoodleEvent = (event: MoodleEvent) => {
+    return {}
+}
 
 export const transformMoodleMessage = (message: MoodleConversationMessage) => {
     return {

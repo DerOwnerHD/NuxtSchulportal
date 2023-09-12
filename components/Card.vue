@@ -20,6 +20,7 @@
                 </ClientOnly>
             </button>
         </header>
+        <CardsMoodle v-if="type === 'moodle'"></CardsMoodle>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
         <CardsSPlan v-if="type === 'splan'"></CardsSPlan>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>

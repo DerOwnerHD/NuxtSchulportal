@@ -55,10 +55,7 @@
             </main>
         </div>
     </div>
-    <BottomSheet v-if="sheetStates.open.includes('vplan')" menu="vplan"></BottomSheet>
-    <BottomSheet v-if="sheetStates.open.includes('vplan-news')" menu="vplan-news"></BottomSheet>
-    <BottomSheet v-if="sheetStates.open.includes('splan')" menu="splan"></BottomSheet>
-    <BottomSheet v-if="sheetStates.open.includes('messages')" menu="messages"></BottomSheet>
+    <BottomSheet v-for="sheet of sheetStates.open" :menu="sheet"></BottomSheet>
     <InfoDialog v-if="useInfoDialog().value"></InfoDialog>
 </template>
 
