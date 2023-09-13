@@ -15,6 +15,11 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
 };
 
 export const INFO_DIALOGS: { [name: string]: InfoDialog } = {
+    LOGIN: {
+        disappearAfter: 2000,
+        header: "Anmeldung erfolgreich",
+        icon: "done.png"
+    },
     AUTOMATIC_LOGIN: {
         disappearAfter: 2000,
         header: "Erneute Anmeldung erfolgreich",
@@ -35,5 +40,5 @@ interface InfoDialog {
     icon?: string;
 }
 export const useInfoDialog = () => useState<InfoDialog | null>("info-dialog");
-
+export const openLink = (link: string) => window.open(link, "_blank");
 export const addZeroToNumber = (number: number) => String(number).padStart(2, "0");

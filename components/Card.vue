@@ -1,5 +1,5 @@
 <template>
-    <article class="card w-80 mt-4 rounded-2xl relative grid" :style="'--gradient: ' + gradient">
+    <article class="card w-80 mt-4 rounded-2xl relative grid" :style="'--gradient: ' + gradient" :card="type">
         <header v-if="!disableHeader" class="grid my-2 justify-center relative">
             <div class="title relative z-[1] rounded-full shadow-md">
                 <div class="py-2 px-3 rounded-full flex items-center">
@@ -21,6 +21,7 @@
             </button>
         </header>
         <CardsMoodle v-if="type === 'moodle'"></CardsMoodle>
+        <CardsLessons v-if="type === 'lessons'"></CardsLessons>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
         <CardsSPlan v-if="type === 'splan'"></CardsSPlan>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>
@@ -28,9 +29,6 @@
 </template>
 
 <script lang="ts">
-import * as CardsSPlan from "./cards/SPlan.vue";
-import * as CardsVPlan from "./cards/VPlan.vue";
-import * as CardsMessages from "./cards/Messages.vue";
 export default defineComponent({
     name: "Card",
     data() {

@@ -1,6 +1,6 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { APIError, generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
-import { MoodleEvent, lookupSchoolMoodle, transformMoodleEvent } from "../../moodle";
+import { MoodleCourse, lookupSchoolMoodle, transformMoodleCourse } from "../../moodle";
 
 const schema = {
     query: {
@@ -39,11 +39,12 @@ export default defineEventHandler(async (event) => {
             body: JSON.stringify([
                 {
                     index: 0,
-                    methodname: "core_calendar_get_action_events_by_timesort",
+                    methodname: "core_course_get_enrolled_courses_by_timeline_classification",
                     args: {
-                        limitnum: 3,
-                        limittononsuspendedevents: true,
-                        timesortfrom: Math.floor(Date.now() / 1000) - 60 * 60 * 24 * 7
+                        classification: "all",
+                        limit: 0,
+                        offset: 0,
+                        sort: "ul.timeaccess desc"
                     }
                 }
             ])
@@ -51,9 +52,9 @@ export default defineEventHandler(async (event) => {
 
         const json = await response.json();
         if (!json[0].error) {
-            const { events } = json[0].data;
-            if (!events) throw new APIError("Events property not present even though there is no error", false);
-            return { error: false, events: events.map((event: MoodleEvent) => transformMoodleEvent(event)) };
+            const { courses } = json[0].data;
+            if (!courses) throw new APIError("Courses property not present even though there is no error", false);
+            return { error: false, courses: courses.map((course: MoodleCourse) => transformMoodleCourse(course)) };
         }
 
         return setErrorResponse(res, 401);

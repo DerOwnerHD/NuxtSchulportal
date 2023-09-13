@@ -32,6 +32,11 @@
             <LoginMenu v-if="!credentials"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <div v-if="tokenValid">
+                    <Card
+                        type="lessons"
+                        gradient="linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%);"
+                        :icon="['fas', 'address-book']"
+                        name="Mein Unterricht"></Card>
                     <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
                     <Card
                         type="vplan"
@@ -80,7 +85,8 @@ export default defineComponent({
         const moodleLoggedIn = await this.moodleLogin();
         if (!moodleLoggedIn) return;
 
-        await this.loadConversations();
+        this.loadConversations();
+        this.loadMoodleCourses();
     },
     methods: {
         async login() {
@@ -99,6 +105,7 @@ export default defineComponent({
             const login = await useLogin(true);
             console.log("Login: " + login);
             if (!login) return;
+            useInfoDialog().value = { ...INFO_DIALOGS.LOGIN, details: `Token: ${useToken().value}` };
             tokenValid.value = true;
         },
         async moodleLogin() {
@@ -126,6 +133,14 @@ export default defineComponent({
             if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
             useState("vplan", () => plan);
             useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
+        },
+        async loadMoodleEvents() {
+
+        },
+        async loadMoodleCourses() {
+            const courses = await useMoodleCourses();
+            if (typeof courses === "string") return (useAppErrors().value["moodle-courses"] = courses);
+            useState("moodle-courses", () => courses);
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

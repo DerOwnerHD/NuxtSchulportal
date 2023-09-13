@@ -121,6 +121,44 @@ interface AppErrorState {
     [app: string]: string | null;
 }
 
+export interface MoodleCourse {
+    id: number;
+    category: string;
+    image: string;
+        timestamps: {
+            start: number;
+            end: number;
+        };
+        names: {
+            full: string;
+            display: string;
+            short: string;
+        };
+        progress: {
+            visible: boolean;
+            percentage: number;
+        };
+        hidden: boolean;
+        favorite: boolean;
+        exportFont: string;
+        properties: {
+            activityDates: boolean;
+            completionConditions: boolean;
+            shortName: boolean;
+        };
+        summary: {
+            text: string;
+            format: number;
+        },
+        link: string;
+}
+
+interface MoodleCourseResponse {
+    error: boolean;
+    error_details?: any;
+    courses: MoodleCourse[];
+}
+
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
 export const useAppErrors = () => useState<AppErrorState>("app-errors");
 export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
@@ -163,6 +201,26 @@ export const useStundenplan = async (): Promise<Stundenplan[] | string> => {
     if (data.value === null) return "Serverfehler";
 
     return data.value?.plans;
+};
+
+export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
+    const credentials = useMoodleCredentials().value;
+    if (!credentials) return "401: Unauthorized";
+
+    const { data, error } = await useFetch<MoodleCourseResponse>("/api/moodle/courses", {
+        method: "GET",
+        query: {
+            ...credentials,
+            school: useCredentials<Credentials>().value.school
+        },
+        retry: false
+    });
+
+    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
+
+    if (data.value === null) return "Serverfehler";
+
+    return data.value.courses;
 };
 
 export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {

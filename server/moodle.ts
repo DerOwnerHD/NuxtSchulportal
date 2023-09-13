@@ -177,11 +177,59 @@ export const transformMoodleCourse = (course: MoodleCourse) => {
         },
         link: course.viewurl
     };
-}
+};
 
 export const transformMoodleEvent = (event: MoodleEvent) => {
-    return {}
-}
+    return {
+        id: event.id,
+        name: event.name,
+        description: {
+            text: event.description,
+            format: event.descriptionformat
+        },
+        location: event.location,
+        category: event.categoryid,
+        user: event.userid,
+        repeat: event.repeatid,
+        count: event.eventcount,
+        type: event.eventtype,
+        instance: event.instance,
+        activity: {
+            name: event.activityname,
+            description: event.activitystr
+        },
+        timestamps: {
+            start: event.timestart,
+            modified: event.timemodified,
+            midnight: event.timeusermidnight,
+            duration: event.timeduration,
+            sort: event.timesort
+        },
+        visible: !!event.visible,
+        overdue: event.overdue,
+        icon: {
+            key: event.icon.key,
+            component: event.icon.component,
+            alt: event.icon.alttext,
+            url: event.icon.iconurl,
+            class: event.icon.iconclass
+        },
+        course: transformMoodleCourse(event.course),
+        abilities: {
+            edit: event.canedit,
+            delete: event.candelete
+        },
+        links: {
+            edit: event.editurl,
+            delete: event.deleteurl,
+            view: event.viewurl
+        },
+        formatted: {
+            time: event.formattedtime,
+            location: event.formattedlocation
+        }
+    };
+};
 
 export const transformMoodleMessage = (message: MoodleConversationMessage) => {
     return {

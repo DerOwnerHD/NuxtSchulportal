@@ -5,7 +5,8 @@ const schema = {
     query: {
         cookie: { required: true, length: 26, pattern: patterns.MOODLE_COOKIE },
         school: { required: true, type: "number", min: 1, max: 9999 },
-        path: { required: true, min: 1, max: 100, pattern: /\/pluginfile.php\/\d{1,5}\/user\/icon\/sph\/.*/ }
+        path: { required: true, min: 1, max: 100, pattern: /\/pluginfile.php\/\d{1,10}\/.*/ },
+        paula: { required: false, length: 64, pattern: patterns.HEX_CODE },
     }
 };
 
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const valid = validateQuery(query, schema.query);
     if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
-    const { cookie, school, path } = query;
+    const { cookie, school, path, paula } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch(`https://mo${school}.schule.hessen.de${path}`, {
             method: "GET",
             headers: {
-                Cookie: `MoodleSession=${cookie?.toString()}`,
+                Cookie: `MoodleSession=${cookie?.toString()}; Paula=${paula || ""}`,
                 ...generateDefaultHeaders(address)
             }
         });
