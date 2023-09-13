@@ -134,9 +134,7 @@ export default defineComponent({
             useState("vplan", () => plan);
             useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
         },
-        async loadMoodleEvents() {
-
-        },
+        async loadMoodleEvents() {},
         async loadMoodleCourses() {
             const courses = await useMoodleCourses();
             if (typeof courses === "string") return (useAppErrors().value["moodle-courses"] = courses);

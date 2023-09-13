@@ -18,7 +18,7 @@
                     </div>
                     <div v-else class="flex overflow-x-auto">
                         <article v-for="course of courses" @click="openLink(course.link)" class="opacity-0">
-                            <div :style="`background-image: url(${ proxyCourseImage(course.image) })`"></div>
+                            <div :style="`background-image: url(${proxyCourseImage(course.image)})`"></div>
                             <small>{{ course.names.short }}</small>
                         </article>
                     </div>
@@ -54,13 +54,11 @@ export default defineComponent({
     },
     methods: {
         proxyCourseImage(image?: string) {
-
             if (!image) return null;
             if (/$data:image/.test(image)) return image;
             const path = image.split(".schule.hessen.de")[1];
             if (!/\/pluginfile.php\/\d{1,10}\/.*/.test(path)) return image;
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&paula=${this.moodleCredentials.paula}&path=${path}`;
-
         },
         async fadeInCourses() {
             await useWait(1);
@@ -68,18 +66,23 @@ export default defineComponent({
             const elements = document.querySelectorAll("article[card=moodle] #courses article");
             elements.forEach(async (element, index) => {
                 await useWait(index * 80);
-                element.animate([
-                    { opacity: 0, transform: "scale(90%)" },
-                    { opacity: 1, transform: "scale(100%)" }
-                ], {
-                    duration: 500, fill: "forwards", easing: "ease-in-out"
-                });
-            })
+                element.animate(
+                    [
+                        { opacity: 0, transform: "scale(90%)" },
+                        { opacity: 1, transform: "scale(100%)" }
+                    ],
+                    {
+                        duration: 500,
+                        fill: "forwards",
+                        easing: "ease-in-out"
+                    }
+                );
+            });
         }
     },
     watch: {
         courses() {
-            this.fadeInCourses();    
+            this.fadeInCourses();
         }
     }
 });
@@ -104,7 +107,8 @@ export default defineComponent({
         small {
             @apply w-full h-3 rounded-full;
         }
-        small, div {
+        small,
+        div {
             background: #3c445c;
             @apply drop-shadow relative;
         }

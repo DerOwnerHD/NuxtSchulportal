@@ -125,32 +125,32 @@ export interface MoodleCourse {
     id: number;
     category: string;
     image: string;
-        timestamps: {
-            start: number;
-            end: number;
-        };
-        names: {
-            full: string;
-            display: string;
-            short: string;
-        };
-        progress: {
-            visible: boolean;
-            percentage: number;
-        };
-        hidden: boolean;
-        favorite: boolean;
-        exportFont: string;
-        properties: {
-            activityDates: boolean;
-            completionConditions: boolean;
-            shortName: boolean;
-        };
-        summary: {
-            text: string;
-            format: number;
-        },
-        link: string;
+    timestamps: {
+        start: number;
+        end: number;
+    };
+    names: {
+        full: string;
+        display: string;
+        short: string;
+    };
+    progress: {
+        visible: boolean;
+        percentage: number;
+    };
+    hidden: boolean;
+    favorite: boolean;
+    exportFont: string;
+    properties: {
+        activityDates: boolean;
+        completionConditions: boolean;
+        shortName: boolean;
+    };
+    summary: {
+        text: string;
+        format: number;
+    };
+    link: string;
 }
 
 interface MoodleCourseResponse {

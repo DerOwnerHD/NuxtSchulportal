@@ -57,7 +57,8 @@ export const validateQuery = (
             if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
         }
 
-        if ((value == undefined && object.required) || (object.length !== undefined && value?.length !== object.length && value != undefined)) return false;
+        if ((value == undefined && object.required) || (object.length !== undefined && value?.length !== object.length && value != undefined))
+            return false;
     }
 
     return true;
