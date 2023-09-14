@@ -56,8 +56,8 @@
                 <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
             </ClientOnly>
             <span>Wechseln</span>
-            <select class="absolute h-full w-full left-0 opacity-0" @change="updateDaySelection">
-                <option v-for="(day, index) of days" :value="index" :selected="index + 1 === new Date().getDay() ? true : false">{{ day }}</option>
+            <select class="absolute h-full w-full left-0 opacity-0" @change="updateDaySelection" v-if="plans != null">
+                <option v-for="(day, index) of days" :value="index" :selected="index === currentOrSelectedDayIndex ? true : false">{{ day }}</option>
             </select>
         </button>
     </footer>
