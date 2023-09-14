@@ -20,7 +20,7 @@
                 </ClientOnly>
             </button>
         </header>
-        <CardsMoodle v-if="type === 'moodle'"></CardsMoodle>
+        <CardsMoodle v-if="type === 'moodle'" :extended="cardsOpen.includes('moodle')"></CardsMoodle>
         <CardsLessons v-if="type === 'lessons'"></CardsLessons>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
         <CardsSPlan v-if="type === 'splan'"></CardsSPlan>

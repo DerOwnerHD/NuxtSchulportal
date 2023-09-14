@@ -159,6 +159,62 @@ interface MoodleCourseResponse {
     courses: MoodleCourse[];
 }
 
+export interface MoodleEvent {
+    id: number;
+    name: string;
+    description: {
+        text: string;
+        format: number;
+    };
+    location: string;
+    category: number;
+    user: number;
+    repeat: number;
+    count: number;
+    type: string;
+    instance: string;
+    activity: {
+        name: string;
+        description: string;
+    };
+    timestamps: {
+        start: number;
+        modified: number;
+        midnight: number;
+        duration: number;
+        sort: number;
+    };
+    visible: boolean;
+    overdue: boolean;
+    icon: {
+        key: string;
+        component: string;
+        alt: string;
+        url: string;
+        class: string;
+    };
+    course: MoodleCourse;
+    abilities: {
+        edit: boolean;
+        delete: boolean;
+    };
+    links: {
+        edit: string;
+        delete: string;
+        view: string;
+    };
+    formatted: {
+        time: string;
+        location: string;
+    };
+}
+
+interface MoodleEventsResponse {
+    error: boolean;
+    error_details?: any;
+    events: MoodleEvent[];
+}
+
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
 export const useAppErrors = () => useState<AppErrorState>("app-errors");
 export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
@@ -176,14 +232,9 @@ export const useVplan = async (): Promise<Vertretungsplan | string> => {
         headers: { Authorization: token },
         retry: false
     });
-
-    if (fetchError.value !== null) return fetchError.value.data.error_details || "Serverfehler";
-
-    if (data.value === null) return "Serverfehler";
-
-    const { error, ...plan } = data.value;
-
-    return plan;
+    
+    const { error, ...plan } = data.value || {};
+    return handleReponse(fetchError, data, plan);
 };
 
 export const useStundenplan = async (): Promise<Stundenplan[] | string> => {
@@ -196,16 +247,12 @@ export const useStundenplan = async (): Promise<Stundenplan[] | string> => {
         retry: false
     });
 
-    if (fetchError.value !== null) return fetchError.value.data.error_details || "Serverfehler";
-
-    if (data.value === null) return "Serverfehler";
-
-    return data.value?.plans;
+    return handleReponse(fetchError, data, data.value?.plans);
 };
 
 export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
-    const credentials = useMoodleCredentials().value;
-    if (!credentials) return "401: Unauthorized";
+    const credentials = checkMoodleCredentials();
+    if (typeof credentials === "string") return credentials;
 
     const { data, error } = await useFetch<MoodleCourseResponse>("/api/moodle/courses", {
         method: "GET",
@@ -216,16 +263,39 @@ export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
         retry: false
     });
 
-    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
-
-    if (data.value === null) return "Serverfehler";
-
-    return data.value.courses;
+    return handleReponse(error, data, data.value?.courses);
 };
 
+export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
+    const credentials = checkMoodleCredentials();
+    if (typeof credentials === "string") return credentials;
+
+    const { data, error } = await useFetch<MoodleEventsResponse>("/api/moodle/events", {
+        method: "GET",
+        query: {
+            ...credentials,
+            school: useCredentials<Credentials>().value.school
+        },
+        retry: false
+    });
+
+    return handleReponse(error, data, data.value?.events);
+
+};
+
+const checkMoodleCredentials = () => useMoodleCredentials().value ?? "401: Unauthorized";
+
+const handleReponse = (error: any, data: any, value: any) => {
+
+    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
+    if (data.value === null) return "Serverfehler";
+    return value;
+
+}
+
 export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {
-    const credentials = useMoodleCredentials().value;
-    if (!credentials) return "401: Unauthorized";
+    const credentials = checkMoodleCredentials();
+    if (typeof credentials === "string") return credentials;
 
     const { data, error } = await useFetch<MoodleConversationsResponse>("/api/moodle/conversations", {
         method: "GET",
@@ -237,11 +307,7 @@ export const useConversations = async (type?: "favorites" | "groups"): Promise<M
         retry: false
     });
 
-    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
-
-    if (data.value === null) return "Serverfehler";
-
-    return data.value.conversations;
+    return handleReponse(error, data, data.value?.conversations);
 };
 
 export const useSheet = (sheet: string, open?: boolean) => {

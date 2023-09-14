@@ -87,6 +87,7 @@ export default defineComponent({
 
         this.loadConversations();
         this.loadMoodleCourses();
+        this.loadMoodleEvents();
     },
     methods: {
         async login() {
@@ -134,7 +135,11 @@ export default defineComponent({
             useState("vplan", () => plan);
             useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
         },
-        async loadMoodleEvents() {},
+        async loadMoodleEvents() {
+            const events = await useMoodleEvents();
+            if (typeof events === "string") return (useAppErrors().value["moodle-events"] = events);
+            useState("moodle-events", () => events);
+        },
         async loadMoodleCourses() {
             const courses = await useMoodleCourses();
             if (typeof courses === "string") return (useAppErrors().value["moodle-courses"] = courses);
