@@ -36,14 +36,14 @@
                         </li>
                     </ul>
                     <ul v-else-if="events.length">
-                        <li v-for="event of events.slice(0, 2)" style="opacity: 0;" @click="openLink(event.links.view)">
+                        <li v-for="event of events.slice(0, 2)" style="opacity: 0" @click="openLink(event.links.view)">
                             <div>
-                                <img :src="event.icon.url">
+                                <img :src="event.icon.url" />
                             </div>
                             <small>{{ event.name }}</small>
                         </li>
                     </ul>
-                    <div class="text-center" v-if="events != null && typeof events !== 'string'">
+                    <div class="text-center" v-if="events != null">
                         <small v-if="!events.length">Keine Abgaben</small>
                         <small v-if="events.length > 2">{{ events.length - 2 }} weitere Abgabe{{ events.length > 3 ? "n" : "" }}</small>
                     </div>
@@ -93,7 +93,9 @@ export default defineComponent({
                     [
                         { opacity: 0, transform: "scale(90%)" },
                         { opacity: 1, transform: "scale(100%)" }
-                    ], 400);
+                    ],
+                    400
+                );
                 await useWait(400);
                 element.style.opacity = "1";
             }

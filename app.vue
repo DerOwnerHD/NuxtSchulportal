@@ -138,6 +138,7 @@ export default defineComponent({
         async loadMoodleEvents() {
             const events = await useMoodleEvents();
             if (typeof events === "string") return (useAppErrors().value["moodle-events"] = events);
+            useAppNews().value.moodle = events.length;
             useState("moodle-events", () => events);
         },
         async loadMoodleCourses() {

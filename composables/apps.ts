@@ -232,7 +232,7 @@ export const useVplan = async (): Promise<Vertretungsplan | string> => {
         headers: { Authorization: token },
         retry: false
     });
-    
+
     const { error, ...plan } = data.value || {};
     return handleReponse(fetchError, data, plan);
 };
@@ -280,18 +280,15 @@ export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
     });
 
     return handleReponse(error, data, data.value?.events);
-
 };
 
 const checkMoodleCredentials = () => useMoodleCredentials().value ?? "401: Unauthorized";
 
 const handleReponse = (error: any, data: any, value: any) => {
-
     if (error.value !== null) return error.value.data.error_details || "Serverfehler";
     if (data.value === null) return "Serverfehler";
     return value;
-
-}
+};
 
 export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {
     const credentials = checkMoodleCredentials();
