@@ -33,12 +33,26 @@ export const patterns = {
     PW_RESET_CODE: /^([a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4})$/i,
     HEX_CODE: /^[a-f0-9]+$/,
     MOODLE_SESSION: /^[a-z0-9]{10}$/i,
-    MOODLE_COOKIE: /^[a-z0-9]{26}$/
+    MOODLE_COOKIE: /^[a-z0-9]{26}$/,
+    SESSION_OR_AUTOLOGIN: /^[a-f0-9]{64}$/,
+    EMBEDDED_TOKEN: /(?:<input type="hidden" name="token" value=")([a-f0-9]{64})(?:"(?: \/)?>)/i,
+    SPH_LOGIN_KEY: /^https:\/\/start.schulportal.hessen.de\/schulportallogin.php?k=[a-f0-9]{96}$/,
+    SID: /^[a-z0-9]{26}$/
 };
 
 export const validateQuery = (
     query: any,
-    schema: { [key: string]: { required: boolean; length?: number; type?: string; min?: number; max?: number; pattern?: RegExp; options?: any[] } }
+    schema: {
+        [key: string]: {
+            required: boolean;
+            length?: number;
+            type?: string;
+            min?: number;
+            max?: number;
+            pattern?: RegExp;
+            options?: any[];
+        };
+    }
 ): boolean => {
     for (const key in schema) {
         if (!key.length) continue;
@@ -80,6 +94,8 @@ export const validateBody = (
             min?: number;
             max?: number;
             size?: number;
+            pattern?: RegExp;
+            options?: any[];
         };
     }
 ): boolean => {
@@ -96,6 +112,9 @@ export const validateBody = (
                 (object.max !== undefined && accessor > object.max) ||
                 (object.size !== undefined && accessor !== object.size)
             )
+                return false;
+
+            if (typeof value === "string" && ((object.pattern && !object.pattern.test(value)) || (object.options && !object.options.includes(value))))
                 return false;
         }
 

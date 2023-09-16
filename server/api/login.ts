@@ -68,13 +68,13 @@ export default defineEventHandler(async (event) => {
             // Our autologin token next needed is hidden away in some
             // form which is autosubmitted, so we need to read that out
             const html = removeBreaks(await login.text());
-            const tokenMatch = html.match(/(?:<input type="hidden" name="token" value=")([a-f0-9]{64})(?:"( \/)?>)/i);
+            const tokenMatch = html.match(patterns.EMBEDDED_TOKEN);
             if (tokenMatch === null) return;
             // We need to use the second index because the first would be the whole string
             // including the <input> stuff we put in the non-capturing group
             // Example: [ "<input value="1234567890abcdef">", "1234567890abcdef" ]
             const token = tokenMatch[1];
-            if (!token || token.length !== 64 || /[^0-9a-f]/gi.test(token)) return;
+            if (!token || !patterns.SESSION_OR_AUTOLOGIN.test(token)) return;
 
             const registerBrowser = await fetch("https://login.schulportal.hessen.de/registerbrowser", {
                 headers: {

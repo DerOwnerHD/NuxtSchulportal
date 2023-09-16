@@ -74,6 +74,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/autologin.post",
+        interval: 20 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 
