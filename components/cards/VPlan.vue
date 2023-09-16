@@ -135,6 +135,7 @@ export default defineComponent({
             text-align: center;
         }
         main {
+            @apply px-1;
             font-size: 0.8rem;
             p {
                 text-align: center;

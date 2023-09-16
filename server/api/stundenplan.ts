@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
         const { window } = new JSDOM(html);
         const { document } = window;
 
-        const initialPlan: PlanDate = {
+        const initialPlan: PlanOptions = {
             start: document.querySelector("#all .plan")?.getAttribute("data-date") || "",
             end: null,
             current: true
@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
             for (const option of selection.children) {
                 const start = option.getAttribute("value");
                 if (!start) continue;
-                const plan: PlanDate = { start, end: null, current: false };
+                const plan: PlanOptions = { start, end: null, current: false };
 
                 const match = option.innerHTML.match(/(?:\(bis )(\d{2}\.\d{2}\.\d{4})/i);
                 if (match !== null && match[1]) {
@@ -92,15 +92,15 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-interface PlanDate {
+interface PlanOptions {
     start: string;
     end: string | null;
     current?: boolean;
 }
 
-async function loadSplanForDate(date: PlanDate, auth: string, load: boolean, address?: string, html?: string): Promise<Stundenplan> {
+async function loadSplanForDate(options: PlanOptions, auth: string, load: boolean, address?: string, html?: string): Promise<Stundenplan> {
     if (load) {
-        const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + date.start, {
+        const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + options.start, {
             method: "GET",
             headers: {
                 Cookie: `sid=${encodeURIComponent(auth)}`,
@@ -122,87 +122,64 @@ async function loadSplanForDate(date: PlanDate, auth: string, load: boolean, add
             { name: "Donnerstag", lessons: [] },
             { name: "Freitag", lessons: [] }
         ],
-        start_date: date.start,
-        end_date: date.end,
-        current: date.current ?? false,
-        lessons: []
+        start_date: options.start,
+        end_date: options.end,
+        current: options.current ?? false,
+        lessons: Array.from(document.querySelectorAll("#all .plan table.table tbody tr td:first-child .VonBis small")).map((element) =>
+            element.innerHTML.split(" - ").map((lesson) => lesson.split(":").map((time) => parseInt(time)))
+        )
     };
 
-    document
-        .querySelectorAll(
-            "#all .plan table.table.table-hoverRowspan.table-condensed.table-bordered.table-centered tbody tr td:nth-child(1) .VonBis small"
-        )
-        .forEach((element) => {
-            plan.lessons.push(element.innerHTML.split(" - ").map((lesson) => lesson.split(":").map((time) => parseInt(time))));
-        });
+    document.querySelectorAll("#all .plan table.table tbody tr").forEach((lessons, index) => {
+        // Normally, it would always have 6 children (lesson and all the days)
+        // But if there are double lessons, there will only be one td item
+        // Thus, if this is the case, we need to make sure we use the correct
+        // day by checking for it when pushing to the day of the week
+        const checkForOccupiedSlots = lessons.children.length < 6;
 
-    document
-        .querySelectorAll("#all .plan table.table.table-hoverRowspan.table-condensed.table-bordered.table-centered tbody tr td:not(:nth-child(1))")
-        .forEach((element) => {
-            if (!element.parentElement || !element.parentElement.parentElement) return;
+        let day = 0;
+        for (const lesson of Array.from(lessons.children).slice(1)) {
+            // If this is greater than one, we would
+            // have a lesson which spans two or more hours
+            const span = parseInt(lesson.getAttribute("rowspan") || "1");
 
-            const day = Array.from(element.parentElement.children).indexOf(element) - 1;
-            const lesson = Array.from(element.parentElement.parentElement.children).indexOf(element.parentElement) + 1;
-            const rows = parseInt(element.getAttribute("rowspan") || "1");
+            const stunde: Stunde = {
+                lessons: Array.from({ length: span }, (v, k) => index + k + 1),
+                classes: Array.from(lesson.querySelectorAll("div.stunde")).map((element) => {
+                    const title = element.getAttribute("title")?.trim() || "";
+                    const properties = title?.match(/(.*)(?: im Raum )(.*)(?: bei der Klasse\/Stufe\/Lerngruppe )(.*)/);
+                    // We expect to recieve the subject, the room and the class (not used currently)
+                    if (properties === null || properties.length !== 4) return { teacher: "", name: "", room: "" };
 
-            let iterator = 1;
-            const classes: Class[] = [];
-            for (const entry of element.children) {
-                let room: any = "";
-                for (const child of entry.childNodes) {
-                    const content = child.textContent?.trim();
-                    if (child.nodeName !== "#text" || !content) continue;
-                    room = child.textContent?.trim();
+                    return {
+                        teacher: element.querySelector("small")?.innerHTML.trim() || "",
+                        name: properties[1],
+                        room: properties[2]
+                    };
+                })
+            };
+
+            // If we need to check the slots of the days, we first
+            // go through all days ON and AFTER the current index of days
+            // and after that we go through that day to find the first
+            // day that does NOT occupy that lesson
+            if (checkForOccupiedSlots) {
+                for (let i = day; i < 6; i++) {
+                    const lessons = plan.days[i].lessons.reduce((acc: number[], stunde) => (acc = [...acc, ...stunde.lessons]), []);
+                    const occupiedLessonsOfStunde = stunde.lessons.filter((lesson) => lessons.includes(lesson));
+                    if (occupiedLessonsOfStunde.length) continue;
+
+                    day = i;
+                    break;
                 }
-
-                const name = entry.querySelector("b")?.innerHTML.trim() || "";
-                const teacher = entry.querySelector("small")?.innerHTML.trim() || "";
-
-                classes.push({ name: name, room: room, teacher: teacher });
-                iterator++;
             }
 
-            const lessons: number[] = [];
-            for (let i = lesson; i < lesson + rows; i++) lessons.push(i);
-            plan.days[day].lessons.push({ lessons, classes });
-        });
-
-    for (const day of plan.days) {
-        const index = plan.days.indexOf(day);
-        for (const lesson of day.lessons) {
-            const found = findDayWithEmptyLesson(plan, index, lesson.lessons);
-            if (!found) continue;
-
-            plan.days[index].lessons.splice(plan.days[index].lessons.indexOf(lesson), 1);
-            plan.days[found].lessons.push(lesson);
+            plan.days.at(day)?.lessons.push(stunde);
+            day++;
         }
-
-        day.lessons.sort((a, b) => {
-            if (a.lessons[0] < b.lessons[0]) return -1;
-            if (a.lessons[0] > b.lessons[0]) return 1;
-            return 0;
-        });
-    }
+    });
 
     return plan;
-}
-
-function findDayWithEmptyLesson(plan: Stundenplan, day: number, lessons: number[]): number {
-    for (let i = day; i < 5; i++) {
-        let occupied = false;
-        for (const lesson of lessons) {
-            // This indicates that on that day, another lesson already
-            // occupied that specific time slot and thus we need to
-            // look one day further!
-            if (plan.days[i].lessons.find((x) => x.lessons.includes(lesson))) occupied = true;
-        }
-
-        if (!occupied) return i;
-    }
-
-    // This should only act as a fallback in case
-    // no other empty day could be found in the list
-    return day;
 }
 
 interface Stunde {

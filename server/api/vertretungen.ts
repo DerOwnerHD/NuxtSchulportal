@@ -99,8 +99,7 @@ export default defineEventHandler(async (event) => {
                     .trim()
                     .split(" - ")
                     .map((lesson) => parseInt(lesson));
-                const lessons = [];
-                for (let i = fromTo[0]; i < fromTo[1] + 1; i++) lessons.push(i);
+                const lessons: number[] = Array.from({ length: fromTo.length }, (v, k) => fromTo[0] + k);
 
                 vertretungen.push({
                     lessons: {
