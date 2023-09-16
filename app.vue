@@ -33,12 +33,6 @@
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <div v-if="tokenValid">
                     <Card
-                        type="lessons"
-                        gradient="linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%);"
-                        :icon="['fas', 'address-book']"
-                        name="Mein Unterricht"></Card>
-                    <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
-                    <Card
                         type="vplan"
                         gradient="linear-gradient(270deg, #168647 0, #24df62 70%)"
                         :icon="['fas', 'book']"
@@ -48,11 +42,17 @@
                         gradient="linear-gradient(270deg, #008eff 0, #05e7ec 74%)"
                         :icon="['fas', 'hourglass-half']"
                         name="Stundenplan"></Card>
+                    <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
                     <Card
                         type="messages"
                         gradient="linear-gradient(270deg, #fdbb2d 0, #fda52d 70%)"
                         :icon="['fas', 'envelope-open-text']"
                         name="Direktnachrichten"></Card>
+                    <Card
+                        type="lessons"
+                        gradient="linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%);"
+                        :icon="['fas', 'address-book']"
+                        name="Mein Unterricht"></Card>
                 </div>
                 <div v-else>
                     <div class="spinner mt-3 w-full" style="--size: 3rem"></div>
@@ -106,8 +106,10 @@ export default defineComponent({
             const login = await useLogin(true);
             console.log("Login: " + login);
             if (!login) return;
-            useInfoDialog().value = { ...INFO_DIALOGS.LOGIN, details: `Token: ${useToken().value}` };
             tokenValid.value = true;
+
+            await useWait(1000);
+            useInfoDialog().value = { ...INFO_DIALOGS.LOGIN, details: `Token: ${useToken().value}` };
         },
         async moodleLogin() {
             const isValid = await useMoodleCheck();

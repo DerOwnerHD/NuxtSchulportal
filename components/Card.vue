@@ -23,7 +23,7 @@
         <CardsMoodle v-if="type === 'moodle'" :extended="cardsOpen.includes('moodle')"></CardsMoodle>
         <CardsLessons v-if="type === 'lessons'"></CardsLessons>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
-        <CardsSPlan v-if="type === 'splan'"></CardsSPlan>
+        <CardsSPlan v-if="type === 'splan'" :extended="cardsOpen.includes('splan')"></CardsSPlan>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>
     </article>
 </template>
@@ -38,7 +38,7 @@ export default defineComponent({
         };
     },
     methods: {
-        toggleCardVisibiltiy() {
+        async toggleCardVisibiltiy() {
             const cardsOpen = useState<Array<string>>("cards-open");
             if (!cardsOpen.value.includes(this.type)) {
                 cardsOpen.value.push(this.type);

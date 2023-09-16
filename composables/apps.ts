@@ -1,5 +1,3 @@
-import { Credentials } from "./auth";
-
 export interface VertretungsDay {
     date: string;
     day: string;

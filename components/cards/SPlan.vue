@@ -5,7 +5,19 @@
                 <div class="error" v-if="appErrors.splan">
                     <span>{{ appErrors.splan }}</span>
                 </div>
-                <div class="spinner" style="--size: 2rem" v-else></div>
+                <div class="py-1.5 placeholder" v-else>
+                    <div class="flex justify-center" excluded>
+                        <p class="w-28"></p>
+                    </div>
+                    <div class="flex mt-2" excluded>
+                        <div id="lessons" class="mx-3" excluded>
+                            <p class="w-8 mt-2" v-for="n in 4"></p>
+                        </div>
+                        <div id="classes" class="pl-3 mr-3" excluded>
+                            <p class="w-36 mt-2" v-for="n in 4"></p>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="py-1.5" v-else>
                 <p class="text-center" id="splan-date">
@@ -21,13 +33,13 @@
                     </span>
                 </p>
                 <div class="flex">
-                    <div id="lessons" class="text-center mx-3">
-                        <p v-for="lesson of getSelectedDay.lessons">
+                    <div id="lessons">
+                        <p v-for="lesson of getSelectedDay.lessons" style="opacity: 0">
                             {{ lesson.lessons.join(" - ") }}
                         </p>
                     </div>
-                    <div id="classes" class="pl-3 mr-3 overflow-hidden">
-                        <p v-for="lesson of getSelectedDay.lessons">
+                    <div id="classes">
+                        <p v-for="lesson of getSelectedDay.lessons" style="opacity: 0">
                             <span v-if="!lesson.classes.length">-</span>
                             <span v-for="cls of lesson.classes">
                                 <b>{{ cls.name }}</b>
@@ -76,6 +88,9 @@ export default defineComponent({
             selected: -1,
             day: -1
         };
+    },
+    props: {
+        extended: { type: Boolean, required: true }
     },
     computed: {
         plansMergedLessons() {
@@ -168,7 +183,41 @@ export default defineComponent({
     methods: {
         updateDaySelection(event: Event) {
             if (!event.target || !(event.target instanceof HTMLSelectElement)) return;
+            function setInvisible(element: Element) {
+                if (!(element instanceof HTMLElement)) return;
+                element.style.opacity = "0";
+            }
+            document.querySelectorAll("article[card=splan] #lessons p").forEach(setInvisible);
+            document.querySelectorAll("article[card=splan] #classes p").forEach(setInvisible);
+            this.fadeIn();
             this.day = parseInt(event.target.value);
+        },
+        async fadeIn() {
+            if (!this.extended || !Array.isArray(this.plans)) return;
+            async function fadeInElement(element: Element, index: number) {
+                if (!(element instanceof HTMLElement)) return;
+                await useWait(index * 60);
+                element.animate(
+                    [
+                        { opacity: 0, transform: "scale(90%)" },
+                        { opacity: 1, transform: "scale(100%)" }
+                    ],
+                    400
+                );
+                await useWait(390);
+                element.style.opacity = "1";
+            }
+            await useWait(10);
+            document.querySelectorAll("article[card=splan] #lessons p").forEach(fadeInElement);
+            document.querySelectorAll("article[card=splan] #classes p").forEach(fadeInElement);
+        }
+    },
+    watch: {
+        plans() {
+            this.fadeIn();
+        },
+        extended() {
+            this.fadeIn();
         }
     }
 });
@@ -176,11 +225,20 @@ export default defineComponent({
 
 <style scoped>
 #classes {
+    @apply pl-3 mr-3 overflow-hidden;
     border-left: solid 1px;
     border-image: linear-gradient(#00000000 0%, #ffffff 50%, #00000000 100%) 1;
     max-width: 70%;
     span:not(:first-child)::before {
         content: " | ";
+    }
+}
+#lessons {
+    @apply mx-3 text-center;
+}
+.placeholder {
+    p {
+        @apply h-4 rounded-full;
     }
 }
 p {

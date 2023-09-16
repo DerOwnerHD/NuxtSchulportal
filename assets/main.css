@@ -160,3 +160,18 @@ h1 {
 .card-main-description {
     @apply text-sm text-center mb-1;
 }
+@keyframes loading {
+    0% {
+        background: #3c445c;
+    }
+    30% {
+        background: #4d5774;
+    }
+    100% {
+        background: #3c445c;
+    }
+}
+.placeholder *:not([excluded]) {
+    background: #3c445c;
+    animation: loading infinite 2000ms ease-in-out;
+}

@@ -43,7 +43,7 @@
                             <small>{{ event.name }}</small>
                         </li>
                     </ul>
-                    <div class="text-center" v-if="events != null">
+                    <div class="text-center" v-if="events != null && !appErrors['moodle-events']">
                         <small v-if="!events.length">Keine Abgaben</small>
                         <small v-if="events.length > 2">{{ events.length - 2 }} weitere Abgabe{{ events.length > 3 ? "n" : "" }}</small>
                     </div>
@@ -86,6 +86,7 @@ export default defineComponent({
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&paula=${this.moodleCredentials.paula}&path=${path}`;
         },
         async fadeIn(type: "all" | "courses" | "events") {
+            if (!this.extended) return;
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
                 await useWait(index * 80);
@@ -96,7 +97,7 @@ export default defineComponent({
                     ],
                     400
                 );
-                await useWait(400);
+                await useWait(390);
                 element.style.opacity = "1";
             }
             await useWait(10);
@@ -122,17 +123,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-@keyframes loading {
-    0% {
-        background: #3c445c;
-    }
-    30% {
-        background: #4d5774;
-    }
-    100% {
-        background: #3c445c;
-    }
-}
 #courses {
     article.placeholder {
         small {
@@ -140,9 +130,7 @@ export default defineComponent({
         }
         small,
         div {
-            background: #3c445c;
             @apply drop-shadow relative;
-            animation: loading infinite 2000ms ease-in-out;
         }
     }
     article {
@@ -171,8 +159,6 @@ export default defineComponent({
     li.placeholder {
         small {
             @apply w-full h-3 rounded-full block drop-shadow;
-            background: #3c445c;
-            animation: loading infinite 2000ms ease-in-out;
         }
     }
     li {
