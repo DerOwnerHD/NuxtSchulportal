@@ -45,7 +45,7 @@
                     <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
                     <Card
                         type="messages"
-                        gradient="linear-gradient(270deg, #fdbb2d 0, #fda52d 70%)"
+                        gradient="linear-gradient(270deg, #e14646 0, #fd6c2d 70%)"
                         :icon="['fas', 'envelope-open-text']"
                         name="Direktnachrichten"></Card>
                     <Card
@@ -53,6 +53,18 @@
                         gradient="linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%);"
                         :icon="['fas', 'address-book']"
                         name="Mein Unterricht"></Card>
+                    <div class="flex justify-center my-5">
+                        <ClientOnly>
+                            <button class="button-with-symbol" @click="logout">
+                                <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
+                                <span>Abmelden</span>
+                            </button>
+                            <button class="button-with-symbol" @click="notificationMananger = true">
+                                <font-awesome-icon :icon="['fas', 'bell']"></font-awesome-icon>
+                                <span>Benachrichtigungen</span>
+                            </button>
+                        </ClientOnly>
+                    </div>
                 </div>
                 <div v-else>
                     <div class="spinner mt-3 w-full" style="--size: 3rem"></div>
@@ -62,8 +74,10 @@
     </div>
     <BottomSheet v-for="sheet of sheetStates.open" :menu="sheet"></BottomSheet>
     <InfoDialog v-if="useInfoDialog().value"></InfoDialog>
+    <ClientOnly>
+        <NotificationManager v-if="notificationMananger"></NotificationManager>
+    </ClientOnly>
 </template>
-
 <script lang="ts">
 let tokenValid = ref(false);
 export default defineComponent({
@@ -187,6 +201,32 @@ export default defineComponent({
 
             useAppNews().value.messages = unreadCount;
             useState("moodle-conversations", () => conversations);
+        },
+        async logout() {
+            const stop = confirm("Willst du dich wirklich abmelden?");
+            if (!stop) return;
+
+            if ("serviceWorker" in navigator) {
+                const registration = await navigator.serviceWorker.getRegistration();
+                const subscription = await registration?.pushManager.getSubscription();
+
+                if (subscription != null) await subscription.unsubscribe();
+                if (registration != null) await registration.unregister();
+            }
+
+            useCookie("credentials").value = null;
+            useCookie("token").value = null;
+            useCookie("session").value = null;
+            useCookie("moodle-credentials").value = null;
+
+            await useWait(1);
+
+            useInfoDialog().value = {
+                header: "Abmeldung erfolgreich",
+                disappearAfter: 2000,
+                icon: "done.png",
+                details: "Erneute Anmeldung jederzeit möglich"
+            };
         }
     }
 });
@@ -213,6 +253,7 @@ const sheetStates = useState<SheetStates>("sheets", () => {
 useState<AppErrorState>("app-errors", () => {
     return {};
 });
+const notificationMananger = useState<boolean>("notification-manager", () => false);
 if (process.client) document.addEventListener("load", () => (useState<boolean>("loaded").value = true));
 interface Credentials {
     username: string;
@@ -264,7 +305,8 @@ useHead({
 </script>
 
 <style>
-pre {
+pre,
+code {
     font-family: monospace;
     span {
         font-family: inherit;

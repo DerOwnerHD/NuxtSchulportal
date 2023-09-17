@@ -6,5 +6,11 @@ export default defineNuxtConfig({
     ssr: true,
     devServer: {
         port: 80
+    },
+    runtimeConfig: {
+        private: {
+            notificationApiUrl: process.env.NOTIFICATION_API_URL,
+            notificationApiKey: process.env.NOTIFICATION_API_KEY
+        }
     }
 });

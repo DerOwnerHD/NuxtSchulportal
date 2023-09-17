@@ -605,9 +605,6 @@ form {
         @apply h-12 grid content-center;
     }
 }
-#school-search::backdrop {
-    background: #00000090;
-}
 #school-search {
     background: linear-gradient(to bottom, #282828, #121212);
     input {

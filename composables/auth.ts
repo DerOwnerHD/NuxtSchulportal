@@ -186,7 +186,7 @@ export const useMoodleCheck = async (): Promise<boolean> => {
     return data.value?.valid || false;
 };
 
-const syntaxHighlight = (json: any = {}) =>
+export const syntaxHighlight = (json: any = {}) =>
     JSON.stringify(json, null, 2)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")

@@ -80,6 +80,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 20 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/notifications.post",
+        interval: 20 * 1000,
+        allowedPerInterval: 1,
+        clients: []
     }
 ];
 

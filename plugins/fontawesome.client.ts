@@ -29,7 +29,10 @@ import {
     faUserSlash,
     faLocationDot,
     faInfo,
-    faAddressBook
+    faAddressBook,
+    faArrowRight,
+    faTrash,
+    faBell
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -67,7 +70,10 @@ library.add(
     faUserSlash,
     faLocationDot,
     faInfo,
-    faAddressBook
+    faAddressBook,
+    faArrowRight,
+    faTrash,
+    faBell
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

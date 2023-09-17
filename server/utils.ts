@@ -37,7 +37,10 @@ export const patterns = {
     SESSION_OR_AUTOLOGIN: /^[a-f0-9]{64}$/,
     EMBEDDED_TOKEN: /(?:<input type="hidden" name="token" value=")([a-f0-9]{64})(?:"(?: \/)?>)/i,
     SPH_LOGIN_KEY: /^https:\/\/start.schulportal.hessen.de\/schulportallogin.php?k=[a-f0-9]{96}$/,
-    SID: /^[a-z0-9]{26}$/
+    SID: /^[a-z0-9]{26}$/,
+    NOTIFICATION_ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/(\w|\d){11}:[a-z0-9-_]+$/i,
+    NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
+    NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i
 };
 
 export const validateQuery = (

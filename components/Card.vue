@@ -83,19 +83,19 @@ article {
     background: var(--gradient);
     border-top: solid 1px;
     border-image: linear-gradient(90deg, #00000000 10%, #ffffff 50%, #00000000 90%) 1;
-}
-article > header {
-    .title {
-        background-clip: padding-box;
-        border: solid 3px transparent;
-        box-sizing: border-box;
-        > div {
-            background: linear-gradient(to bottom, #1f1f1f, #0e0e0e);
+    > header {
+        .title {
+            background-clip: padding-box;
+            border: solid 3px transparent;
+            box-sizing: border-box;
+            > div {
+                background: linear-gradient(to bottom, #1f1f1f, #0e0e0e);
+            }
         }
-    }
-    .title::before {
-        @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
-        background: var(--gradient);
+        .title::before {
+            @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
+            background: var(--gradient);
+        }
     }
 }
 </style>
