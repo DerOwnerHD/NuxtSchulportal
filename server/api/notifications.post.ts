@@ -23,17 +23,13 @@ export default defineEventHandler(async (event) => {
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
-        const url = process.env.NOTIFICATIONS_API_URL;
-        const key = process.env.NOTIFICATIONS_API_KEY;
+        const { notificationApiUrl, notificationApiKey } = useRuntimeConfig(event).private;
+        if (!(notificationApiUrl || notificationApiKey)) return setErrorResponse(res, 503);
 
-        console.log(key);
-
-        if (!url || !key) return setErrorResponse(res, 503);
-
-        const response = await fetch(url, {
+        const response = await fetch(notificationApiUrl, {
             method: "POST",
             headers: {
-                Authorization: key
+                Authorization: notificationApiKey
             },
             body: JSON.stringify({ endpoint: body.endpoint, auth: body.auth, p256dh: body.p256dh })
         });

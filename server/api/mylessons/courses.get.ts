@@ -1,22 +1,34 @@
 import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse } from "../../utils";
+import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
 import { JSDOM } from "jsdom";
+import cryptoJS from "crypto-js";
+
+const schema = {
+    query: {
+        token: { required: true, pattern: patterns.SID },
+        session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
+        key: { required: true, pattern: patterns.AES_PASSWORD }
+    }
+};
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const query = getQuery(event);
+    const valid = validateQuery(query, schema.query);
+    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/mylessons/courses.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
+    const { token, session, key } = query;
+
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                Cookie: `sid=${token?.toString()}; SPH-Session=${session?.toString()}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",
@@ -66,15 +78,17 @@ export default defineEventHandler(async (event) => {
             const link = course.querySelector("td:first-child a")?.getAttribute("href");
             if (!link) return;
 
-            console.log(link);
-
             const id = link.match(/(?:meinunterricht.php\?a=sus_view&id=)(\d+)/i)?.at(1);
-            console.log(course.innerHTML);
-            const attendance = course.querySelector("td:last-child")?.childNodes[2].textContent?.trim();
+            const attendance = course.querySelector("td:last-child encoded")?.innerHTML;
             if (!id || !attendance) return;
 
+            const decoded = cryptoJS.AES.decrypt(attendance, key?.toString() || "");
+            const string = removeBreaks(Buffer.from(decoded.toString(), "hex").toString());
+
+            const counter = parseInt(string.replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>/, "").trim());
+
             const courseIndex = courses.findIndex((x) => x.id === parseInt(id));
-            courses[courseIndex] = { ...courses[courseIndex], attendance: parseInt(attendance) };
+            courses[courseIndex] = { ...courses[courseIndex], attendance: counter };
         });
 
         return { error: false, courses, expired };

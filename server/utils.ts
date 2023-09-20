@@ -40,7 +40,8 @@ export const patterns = {
     SID: /^[a-z0-9]{26}$/,
     NOTIFICATION_ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/(\w|\d){11}:[a-z0-9-_]+$/i,
     NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
-    NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i
+    NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
+    AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/
 };
 
 export const validateQuery = (
