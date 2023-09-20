@@ -15,12 +15,12 @@
         </ClientOnly>
         <button
             class="rounded-button absolute left-5 top-[-0.5rem] !p-2 !px-3 h-8 flex justify-center items-center"
-            v-if="plan && plan.days"
+            v-if="plan && plan.days && plan.days.length"
             @click="openNewsSheet">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
             </ClientOnly>
-            <span class="ml-2">{{ selectedDay.news.length }}</span>
+            <span class="ml-2" v-if="selectedDay">{{ selectedDay.news.length }}</span>
         </button>
         <div class="grid place-content-center py-2" v-if="!plan">
             <div class="error" v-if="appErrors.vplan">
@@ -32,7 +32,7 @@
             <div class="flex justify-center w-screen my-2">
                 <div class="warning" v-if="plan.updating">Der Plan wird (angeblich) aktualisiert</div>
             </div>
-            <div class="select" id="vplan-day">
+            <div class="select" id="vplan-day" v-if="plan.days.length">
                 <div
                     v-for="(day, index) of plan.days"
                     :id="index.toString()"
@@ -53,7 +53,7 @@
                     <span class="news-icon !inline-grid ml-1.5" v-if="day.vertretungen.length">{{ day.vertretungen.length }}</span>
                 </div>
             </div>
-            <div id="table-wrapper" class="grid justify-center overflow-auto pb-2" v-if="selectedDay">
+            <div id="table-wrapper" class="grid justify-center overflow-auto pb-2" v-if="selectedDay && plan.days.length">
                 <p v-if="!selectedDay.vertretungen.length">Keine Vertretungen 😭</p>
                 <table class="w-[95vw]" v-else>
                     <thead>
@@ -85,6 +85,7 @@
                     </div>
                 </div>
             </div>
+            <p v-else>Keine Tage verfügbar</p>
         </main>
     </div>
 </template>
@@ -106,6 +107,7 @@ export default defineComponent({
     },
     computed: {
         selectedDay() {
+            if (!this.plan.days.length) return null;
             return this.plan.days[this.selected];
         },
         lastUpdated() {

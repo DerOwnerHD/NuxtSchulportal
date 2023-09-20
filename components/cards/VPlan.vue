@@ -8,6 +8,7 @@
                 <div class="spinner" style="--size: 2rem" v-else></div>
             </div>
             <div class="flex rounded-[inherit] py-2 px-1 justify-center" v-else>
+                <p v-if="!plan.days.length">Keine Tage verfügbar</p>
                 <div v-for="(day, index) of plan.days">
                     <header>
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
