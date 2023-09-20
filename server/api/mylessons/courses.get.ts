@@ -8,7 +8,7 @@ const schema = {
     query: {
         token: { required: true, pattern: patterns.SID },
         session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
-        key: { required: true, pattern: patterns.AES_PASSWORD }
+        key: { required: false, pattern: patterns.AES_PASSWORD }
     }
 };
 
@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    const query = getQuery(event);
+    const query = getQuery<{ token: string; session: string; key?: string }>(event);
     const valid = validateQuery(query, schema.query);
     if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${token?.toString()}; SPH-Session=${session?.toString()}`,
+                Cookie: `sid=${token}; SPH-Session=${session}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",
@@ -75,20 +75,50 @@ export default defineEventHandler(async (event) => {
         });
 
         document.querySelectorAll("#anwesend[role=tabpanel] table.table tbody tr").forEach((course) => {
+            if (!key) return;
             const link = course.querySelector("td:first-child a")?.getAttribute("href");
             if (!link) return;
 
-            const id = link.match(/(?:meinunterricht.php\?a=sus_view&id=)(\d+)/i)?.at(1);
+            const courseId = link.match(/(?:meinunterricht.php\?a=sus_view&id=)(\d+)/i)?.at(1);
+
             const attendance = course.querySelector("td:last-child encoded")?.innerHTML;
-            if (!id || !attendance) return;
+            if (!courseId || !attendance) return;
+
+            const courseIndex = courses.findIndex((x) => x.id === parseInt(courseId));
+            if (courseIndex === -1) return;
 
             const decoded = cryptoJS.AES.decrypt(attendance, key?.toString() || "");
             const string = removeBreaks(Buffer.from(decoded.toString(), "hex").toString());
 
             const counter = parseInt(string.replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>/, "").trim());
 
-            const courseIndex = courses.findIndex((x) => x.id === parseInt(id));
             courses[courseIndex] = { ...courses[courseIndex], attendance: counter };
+        });
+
+        document.querySelectorAll("#aktuell[role=tabpanel] #aktuellTable tbody tr").forEach((course) => {
+            const courseId = parseInt(course.getAttribute("data-book") || "0");
+            const courseIndex = courses.findIndex((x) => x.id === courseId);
+
+            if (courseIndex === -1) return;
+
+            // That cell is used for all information, it is thus easier to just
+            // store it here instead of querying for it for literally everything
+            const cell = course.querySelector("td:nth-child(2)");
+            if (cell === null) return;
+
+            const topic = cell.querySelector(".thema")?.innerHTML || null;
+            // If we take the German date, we would get something like 31.12.2000 (dd.mm.yyyy), which
+            // wouldn't get parsed correctly by the Date constructor, so we convert it to yyyy-mm-dd
+            const date = cell.querySelector("span.datum")?.innerHTML.split(".").reverse().join("-") || null;
+            const hasHomework = cell.querySelector(".homework") !== null;
+            // That is the class of the container of the "als erledigt markieren" button
+            const homeworkDone = cell.querySelector(".undone") === null;
+            const homework = cell.querySelector(".realHomework")?.innerHTML || null;
+
+            courses[courseIndex] = {
+                ...courses[courseIndex],
+                last_lesson: { topic, date, homework: hasHomework ? { done: homeworkDone, description: homework } : null }
+            };
         });
 
         return { error: false, courses, expired };

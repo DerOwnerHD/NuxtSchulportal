@@ -6,4 +6,14 @@ export interface MyLessonsCourse {
     };
     id: number;
     attendance?: number;
+    last_lesson?: MyLessonsLesson;
+}
+
+export interface MyLessonsLesson {
+    topic: string | null;
+    date: string | null;
+    homework: {
+        done: boolean;
+        description: string | null;
+    } | null;
 }
