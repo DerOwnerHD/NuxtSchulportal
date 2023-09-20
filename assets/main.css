@@ -94,7 +94,7 @@ h1 {
     @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""] w-[inherit];
     background: var(--gradient);
 }
-.gradient-border > div {
+.gradient-border > * {
     background: linear-gradient(to bottom, #212121, #080808);
     border-radius: inherit;
 }

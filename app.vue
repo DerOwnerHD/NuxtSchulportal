@@ -95,6 +95,7 @@ export default defineComponent({
 
         this.loadSplan();
         this.loadVplan();
+        this.loadMyLessons();
 
         const moodleLoggedIn = await this.moodleLogin();
         if (!moodleLoggedIn) return;
@@ -121,6 +122,8 @@ export default defineComponent({
             console.log("Login: " + login);
             if (!login) return;
             tokenValid.value = true;
+
+            await this.loadAESKey();
 
             await useWait(1000);
             useInfoDialog().value = { ...INFO_DIALOGS.LOGIN, details: `Token: ${useToken().value}` };
@@ -161,6 +164,17 @@ export default defineComponent({
             const courses = await useMoodleCourses();
             if (typeof courses === "string") return (useAppErrors().value["moodle-courses"] = courses);
             useState("moodle-courses", () => courses);
+        },
+        async loadAESKey() {
+            const key = await useAESKey();
+            if (key === null) return;
+            useState("aes-key", () => key);
+            useLocalStorage("aes-key", key);
+        },
+        async loadMyLessons() {
+            const courses = await useMyLessons();
+            if (typeof courses === "string") return (useAppErrors().value.mylessons = courses);
+            useState("mylessons", () => courses);
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
@@ -218,6 +232,7 @@ export default defineComponent({
             useCookie("token").value = null;
             useCookie("session").value = null;
             useCookie("moodle-credentials").value = null;
+            useLocalStorage("aes-key", null);
 
             await useWait(1);
 

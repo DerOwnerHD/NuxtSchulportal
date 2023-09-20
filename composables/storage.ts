@@ -4,7 +4,7 @@
  * @param value The value or null to delete the value
  * @returns The value in the localStorage for that key
  */
-export const useLocalStorage = (key: string, value?: string): void | string | null => {
+export const useLocalStorage = (key: string, value?: string | null): void | string | null => {
     if (!("localStorage" in window)) return;
 
     if (value === undefined) return window.localStorage.getItem(key);

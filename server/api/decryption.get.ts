@@ -84,10 +84,9 @@ export default defineEventHandler(async (event) => {
         // there has to be something wrong with it all
         if (decryptedB64 !== password.toString()) return setErrorResponse(res, 401, "Keys do not match");
 
-        // If we just automatically url encode it, the client will have
-        // an easier time sending it to the server as forgetting that would
-        // eliminate + and = from the b64 string, which are pretty essential
-        return { error: false, key: encodeURIComponent(decryptedB64) };
+        // No need to encode it, the client does that automatically when
+        // using the useFetch composable and the query property there
+        return { error: false, key: decryptedB64 };
     } catch (error) {
         console.error(error);
         return setErrorResponse(res, 500);
