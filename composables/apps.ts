@@ -28,11 +28,8 @@ export interface Vertretung {
     note: string | null;
 }
 
-interface VertretungenResponse {
+interface VertretungenResponse extends Vertretungsplan {
     error: boolean;
-    days: VertretungsDay[];
-    last_updated: string | null;
-    updating: boolean;
 }
 
 interface MoodleConversationsResponse {

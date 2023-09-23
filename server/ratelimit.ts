@@ -4,13 +4,13 @@ const wait = (ms: number): Promise<void> => {
 
 const rateLimits: RouteRateLimit[] = [
     {
-        route: "/api/login",
+        route: "/api/login.post",
         interval: 15 * 1000,
         allowedPerInterval: 3,
         clients: []
     },
     {
-        route: "/api/check",
+        route: "/api/check.get",
         interval: 5 * 1000,
         allowedPerInterval: 2,
         clients: []
@@ -28,7 +28,7 @@ const rateLimits: RouteRateLimit[] = [
         clients: []
     },
     {
-        route: "/api/moodle/login",
+        route: "/api/moodle/login.post",
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
@@ -64,13 +64,13 @@ const rateLimits: RouteRateLimit[] = [
         clients: []
     },
     {
-        route: "/api/stundenplan",
+        route: "/api/stundenplan.get",
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
     },
     {
-        route: "/api/vertretungen",
+        route: "/api/vertretungen.get",
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
@@ -83,6 +83,12 @@ const rateLimits: RouteRateLimit[] = [
     },
     {
         route: "/api/notifications.post",
+        interval: 20 * 1000,
+        allowedPerInterval: 1,
+        clients: []
+    },
+    {
+        route: "/api/notifications.delete",
         interval: 20 * 1000,
         allowedPerInterval: 1,
         clients: []
@@ -131,9 +137,11 @@ interface RateLimitClient {
  * If there is no rate limit for this route, it is always allowed.
  * @param route The API route to check for like /api/login
  * @param address The IP address (IPv4 or IPv6 of the client)
+ * @param key The Rate Limit bypass key
  * @returns Whether the request can pass or is denied (May also be forbidden if no IP is given)
  */
-export const handleRateLimit = (route: string, address?: string): RateLimitAcceptance => {
+export const handleRateLimit = (route: string, address?: string, key?: string | string[]): RateLimitAcceptance => {
+    if (useRuntimeConfig().rateLimitBypass === (Array.isArray(key) ? key.join("") : key)) return RateLimitAcceptance.Allowed;
     if (!address) return RateLimitAcceptance.Forbidden;
 
     const routeIndex = rateLimits.findIndex((x) => x.route === route);

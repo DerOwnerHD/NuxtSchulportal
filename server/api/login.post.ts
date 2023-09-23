@@ -14,8 +14,6 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.method !== "POST") return setErrorResponse(res, 405);
-
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
     const body = await readBody(event);
@@ -24,7 +22,7 @@ export default defineEventHandler(async (event) => {
     // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!valid || !patterns.USERNAME.test(body.username)) return setErrorResponse(res, 400, schema);
 
-    const rateLimit = handleRateLimit("/api/login", address);
+    const rateLimit = handleRateLimit("/api/login.post", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const { username, password, school, autologin } = body;

@@ -19,6 +19,8 @@
                 </div>
                 <div v-else-if="!registration">
                     <p>Du hast noch keine<br />Benachrichtigungen registriert</p>
+                    <small><span header-alike>Info: </span>Autologin-Token serverseitig gespeichert</small>
+                    <br />
                     <button class="button-with-symbol" @click="register">
                         <div v-if="!awaitingDecision">
                             <font-awesome-icon :icon="['fas', 'arrow-right']"></font-awesome-icon>
@@ -47,7 +49,7 @@
             </div>
             <pre
                 v-if="showEndpoint"
-                class="bg-black text-left rounded-md h-10 w-[80%] mx-[10%] mt-2 overflow-scroll px-2"
+                class="bg-black text-left rounded-md h-24 w-[80%] mx-[10%] mt-2 overflow-scroll px-2"
                 v-html="syntaxHighlight(subscription)"></pre>
         </div>
     </dialog>
@@ -106,25 +108,42 @@ export default defineComponent({
                 await useWait(1000);
                 const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
-                    applicationServerKey: "BNl0RNQwHriSgY-lij0VR0zod5itizA8NiQx4KxRwX070zJncm3PoKGuB0-0w0zDCoN4ZxSuPZall-t0wb4eAQI"
+                    applicationServerKey: useRuntimeConfig().public.vapidPublicKey
                 });
+                const { data: autologin, error: autologinError } = await useFetch("/api/login", {
+                    method: "POST",
+                    body: {
+                        ...useCredentials<Credentials>().value,
+                        autologin: true
+                    }
+                });
+                if (autologinError.value !== null) throw autologinError.value.data.error_details || "Serverfehler";
                 const { data, error } = await useFetch("/api/notifications", {
                     method: "POST",
                     body: {
                         endpoint: subscription.endpoint,
-                        ...subscription.toJSON().keys
+                        ...subscription.toJSON().keys,
+                        autologin: autologin.value.autologin
                     }
                 });
-                if (error.value !== null) throw new TypeError(error.value.status?.toString() || "Serverfehler");
-                this.processing = false;
+                if (error.value !== null) throw error.value.data?.error_details || "Serverfehler";
             } catch (error: any) {
                 console.error(error);
                 this.error = error;
                 (await navigator.serviceWorker.getRegistration())?.unregister();
             }
+            this.processing = false;
         },
         async unregister() {
             if (!this.registration) return;
+            const { data, error } = await useFetch("/api/notifications", {
+                method: "DELETE",
+                body: {
+                    endpoint: this.subscription?.endpoint,
+                    ...this.subscription?.toJSON().keys
+                }
+            });
+            if (error.value !== null) return (this.error = error.value.data?.error_details || "Serverfehler");
             await this.registration.unregister();
             location.reload();
         }
@@ -148,7 +167,7 @@ dialog {
     background: linear-gradient(315deg, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
     > div {
         width: calc(80vw - 6px);
-        height: calc(10rem - 6px);
+        height: calc(16rem - 6px);
         background: linear-gradient(to bottom, #212121, #080808);
         margin: 3px;
     }

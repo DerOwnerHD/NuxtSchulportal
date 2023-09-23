@@ -38,7 +38,7 @@ export const patterns = {
     EMBEDDED_TOKEN: /(?:<input type="hidden" name="token" value=")([a-f0-9]{64})(?:"(?: \/)?>)/i,
     SPH_LOGIN_KEY: /^https:\/\/start.schulportal.hessen.de\/schulportallogin.php?k=[a-f0-9]{96}$/,
     SID: /^[a-z0-9]{26}$/,
-    NOTIFICATION_ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/(\w|\d){11}:[a-z0-9-_]+$/i,
+    NOTIFICATION_ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/[a-z0-9-_]{11}:[a-z0-9-_]+$/i,
     NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/
@@ -105,6 +105,11 @@ export const validateBody = (
 ): boolean => {
     // CRUCIAL: The user may just pass the header but no actual body
     if (!body) return false;
+    const keys = Object.keys(body);
+    const allowedKeys = Object.keys(schema);
+    for (const key of keys) {
+        if (!allowedKeys.includes(key)) return false;
+    }
     for (const key in schema) {
         if (!key.length) continue;
         const object = schema[key];

@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!valid || !patterns.HEX_CODE.test(body.session)) return setErrorResponse(res, 400, schema);
 
-    const rateLimit = handleRateLimit("/api/moodle/login", address);
+    const rateLimit = handleRateLimit("/api/moodle/login.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const { session, school } = body;

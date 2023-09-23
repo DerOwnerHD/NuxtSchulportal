@@ -19,7 +19,7 @@ export default defineEventHandler(async (event) => {
     const valid = validateBody(body, schema.body);
     if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
-    const rateLimit = handleRateLimit("/api/autologin.post", address);
+    const rateLimit = handleRateLimit("/api/autologin.post", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const { autologin } = body;

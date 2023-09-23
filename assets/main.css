@@ -189,3 +189,33 @@ dialog::backdrop {
     background: #4d565f;
     @apply rounded-full ml-2 h-5 min-w-[1.25rem] text-center px-1 text-sm;
 }
+pre,
+code {
+    font-family: monospace;
+    span {
+        font-family: inherit;
+    }
+    color: #abb2bf;
+    .string {
+        color: #7ac379;
+    }
+    .number {
+        color: #d19a66;
+    }
+    .boolean {
+        color: #61afef;
+    }
+    .null {
+        color: #c678dd;
+    }
+    .key {
+        color: #e06c75;
+    }
+}
+#main-content {
+    height: calc(100vh - 4rem);
+    overflow-y: visible;
+}
+#api-error {
+    z-index: 10;
+}

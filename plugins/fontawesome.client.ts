@@ -32,7 +32,8 @@ import {
     faAddressBook,
     faArrowRight,
     faTrash,
-    faBell
+    faBell,
+    faLock
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -73,7 +74,8 @@ library.add(
     faAddressBook,
     faArrowRight,
     faTrash,
-    faBell
+    faBell,
+    faLock
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

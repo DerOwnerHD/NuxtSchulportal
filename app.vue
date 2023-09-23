@@ -1,7 +1,6 @@
 <template>
     <div>
-        <button class="absolute bg-white z-10 top-0 opacity-0" onclick="location.reload()">Neu laden</button>
-        <button class="absolute bg-white z-10 top-0 right-0 opacity-0" @click="useCredentials<any>().value = null">Neu laden</button>
+        <SecretButton></SecretButton>
         <div id="background" class="fixed">
             <div id="overlay" :style="getSchoolBG()"></div>
         </div>
@@ -9,7 +8,7 @@
             <span class="text-3xl">Schulportal</span>
             <span class="mt-[-0.75rem] ml-0.5">HESSEN</span>
         </header>
-        <div v-if="criticalAPIError !== null" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
+        <div v-if="criticalAPIError !== null" id="api-error" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
             <div id="api-error-display" class="basic-card px-4 overflow-y-scroll">
                 <h1>Fehler beim Laden</h1>
                 <p>{{ criticalAPIError.message }}</p>
@@ -252,6 +251,7 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
+import SecretButton from "./components/utils/SecretButton.vue";
 import { MoodleConversation } from "./composables/apps";
 
 interface SheetStates {
@@ -318,42 +318,7 @@ useHead({
         {
             rel: "stylesheet",
             href: "https://fonts.googleapis.com/css2?family=Bricolage%20Grotesque"
-        },
-        {
-            rel: "preload",
-            href: "font/regular.otf",
-            as: "font"
         }
     ]
 });
 </script>
-
-<style>
-pre,
-code {
-    font-family: monospace;
-    span {
-        font-family: inherit;
-    }
-    color: #abb2bf;
-    .string {
-        color: #7ac379;
-    }
-    .number {
-        color: #d19a66;
-    }
-    .boolean {
-        color: #61afef;
-    }
-    .null {
-        color: #c678dd;
-    }
-    .key {
-        color: #e06c75;
-    }
-}
-#main-content {
-    height: calc(100vh - 4rem);
-    overflow-y: visible;
-}
-</style>
