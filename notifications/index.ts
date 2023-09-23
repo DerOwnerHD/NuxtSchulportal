@@ -235,9 +235,9 @@ async function connect() {
                     console.log(consoleTime() + `❌ Loading vplan failed for user ${i}`);
                 }
             },
-            30000 / (subscriptions.length + 1)
+            60000 / (subscriptions.length + 1)
         );
-    }, 30000);
+    }, 60000);
 
     if (os.platform() === "win32") return;
     setInterval(async () => await fetch(DATABASE_SHARD).catch(() => spawn("kill", ["1"])), 60000);

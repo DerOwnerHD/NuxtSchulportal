@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
     try {
         const { url, key } = useRuntimeConfig().notificationApi;
-        if (!(url || key)) return setErrorResponse(res, 500);
+        if (!(url || key)) return setErrorResponse(res, 503);
 
         const response = await fetch(url, {
             method: "POST",
