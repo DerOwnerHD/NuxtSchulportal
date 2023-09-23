@@ -12,6 +12,7 @@ export interface MyLessonsCourse {
 export interface MyLessonsLesson {
     topic: string | null;
     date: string | null;
+    index: number | null;
     homework: {
         done: boolean;
         description: string | null;

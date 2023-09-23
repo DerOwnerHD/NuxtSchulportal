@@ -99,6 +99,7 @@ export default defineEventHandler(async (event) => {
             const courseId = parseInt(course.getAttribute("data-book") || "0");
             const courseIndex = courses.findIndex((x) => x.id === courseId);
 
+            const lesson = parseInt(course.getAttribute("data-entry") || "") || null;
             if (courseIndex === -1) return;
 
             // That cell is used for all information, it is thus easier to just
@@ -117,7 +118,7 @@ export default defineEventHandler(async (event) => {
 
             courses[courseIndex] = {
                 ...courses[courseIndex],
-                last_lesson: { topic, date, homework: hasHomework ? { done: homeworkDone, description: homework } : null }
+                last_lesson: { topic, date, index: lesson, homework: hasHomework ? { done: homeworkDone, description: homework } : null }
             };
         });
 

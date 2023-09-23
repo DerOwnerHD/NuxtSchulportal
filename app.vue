@@ -175,6 +175,10 @@ export default defineComponent({
             const courses = await useMyLessons();
             if (typeof courses === "string") return (useAppErrors().value.mylessons = courses);
             useState("mylessons", () => courses);
+            useAppNews().value.lessons = courses.courses.reduce(
+                (acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0),
+                0
+            );
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

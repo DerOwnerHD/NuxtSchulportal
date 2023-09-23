@@ -21,7 +21,7 @@
             </button>
         </header>
         <CardsMoodle v-if="type === 'moodle'" :extended="cardsOpen.includes('moodle')"></CardsMoodle>
-        <CardsLessons v-if="type === 'lessons'"></CardsLessons>
+        <CardsLessons v-if="type === 'lessons'" :extended="cardsOpen.includes('lessons')"></CardsLessons>
         <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
         <CardsSPlan v-if="type === 'splan'" :extended="cardsOpen.includes('splan')"></CardsSPlan>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>

@@ -103,10 +103,13 @@ export const validateBody = (
         };
     }
 ): boolean => {
+    // CRUCIAL: The user may just pass the header but no actual body
+    if (!body) return false;
     for (const key in schema) {
         if (!key.length) continue;
         const object = schema[key];
         const value = body[key];
+        if (!value && object.required) return false;
         if (["number", "string"].includes(object.type) && value != undefined && typeof value === object.type) {
             if ((object.type === "number" && !Number.isInteger(value)) || (object.type === "string" && value === "")) return false;
             // Our accessor is either length for a string or just the value for a number

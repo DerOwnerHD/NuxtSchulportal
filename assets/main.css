@@ -53,7 +53,8 @@ p,
 small {
     color: white;
 }
-h1 {
+h1,
+*[header-alike] {
     font-family: "Bricolage Grotesque";
     font-weight: bold;
     color: white;
@@ -183,4 +184,8 @@ h1 {
 }
 dialog::backdrop {
     background: #00000090;
+}
+.course-counter {
+    background: #4d565f;
+    @apply rounded-full ml-2 h-5 min-w-[1.25rem] text-center px-1 text-sm;
 }

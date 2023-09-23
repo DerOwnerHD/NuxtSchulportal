@@ -86,6 +86,24 @@ const rateLimits: RouteRateLimit[] = [
         interval: 20 * 1000,
         allowedPerInterval: 1,
         clients: []
+    },
+    {
+        route: "/api/decryption.get",
+        interval: 20 * 1000,
+        allowedPerInterval: 1,
+        clients: []
+    },
+    {
+        route: "/api/mylessons/courses.get",
+        interval: 15 * 1000,
+        allowedPerInterval: 3,
+        clients: []
+    },
+    {
+        route: "/api/mylessons/homework.post",
+        interval: 10 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 

@@ -3,7 +3,10 @@
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
             <div class="px-5 py-2">
                 <div id="courses">
-                    <h1>Deine Kurse</h1>
+                    <div class="flex">
+                        <h1>Deine Kurse</h1>
+                        <span class="course-counter" v-if="courses && Array.isArray(courses)">{{ courses.length }}</span>
+                    </div>
                     <div class="grid place-content-center py-2" v-if="appErrors['moodle-courses'] != null">
                         <div class="error">
                             <span>{{ appErrors["moodle-courses"] }}</span>
@@ -23,7 +26,7 @@
                         </article>
                     </div>
                 </div>
-                <div id="events" class="mt-4 pt-2">
+                <div id="events">
                     <h1>Anstehende Abgaben</h1>
                     <div class="grid place-content-center py-2" v-if="appErrors['moodle-events'] != null">
                         <div class="error">
@@ -104,8 +107,8 @@ export default defineComponent({
             if (!Array.isArray(this.courses) || !this.courses.length) return;
             const courses = document.querySelectorAll("article[card=moodle] #courses article");
             const events = document.querySelectorAll("article[card=moodle] #events li");
-            if (["all", "events".includes(type)]) events.forEach(fadeInElement);
-            if (["all", "courses".includes(type)]) courses.forEach(fadeInElement);
+            if (["all", "events"].includes(type)) events.forEach(fadeInElement);
+            if (["all", "courses"].includes(type)) courses.forEach(fadeInElement);
         }
     },
     watch: {
@@ -153,6 +156,7 @@ export default defineComponent({
     }
 }
 #events {
+    @apply mt-4 pt-2;
     ul {
         @apply mt-2;
     }
@@ -177,6 +181,6 @@ export default defineComponent({
         @apply scale-95;
     }
     border-top: solid 1px;
-    border-image: linear-gradient(to left, #00000000 0%, #ffffff 50%, #00000000 100%) 1;
+    border-image: linear-gradient(to left, transparent 0%, #ffffff 50%, transparent 100%) 1;
 }
 </style>
