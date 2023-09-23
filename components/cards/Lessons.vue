@@ -11,9 +11,15 @@
                         <div class="error" v-if="appErrors.mylessons">
                             <span>{{ appErrors.mylessons }}</span>
                         </div>
-                        <ul class="placeholder" v-else>
-                            <li v-for="n in 4"></li>
-                        </ul>
+                        <div class="flex placeholder pl-3 mb-[-1rem]" v-else>
+                            <article excluded v-for="n in 4">
+                                <div class="flex justify-center" excluded>
+                                    <small rounded></small>
+                                </div>
+                                <small></small>
+                                <small></small>
+                            </article>
+                        </div>
                     </div>
                     <p v-else-if="!courses.courses.length" class="text-center py-1">Keine Kurse</p>
                     <div class="flex overflow-x-scroll" v-else>
@@ -105,7 +111,6 @@ export default defineComponent({
     },
     computed: {
         coursesSortedByHomework() {
-
             if (!this.courses || !this.courses.courses) return null;
             return this.courses.courses.sort((a, b) => {
 
@@ -123,7 +128,6 @@ export default defineComponent({
                 return 0;
 
             });
-
         },
         selectedCourse() {
             if (!this.coursesSortedByHomework) return null;
@@ -203,9 +207,12 @@ export default defineComponent({
     display: none;
 }
 #courses {
-    article.placeholder {
+    .placeholder > article {
         small {
             @apply w-full h-3 rounded-full;
+        }
+        small[rounded] {
+            @apply rounded-full w-3;
         }
     }
     article {

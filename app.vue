@@ -167,13 +167,13 @@ export default defineComponent({
         },
         async loadAESKey() {
             const key = await useAESKey();
-            if (key === null) return;
+            if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
             useState("aes-key", () => key);
             useLocalStorage("aes-key", key);
         },
         async loadMyLessons() {
             const courses = await useMyLessons();
-            if (typeof courses === "string") return (useAppErrors().value.mylessons = courses);
+            if (typeof courses === "string" || !courses.courses) return (useAppErrors().value.mylessons = courses.toString());
             useState("mylessons", () => courses);
             useAppNews().value.lessons = courses.courses.reduce(
                 (acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0),
@@ -318,6 +318,11 @@ useHead({
         {
             rel: "stylesheet",
             href: "https://fonts.googleapis.com/css2?family=Bricolage%20Grotesque"
+        },
+        {
+            rel: "preload",
+            href: "font/regular.otf",
+            as: "font"
         }
     ]
 });
