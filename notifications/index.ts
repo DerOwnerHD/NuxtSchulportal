@@ -57,7 +57,6 @@ if (!PUBLIC_KEY || !PRIVATE_KEY) throw new ReferenceError("VAPID keys not set");
 webpush.setVapidDetails("mailto:admin@example.com", PUBLIC_KEY, PRIVATE_KEY);
 
 const patterns = {
-    ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/[a-z0-9-_]{11}:[a-z0-9-_]+$/i,
     AUTH: /^[a-z0-9_-]{22}$/i,
     P256DH: /^B[a-z0-9_-]+$/i,
     AUTOLOGIN: /^[a-f0-9]{64}$/
@@ -65,6 +64,7 @@ const patterns = {
 
 app.post("/", async (req, res) => {
     if (!checkKey(req) || !connected) return res.status(401).send({ error: true });
+    if (!connected) return res.status(503).send({ error: true });
     if (!testPatterns(req, true)) return res.status(400).send({ error: true });
     try {
         const result = await webpush.sendNotification(
@@ -87,7 +87,8 @@ app.post("/", async (req, res) => {
 });
 
 app.delete("/", async (req, res) => {
-    if (!checkKey(req) || !connected) return res.status(401).send({ error: true });
+    if (!checkKey(req)) return res.status(401).send({ error: true });
+    if (!connected) return res.status(503).send({ error: true });
     if (!testPatterns(req, false)) return res.status(400).send({ error: true });
     const deleted = await Notification.findOneAndDelete({ ...req.body });
     if (!deleted) return res.status(404).send({ error: true });
@@ -95,15 +96,34 @@ app.delete("/", async (req, res) => {
     res.send({ error: false });
 });
 
+const knownSubscriptionServices = [
+    "android.googleapis.com",
+    "fcm.googleapis.com",
+    "updates.push.services.mozilla.com",
+    "updates-autopush.stage.mozaws.net",
+    "updates-autopush.dev.mozaws.net",
+    ".*\\.notify.windows.com",
+    ".*\\.push.apple.com"
+].map((service) => new RegExp(`^${service.replace("*", ".*")}$`, "i"));
+
+const isSubscriptionService = (host: string) => knownSubscriptionServices.some((pattern) => pattern.test(host));
+
 const checkKey = (req: Request) => req.headers.authorization === process.env.KEY;
 
 const testPatterns = (req: Request, testForAutologin: boolean) => {
     if (!req.body) return false;
     const { endpoint, p256dh, auth, autologin, user } = req.body;
     if (!endpoint || !p256dh || !auth) return false;
+    try {
+        const url = new URL(endpoint);
+        if (!isSubscriptionService(url.host)) return false;
+    } catch (error) {
+        return false;
+    }
     if (user && typeof user !== "string") return false;
-    if (!testForAutologin) return patterns.ENDPOINT.test(endpoint) && patterns.P256DH.test(p256dh) && patterns.AUTH.test(auth);
-    return patterns.ENDPOINT.test(endpoint) && patterns.P256DH.test(p256dh) && patterns.AUTH.test(auth) && patterns.AUTOLOGIN.test(autologin);
+    const authValid = patterns.P256DH.test(p256dh) && patterns.AUTH.test(auth);
+    if (!authValid && !testForAutologin) return false;
+    return authValid && patterns.AUTOLOGIN.test(autologin);
 };
 
 app.all("/", (req, res) => {
@@ -248,7 +268,16 @@ async function connect() {
     }, 60000);
 
     if (os.platform() === "win32") return;
-    setInterval(async () => await fetch(DATABASE_SHARD).catch(() => spawn("kill", ["1"])), 60000);
+    setInterval(
+        async () =>
+            await fetch(DATABASE_SHARD).catch((error) => {
+                // We expect this request to time out, but not to do anything else
+                if (error.cause?.code === "UND_ERR_CONNECT_TIMEOUT") return;
+                console.log(consoleTime() + "Killing process");
+                spawn("kill", ["1"]);
+            }),
+        60000
+    );
 }
 
 const consoleTime = () => {

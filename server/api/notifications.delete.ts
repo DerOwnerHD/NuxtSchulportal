@@ -1,9 +1,9 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { patterns, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
+import { isSubscriptionService, patterns, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
 
 const schema = {
     body: {
-        endpoint: { required: true, type: "string", pattern: patterns.NOTIFICATION_ENDPOINT },
+        endpoint: { required: true, type: "string" },
         auth: { required: true, type: "string", pattern: patterns.NOTIFICATION_AUTH },
         p256dh: { required: true, type: "string", pattern: patterns.NOTIFICATION_P256DH }
     }
@@ -22,6 +22,13 @@ export default defineEventHandler(async (event) => {
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const config = useRuntimeConfig();
+
+    try {
+        const url = new URL(body.endpoint);
+        if (!isSubscriptionService(url.host)) return setErrorResponse(res, 400, "No valid subscription service");
+    } catch (error) {
+        return setErrorResponse(res, 400, "Invalid endpoint URL");
+    }
 
     try {
         const { url, key } = config.private.notificationApi;

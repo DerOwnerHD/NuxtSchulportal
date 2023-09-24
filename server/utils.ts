@@ -38,11 +38,22 @@ export const patterns = {
     EMBEDDED_TOKEN: /(?:<input type="hidden" name="token" value=")([a-f0-9]{64})(?:"(?: \/)?>)/i,
     SPH_LOGIN_KEY: /^https:\/\/start.schulportal.hessen.de\/schulportallogin.php?k=[a-f0-9]{96}$/,
     SID: /^[a-z0-9]{26}$/,
-    NOTIFICATION_ENDPOINT: /^https:\/\/fcm\.googleapis\.com\/fcm\/send\/[a-z0-9-_]{11}:[a-z0-9-_]+$/i,
     NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/
 };
+
+export const knownSubscriptionServices = [
+    "android.googleapis.com",
+    "fcm.googleapis.com",
+    "updates.push.services.mozilla.com",
+    "updates-autopush.stage.mozaws.net",
+    "updates-autopush.dev.mozaws.net",
+    ".*\\.notify.windows.com",
+    ".*\\.push.apple.com"
+].map((service) => new RegExp(`^${service.replace("*", ".*")}$`, "i"));
+
+export const isSubscriptionService = (host: string) => knownSubscriptionServices.some((pattern) => pattern.test(host));
 
 export const validateQuery = (
     query: any,
