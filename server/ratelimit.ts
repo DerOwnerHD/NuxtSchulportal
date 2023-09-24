@@ -141,7 +141,7 @@ interface RateLimitClient {
  * @returns Whether the request can pass or is denied (May also be forbidden if no IP is given)
  */
 export const handleRateLimit = (route: string, address?: string, key?: string | string[]): RateLimitAcceptance => {
-    if (useRuntimeConfig().rateLimitBypass === (Array.isArray(key) ? key.join("") : key)) return RateLimitAcceptance.Allowed;
+    if (useRuntimeConfig().private.rateLimitBypass === (Array.isArray(key) ? key.join("") : key)) return RateLimitAcceptance.Allowed;
     if (!address) return RateLimitAcceptance.Forbidden;
 
     const routeIndex = rateLimits.findIndex((x) => x.route === route);

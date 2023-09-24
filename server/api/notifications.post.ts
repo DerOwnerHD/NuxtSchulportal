@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
-        const { url, key } = useRuntimeConfig().notificationApi;
+        const { url, key } = useRuntimeConfig().private.notificationApi;
         if (!(url || key)) return setErrorResponse(res, 503);
 
         const response = await fetch(url, {

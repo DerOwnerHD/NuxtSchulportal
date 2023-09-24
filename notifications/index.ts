@@ -2,7 +2,7 @@ import express, { Request } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import { spawn } from "child_process";
-import webpush from "web-push";
+import webpush, { WebPushError } from "web-push";
 import os from "os";
 dotenv.config();
 const app = express();
@@ -81,6 +81,7 @@ app.post("/", async (req, res) => {
     } catch (error) {
         return res.status(410).send({ error: true });
     }
+    console.log(consoleTime() + "💾 Added subscription");
     await new Notification({ ...req.body, token: null }).save();
     res.send({ error: false });
 });
@@ -90,6 +91,7 @@ app.delete("/", async (req, res) => {
     if (!testPatterns(req, false)) return res.status(400).send({ error: true });
     const deleted = await Notification.findOneAndDelete({ ...req.body });
     if (!deleted) return res.status(404).send({ error: true });
+    console.log(consoleTime() + "📀 Deleted subscription");
     res.send({ error: false });
 });
 
@@ -108,7 +110,7 @@ app.all("/", (req, res) => {
     res.status(405).send({ error: true });
 });
 
-app.listen(process.env.PORT, () => console.log(consoleTime() + `Listening on :${process.env.PORT}`));
+app.listen(process.env.PORT, () => console.log(consoleTime() + `🌐 Listening on :${process.env.PORT}`));
 
 let connected = false;
 async function connect() {
@@ -219,17 +221,23 @@ async function connect() {
 
                     await subscription.$set("plan", plan).save();
                     if (text == null || text === "") return console.log(consoleTime() + `❌ No new data for user ${i}`);
-                    await webpush.sendNotification(
-                        {
-                            endpoint: endpoint,
-                            keys: {
-                                p256dh: p256dh,
-                                auth: auth
-                            }
-                        },
-                        JSON.stringify({ operation: "vplan", text })
-                    );
-                    console.log(consoleTime() + `✅ New date for user ${i}`);
+                    console.log(consoleTime() + `✅ New data for user ${i}`);
+                    await webpush
+                        .sendNotification(
+                            {
+                                endpoint: endpoint,
+                                keys: {
+                                    p256dh: p256dh,
+                                    auth: auth
+                                }
+                            },
+                            JSON.stringify({ operation: "vplan", text })
+                        )
+                        .catch(async (error: WebPushError) => {
+                            if (error.statusCode !== 410) return;
+                            await subscription.deleteOne();
+                            console.log(consoleTime() + `📀 Removed user ${i} due to invalid endpoint`);
+                        });
                 } catch (error) {
                     console.error(error);
                     console.log(consoleTime() + `❌ Loading vplan failed for user ${i}`);
