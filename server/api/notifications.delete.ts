@@ -21,9 +21,11 @@ export default defineEventHandler(async (event) => {
     const rateLimit = handleRateLimit("/api/notifications.delete", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
+    const config = useRuntimeConfig();
+
     try {
-        const { url, key } = useRuntimeConfig().notificationApi;
-        if (!(url || key)) return setErrorResponse(res, 500);
+        const { url, key } = config.private.notificationApi;
+        if (!(url || key)) return setErrorResponse(res, 503);
 
         const response = await fetch(url, {
             method: "DELETE",

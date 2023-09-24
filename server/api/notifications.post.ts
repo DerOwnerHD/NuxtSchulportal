@@ -22,8 +22,10 @@ export default defineEventHandler(async (event) => {
     const rateLimit = handleRateLimit("/api/notifications.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
+    const config = useRuntimeConfig();
+
     try {
-        const { url, key } = useRuntimeConfig().private.notificationApi;
+        const { url, key } = config.private.notificationApi;
         if (!(url || key)) return setErrorResponse(res, 503);
 
         const response = await fetch(url, {
@@ -34,7 +36,6 @@ export default defineEventHandler(async (event) => {
             },
             body: JSON.stringify(body)
         });
-
         if (response.status !== 200) return setErrorResponse(res, response.status);
         return { error: false };
     } catch (error) {

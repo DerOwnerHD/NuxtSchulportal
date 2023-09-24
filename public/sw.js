@@ -6,5 +6,8 @@ self.addEventListener("push", async (event) => {
     if (data.operation === "vplan")
         self.registration.showNotification("Vertretungsplan", { body: data.text, icon: "https://i.imgur.com/YD9WuC0.png" });
     else if (data.operation === "hello")
-        self.registration.showNotification("Hallöchen da!", { body: "Nur ein kleiner Test um zu gucken ob denn alles funktioniert 🙂" });
+        self.registration.showNotification("Hallöchen da!", {
+            body: "Nur ein kleiner Test um zu gucken ob denn alles funktioniert 🙂",
+            icon: "https://i.imgur.com/YD9WuC0.png"
+        });
 });

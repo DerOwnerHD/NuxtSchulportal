@@ -183,18 +183,18 @@ async function connect() {
                     const oldPlan = subscription.plan as Vertretungsplan;
 
                     const buildDay = (day: VertretungsDay) =>
-                        `${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}\n${
+                        `${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}:\n${
                             day.vertretungen
                                 .map(
                                     ({ lessons, subject, subject_old, substitute, teacher, room, note }) =>
-                                        `● ${lessons.from + "." + (lessons.to ? " - " + lessons.to + "." : "")} Stunde: ${subject ?? "<kein Fach>"}${
-                                            subject_old ? ` (${subject_old})` : ""
+                                        `・ ${lessons.from + "." + (lessons.to ? " - " + lessons.to + "." : "")} Stunde: ${
+                                            subject || subject_old
                                         } bei ${substitute || "<niemand>"}${teacher ? ` (${teacher.replace(/(<(\/)?del>)+/g, "")})` : ""} in Raum ${
-                                            room ?? "<leer>"
+                                            room ?? "-"
                                         }${note ? ` [${note}]` : ""}`
                                 )
                                 .join("\n") || "Keine Vertretungen 😭"
-                        }`;
+                        }\n`;
 
                     const dayHasChanged = (day: VertretungsDay, oldDay: VertretungsDay) =>
                         JSON.stringify(day.vertretungen) !== JSON.stringify(oldDay.vertretungen);

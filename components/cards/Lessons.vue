@@ -23,7 +23,7 @@
                     </div>
                     <p v-else-if="!courses.courses.length" class="text-center py-1">Keine Kurse</p>
                     <div class="flex overflow-x-scroll" v-else>
-                        <article class="opacity-0" v-for="(course, index) of coursesSortedByHomework" @click="selectCourse(index)">
+                        <article class="opacity-0" v-for="course of coursesSortedByHomework" @click="selectCourse(course.id)">
                             <div class="flex justify-center w-full">
                                 <span v-if="course.last_lesson?.homework" class="news-icon justify-self-center" :style="course.last_lesson.homework.done ? 'background: #4ade80;' : ''">HA</span>
                                 <ClientOnly v-else>
@@ -131,13 +131,13 @@ export default defineComponent({
         },
         selectedCourse() {
             if (!this.coursesSortedByHomework) return null;
-            return this.coursesSortedByHomework[this.selected];
+            return this.coursesSortedByHomework.find((x) => x.id === this.selected)
         }
     },
     methods: {
-        selectCourse(index: number) {
-            if (!this.coursesSortedByHomework || index > this.coursesSortedByHomework.length - 1) return;
-            this.selected = index;
+        selectCourse(id: number) {
+            if (!this.coursesSortedByHomework || !this.coursesSortedByHomework.find((x) => x.id === id)) return;
+            this.selected = id;
         },
         async fadeIn() {
             if (!this.extended) return;
@@ -184,9 +184,7 @@ export default defineComponent({
 
             // @ts-expect-error we already have run all the checks
             this.courses.courses[courseIndex].last_lesson.homework.done = action === "done";
-            this.selected = -1;
             await useWait(1);
-            this.selected = this.coursesSortedByHomework?.findIndex((x) => x.id === id) ?? -1;
             useAppNews().value.lessons = this.courses.courses.reduce((acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0), 0);
         }
     },
