@@ -2,7 +2,7 @@
     <div class="relative">
         <div class="flex w-screen items-center justify-center">
             <ClientOnly>
-                <font-awesome-icon class="mr-2" :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
+                <font-awesome-icon class="mr-2" :icon="['fas', 'newspaper']"></font-awesome-icon>
             </ClientOnly>
             <h1>Neuigkeiten</h1>
             <small v-if="plan && dateOfDay" class="ml-1">‎ für den {{ dateOfDay }}</small>

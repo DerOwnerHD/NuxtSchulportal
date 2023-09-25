@@ -18,7 +18,7 @@
             v-if="plan && plan.days && plan.days.length"
             @click="openNewsSheet">
             <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
+                <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
             </ClientOnly>
             <span class="ml-2" v-if="selectedDay">{{ selectedDay.news.length }}</span>
         </button>

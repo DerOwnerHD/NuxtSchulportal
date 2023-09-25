@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { spawn } from "child_process";
 import webpush, { WebPushError } from "web-push";
 import os from "os";
+import { appendFile } from "fs/promises";
 dotenv.config();
 const app = express();
 
@@ -122,13 +123,15 @@ const testPatterns = (req: Request, testForAutologin: boolean) => {
     }
     if (user && typeof user !== "string") return false;
     const authValid = patterns.P256DH.test(p256dh) && patterns.AUTH.test(auth);
-    if (!authValid && !testForAutologin) return false;
+    if (!testForAutologin) return authValid;
     return authValid && patterns.AUTOLOGIN.test(autologin);
 };
 
 app.all("/", (req, res) => {
     res.status(405).send({ error: true });
 });
+
+const daysOfWeek = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 
 app.listen(process.env.PORT, () => console.log(consoleTime() + `🌐 Listening on :${process.env.PORT}`));
 
@@ -150,6 +153,10 @@ async function connect() {
 
     connected = true;
     setInterval(async () => {
+        const now = new Date();
+        // Why we doin' this? Just dont wanna run ping the SPH like a bot <- (it is a bot lol)
+        // at 3am when there is OBVIOUSLY nothing changing about the plan
+        if (now.getUTCHours() > 16 || now.getUTCHours() < 5) return;
         const subscriptions = await Notification.find({});
         console.log(consoleTime() + `👤 Loaded ${subscriptions.length} subscription(s)`);
         if (!subscriptions.length) return;
@@ -219,6 +226,24 @@ async function connect() {
                     const dayHasChanged = (day: VertretungsDay, oldDay: VertretungsDay) =>
                         JSON.stringify(day.vertretungen) !== JSON.stringify(oldDay.vertretungen);
 
+                    // NOTE: There IS a bug, in which the current day just disappears for some
+                    // reason for a short time from the plan, we do not want to do the processing
+                    // in such a circumstance. So we check against our old plan and if the current
+                    // day has disappeard but existed BEFORE we can expect that that bug has occured
+                    // and thus just prevent all this stuff from running (which would otherwise
+                    // trigger two notifications in short distance what we really do not want)
+
+                    // TD;DR: This checks if today was present on last plan but is not on this and
+                    // if that should be true it cancels the whole thing due to this being a bug
+
+                    // calling getDay on the UTC timezone shouldn't be a problem as everything here does
+                    // not run in the critical zone where it may be the next day in UTC time but not in MET
+                    const now = new Date();
+                    if (oldPlan && ![0, 6].includes(now.getDay())) {
+                        const days = [oldPlan, plan].map((plan) => plan.days.find((x) => daysOfWeek.indexOf(x.day_of_week) === now.getDay()));
+                        if (days[0] && !days[1]) return;
+                    }
+
                     // We don't want to save that plan most likely
                     if (!plan.days.length) return;
 
@@ -228,13 +253,10 @@ async function connect() {
                         const daysFoundInOldPlan = plan.days.reduce((acc, day) => (acc += oldPlan.days.find((x) => x.day === day.day) ? 1 : 0), 0);
                         if (daysFoundInOldPlan !== plan.days.length) text = plan.days.map(buildDay).join("\n");
                         else {
-                            const anyDayHasChanged = plan.days.reduce((acc, day) => {
+                            const anyDayHasChanged = plan.days.some((day) => {
                                 const partner = oldPlan.days.find((x) => x.day === day.day);
-                                if (!partner) return true;
-                                if (dayHasChanged(day, partner)) return true;
-
-                                return acc;
-                            }, false);
+                                return !partner || dayHasChanged(day, partner);
+                            });
                             if (anyDayHasChanged) text = plan.days.map(buildDay).join("\n");
                         }
                     }
@@ -270,10 +292,12 @@ async function connect() {
     if (os.platform() === "win32") return;
     setInterval(
         async () =>
-            await fetch(DATABASE_SHARD).catch((error) => {
+            await fetch(DATABASE_SHARD).catch(async (error) => {
                 // We expect this request to time out, but not to do anything else
                 if (error.cause?.code === "UND_ERR_CONNECT_TIMEOUT") return;
                 console.log(consoleTime() + "Killing process");
+                const time = new Date();
+                await appendFile("./crashes.log", `\n[${time.getDate()}.${time.getMonth()}.${time.getFullYear()}] ${consoleTime()}`);
                 spawn("kill", ["1"]);
             }),
         60000

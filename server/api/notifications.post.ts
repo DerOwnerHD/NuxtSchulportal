@@ -3,7 +3,7 @@ import { isSubscriptionService, patterns, setErrorResponse, transformEndpointSch
 
 const schema = {
     body: {
-        endpoint: { required: true, type: "string" },
+        endpoint: { required: true, type: "string", max: 300 },
         auth: { required: true, type: "string", pattern: patterns.NOTIFICATION_AUTH },
         p256dh: { required: true, type: "string", pattern: patterns.NOTIFICATION_P256DH },
         autologin: { required: true, type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN }
