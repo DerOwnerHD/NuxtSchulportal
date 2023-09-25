@@ -4,8 +4,7 @@ self.addEventListener("push", async (event) => {
     if (data === null) return;
 
     if (data.operation === "vplan") {
-        await self.registration
-            .getNotifications()
+        (await self.registration.getNotifications())
             .filter((notification) => notification.title === "Vertretungsplan")
             .forEach((notification) => notification.close());
         self.registration.showNotification("Vertretungsplan", {
