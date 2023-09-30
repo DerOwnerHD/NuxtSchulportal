@@ -152,9 +152,9 @@ h1,
     }
 }
 .error {
-    @apply flex justify-center max-w-[100vw];
+    @apply flex justify-center;
     span {
-        @apply bg-red-500 w-fit px-2 rounded-full shadow-md text-white whitespace-nowrap text-ellipsis overflow-hidden max-w-[100vw];
+        @apply bg-red-500 w-fit px-2 rounded-full shadow-md text-white whitespace-nowrap overflow-x-auto max-w-[70vw] block;
     }
 }
 .news-icon {

@@ -156,7 +156,8 @@ async function connect() {
         const now = new Date();
         // Why we doin' this? Just dont wanna run ping the SPH like a bot <- (it is a bot lol)
         // at 3am when there is OBVIOUSLY nothing changing about the plan
-        if (now.getUTCHours() > 16 || now.getUTCHours() < 5) return;
+        // Also, past a certain time, there is no need to perform this every minute
+        if (now.getUTCHours() > 16 || now.getUTCHours() < 5 || (now.getUTCHours() > 12 && now.getUTCMinutes() % 2 === 0)) return;
         const subscriptions = await Notification.find({});
         console.log(consoleTime() + `👤 Loaded ${subscriptions.length} subscription(s)`);
         if (!subscriptions.length) return;
@@ -214,11 +215,11 @@ async function connect() {
                             day.vertretungen
                                 .map(
                                     ({ lessons, subject, subject_old, substitute, teacher, room, note }) =>
-                                        `・ ${lessons.from + "." + (lessons.to ? " - " + lessons.to + "." : "")} Stunde: ${
-                                            subject || subject_old
-                                        } bei ${substitute || "<niemand>"}${teacher ? ` (${teacher.replace(/(<(\/)?del>)+/g, "")})` : ""} in Raum ${
-                                            room ?? "-"
-                                        }${note ? ` [${note}]` : ""}`
+                                        `・ [${lessons.from + (lessons.to ? "-" + lessons.to : "")}] ${
+                                            !substitute && !subject ? "Ausfall" : "Vertretung"
+                                        } in ${subject || subject_old}${substitute ? ` bei ${substitute}` : ""}${room ? ` in Raum ${room}` : ""}${
+                                            note ? ` [${note}]` : ""
+                                        }`
                                 )
                                 .join("\n") || "Keine Vertretungen 😭"
                         }\n`;
@@ -239,8 +240,8 @@ async function connect() {
                     // calling getDay on the UTC timezone shouldn't be a problem as everything here does
                     // not run in the critical zone where it may be the next day in UTC time but not in MET
                     const now = new Date();
-                    if (oldPlan && ![0, 6].includes(now.getDay())) {
-                        const days = [oldPlan, plan].map((plan) => plan.days.find((x) => daysOfWeek.indexOf(x.day_of_week) === now.getDay()));
+                    if (oldPlan && ![0, 6].includes(now.getUTCDay())) {
+                        const days = [oldPlan, plan].map((plan) => plan.days.find((x) => daysOfWeek.indexOf(x.day_of_week) === now.getUTCDay()));
                         if (days[0] && !days[1]) return;
                     }
 

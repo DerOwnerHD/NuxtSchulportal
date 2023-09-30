@@ -14,8 +14,9 @@
                 <div v-if="permission === 'denied'">
                     <p>Du hast die Anfrage für<br />Benachrichtigungen abgelehnt</p>
                 </div>
-                <div class="flex justify-center" v-else-if="registration === null || processing">
-                    <div class="spinner" style="--size: 2rem"></div>
+                <div class="grid place-content-center" v-else-if="registration === null || processing">
+                    <div class="spinner justify-self-center" style="--size: 2rem"></div>
+                    <p v-if="progressText !== ''">{{ progressText }}</p>
                 </div>
                 <div v-else-if="!registration">
                     <p>Du hast noch keine<br />Benachrichtigungen registriert</p>
@@ -70,7 +71,8 @@ export default defineComponent({
             error: "",
             credentials: useCredentials<Credentials>(),
             permission: Notification.permission,
-            showEndpoint: false
+            showEndpoint: false,
+            progressText: ""
         };
     },
     computed: {
@@ -104,12 +106,15 @@ export default defineComponent({
             this.processing = true;
 
             try {
+                this.progressText = "SW wird angemeldet";
                 const registration = await navigator.serviceWorker.register("/sw.js");
                 await useWait(1000);
+                this.progressText = "Push API wird registriert";
                 const subscription = await registration.pushManager.subscribe({
                     userVisibleOnly: true,
                     applicationServerKey: useRuntimeConfig().public.vapidPublicKey
                 });
+                this.progressText = "Token wird generiert";
                 const { data: autologin, error: autologinError } = await useFetch("/api/login", {
                     method: "POST",
                     body: {
@@ -118,6 +123,7 @@ export default defineComponent({
                     }
                 });
                 if (autologinError.value !== null) throw autologinError.value.data.error_details || "Serverfehler";
+                this.progressText = "Wird auf Server gespeichert";
                 const { data, error } = await useFetch("/api/notifications", {
                     method: "POST",
                     body: {
@@ -133,6 +139,7 @@ export default defineComponent({
                 (await navigator.serviceWorker.getRegistration())?.unregister();
             }
             this.processing = false;
+            this.progressText = "";
         },
         async unregister() {
             if (!this.registration) return;

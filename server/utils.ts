@@ -9,6 +9,7 @@ const DEFAULT_ERRORS: { [status: string]: string } = {
     "410": "Gone",
     "429": "Too Many Requests",
     "500": "Internal Server Error",
+    "502": "Bad Gateway",
     "503": "Service Not Available"
 };
 
