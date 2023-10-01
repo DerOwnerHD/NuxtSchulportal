@@ -1,8 +1,8 @@
 <template>
-    <ClientOnly> </ClientOnly>
-
     <button id="secret-button" class="fixed top-0 right-0 p-1 pb-2 pl-2 grid place-content-center opacity-0" @click="show">
-        <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
+        <ClientOnly>
+            <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
+        </ClientOnly>
     </button>
     <dialog id="secrets">
         <ClientOnly>

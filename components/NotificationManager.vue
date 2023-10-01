@@ -2,6 +2,7 @@
     <dialog id="notifications" class="w-[80vw] rounded-lg focus:outline-none">
         <div class="z-10 rounded-lg text-center grid place-content-center">
             <div v-if="!supportsWorkers">
+                <span class="info mb-1">Bei Safari muss die Seite auf den<br />Startbildschrim hinzugefügt werden</span>
                 <p>Benachrichtigungen werden von<br />deinem Browser nicht unterstützt</p>
             </div>
             <div class="error" v-else-if="error">
@@ -19,9 +20,8 @@
                     <p v-if="progressText !== ''">{{ progressText }}</p>
                 </div>
                 <div v-else-if="!registration">
+                    <span class="warning mb-1">Speichert Autologin-Token<br />auf dem Server (nicht Passwort)</span>
                     <p>Du hast noch keine<br />Benachrichtigungen registriert</p>
-                    <small><span header-alike>Info: </span>Autologin-Token serverseitig gespeichert</small>
-                    <br />
                     <button class="button-with-symbol" @click="register">
                         <div v-if="!awaitingDecision">
                             <font-awesome-icon :icon="['fas', 'arrow-right']"></font-awesome-icon>

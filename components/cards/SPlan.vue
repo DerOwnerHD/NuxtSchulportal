@@ -57,7 +57,7 @@
         </p>
     </main>
     <footer>
-        <button @click="useSheet('splan', true)">
+        <button @click="useOpenSheet('splan', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
@@ -78,6 +78,9 @@
 <script lang="ts">
 export default defineComponent({
     name: "SPlan",
+    mounted() {
+        this.fadeIn();
+    },
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open"),
@@ -202,10 +205,8 @@ export default defineComponent({
                         { opacity: 0, transform: "scale(90%)" },
                         { opacity: 1, transform: "scale(100%)" }
                     ],
-                    400
+                    { duration: 400, fill: "forwards" }
                 );
-                await useWait(390);
-                element.style.opacity = "1";
             }
             await useWait(10);
             document.querySelectorAll("article[card=splan] #lessons p").forEach(fadeInElement);

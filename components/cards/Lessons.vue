@@ -97,6 +97,9 @@
 <script lang="ts">
 export default defineComponent({
     name: "Lessons",
+    mounted() {
+        this.fadeIn();
+    },
     data() {
         return {
             cardsOpen: useState<Array<string>>("cards-open"),

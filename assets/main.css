@@ -108,7 +108,7 @@ h1,
 .warning,
 .info {
     line-height: 1.1rem;
-    @apply bg-opacity-30 border-[1px] w-fit rounded-md shadow-md justify-self-center text-[0.9rem] flex px-2 py-1;
+    @apply bg-opacity-30 border-[1px] w-fit rounded-md inline-flex shadow-md justify-self-center text-[0.9rem] px-2 py-1 text-white;
 }
 .warning::before,
 .info::before {
@@ -158,9 +158,9 @@ h1,
     }
 }
 .news-icon {
-    @apply bg-red-500 rounded-full grid place-content-center drop-shadow text-white;
+    @apply bg-red-500 rounded-full grid place-content-center drop-shadow text-white px-1;
     --size: 1.25rem;
-    width: var(--size);
+    min-width: var(--size);
     height: var(--size);
     font-size: calc(var(--size) - 0.25rem);
 }

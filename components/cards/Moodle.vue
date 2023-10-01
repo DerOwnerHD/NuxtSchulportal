@@ -67,6 +67,10 @@
 <script lang="ts">
 export default defineComponent({
     name: "Moodle",
+    mounted() {
+        // This is for hot reload purposes as that resets the opacity
+        this.fadeIn("all");
+    },
     data() {
         return {
             cardsOpen: useState<string[]>("cards-open"),
@@ -92,23 +96,20 @@ export default defineComponent({
             if (!this.extended) return;
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
-                await useWait(index * 80);
+                await useWait(index * 80 + 1);
                 element.animate(
                     [
                         { opacity: 0, transform: "scale(90%)" },
                         { opacity: 1, transform: "scale(100%)" }
                     ],
-                    400
+                    { duration: 400, fill: "forwards" }
                 );
-                await useWait(390);
-                element.style.opacity = "1";
             }
             await useWait(10);
-            if (!Array.isArray(this.courses) || !this.courses.length) return;
             const courses = document.querySelectorAll("article[card=moodle] #courses article");
             const events = document.querySelectorAll("article[card=moodle] #events li");
             if (["all", "events"].includes(type)) events.forEach(fadeInElement);
-            if (["all", "courses"].includes(type)) courses.forEach(fadeInElement);
+            if (["all", "courses"].includes(type) && this.courses?.length) courses.forEach(fadeInElement);
         }
     },
     watch: {

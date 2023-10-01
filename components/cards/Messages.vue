@@ -14,7 +14,7 @@
         <p class="card-main-description" v-if="conversations && conversations.all.length">Insgesamt {{ conversations.all.length }} Chat(s)</p>
     </main>
     <footer>
-        <button @click="useSheet('messages', true)">
+        <button @click="useOpenSheet('messages', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>

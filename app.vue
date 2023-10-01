@@ -31,27 +31,7 @@
             <LoginMenu v-if="!credentials"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <div v-if="tokenValid">
-                    <Card
-                        type="vplan"
-                        gradient="linear-gradient(270deg, #168647 0, #24df62 70%)"
-                        :icon="['fas', 'book']"
-                        name="Vertretungsplan"></Card>
-                    <Card
-                        type="splan"
-                        gradient="linear-gradient(270deg, #008eff 0, #05e7ec 74%)"
-                        :icon="['fas', 'hourglass-half']"
-                        name="Stundenplan"></Card>
-                    <Card type="moodle" gradient="linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)" :icon="['fas', 'cloud']" name="SchulMoodle"></Card>
-                    <Card
-                        type="messages"
-                        gradient="linear-gradient(270deg, #e14646 0, #fd6c2d 70%)"
-                        :icon="['fas', 'envelope-open-text']"
-                        name="Direktnachrichten"></Card>
-                    <Card
-                        type="lessons"
-                        gradient="linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%);"
-                        :icon="['fas', 'address-book']"
-                        name="Mein Unterricht"></Card>
+                    <CardList></CardList>
                     <div class="flex justify-center my-5">
                         <ClientOnly>
                             <button class="button-with-symbol" @click="logout">
@@ -218,33 +198,6 @@ export default defineComponent({
 
             useAppNews().value.messages = unreadCount;
             useState("moodle-conversations", () => conversations);
-        },
-        async logout() {
-            const stop = confirm("Willst du dich wirklich abmelden?");
-            if (!stop) return;
-
-            if ("serviceWorker" in navigator) {
-                const registration = await navigator.serviceWorker.getRegistration();
-                const subscription = await registration?.pushManager.getSubscription();
-
-                if (subscription != null) await subscription.unsubscribe();
-                if (registration != null) await registration.unregister();
-            }
-
-            useCookie("credentials").value = null;
-            useCookie("token").value = null;
-            useCookie("session").value = null;
-            useCookie("moodle-credentials").value = null;
-            useLocalStorage("aes-key", null);
-
-            await useWait(1);
-
-            useInfoDialog().value = {
-                header: "Abmeldung erfolgreich",
-                disappearAfter: 2000,
-                icon: "done.png",
-                details: "Erneute Anmeldung jederzeit möglich"
-            };
         }
     }
 });
@@ -266,6 +219,20 @@ interface AppErrorState {
 const sheetStates = useState<SheetStates>("sheets", () => {
     return { open: [] };
 });
+useState("cards", () => [
+    { id: "vplan", gradient: "linear-gradient(270deg, #168647 0, #24df62 70%)", icon: ["fas", "book"], name: "Vertretungsplan", index: 0 },
+    { id: "splan", gradient: "linear-gradient(270deg, #008eff 0, #05e7ec 74%)", icon: ["fas", "hourglass-half"], name: "Stundenplan", index: 1 },
+    { id: "moodle", gradient: "linear-gradient(315deg, #ff4e00 0, #ec9f05 74%)", icon: ["fas", "cloud"], name: "SchulMoodle", index: 2 },
+    {
+        id: "messages",
+        gradient: "linear-gradient(270deg, #e14646 0, #fd6c2d 70%)",
+        icon: ["fas", "envelope-open-text"],
+        name: "Direktnachrichten",
+        index: 3
+    },
+    { id: "lessons", gradient: "linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%)", icon: ["fas", "address-book"], name: "Mein Unterricht", index: 4 }
+]);
+useState<boolean>("card-switching", () => false);
 // These app errors can be used on the home screen or on the sheets of
 // the corresponding apps, depends on when the error occured, either during
 // first load or a later load of the app from the API
@@ -292,6 +259,34 @@ function getSchoolBG() {
     if (!credentials.value) return "background: url(https://start.schulportal.hessen.de/img/schulbg/default-lg.png)";
 
     return `background: url("https://start.schulportal.hessen.de/exporteur.php?a=schoolbg&i=${credentials.value.school}&s=lg")`;
+}
+
+async function logout() {
+    const stop = confirm("Willst du dich wirklich abmelden?");
+    if (!stop) return;
+
+    if ("serviceWorker" in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        const subscription = await registration?.pushManager.getSubscription();
+
+        if (subscription != null) await subscription.unsubscribe();
+        if (registration != null) await registration.unregister();
+    }
+
+    useCookie("credentials").value = null;
+    useCookie("token").value = null;
+    useCookie("session").value = null;
+    useCookie("moodle-credentials").value = null;
+    useLocalStorage("aes-key", null);
+
+    await useWait(1);
+
+    useInfoDialog().value = {
+        header: "Abmeldung erfolgreich",
+        disappearAfter: 2000,
+        icon: "done.png",
+        details: "Erneute Anmeldung jederzeit möglich"
+    };
 }
 
 useHead({

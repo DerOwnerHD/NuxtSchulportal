@@ -5,7 +5,13 @@
                 <div class="error" v-if="appErrors.vplan">
                     <span>{{ appErrors.vplan }}</span>
                 </div>
-                <div class="spinner" style="--size: 2rem" v-else></div>
+                <div class="placeholder flex justify-evenly" v-else>
+                    <div excluded v-for="n in 2">
+                        <p></p>
+                        <p class="mt-2"></p>
+                        <p class="mt-1"></p>
+                    </div>
+                </div>
             </div>
             <div class="flex rounded-[inherit] py-2 px-1 justify-center" v-else>
                 <p v-if="!plan.days.length">Keine Tage verfügbar</p>
@@ -16,7 +22,9 @@
                     <main>
                         <p v-if="!day.vertretungen.length">Keine Vertretungen</p>
                         <ul v-else>
-                            <li v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)">
+                            <li
+                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)"
+                                class="opacity-0">
                                 <span>[{{ lessons.list.length === 1 ? lessons.from : lessons.from + " - " + lessons.to }}]</span>
                                 <span
                                     >‎ <b>{{ subject || subject_old }}</b>
@@ -41,7 +49,7 @@
         <p v-if="plan != null" class="card-main-description">Aktualisert vor {{ distanceToLastUpdated }}</p>
     </main>
     <footer>
-        <button @click="useSheet('vplan', true)">
+        <button @click="useOpenSheet('vplan', true)">
             <ClientOnly>
                 <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             </ClientOnly>
@@ -100,6 +108,9 @@ export default defineComponent({
             return `${days} Tag${days !== 1 ? "en" : ""}`;
         }
     },
+    props: {
+        extended: { type: Boolean, required: true }
+    },
     methods: {
         async refreshPlan(bypass: boolean): Promise<any> {
             if (useState("vplan").value == null && !useAppErrors().value.vplan && !bypass) return;
@@ -123,12 +134,50 @@ export default defineComponent({
             if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
             useState("vplan").value = plan;
             useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
+        },
+        async fadeIn() {
+            if (!this.extended || !Array.isArray(this.plan?.days) || !this.plan?.days?.length) return;
+            async function fadeInElement(element: Element, index: number) {
+                if (!(element instanceof HTMLElement)) return;
+                await useWait(index * 60);
+                element.animate(
+                    [
+                        { opacity: 0, transform: "scale(90%)" },
+                        { opacity: 1, transform: "scale(100%)" }
+                    ],
+                    { duration: 400, fill: "forwards" }
+                );
+            }
+            await useWait(10);
+            document.querySelectorAll("article[card=vplan] #table li").forEach(fadeInElement);
+        }
+    },
+    watch: {
+        plans() {
+            this.fadeIn();
+        },
+        extended() {
+            this.fadeIn();
         }
     }
 });
 </script>
 
 <style scoped>
+.placeholder {
+    div {
+        @apply w-[50%] justify-center grid;
+        p {
+            @apply w-20 h-4 rounded-full;
+        }
+        p:not(:first-child) {
+            @apply w-32;
+        }
+    }
+    div:last-child {
+        @apply ml-2;
+    }
+}
 #table {
     > div > div {
         min-width: 45%;
