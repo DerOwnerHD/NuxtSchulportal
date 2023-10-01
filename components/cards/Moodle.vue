@@ -127,7 +127,7 @@ export default defineComponent({
             const button = document.querySelector("#moodle-notifications-button");
             if (!this.notifications || !(button instanceof HTMLElement)) return;
             const { top, left } = button.getBoundingClientRect();
-            useState("moodle-notifications-pos").value = [left, top];
+            useState("moodle-notifications-pos").value = [left, top, button.clientWidth];
             useState("moodle-notifications-open").value = true;
         }
     },

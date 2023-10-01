@@ -74,7 +74,7 @@ onMounted(() => {
     const container = document.querySelector("#moodle-notifications-container");
     if (!(container instanceof HTMLElement)) return;
     container.style.top = position.value[1] + 30 + "px";
-    container.style.left = window.innerWidth - container.clientWidth - 10 + "px";
+    container.style.left = window.innerWidth - container.clientWidth - position.value[2] / 2 + "px";
     // This is just so the content does not go offscreen
     // Normally it just adjusts to the content, however when it
     // would be too far down, we need to manually set the height

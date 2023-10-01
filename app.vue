@@ -45,8 +45,27 @@
                         </ClientOnly>
                     </div>
                 </div>
-                <div v-else>
-                    <div class="spinner mt-3 w-full" style="--size: 3rem"></div>
+                <div class="grid" v-else>
+                    <article class="basic-card grid place-content-center !w-fit px-4 mt-4 justify-self-center">
+                        <div class="spinner mt-3 mb-1 w-full justify-self-center" style="--size: 3rem"></div>
+                        <p>Du wirst angemeldet</p>
+                    </article>
+                    <div class="flex" v-if="loginTimeoutButtonsVisible">
+                        <button class="button-with-symbol flex items-center justify-center w-fit" @click="logout">
+                            <svg viewBox="0 0 512 512" class="h-4">
+                                <path
+                                    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
+                            </svg>
+                            <span>Abmelden</span>
+                        </button>
+                        <button class="button-with-symbol flex items-center justify-center w-fit" onclick="location.reload()">
+                            <svg viewBox="0 0 512 512" class="h-4">
+                                <path
+                                    d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
+                            </svg>
+                            <span>Neu laden</span>
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>
@@ -210,8 +229,8 @@ export default defineComponent({
 
 <script setup lang="ts">
 import SecretButton from "./components/utils/SecretButton.vue";
-import { MoodleConversation } from "./composables/apps";
-
+const loginTimeoutButtonsVisible = ref(false);
+setTimeout(() => (loginTimeoutButtonsVisible.value = true), 1500);
 interface SheetStates {
     open: string[];
 }

@@ -149,7 +149,9 @@ export default defineComponent({
                 );
             }
             await useWait(10);
-            document.querySelectorAll("article[card=vplan] #table li").forEach(fadeInElement);
+            // If we don't do it for each day seperatly, it would go through the first
+            // day and only THEN start fading in the lessons of the second day
+            document.querySelectorAll("article[card=vplan] #table ul").forEach((list) => list.querySelectorAll("li").forEach(fadeInElement));
         }
     },
     watch: {
