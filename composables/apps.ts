@@ -359,6 +359,47 @@ export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
     return handleReponse(error, data, data.value?.events);
 };
 
+export interface MoodleNotification {
+    id: number;
+    author: number;
+    subject: string;
+    message: {
+        short: string;
+        full: string;
+    };
+    read: boolean;
+    deleted: boolean;
+    icon: string;
+    timestamps: {
+        created: number;
+        read: number;
+        pretty: string;
+    };
+    link: string;
+}
+
+interface MoodleNotificationResponse {
+    error: boolean;
+    error_details?: any;
+    notifications: MoodleNotification[];
+}
+
+export const useMoodleNotifications = async (): Promise<MoodleNotification[] | string> => {
+    const credentials = checkMoodleCredentials();
+    if (typeof credentials === "string") return credentials;
+
+    const { data, error } = await useFetch<MoodleNotificationResponse>("/api/moodle/notifications", {
+        method: "GET",
+        query: {
+            ...credentials,
+            school: useCredentials<Credentials>().value.school
+        },
+        retry: false
+    });
+
+    return handleReponse(error, data, data.value?.notifications);
+};
+
 const checkMoodleCredentials = () => useMoodleCredentials().value ?? "401: Unauthorized";
 
 const handleReponse = (error: any, data: any, value: any) => {

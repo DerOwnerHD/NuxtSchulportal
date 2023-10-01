@@ -179,7 +179,13 @@ export const useMoodleCheck = async (): Promise<boolean> => {
             message: "Konnte Moodledaten nicht überprüfen",
             recoverable: true
         };
-        useAppErrors().value.conversations = "Serverfehler";
+        useAppErrors().value = {
+            ...useAppErrors().value,
+            conversations: "Serverfehler",
+            "moodle-courses": "Serverfehler",
+            "moodle-events": "Serverfehler",
+            "moodle-notifications": "Serverfehler"
+        };
         return false;
     }
 

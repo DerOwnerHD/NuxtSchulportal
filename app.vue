@@ -56,6 +56,7 @@
     <ClientOnly>
         <NotificationManager v-if="notificationMananger"></NotificationManager>
     </ClientOnly>
+    <MoodleNotifications v-if="moodleNotificationsOpen"></MoodleNotifications>
 </template>
 <script lang="ts">
 let tokenValid = ref(false);
@@ -64,7 +65,7 @@ export default defineComponent({
     async mounted() {
         // This would indicate the user isn't logged in
         if (!useCookie("credentials").value) return;
-        const apps = ["vplan", "splan", "messages"];
+        const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
         // We store which cards are opened in the local storage
         useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
         useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
@@ -82,6 +83,7 @@ export default defineComponent({
         this.loadConversations();
         this.loadMoodleCourses();
         this.loadMoodleEvents();
+        this.loadMoodleNotifications();
     },
     methods: {
         async login() {
@@ -136,8 +138,14 @@ export default defineComponent({
         async loadMoodleEvents() {
             const events = await useMoodleEvents();
             if (typeof events === "string") return (useAppErrors().value["moodle-events"] = events);
-            useAppNews().value.moodle = events.length;
+            useAppNews().value.moodle += events.length;
             useState("moodle-events", () => events);
+        },
+        async loadMoodleNotifications() {
+            const notifications = await useMoodleNotifications();
+            if (typeof notifications === "string") return (useAppErrors().value["moodle-notifications"] = notifications);
+            useAppNews().value.moodle += notifications.filter((notification) => notification.read).length;
+            useState("moodle-notifications", () => notifications);
         },
         async loadMoodleCourses() {
             const courses = await useMoodleCourses();
@@ -154,10 +162,7 @@ export default defineComponent({
             const courses = await useMyLessons();
             if (typeof courses === "string" || !courses.courses) return (useAppErrors().value.mylessons = courses.toString());
             useState("mylessons", () => courses);
-            useAppNews().value.lessons = courses.courses.reduce(
-                (acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0),
-                0
-            );
+            useAppNews().value.lessons = courses.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
         },
         async loadConversations() {
             const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
@@ -219,6 +224,7 @@ interface AppErrorState {
 const sheetStates = useState<SheetStates>("sheets", () => {
     return { open: [] };
 });
+const moodleNotificationsOpen = useState("moodle-notifications-open", () => false);
 useState("cards", () => [
     { id: "vplan", gradient: "linear-gradient(270deg, #168647 0, #24df62 70%)", icon: ["fas", "book"], name: "Vertretungsplan", index: 0 },
     { id: "splan", gradient: "linear-gradient(270deg, #008eff 0, #05e7ec 74%)", icon: ["fas", "hourglass-half"], name: "Stundenplan", index: 1 },
@@ -313,6 +319,14 @@ useHead({
         {
             rel: "stylesheet",
             href: "https://fonts.googleapis.com/css2?family=Bricolage%20Grotesque"
+        },
+        {
+            rel: "apple-touch-icon",
+            href: "icon.png"
+        },
+        {
+            rel: "apple-touch-startup-image",
+            href: "icon.png"
         }
     ]
 });

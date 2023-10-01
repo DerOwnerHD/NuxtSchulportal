@@ -34,7 +34,9 @@ import {
     faTrash,
     faBell,
     faLock,
-    faNewspaper
+    faNewspaper,
+    faChevronRight,
+    faChevronLeft
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -56,6 +58,8 @@ library.add(
     faJsfiddle,
     faChevronDown,
     faChevronUp,
+    faChevronRight,
+    faChevronLeft,
     faRepeat,
     faChild,
     faUser,

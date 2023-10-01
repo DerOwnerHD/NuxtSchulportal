@@ -64,6 +64,30 @@ export interface MoodleConversation {
     candeletemessagesforallusers: boolean;
 }
 
+export interface MoodleNotification {
+    id: number;
+    useridfrom: number;
+    useridto: number;
+    subject: string;
+    shortenedsubject: string;
+    text: string;
+    fullmessage: string;
+    fullmessageformat: number;
+    fullmessagehtml: string;
+    smallmessage: string;
+    contexturl: string;
+    contexturlname: string;
+    timecreated: number;
+    timecreatedpretty: string;
+    timeread: number;
+    read: boolean;
+    deleted: boolean;
+    iconurl: string;
+    component: string;
+    eventtype: string;
+    customdata: string;
+}
+
 export interface MoodleEvent {
     action: {
         actionable: boolean;
@@ -228,6 +252,29 @@ export const transformMoodleEvent = (event: MoodleEvent) => {
             time: event.formattedtime,
             location: event.formattedlocation
         }
+    };
+};
+
+export const transformMoodleNotification = (notification: MoodleNotification) => {
+    return {
+        id: notification.id,
+        author: notification.useridfrom,
+        subject: notification.subject,
+        message: {
+            short: notification.text.replace(/<(\/)?([a-z]+)(?![^>]*\/>)[^>]*>/g, ""),
+            full:
+                notification.fullmessage.split("\n---------------------------------------------------------------------\n")[1] ||
+                notification.fullmessage
+        },
+        read: notification.read,
+        deleted: notification.deleted,
+        icon: notification.iconurl,
+        timestamps: {
+            created: notification.timecreated * 1000,
+            read: notification.timeread * 1000,
+            pretty: notification.timecreatedpretty
+        },
+        link: notification.contexturl
     };
 };
 

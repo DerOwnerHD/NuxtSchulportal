@@ -6,6 +6,17 @@
                     <div class="flex">
                         <h1>Deine Kurse</h1>
                         <span class="course-counter" v-if="courses && Array.isArray(courses)">{{ courses.length }}</span>
+                        <span
+                            class="course-counter absolute right-4 flex items-center !px-2 hover:active:scale-95"
+                            @click="openNotifications"
+                            id="moodle-notifications-button">
+                            <ClientOnly>
+                                <font-awesome-icon class="mr-1" :icon="['fas', 'bell']"></font-awesome-icon>
+                            </ClientOnly>
+                            <span v-if="appErrors['moodle-notifications']">Fehler</span>
+                            <span v-else-if="!notifications" class="spinner" style="--size: 0.75rem"></span>
+                            <span v-else>{{ notifications.filter((notification) => notification.read).length }}</span>
+                        </span>
                     </div>
                     <div class="grid place-content-center py-2" v-if="appErrors['moodle-courses'] != null">
                         <div class="error">
@@ -77,6 +88,7 @@ export default defineComponent({
             appErrors: useAppErrors(),
             courses: useState<MoodleCourse[]>("moodle-courses"),
             events: useState<MoodleEvent[]>("moodle-events"),
+            notifications: useState<MoodleNotification[]>("moodle-notifications"),
             moodleCredentials: useMoodleCredentials(),
             credentials: useCredentials<Credentials>()
         };
@@ -108,8 +120,15 @@ export default defineComponent({
             await useWait(10);
             const courses = document.querySelectorAll("article[card=moodle] #courses article");
             const events = document.querySelectorAll("article[card=moodle] #events li");
-            if (["all", "events"].includes(type)) events.forEach(fadeInElement);
+            if (["all", "events"].includes(type) && this.events?.length) events.forEach(fadeInElement);
             if (["all", "courses"].includes(type) && this.courses?.length) courses.forEach(fadeInElement);
+        },
+        openNotifications() {
+            const button = document.querySelector("#moodle-notifications-button");
+            if (!this.notifications || !(button instanceof HTMLElement)) return;
+            const { top, left } = button.getBoundingClientRect();
+            useState("moodle-notifications-pos").value = [left, top];
+            useState("moodle-notifications-open").value = true;
         }
     },
     watch: {

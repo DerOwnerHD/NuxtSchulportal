@@ -110,6 +110,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 2,
         clients: []
+    },
+    {
+        route: "/api/moodle/notifications.get",
+        interval: 15 * 1000,
+        allowedPerInterval: 3,
+        clients: []
     }
 ];
 
