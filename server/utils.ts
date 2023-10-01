@@ -126,7 +126,7 @@ export const validateBody = (
         if (!key.length) continue;
         const object = schema[key];
         const value = body[key];
-        if (!value && object.required) return false;
+        if (value == undefined && object.required) return false;
         if (["number", "string"].includes(object.type) && value != undefined && typeof value === object.type) {
             if ((object.type === "number" && !Number.isInteger(value)) || (object.type === "string" && value === "")) return false;
             // Our accessor is either length for a string or just the value for a number

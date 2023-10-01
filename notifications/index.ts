@@ -298,7 +298,7 @@ async function connect() {
                 if (error.cause?.code === "UND_ERR_CONNECT_TIMEOUT") return;
                 console.log(consoleTime() + "Killing process");
                 const time = new Date();
-                await appendFile("./crashes.log", `\n[${time.getDate()}.${time.getMonth()}.${time.getFullYear()}] ${consoleTime()}`);
+                await appendFile("./crashes.log", `\n[${time.getDate()}.${time.getMonth() + 1}.${time.getFullYear()}] ${consoleTime()}`);
                 spawn("kill", ["1"]);
             }),
         60000

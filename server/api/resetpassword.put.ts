@@ -1,11 +1,11 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
+import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
 const schema = {
     body: {
-        token: { type: "string", required: true, size: 64 },
-        ikey: { type: "string", required: true, size: 32 },
-        sid: { type: "string", required: true, size: 26 },
-        code: { type: "string", required: true, size: 14 }
+        token: { type: "string", required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
+        ikey: { type: "string", required: true, size: 32, pattern: patterns.HEX_CODE },
+        sid: { type: "string", required: true, pattern: patterns.SID },
+        code: { type: "string", required: true, pattern: patterns.PW_RESET_CODE }
     }
 };
 
@@ -17,10 +17,9 @@ export default defineEventHandler(async (event) => {
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = await readBody(event);
+    const body = await readBody<{ token: string; ikey: string; sid: string; code: string }>(event);
 
-    const valid = validateBody(body, schema.body);
-    if (!valid || !patterns.PW_RESET_CODE.test(body.code)) return setErrorResponse(res, 400, schema);
+    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/resetpassword.put", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

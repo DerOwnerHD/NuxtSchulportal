@@ -1,10 +1,19 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { APIError, generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../utils";
+import {
+    APIError,
+    generateDefaultHeaders,
+    parseCookie,
+    patterns,
+    removeBreaks,
+    setErrorResponse,
+    transformEndpointSchema,
+    validateBody
+} from "../utils";
 const schema = {
     body: {
-        username: { type: "string", required: true, max: 32 },
+        username: { type: "string", required: true, max: 32, pattern: patterns.USERNAME },
         type: { type: "number", required: true, min: 0, max: 2 },
-        birthday: { type: "string", required: true },
+        birthday: { type: "string", required: true, pattern: patterns.BIRTHDAY },
         school: { type: "number", required: true, max: 206568, min: 1 }
     }
 };
@@ -18,11 +27,9 @@ export default defineEventHandler(async (event) => {
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = await readBody(event);
-
-    const valid = validateBody(body, schema.body);
+    const body = await readBody<{ username: string; type: number; birthday: string; school: number }>(event);
     // Just making sure the username isn't invalid (this is also tested in the frontend)
-    if (!valid || !patterns.USERNAME.test(body.username) || !patterns.BIRTHDAY.test(body.birthday)) return setErrorResponse(res, 400, schema);
+    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/resetpassword.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -50,7 +57,7 @@ export default defineEventHandler(async (event) => {
             `ikey=${firstIkey}`,
             `login=${encodeURIComponent(username)}`,
             `check=${encodeURIComponent(birthday)}`,
-            `type=${USER_TYPE[+type] || "Schueler"}`
+            `type=${USER_TYPE[type] || "Schueler"}`
         ].join("&");
 
         const secondStep = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
