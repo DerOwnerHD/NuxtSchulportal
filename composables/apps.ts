@@ -384,7 +384,7 @@ export const useConversations = async (type?: "favorites" | "groups"): Promise<M
     return handleReponse(error, data, data.value?.conversations);
 };
 
-export const useSheet = (sheet: string, open?: boolean) => {
+export const useOpenSheet = (sheet: string, open?: boolean) => {
     const sheets = useSheetState();
     const body = document.querySelector("body");
     if (!body) return;

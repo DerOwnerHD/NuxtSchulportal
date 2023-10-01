@@ -1,6 +1,6 @@
 <template>
-    <article class="card w-80 mt-4 rounded-2xl relative grid" :style="'--gradient: ' + gradient" :card="type">
-        <header v-if="!disableHeader" class="grid my-2 justify-center relative">
+    <article class="card" :style="'--gradient: ' + gradient" :card="type">
+        <header class="grid my-2 justify-center relative">
             <div class="title relative z-[1] rounded-full shadow-md">
                 <div class="py-2 px-3 rounded-full flex items-center">
                     <div class="relative">
@@ -20,10 +20,10 @@
                 </ClientOnly>
             </button>
         </header>
-        <CardsMoodle v-if="type === 'moodle'" :extended="cardsOpen.includes('moodle')"></CardsMoodle>
-        <CardsLessons v-if="type === 'lessons'" :extended="cardsOpen.includes('lessons')"></CardsLessons>
-        <CardsVPlan v-if="type === 'vplan'"></CardsVPlan>
-        <CardsSPlan v-if="type === 'splan'" :extended="cardsOpen.includes('splan')"></CardsSPlan>
+        <CardsMoodle v-if="type === 'moodle'" :extended="cardsOpen.includes(type)"></CardsMoodle>
+        <CardsLessons v-if="type === 'lessons'" :extended="cardsOpen.includes(type)"></CardsLessons>
+        <CardsVPlan v-if="type === 'vplan'" :extended="cardsOpen.includes(type)"></CardsVPlan>
+        <CardsSPlan v-if="type === 'splan'" :extended="cardsOpen.includes(type)"></CardsSPlan>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>
     </article>
 </template>
@@ -69,17 +69,14 @@ export default defineComponent({
         name: {
             type: String,
             required: true
-        },
-        disableHeader: {
-            type: String,
-            required: false
         }
     }
 });
 </script>
 
 <style scoped>
-article {
+article[card] {
+    @apply w-80 mt-4 rounded-2xl relative grid;
     background: var(--gradient);
     border-top: solid 1px;
     border-image: linear-gradient(90deg, #00000000 10%, #ffffff 50%, #00000000 90%) 1;

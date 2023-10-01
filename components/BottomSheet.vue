@@ -142,7 +142,7 @@ export default defineComponent({
                 // This needs to be seperated as it's taking
                 // some time for the reactive effects to take place
                 setTimeout(() => {
-                    useSheet(this.menu);
+                    useOpenSheet(this.menu);
                 }, duration);
             }, waitTime || 0);
         }

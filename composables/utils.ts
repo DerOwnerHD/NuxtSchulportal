@@ -42,3 +42,5 @@ interface InfoDialog {
 export const useInfoDialog = () => useState<InfoDialog | null>("info-dialog");
 export const openLink = (link: string) => window.open(link, "_blank");
 export const addZeroToNumber = (number: number) => String(number).padStart(2, "0");
+
+export const useCards = () => useState<{ id: string; name: string; gradient: string; icon: string[]; index: number }[]>("cards");
