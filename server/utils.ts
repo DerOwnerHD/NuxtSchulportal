@@ -83,7 +83,7 @@ export const validateQuery = (
 
         if (object.type === "number") {
             const valueAsNumber = parseFloat(value);
-            if (!Number.isInteger(valueAsNumber)) return false;
+            if (!Number.isInteger(valueAsNumber) || !Number.isSafeInteger(valueAsNumber) || !Number.isFinite(valueAsNumber)) return false;
             if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
         }
 
@@ -226,7 +226,7 @@ export const transformEndpointSchema = (schema: any) => {
     // also modify our normal schema passed to this function (which would be BAD)
     const transformedSchema = JSON.parse(JSON.stringify(schema));
 
-    const structures = ["body", "query"];
+    const structures = ["body", "query", "headers"];
     for (const structure of structures) {
         if (schema[structure] === undefined) continue;
         for (const key of Object.keys(schema[structure])) {

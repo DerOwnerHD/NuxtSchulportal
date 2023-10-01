@@ -1,10 +1,10 @@
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, validateBody } from "../../utils";
+import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { lookupSchoolMoodle } from "../../moodle";
 
 const schema = {
     body: {
-        session: { type: "string", required: true, size: 64 },
+        session: { type: "string", required: true, size: 64, pattern: patterns.HEX_CODE },
         school: { type: "number", required: true, max: 206568, min: 1 }
     }
 };
@@ -13,15 +13,10 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.method !== "POST") return setErrorResponse(res, 405);
-
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = await readBody(event);
-
-    const valid = validateBody(body, schema.body);
-    // Just making sure the username isn't invalid (this is also tested in the frontend)
-    if (!valid || !patterns.HEX_CODE.test(body.session)) return setErrorResponse(res, 400, schema);
+    const body = await readBody<{ session: string; school: number }>(event);
+    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/moodle/login.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

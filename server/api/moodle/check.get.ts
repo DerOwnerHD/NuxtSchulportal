@@ -14,10 +14,8 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    const query = getQuery(event);
-
-    const valid = validateQuery(query, schema.query);
-    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const query = getQuery<{ [key: string]: string }>(event);
+    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/moodle/check.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -31,7 +29,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch(`https://mo${school}.schule.hessen.de/lib/ajax/service.php?sesskey=${session}`, {
             method: "POST",
             headers: {
-                Cookie: `MoodleSession=${cookie?.toString()}`,
+                Cookie: `MoodleSession=${cookie}`,
                 "Content-Type": "application/json",
                 ...generateDefaultHeaders(address)
             },

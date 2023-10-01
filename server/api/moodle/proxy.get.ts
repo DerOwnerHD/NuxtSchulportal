@@ -14,10 +14,8 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    const query = getQuery(event);
-
-    const valid = validateQuery(query, schema.query);
-    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const query = getQuery<{ [key: string]: string }>(event);
+    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const { cookie, school, path, paula } = query;
 
@@ -28,7 +26,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch(`https://mo${school}.schule.hessen.de${path}`, {
             method: "GET",
             headers: {
-                Cookie: `MoodleSession=${cookie?.toString()}; Paula=${paula || ""}`,
+                Cookie: `MoodleSession=${cookie}; Paula=${paula}`,
                 ...generateDefaultHeaders(address)
             }
         });
