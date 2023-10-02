@@ -54,7 +54,8 @@ export default defineComponent({
             change: 0,
             changeSinceLastUpdate: 0,
             distanceFromTop: 0,
-            start: 0
+            start: 0,
+            moving: false
         };
     },
     computed: {
@@ -81,7 +82,7 @@ export default defineComponent({
             if (target.closest("#sheet-inner-content")) return;
 
             const elementType = (event.target as Element).nodeName;
-            if (this.element.hasAttribute("moving") || elementsIgnoringMove.includes(elementType)) return;
+            if (this.moving || elementsIgnoringMove.includes(elementType)) return;
 
             const change = Math.floor(event.changedTouches[0].screenY - this.start);
 
@@ -94,16 +95,16 @@ export default defineComponent({
         endDrag(event: TouchEvent) {
             const target = event.target as HTMLElement;
             if (target.closest("#sheet-inner-content")) return;
-            if (this.element.hasAttribute("moving")) return;
+            if (this.moving) return;
             // The drag is also detected when clicking on a button
             // in the top row - so we shall not run the actions in here
             if ((event.target as Element).closest("button[action=close]")) return;
-            this.element.setAttribute("moving", "");
-            setTimeout(() => this.element.removeAttribute("moving"), 510);
+            this.moving = true;
+            setTimeout(() => (this.moving = false), 510);
             // The sheet shall be closed when the user has moved it down
             // by at least half - if not, we move it back up again
             if (this.element.clientHeight - this.change < this.element.clientHeight / 2 && this.closable === "1") {
-                this.element.removeAttribute("moving");
+                this.moving = false;
                 this.closeMenu(null, 0);
             } else {
                 this.element.style.transform = "";
@@ -116,9 +117,9 @@ export default defineComponent({
                 const target = event.target as HTMLElement;
                 if (!target.classList.contains("aside-backdrop")) return;
             }
-            if (this.element.hasAttribute("moving")) return;
+            if (this.moving) return;
 
-            // When called by a button we wait 200ms so we can fully see the button animation
+            // When called by a button we wait 200ms, so we can fully see the button animation
             setTimeout(() => {
                 const timePerPixel = (Date.now() - this.dragStartTime) / this.change;
                 const duration = this.dragStartTime === 0 ? 500 : Math.floor(timePerPixel * (this.element.clientHeight - this.change));
@@ -137,7 +138,7 @@ export default defineComponent({
                         fill: "forwards"
                     }
                 );
-                this.element.setAttribute("moving", "");
+                this.moving = true;
                 this.backdrop.removeAttribute("open");
                 // This needs to be seperated as it's taking
                 // some time for the reactive effects to take place

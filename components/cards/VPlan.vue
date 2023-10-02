@@ -25,18 +25,12 @@
                             <li
                                 v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)"
                                 class="opacity-0">
-                                <span>[{{ lessons.list.length === 1 ? lessons.from : lessons.from + " - " + lessons.to }}]</span>
-                                <span
-                                    >‎ <b>{{ subject || subject_old }}</b>
-                                </span>
-                                <span
-                                    >‎ bei <b>{{ substitute || "-" }}</b></span
-                                >
-                                <span v-if="teacher" v-html="` (${teacher})`"></span>
-                                <span v-if="room">
-                                    in <b>{{ room }}</b></span
-                                >
-                                <span v-if="note"> [{{ note }}]</span>
+                                <span>[{{ lessons.from + (lessons.to ? "-" + lessons.to : "") }}] </span>
+                                <span v-if="!substitute && !subject"> Ausfall in </span>
+                                <b>{{ subject || subject_old }}</b>
+                                <span v-if="substitute"> bei {{ substitute }}</span>
+                                <span v-if="substitute && teacher" v-html="` (${teacher})`"></span>
+                                <span v-if="note"> ({{ note }})</span>
                             </li>
                             <li v-if="day.vertretungen.length > 2">
                                 {{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}
@@ -155,7 +149,7 @@ export default defineComponent({
         }
     },
     watch: {
-        plans() {
+        plan() {
             this.fadeIn();
         },
         extended() {

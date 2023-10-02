@@ -46,8 +46,8 @@
                             <b>{{ index + 1 }}.</b>
                             <br />
                             <small style="line-height: 1; display: block; margin: 0.5rem 0">
-                                {{ row[0][0] }}:{{ row[0][1] }} <br />-<br />
-                                {{ row[1][0] }}:{{ row[1][1] }}
+                                {{ row[0][0] }}:{{ row[0][1].toString().padStart(2, "0") }} <br />-<br />
+                                {{ row[1][0] }}:{{ row[1][1].toString().padStart(2, "0") }}
                             </small>
                         </td>
                         <td
