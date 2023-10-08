@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex rounded-[inherit] py-2 px-1 justify-center" v-else>
+            <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else>
                 <p v-if="!plan.days.length">Keine Tage verfügbar</p>
                 <div v-for="(day, index) of plan.days">
                     <header>
@@ -176,7 +176,7 @@ export default defineComponent({
 }
 #table {
     > div > div {
-        min-width: 45%;
+        @apply px-1;
         header {
             text-align: center;
         }
