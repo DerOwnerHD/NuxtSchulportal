@@ -34,12 +34,12 @@
                 </p>
                 <div class="flex">
                     <div id="lessons">
-                        <p v-for="lesson of getSelectedDay.lessons" style="opacity: 0">
+                        <p v-for="lesson of getSelectedDay.lessons" class="opacity-0">
                             {{ lesson.lessons.join(" - ") }}
                         </p>
                     </div>
                     <div id="classes">
-                        <p v-for="lesson of getSelectedDay.lessons" style="opacity: 0">
+                        <p v-for="lesson of getSelectedDay.lessons" class="opacity-0">
                             <span v-if="!lesson.classes.length">-</span>
                             <span v-for="cls of lesson.classes">
                                 <b>{{ cls.name }}</b>
@@ -200,13 +200,17 @@ export default defineComponent({
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
                 await useWait(index * 60);
+                // We cannot just use fill forwards as that would break when updating the
+                // opacity when switching to another day (you can't set it to 0 then)
                 element.animate(
                     [
                         { opacity: 0, transform: "scale(90%)" },
                         { opacity: 1, transform: "scale(100%)" }
                     ],
-                    { duration: 400, fill: "forwards" }
+                    400
                 );
+                await useWait(390);
+                element.style.opacity = "1";
             }
             await useWait(10);
             document.querySelectorAll("article[card=splan] #lessons p").forEach(fadeInElement);

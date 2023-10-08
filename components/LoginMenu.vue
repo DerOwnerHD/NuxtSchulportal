@@ -349,6 +349,7 @@ export default defineComponent({
                 this.token = data.token;
                 useSession().value = data.session;
             } catch (error) {
+                this.loginInProgress = false;
                 return this.showErrorMessage("Netzwerkfehler");
             }
 

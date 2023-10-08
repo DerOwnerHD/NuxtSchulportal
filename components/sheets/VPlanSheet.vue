@@ -162,7 +162,7 @@ export default defineComponent({
             content.style.maxHeight = `${Math.floor(window.innerHeight - content.getBoundingClientRect().top)}px`;
         },
         openNewsSheet() {
-            useSheet("vplan-news", true);
+            useOpenSheet("vplan-news", true);
         }
     }
 });

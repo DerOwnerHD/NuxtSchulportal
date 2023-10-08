@@ -326,7 +326,7 @@ export const useMyLessons = async (): Promise<MyLessonsAllCourses | string> => {
     // the new one will NOT work (it doesn't matter though)
     if (!key) {
         let key = (await useAESKey()) || undefined;
-        useLocalStorage("aes-key", key);
+        if (typeof key === "string" && !/^[A-Za-z0-9/\+=]{88}$/.test(key)) useLocalStorage("aes-key", key);
     }
 
     const { data, error: fetchError } = await useFetch<MyLessonsResponse>("/api/mylessons/courses", {

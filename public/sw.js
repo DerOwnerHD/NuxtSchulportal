@@ -22,13 +22,13 @@ self.addEventListener("push", async (event) => {
         });
     } else if (data.operation === "hello") {
         self.registration.showNotification("Hallöchen da!", {
-            body: "Nur ein kleiner Test um zu gucken ob denn alles funktioniert 🙂",
+            body: "Nur ein kleiner Test um zu gucken ob denn alles funktioniert 😊",
             icon: "https://i.imgur.com/YD9WuC0.png"
         });
         setTimeout(async () => {
             const notifications = await self.registration.getNotifications();
             notifications.forEach((notification) => notification.close());
-        });
+        }, 5000);
     }
 });
 self.addEventListener("notificationclick", async (event) => {

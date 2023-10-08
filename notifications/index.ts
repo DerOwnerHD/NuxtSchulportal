@@ -255,6 +255,13 @@ async function connect() {
                         if (daysFoundInOldPlan !== plan.days.length) text = plan.days.map(buildDay).join("\n");
                         else {
                             const anyDayHasChanged = plan.days.some((day) => {
+                                // So if there are no new substitutions in that day, there is no need
+                                // to show that the user and would just be annoying, so we do not process
+                                // it if it should be empty. Example: It is monday, there is one substitution
+                                // on tuesday. Then it becomes tuesday and thus wednesday appears on the
+                                // system. There are no substitutions on wednesday, nothing has changed on
+                                // tuesday. If this check wouldn't exist, the notification would still be shown
+                                if (!day.vertretungen.length) return false;
                                 const partner = oldPlan.days.find((x) => x.day === day.day);
                                 return !partner || dayHasChanged(day, partner);
                             });
