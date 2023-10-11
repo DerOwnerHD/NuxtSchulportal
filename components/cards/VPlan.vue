@@ -16,23 +16,28 @@
             <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else>
                 <p v-if="!plan.days.length">Keine Tage verfügbar</p>
                 <div v-for="(day, index) of plan.days">
-                    <header>
+                    <header class="leading-3 my-1">
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
                     </header>
                     <main>
                         <p v-if="!day.vertretungen.length">Keine Vertretungen</p>
                         <ul v-else>
                             <li
-                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(0, 2)"
+                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(
+                                    0,
+                                    day.vertretungen.length > 2 ? 2 : 3
+                                )"
                                 class="opacity-0">
                                 <span>[{{ lessons.from + (lessons.to ? "-" + lessons.to : "") }}] </span>
                                 <span v-if="!substitute && !subject"> Ausfall in </span>
                                 <b>{{ subject || subject_old }}</b>
-                                <span v-if="substitute"> bei {{ substitute }}</span>
-                                <span v-if="substitute && teacher" v-html="` (${teacher})`"></span>
+                                <span v-if="substitute || (substitute && teacher && teacher.replace(/<\/?del>/gi, '') !== substitute)">
+                                    bei <b>{{ substitute || teacher?.replace(/<\/?del>/gi, "") }}</b></span
+                                >
+                                <span v-if="room"> in {{ room }}</span>
                                 <span v-if="note"> ({{ note }})</span>
                             </li>
-                            <li v-if="day.vertretungen.length > 2">
+                            <li v-if="day.vertretungen.length > 3" class="opacity-0">
                                 {{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}
                             </li>
                         </ul>
