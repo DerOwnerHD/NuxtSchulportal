@@ -181,6 +181,7 @@ export default defineComponent({
 }
 #table {
     > div > div {
+        min-width: 45%;
         @apply px-1;
         header {
             text-align: center;
