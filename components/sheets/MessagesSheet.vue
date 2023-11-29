@@ -41,8 +41,6 @@
 </template>
 
 <script lang="ts">
-import { MoodleConversation } from "~/composables/apps";
-
 export default defineComponent({
     name: "MessagesSheet",
     emits: ["close"],

@@ -5,7 +5,7 @@ export interface MyLessonsCourse {
         short: string | null;
     };
     id: number;
-    attendance?: number;
+    attendance?: { [type: string]: number };
     last_lesson?: MyLessonsLesson;
 }
 

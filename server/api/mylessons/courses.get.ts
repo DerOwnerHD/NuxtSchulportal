@@ -74,6 +74,12 @@ export default defineEventHandler(async (event) => {
             expired.push({ teacher, subject, id });
         });
 
+        // All the types that may exist (fehlend, entschuldigt, anwesend, etc.)
+        // The first two columns are the subject and the teacher, thus we start at 3rd
+        const attendanceTypes = Array.from(document.querySelectorAll("#anwesend[role=tabpanel] table.table thead th:nth-child(n+3)")).map(
+            (element) => element.innerHTML
+        );
+
         document.querySelectorAll("#anwesend[role=tabpanel] table.table tbody tr").forEach((course) => {
             if (!key) return;
             const link = course.querySelector("td:first-child a")?.getAttribute("href");
@@ -81,18 +87,23 @@ export default defineEventHandler(async (event) => {
 
             const courseId = link.match(/(?:meinunterricht.php\?a=sus_view&id=)(\d+)/i)?.at(1);
 
-            const attendance = course.querySelector("td:last-child encoded")?.innerHTML;
-            if (!courseId || !attendance) return;
+            const encoded = Array.from(course.querySelectorAll("td:nth-child(n+3) encoded")).map((element) => element.innerHTML);
+            if (!courseId || !encoded) return;
 
             const courseIndex = courses.findIndex((x) => x.id === parseInt(courseId));
             if (courseIndex === -1) return;
 
-            const decoded = cryptoJS.AES.decrypt(attendance, key?.toString() || "");
-            const string = removeBreaks(Buffer.from(decoded.toString(), "hex").toString());
+            const attendance: { [type: string]: number } = {};
 
-            const counter = parseInt(string.replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>/, "").trim());
+            // We decode all the given attendances and get the clean strings from them
+            // veery ugly task but it's just better in one operation
+            const decodes = encoded.map((encrypted) => removeBreaks(Buffer.from(cryptoJS.AES.decrypt(encrypted, key).toString(), "hex").toString()));
+            // Removing some gibberish that probably is some salting stuff
+            decodes
+                .map((string) => parseInt(string.replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>/, "").trim()))
+                .forEach((count, index) => (attendance[attendanceTypes[index]] = count));
 
-            courses[courseIndex] = { ...courses[courseIndex], attendance: counter };
+            courses[courseIndex] = { ...courses[courseIndex], attendance };
         });
 
         document.querySelectorAll("#aktuell[role=tabpanel] #aktuellTable tbody tr").forEach((course) => {

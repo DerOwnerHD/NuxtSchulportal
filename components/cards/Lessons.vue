@@ -45,7 +45,16 @@
                     </div>
                     <p class="text-center text-sm" v-if="selected === -1 || !selectedCourse">Wähle einen Kurs aus</p>
                     <div id="content" v-else class="px-2">
-                        <p id="attendance" v-if="selectedCourse.attendance">In {{ selectedCourse.attendance }} Stunde(n) anwesend gewesen</p>
+                        <div id="attendance" v-if="selectedCourse.attendance">
+                            <span header-alike>Anwesendheit</span>
+                            <ul>
+                                <li v-for="item of Object.keys(selectedCourse.attendance)">
+                                    <span v-if="selectedCourse.attendance[item]">
+                                        {{ selectedCourse.attendance[item] }} Stunde(n) {{ item }}
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
                         <div v-if="selectedCourse.last_lesson">
                             <p class="text-center">
                                 <span header-alike class="text-[0.9rem]">Letzte Stunde</span>
@@ -62,7 +71,7 @@
                                     </ClientOnly>
                                     <span class="ml-1.5">Hausaufgaben {{ !selectedCourse.last_lesson.homework.done ? "nicht " : "" }}erledigt</span>
                                 </div>
-                                <small class="leading-3 block"><span header-alike>Hausaufgabe: </span>{{ selectedCourse.last_lesson.homework.description || "<leer> (Merkwürdig...)" }}</small>
+                                <small class="leading-3 block" v-html="selectedCourse.last_lesson.homework.description || '<leer> (Merkwürdig...)'"></small>
                                 <div class="flex justify-center">
                                     <button class="button-with-symbol" @click="updateHomework(selectedCourse.id, selectedCourse.last_lesson.homework.done ? 'undone' : 'done')">
                                         <ClientOnly>
