@@ -28,7 +28,7 @@ export const INFO_DIALOGS: { [name: string]: InfoDialog } = {
     AUTOMATIC_LOGIN_ERROR: {
         disappearAfter: 2000,
         header: "Anmeldung fehlgeschlagen",
-        details: `Versuche es erneut`,
+        details: `Versuche es erneut oder melde dich ab`,
         icon: "error.png"
     }
 };

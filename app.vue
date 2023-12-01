@@ -298,14 +298,18 @@ async function logout() {
         if (registration != null) await registration.unregister();
     }
 
-    useCookie("credentials").value = null;
-    useCookie("token").value = null;
-    useCookie("session").value = null;
-    useCookie("moodle-credentials").value = null;
+    // Credits to https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
+    // => useCookie("<anything>").value = null does not work for some reason...
+    function deleteAllCookies() {
+        const cookies = document.cookie.split(";");
+        for (const cookie of cookies) {
+            const equals = cookie.indexOf("=");
+            const name = equals > -1 ? cookie.substring(0, equals) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+        }
+    }
+    deleteAllCookies();
     useLocalStorage("aes-key", null);
-
-    await useWait(1);
-
     useInfoDialog().value = {
         header: "Abmeldung erfolgreich",
         disappearAfter: 2000,

@@ -132,6 +132,10 @@ app.all("/", (req, res) => {
 });
 
 const daysOfWeek = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+function removeDelElement(text: string | null) {
+    if (text === null) return;
+    return text?.replace(/<\/?del>/gi, "").trim();
+}
 
 app.listen(process.env.PORT, () => console.log(consoleTime() + `🌐 Listening on :${process.env.PORT}`));
 
@@ -210,19 +214,25 @@ async function connect() {
                     const plan = (await response.json()) as Vertretungsplan;
                     const oldPlan = subscription.plan as Vertretungsplan;
 
-                    const buildDay = (day: VertretungsDay) =>
-                        `${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}:\n${
-                            day.vertretungen
-                                .map(
-                                    ({ lessons, subject, subject_old, substitute, teacher, room, note }) =>
-                                        `・ [${lessons.from + (lessons.to ? "-" + lessons.to : "")}] ${
-                                            !substitute && !subject ? "Ausfall" : "Vertretung"
-                                        } in ${subject || subject_old}${substitute ? ` bei ${substitute}` : ""}${room ? ` in Raum ${room}` : ""}${
-                                            note ? ` [${note}]` : ""
-                                        }`
-                                )
-                                .join("\n") || "Keine Vertretungen 😭"
-                        }\n`;
+                    const buildDay = (day: VertretungsDay) => {
+                        // The day is stored as yyyy-mm-dd
+                        const title = `\n${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}`;
+                        const substitutions =
+                            day.vertretungen.map(({ lessons, subject, subject_old, substitute, teacher, room, note }) => {
+                                // Only subject_old will be filled when the class is cancelled
+                                const isCancelled = substitute === null && subject === null && subject_old;
+                                // Used i.e. for some notes like "Raumwechsel" or "Digitalunterricht"
+                                // -> thus no need to show the teacher if they haven't changed
+                                const sameTeacher = removeDelElement(teacher) === substitute;
+                                const substituteTeacher = !sameTeacher && substitute ? ` bei ${substitute}` : "";
+                                const hasMultipleLessons = lessons.list.length > 1;
+                                const fromTo = hasMultipleLessons ? lessons.from + "-" + lessons.to : lessons.from;
+                                return `\n・ [${fromTo}] ${isCancelled ? "Ausfall in " : ""}${subject || subject_old}${substituteTeacher}${
+                                    room ? ` in Raum ${room}` : ""
+                                }${note ? ` (${note})` : ""}`;
+                            }) || "\nKeine Vertretungen 😭";
+                        return title + substitutions.join("\n");
+                    };
 
                     const dayHasChanged = (day: VertretungsDay, oldDay: VertretungsDay) =>
                         JSON.stringify(day.vertretungen) !== JSON.stringify(oldDay.vertretungen);
@@ -251,9 +261,14 @@ async function connect() {
                     let text = null;
                     if (!oldPlan) text = plan.days.map(buildDay).join("\n");
                     else {
-                        const daysFoundInOldPlan = plan.days.reduce((acc, day) => (acc += oldPlan.days.find((x) => x.day === day.day) ? 1 : 0), 0);
-                        if (daysFoundInOldPlan !== plan.days.length) text = plan.days.map(buildDay).join("\n");
-                        else {
+                        const daysFoundInOldPlan = plan.days.filter((day) => oldPlan.days.find((old) => old.date === day.date));
+                        if (daysFoundInOldPlan.length !== plan.days.length) {
+                            // We do not need to find it via date as it is the same due to daysFoundInOldPlan
+                            // including the data from the new plan and we're using the new plan to compare
+                            const newDays = plan.days.filter((day) => !daysFoundInOldPlan.includes(day));
+                            const anySubstitutions = newDays.some((day) => day.vertretungen.length > 0);
+                            if (anySubstitutions) text = plan.days.map(buildDay).join("\n");
+                        } else {
                             const anyDayHasChanged = plan.days.some((day) => {
                                 // So if there are no new substitutions in that day, there is no need
                                 // to show that the user and would just be annoying, so we do not process
@@ -288,6 +303,10 @@ async function connect() {
                             await subscription.deleteOne();
                             console.log(consoleTime() + `📀 Removed user ${i} due to invalid endpoint`);
                         });
+                    // Useful for debugging when notifications were
+                    // sent and when the client actually recieved them
+                    const time = new Date();
+                    await appendFile("./dispatches.log", `\n[${time.getDate()}.${time.getMonth() + 1}.${time.getFullYear()}] ${consoleTime()}`);
                 } catch (error) {
                     console.error(error);
                     console.log(consoleTime() + `❌ Loading vplan failed for user ${i}`);

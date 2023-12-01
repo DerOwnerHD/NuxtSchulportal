@@ -45,7 +45,7 @@
                     </div>
                     <p class="text-center text-sm" v-if="selected === -1 || !selectedCourse">Wähle einen Kurs aus</p>
                     <div id="content" v-else class="px-2">
-                        <div id="attendance" v-if="selectedCourse.attendance">
+                        <div id="attendance" v-if="selectedCourse.attendance && Object.values(selectedCourse.attendance).some((type) => type !== null)">
                             <span header-alike>Anwesendheit</span>
                             <ul>
                                 <li v-for="item of Object.keys(selectedCourse.attendance)">
