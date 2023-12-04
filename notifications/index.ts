@@ -215,23 +215,24 @@ async function connect() {
                     const oldPlan = subscription.plan as Vertretungsplan;
 
                     const buildDay = (day: VertretungsDay) => {
-                        // The day is stored as yyyy-mm-dd
-                        const title = `\n${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}`;
-                        const substitutions =
-                            day.vertretungen.map(({ lessons, subject, subject_old, substitute, teacher, room, note }) => {
-                                // Only subject_old will be filled when the class is cancelled
-                                const isCancelled = substitute === null && subject === null && subject_old;
-                                // Used i.e. for some notes like "Raumwechsel" or "Digitalunterricht"
-                                // -> thus no need to show the teacher if they haven't changed
-                                const sameTeacher = removeDelElement(teacher) === substitute;
-                                const substituteTeacher = !sameTeacher && substitute ? ` bei ${substitute}` : "";
-                                const hasMultipleLessons = lessons.list.length > 1;
-                                const fromTo = hasMultipleLessons ? lessons.from + "-" + lessons.to : lessons.from;
-                                return `\n・ [${fromTo}] ${isCancelled ? "Ausfall in " : ""}${subject || subject_old}${substituteTeacher}${
-                                    room ? ` in Raum ${room}` : ""
-                                }${note ? ` (${note})` : ""}`;
-                            }) || "\nKeine Vertretungen 😭";
-                        return title + substitutions.join("\n");
+                        const index = plan.days.indexOf(day);
+                        // The day is stored as yyyy-mm-dd and there should
+                        // only be a line break when this is not the first day
+                        const title = `${index > 0 ? "\n" : ""}${day.day_of_week}, der ${day.day.split("-").reverse().join(".")}:\n`;
+                        const substitutions = day.vertretungen.map(({ lessons, subject, subject_old, substitute, teacher, room, note }) => {
+                            // Only subject_old will be filled when the class is cancelled
+                            const isCancelled = substitute === null && subject === null && subject_old;
+                            // Used i.e. for some notes like "Raumwechsel" or "Digitalunterricht"
+                            // -> thus no need to show the teacher if they haven't changed
+                            const sameTeacher = removeDelElement(teacher) === substitute;
+                            const substituteTeacher = !sameTeacher && substitute ? ` bei ${substitute}` : "";
+                            const hasMultipleLessons = lessons.list.length > 1;
+                            const fromTo = hasMultipleLessons ? lessons.from + "-" + lessons.to : lessons.from;
+                            return `・ [${fromTo}] ${isCancelled ? "Ausfall in " : ""}${subject || subject_old}${substituteTeacher}${
+                                room ? ` in Raum ${room}` : ""
+                            }${note ? ` (${note})` : ""}`;
+                        });
+                        return title + (substitutions.join("\n") || "Keine Vertretungen 😭");
                     };
 
                     const dayHasChanged = (day: VertretungsDay, oldDay: VertretungsDay) =>

@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else>
-                <p v-if="!plan.days.length">Keine Tage verfügbar</p>
+                <p v-if="!plan.days.length" class="opacity-0">Keine Tage verfügbar</p>
                 <div v-for="(day, index) of plan.days">
                     <header class="leading-3 my-1">
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
@@ -25,7 +25,7 @@
                             <li
                                 v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(
                                     0,
-                                    day.vertretungen.length > 2 ? 2 : 3
+                                    day.vertretungen.length > 3 ? 2 : 3
                                 )"
                                 class="opacity-0">
                                 <span>[{{ lessons.from + (lessons.to ? "-" + lessons.to : "") }}] </span>
@@ -37,9 +37,7 @@
                                 <span v-if="room"> in {{ room }}</span>
                                 <span v-if="note"> ({{ note }})</span>
                             </li>
-                            <li v-if="day.vertretungen.length > 3" class="opacity-0">
-                                {{ day.vertretungen.length - 2 }} weitere Vertretung{{ day.vertretungen.length > 3 ? "en" : "" }}
-                            </li>
+                            <li v-if="day.vertretungen.length > 3" class="opacity-0">Noch {{ day.vertretungen.length - 2 }} weitere...</li>
                         </ul>
                     </main>
                 </div>
@@ -74,6 +72,9 @@ export default defineComponent({
             plan: useState<Vertretungsplan>("vplan"),
             appErrors: useAppErrors()
         };
+    },
+    mounted() {
+        this.fadeIn();
     },
     computed: {
         datesForDays() {
@@ -151,6 +152,7 @@ export default defineComponent({
             // If we don't do it for each day seperatly, it would go through the first
             // day and only THEN start fading in the lessons of the second day
             document.querySelectorAll("article[card=vplan] #table ul").forEach((list) => list.querySelectorAll("li").forEach(fadeInElement));
+            document.querySelectorAll("article[card=vplan] #table p").forEach(fadeInElement);
         }
     },
     watch: {
