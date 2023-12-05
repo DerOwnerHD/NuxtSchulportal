@@ -72,12 +72,19 @@ export default defineEventHandler(async (event) => {
             const header = day.querySelector(".panel-heading");
             // Relative position of day ("heute", "morgen") and type of week ("A-Woche" or "B-Woche")
             const headerElements = [".badge:not(.woche)", ".badge.woche"].map((element) => header?.querySelector(element));
+            // News are kept in descrete boxes called "Allgemein" most often
+            // Inside those are more subsections, split by a <hr> element
+            // -> thus we need to split at them and later merge all the stuff
             const news = Array.from(day.querySelectorAll(".infos > tbody > tr:not(.subheader) > td")).map((element) =>
                 element.innerHTML
                     .trim()
                     .replace(/ <br> /gi, "<br>")
                     .replace(/(<img)[^>]*(>)/gi, "")
+                    .split("<hr>")
             );
+            // @ts-ignore TS does not want to merge a string array into a never
+            // array even though we declared the type ¯\_(ツ)_/¯
+            const mergedNews: string[] = [].concat(...news);
             // We can assume that the table has the attribute classview, for
             // whatever that may be used for, it is most definetly present (hopefully lol)
             const table = day.querySelector("table.table[data-classview]");
@@ -120,7 +127,7 @@ export default defineEventHandler(async (event) => {
                 day_of_week: DAYS[time.getDay()],
                 relative: headerElements[0]?.textContent || "",
                 vertretungen,
-                news
+                news: mergedNews
             });
         }
 
