@@ -366,38 +366,38 @@ export default defineComponent({
                 fill: "forwards"
             });
 
-            setTimeout(() => {
-                this.loginSuccessful = true;
-                setTimeout(() => {
-                    element.style.height = "";
-                    element.querySelector(".login-stage[stage='2']")?.animate([{ opacity: 0 }, { opacity: 1 }], {
-                        duration: 400,
-                        easing: "ease-out",
-                        fill: "forwards"
-                    });
-                    const newHeight = element.clientHeight;
-                    element.animate([{ height: `${oldHeight}px` }, { height: `${newHeight}px` }], {
-                        duration: 400,
-                        easing: "ease-in-out"
-                    });
-                    setTimeout(() => {
-                        const credentials = useCookie("credentials", {
-                            path: "/",
-                            expires: new Date("1/1/2037")
-                        });
-                        credentials.value = JSON.stringify({
-                            username: this.username,
-                            password: this.password,
-                            school: this.school
-                        });
-                        useCookie("token", {
-                            path: "/",
-                            expires: new Date("1/1/2037")
-                        }).value = this.token;
-                        location.reload();
-                    }, 2500);
-                }, 0);
-            }, 400);
+            await useWait(400);
+            this.loginSuccessful = true;
+            await nextTick();
+
+            element.style.height = "";
+            element.querySelector(".login-stage[stage='2']")?.animate([{ opacity: 0 }, { opacity: 1 }], {
+                duration: 400,
+                easing: "ease-out",
+                fill: "forwards"
+            });
+
+            const newHeight = element.clientHeight;
+            element.animate([{ height: `${oldHeight}px` }, { height: `${newHeight}px` }], {
+                duration: 400,
+                easing: "ease-in-out"
+            });
+
+            await useWait(1000);
+
+            useCookie<{}>("credentials", {
+                path: "/",
+                expires: new Date("1/1/2037")
+            }).value = {
+                username: this.username,
+                password: this.password,
+                school: this.school
+            };
+            useCookie("token", {
+                path: "/",
+                expires: new Date("1/1/2037")
+            }).value = this.token;
+            location.reload();
         },
         async handleResetPassword(event: Event) {
             event.preventDefault();

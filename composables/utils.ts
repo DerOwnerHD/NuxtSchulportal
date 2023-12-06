@@ -14,7 +14,7 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
     "503": "Service Not Available"
 };
 
-export const INFO_DIALOGS: { [name: string]: InfoDialog } = {
+export const infoDialogs: { [name: string]: InfoDialog } = {
     LOGIN: {
         disappearAfter: 2000,
         header: "Anmeldung erfolgreich",

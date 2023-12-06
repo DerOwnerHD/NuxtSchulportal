@@ -31,7 +31,7 @@
                                 <span>[{{ lessons.from + (lessons.to ? "-" + lessons.to : "") }}] </span>
                                 <span v-if="!substitute && !subject"> Ausfall in </span>
                                 <b>{{ subject || subject_old }}</b>
-                                <span v-if="substitute || (substitute && teacher && teacher.replace(/<\/?del>/gi, '') !== substitute)">
+                                <span v-if="substitute && teacher && teacher.replace(/<\/?del>/gi, '') !== substitute">
                                     bei <b>{{ substitute || teacher?.replace(/<\/?del>/gi, "") }}</b></span
                                 >
                                 <span v-if="room"> in {{ room }}</span>
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { INFO_DIALOGS } from "~/composables/utils";
+import { infoDialogs } from "~/composables/utils";
 export default defineComponent({
     name: "VPlan",
     data() {
@@ -123,12 +123,12 @@ export default defineComponent({
                 if (login) {
                     await this.refreshPlan(true);
                     await useWait(500);
-                    return (useInfoDialog().value = { ...INFO_DIALOGS.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` });
+                    return (useInfoDialog().value = { ...infoDialogs.AUTOMATIC_LOGIN, details: `Token: ${useToken().value}` });
                 }
 
                 await useWait(500);
 
-                useInfoDialog().value = INFO_DIALOGS.AUTOMATIC_LOGIN_ERROR;
+                useInfoDialog().value = infoDialogs.AUTOMATIC_LOGIN_ERROR;
             }
 
             if (typeof plan === "string") return (useAppErrors().value.vplan = plan);

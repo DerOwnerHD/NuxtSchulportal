@@ -21,16 +21,17 @@
                     <b v-if="!conversation.name && conversation.members[0].id === moodleCredentials.user">[Notizen]</b>
                     {{ conversation.name || conversation.members[0].name || "<Unbenannt>" }}
                 </p>
-                <p v-if="conversation.messages[0].text !== ''">
+                <p v-if="conversation.messages.length && conversation.messages[0].text !== ''">
                     <b>{{ conversation.messages[0].author === moodleCredentials.user ? "Ich: " : "" }}</b>
                     {{ conversation.messages[0].text }}
                 </p>
-                <p v-else>
+                <p v-else-if="conversation.messages.length">
                     <ClientOnly>
                         <font-awesome-icon :icon="['far', 'image']"></font-awesome-icon>
                     </ClientOnly>
                     <span class="ml-1">Andere Medien</span>
                 </p>
+                <p v-else>Keine Nachrichten</p>
             </main>
         </li>
     </ul>
