@@ -80,7 +80,7 @@ export default defineEventHandler(async (event) => {
                     .trim()
                     .replace(/ <br> /gi, "<br>")
                     .replace(/(<img)[^>]*(>)/gi, "")
-                    .split("<hr>")
+                    .split('<hr style="margin: 0px 2px;">')
             );
             // @ts-ignore TS does not want to merge a string array into a never
             // array even though we declared the type ¯\_(ツ)_/¯
