@@ -28,9 +28,9 @@
             </div>
         </div>
         <div v-else id="main-content" class="pt-16">
-            <LoginMenu v-if="!credentials"></LoginMenu>
+            <LoginMenu v-if="!loggedIn"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
-                <div v-if="tokenValid">
+                <ClientOnly>
                     <CardList></CardList>
                     <div class="flex justify-center my-5">
                         <ClientOnly>
@@ -44,29 +44,7 @@
                             </button>
                         </ClientOnly>
                     </div>
-                </div>
-                <div class="grid" v-else>
-                    <article class="basic-card grid place-content-center !w-fit px-4 mt-4 justify-self-center">
-                        <div class="spinner mt-3 mb-1 w-full justify-self-center" style="--size: 3rem"></div>
-                        <p>Du wirst angemeldet</p>
-                    </article>
-                    <div class="flex" v-if="loginTimeoutButtonsVisible">
-                        <button class="button-with-symbol flex items-center justify-center w-fit" @click="logout">
-                            <svg viewBox="0 0 512 512" class="h-4">
-                                <path
-                                    d="M377.9 105.9L500.7 228.7c7.2 7.2 11.3 17.1 11.3 27.3s-4.1 20.1-11.3 27.3L377.9 406.1c-6.4 6.4-15 9.9-24 9.9c-18.7 0-33.9-15.2-33.9-33.9l0-62.1-128 0c-17.7 0-32-14.3-32-32l0-64c0-17.7 14.3-32 32-32l128 0 0-62.1c0-18.7 15.2-33.9 33.9-33.9c9 0 17.6 3.6 24 9.9zM160 96L96 96c-17.7 0-32 14.3-32 32l0 256c0 17.7 14.3 32 32 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-64 0c-53 0-96-43-96-96L0 128C0 75 43 32 96 32l64 0c17.7 0 32 14.3 32 32s-14.3 32-32 32z" />
-                            </svg>
-                            <span>Abmelden</span>
-                        </button>
-                        <button class="button-with-symbol flex items-center justify-center w-fit" onclick="location.reload()">
-                            <svg viewBox="0 0 512 512" class="h-4">
-                                <path
-                                    d="M463.5 224H472c13.3 0 24-10.7 24-24V72c0-9.7-5.8-18.5-14.8-22.2s-19.3-1.7-26.2 5.2L413.4 96.6c-87.6-86.5-228.7-86.2-315.8 1c-87.5 87.5-87.5 229.3 0 316.8s229.3 87.5 316.8 0c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0c-62.5 62.5-163.8 62.5-226.3 0s-62.5-163.8 0-226.3c62.2-62.2 162.7-62.5 225.3-1L327 183c-6.9 6.9-8.9 17.2-5.2 26.2s12.5 14.8 22.2 14.8H463.5z" />
-                            </svg>
-                            <span>Neu laden</span>
-                        </button>
-                    </div>
-                </div>
+                </ClientOnly>
             </main>
         </div>
     </div>
@@ -77,160 +55,144 @@
     </ClientOnly>
     <MoodleNotifications v-if="moodleNotificationsOpen"></MoodleNotifications>
 </template>
-<script lang="ts">
-let tokenValid = ref(false);
-export default defineComponent({
-    name: "App",
-    async mounted() {
-        // This would indicate the user isn't logged in
-        if (!useCookie("credentials").value) return;
-        const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
-        // We store which cards are opened in the local storage
-        useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
-        useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
-
-        await this.login();
-        if (!tokenValid.value) return;
-
-        this.loadSplan();
-        this.loadVplan();
-        this.loadMyLessons();
-
-        const moodleLoggedIn = await this.moodleLogin();
-        if (!moodleLoggedIn) return;
-
-        this.loadConversations();
-        this.loadMoodleCourses();
-        this.loadMoodleEvents();
-        this.loadMoodleNotifications();
-    },
-    methods: {
-        async login() {
-            if (!useCredentials().value) return;
-
-            const isValid = await useTokenCheck();
-            console.log("Token valid: " + isValid);
-
-            if (useState("api-error").value !== null) return;
-
-            if (isValid) {
-                tokenValid.value = true;
-                return;
-            }
-
-            const login = await useLogin(true);
-            console.log("Login: " + login);
-            if (!login) return;
-            tokenValid.value = true;
-
-            await this.loadAESKey();
-
-            await useWait(1000);
-            useInfoDialog().value = { ...INFO_DIALOGS.LOGIN, details: `Token: ${useToken().value}` };
-        },
-        async moodleLogin() {
-            const isValid = await useMoodleCheck();
-            console.log("Moodle session valid: " + isValid);
-
-            if (useState("api-error").value !== null) return false;
-            if (isValid) return true;
-
-            const login = await useMoodleLogin();
-            console.log("Moodle login: " + login);
-
-            if (!login) return false;
-            return true;
-        },
-        async loadSplan() {
-            const plan = await useStundenplan();
-            // The plan is an array - if not it's an error
-            if (!Array.isArray(plan)) return (useAppErrors().value.splan = plan);
-            if (plan.length > 1) useAppNews().value.splan = plan.length - 1;
-            useState("splan", () => plan);
-        },
-        async loadVplan() {
-            const plan = await useVplan();
-            if (typeof plan === "string") return (useAppErrors().value.vplan = plan);
-            useState("vplan", () => plan);
-            useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
-        },
-        async loadMoodleEvents() {
-            const events = await useMoodleEvents();
-            if (typeof events === "string") return (useAppErrors().value["moodle-events"] = events);
-            useAppNews().value.moodle += events.length;
-            useState("moodle-events", () => events);
-        },
-        async loadMoodleNotifications() {
-            const notifications = await useMoodleNotifications();
-            if (typeof notifications === "string") return (useAppErrors().value["moodle-notifications"] = notifications);
-            useAppNews().value.moodle += notifications.filter((notification) => notification.read).length;
-            useState("moodle-notifications", () => notifications);
-        },
-        async loadMoodleCourses() {
-            const courses = await useMoodleCourses();
-            if (typeof courses === "string") return (useAppErrors().value["moodle-courses"] = courses);
-            useState("moodle-courses", () => courses);
-        },
-        async loadAESKey() {
-            const key = await useAESKey();
-            if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
-            useState("aes-key", () => key);
-            useLocalStorage("aes-key", key);
-        },
-        async loadMyLessons() {
-            const courses = await useMyLessons();
-            if (typeof courses === "string" || !courses.courses) return (useAppErrors().value.mylessons = courses.toString());
-            useState("mylessons", () => courses);
-            useAppNews().value.lessons = courses.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
-        },
-        async loadConversations() {
-            const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
-                personal: await useConversations(),
-                groups: await useConversations("groups"),
-                favorites: await useConversations("favorites"),
-                all: []
-            };
-
-            // As we fetch three types of conversations at once, we need to check
-            // if any of them are invalid and then show that error to the user
-            const conversationsInvalid = Object.values(conversations).reduce((invalid: string, value) => {
-                return Array.isArray(value) ? invalid : value;
-            }, "");
-
-            if (conversationsInvalid !== "") {
-                useAppErrors().value.conversations = conversationsInvalid;
-                return;
-            }
-
-            let unreadCount = 0;
-            Object.values(conversations).forEach((group) => {
-                if (typeof group === "string") return;
-                group.forEach((conversation) => {
-                    if (conversations.all.find((x) => x.id === conversation.id)) return;
-                    conversations.all.push(conversation);
-                    unreadCount += conversation.unread || 0;
-                });
-            });
-
-            // We want to sort ALL conversations by latest message
-            conversations.all = conversations.all.sort((a, b) => {
-                if (!a.messages[0]) return 1;
-
-                if (!b.messages[0] || a.messages[0].timestamp > b.messages[0].timestamp) return -1;
-                else return 1;
-            });
-
-            useAppNews().value.messages = unreadCount;
-            useState("moodle-conversations", () => conversations);
-        }
-    }
-});
-</script>
 
 <script setup lang="ts">
+import { callWithNuxt } from "nuxt/app";
 import SecretButton from "./components/utils/SecretButton.vue";
-const loginTimeoutButtonsVisible = ref(false);
-setTimeout(() => (loginTimeoutButtonsVisible.value = true), 1500);
+const loggedIn = useState("logged-in", () => false);
+// On the server, we only want to be processing basic SPH login
+// Does not include any API calls for apps, nor Moodle nor keygen
+// for messages (not yet) and lessons decryption
+// The SSR shouldn't take long (only a couple 100ms)
+// and login always takes about 300-400ms
+onServerPrefetch(async () => {
+    const nuxt = useNuxtApp();
+    const credentials = useCredentials();
+    // Due to us not being logged in, we do not process any
+    // the loggedIn state will not get set to true
+    // -> thus the login screen gets shown
+    if (!credentials.value) return;
+    const alreadyLoggedIn = await useTokenCheck(useToken().value);
+    if (alreadyLoggedIn) return (loggedIn.value = true);
+    // This would also just cause the user to
+    // be prompted back towards the login screen
+    const hasLoginSucceeded = await callWithNuxt(nuxt, useLogin, [false]);
+    if (!hasLoginSucceeded) return;
+    // After this the client will take over and actually
+    // start loading all the apps, Moodle and such
+    loggedIn.value = true;
+});
+
+onMounted(async () => {
+    // It has not worked on the server side
+    if (!loggedIn.value) return;
+    // These are all required for storing the news count
+    const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
+    useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
+    // We store which cards are opened in the local storage
+    useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
+    // All this can be loaded syncronously, as it all just requires
+    // us to be logged into the SPH, not Moodle
+    loadSplan();
+    loadVplan();
+    loadMyLessons();
+    const moodleLoggedIn = await moodleLogin();
+    if (!moodleLoggedIn) return;
+    // All of these are Moodle specific things, thus only being
+    // loaded after obtaining Moodle credentials
+    loadConversations();
+    loadMoodleCourses();
+    loadMoodleEvents();
+    loadMoodleNotifications();
+});
+
+const errors = useAppErrors();
+async function moodleLogin() {
+    const hasValidToken = await useMoodleCheck();
+    console.log("Moodle session valid: " + hasValidToken);
+    // If previously something had already failed to load,
+    // no longer even bother trying to log into Moodle
+    if (useState("api-error").value !== null) return false;
+    // Moodle tokens tend to only expire after a pretty long
+    // time (actually visible in /api/moodle/check)
+    if (hasValidToken) return true;
+    const hasAuthed = await useMoodleLogin();
+    console.log("Moodle login: " + hasAuthed);
+    return hasAuthed;
+}
+// Errors are most often represented as the error
+// details string which gets returned by the API
+async function loadSplan() {
+    const plan = await useStundenplan();
+    if (typeof plan === "string") return (errors.value.splan = plan);
+    if (plan.length > 1) useAppNews().value.splan = plan.length - 1;
+    useState("splan", () => plan);
+}
+async function loadVplan() {
+    const plan = await useVplan();
+    if (typeof plan === "string") return (errors.value.vplan = plan);
+    useState("vplan", () => plan);
+    useAppNews().value.vplan = plan.days.reduce((acc, day) => (acc += day.vertretungen.length), 0);
+}
+async function loadMoodleEvents() {
+    const events = await useMoodleEvents();
+    if (typeof events === "string") return (errors.value["moodle-events"] = events);
+    useAppNews().value.moodle += events.length;
+    useState("moodle-events", () => events);
+}
+async function loadMoodleNotifications() {
+    const notifications = await useMoodleNotifications();
+    if (typeof notifications === "string") return (errors.value["moodle-notifications"] = notifications);
+    useAppNews().value.moodle += notifications.filter((notification) => notification.read).length;
+    useState("moodle-notifications", () => notifications);
+}
+async function loadMoodleCourses() {
+    const courses = await useMoodleCourses();
+    if (typeof courses === "string") return (errors.value["moodle-courses"] = courses);
+    useState("moodle-courses", () => courses);
+}
+async function loadAESKey() {
+    const key = await useAESKey();
+    if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
+    useState("aes-key", () => key);
+    useLocalStorage("aes-key", key);
+}
+async function loadMyLessons() {
+    const courses = await useMyLessons();
+    if (typeof courses === "string" || !courses.courses) return (errors.value.mylessons = courses.toString());
+    useState("mylessons", () => courses);
+    useAppNews().value.lessons = courses.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
+}
+async function loadConversations() {
+    const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {
+        personal: await useConversations(),
+        groups: await useConversations("groups"),
+        favorites: await useConversations("favorites"),
+        all: []
+    };
+    // As we fetch three types of conversations at once, we need to check
+    // if any of them are invalid and then show an error to the user
+    const anyTypeIsInvalid = Object.values(conversations).some((value) => !Array.isArray(value));
+    if (anyTypeIsInvalid) return (errors.value.conversations = "Fehler");
+    let unreadCount = 0;
+    Object.values(conversations).forEach((group) => {
+        if (typeof group === "string") return;
+        group.forEach((conversation) => {
+            if (conversations.all.find((x) => x.id === conversation.id)) return;
+            conversations.all.push(conversation);
+            unreadCount += conversation.unread || 0;
+        });
+    });
+    // We want to sort ALL conversation types by latest message
+    conversations.all = conversations.all.sort((a, b) => {
+        if (!a.messages[0]) return 1;
+
+        if (!b.messages[0] || a.messages[0].timestamp > b.messages[0].timestamp) return -1;
+        else return 1;
+    });
+    useAppNews().value.messages = unreadCount;
+    useState("moodle-conversations", () => conversations);
+}
 interface SheetStates {
     open: string[];
 }
@@ -282,7 +244,6 @@ const credentials = useCookie<Credentials>("credentials");
 
 function getSchoolBG() {
     if (!credentials.value) return "background: url(https://start.schulportal.hessen.de/img/schulbg/default-lg.png)";
-
     return `background: url("https://start.schulportal.hessen.de/exporteur.php?a=schoolbg&i=${credentials.value.school}&s=lg")`;
 }
 

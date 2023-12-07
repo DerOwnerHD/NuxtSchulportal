@@ -57,17 +57,17 @@ export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-c
  * Validates the token stored in the credentials cookie
  * @returns Whether the stored token is valid
  */
-export const useTokenCheck = async (): Promise<boolean> => {
+export const useTokenCheck = async (token: string): Promise<boolean> => {
     const nuxtApp = useNuxtApp();
 
-    const token = useToken();
-    if (!token.value) return false;
-
-    const { data: validation, error } = await useFetch<CheckResponse>("/api/check", {
-        method: "GET",
-        headers: { Authorization: token.value },
-        retry: false
-    });
+    const { data: validation, error } = await nuxtApp.runWithContext(
+        async () =>
+            await useFetch<CheckResponse>("/api/check", {
+                method: "GET",
+                headers: { Authorization: token },
+                retry: false
+            })
+    );
 
     if (error.value !== null) {
         // @ts-expect-error
@@ -114,10 +114,10 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
         if (failOnError) (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
         return false;
     }
-
-    useToken().value = login.value.token;
-    useSession().value = login.value.session;
-
+    nuxtApp.runWithContext(() => {
+        useToken().value = login.value.token;
+        useSession().value = login.value.session;
+    });
     return true;
 };
 

@@ -2,6 +2,8 @@ export const useWait = (ms: number) => {
     return new Promise((resolve) => setTimeout(resolve, ms));
 };
 
+export const useOpenCards = () => useState<Array<string>>("cards-open");
+
 export const DEFAULT_ERRORS: { [status: string]: string } = {
     "400": "Bad Request",
     "401": "Unauthorized",
