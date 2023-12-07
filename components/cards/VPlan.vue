@@ -62,7 +62,6 @@
 </template>
 
 <script lang="ts">
-import { infoDialogs } from "~/composables/utils";
 export default defineComponent({
     name: "VPlan",
     data() {
@@ -70,7 +69,9 @@ export default defineComponent({
             months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
             cardsOpen: useState<Array<string>>("cards-open"),
             plan: useState<Vertretungsplan>("vplan"),
-            appErrors: useAppErrors()
+            appErrors: useAppErrors(),
+            distanceInterval: -1,
+            distanceUpdate: 0
         };
     },
     mounted() {
@@ -85,13 +86,19 @@ export default defineComponent({
             });
         },
         distanceToLastUpdated() {
-            if (this.plan.last_updated === null) return "<unbekannt>";
-
-            const now = new Date();
-            const lastUpdated = new Date(this.plan.last_updated);
+            this.distanceUpdate;
+            return this.calculateDistance();
+        }
+    },
+    props: {
+        extended: { type: Boolean, required: true }
+    },
+    methods: {
+        calculateDistance() {
+            if (!this.plan?.last_updated) return "<unbekannt>";
 
             const steps = [1000, 60, 60, 24];
-            const difference = now.getTime() - lastUpdated.getTime();
+            const difference = Date.now() - new Date(this.plan.last_updated).getTime();
 
             let iterator = 0;
             for (const step of ["Sekunde", "Minute", "Stunde"]) {
@@ -106,12 +113,7 @@ export default defineComponent({
 
             const days = Math.floor(difference / (1000 * 60 * 60 * 24));
             return `${days} Tag${days !== 1 ? "en" : ""}`;
-        }
-    },
-    props: {
-        extended: { type: Boolean, required: true }
-    },
-    methods: {
+        },
         async refreshPlan(bypass: boolean): Promise<any> {
             if (useState("vplan").value == null && !useAppErrors().value.vplan && !bypass) return;
             useState("vplan").value = null;
@@ -153,11 +155,30 @@ export default defineComponent({
             // day and only THEN start fading in the lessons of the second day
             document.querySelectorAll("article[card=vplan] #table ul").forEach((list) => list.querySelectorAll("li").forEach(fadeInElement));
             document.querySelectorAll("article[card=vplan] #table p").forEach(fadeInElement);
+        },
+        continuousUpdate() {
+            clearInterval(this.distanceInterval);
+            if (!this.plan?.last_updated) return;
+            const difference = Date.now() - new Date(this.plan.last_updated).getTime();
+            // If it is already past more than an hour, there will
+            // be no need of always updating it, as it would only do
+            // so very rarely
+            if (difference > 1000 * 60 * 60) return;
+            // @ts-ignore timeouts also work as numbers (the index of the timeout)
+            this.distanceInterval = setInterval(() => {
+                if (!this.plan?.last_updated) return clearInterval(this.distanceInterval);
+                // This is required as otherwise the computed property wouldn't refresh
+                // This value is mentioned inside the computed function, thus is does
+                this.distanceUpdate++;
+            // If the difference is already larger than a minute, we
+            // only run this every minute, else every second
+            }, 1000 * (difference > 1000 * 60 ? 60 : 1));
         }
     },
     watch: {
         plan() {
             this.fadeIn();
+            this.continuousUpdate();
         },
         extended() {
             this.fadeIn();

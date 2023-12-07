@@ -52,7 +52,7 @@ export default defineEventHandler(async (event) => {
         response.updating = window.document.querySelector("#content .alert.alert-danger a[href].btn.btn-primary") !== null;
 
         response.last_updated = (() => {
-            const element = window.document.querySelector(".panel.panel-info:not(#menue_tag) .panel-body .pull-right i:not(.glyphicon)");
+            const element = window.document.querySelector(".panel:not(#menue_tag) .panel-body .pull-right i:not(.glyphicon)");
             if (element === null) return null;
 
             const matches = element.innerHTML.match(/(\d{2}\.\d{2}\.\d{4})(?: um )(\d{2}:\d{2}:\d{2})/i);
