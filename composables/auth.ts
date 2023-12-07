@@ -110,13 +110,15 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
         return false;
     }
 
-    if (!login.value?.token || !login.value.session) {
+    if (!login.value?.token || !login.value?.session) {
         if (failOnError) (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
         return false;
     }
     nuxtApp.runWithContext(() => {
-        useToken().value = login.value.token;
-        useSession().value = login.value.session;
+        // @ts-ignore
+        useToken().value = login.value?.token;
+        // @ts-ignore
+        useSession().value = login.value?.session;
     });
     return true;
 };
