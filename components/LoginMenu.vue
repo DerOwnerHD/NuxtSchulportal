@@ -2,20 +2,20 @@
     <div class="grid justify-center">
         <main class="relative mt-8 basic-card" id="login">
             <h1 class="ml-5">Anmeldung</h1>
-            <div v-if="useState<boolean>('loaded') && !loginSuccessful" stage="1" class="login-stage" style="opacity: 1">
+            <div v-if="state !== Status.LoginSuccessful" stage="1" class="login-stage">
                 <div class="rounded-button absolute right-4 !px-3 top-2.5" @click="showSchoolSearch">
                     <ClientOnly>
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
                     </ClientOnly>
                     <span class="ml-2">Schule</span>
                 </div>
-                <form id="login" @submit="handleFormSubmit" class="flex justify-center">
+                <form id="login" @submit.prevent="login" class="flex justify-center">
                     <div id="form-wrapper" class="grid w-80 place-content-center">
                         <div class="flex">
                             <input
                                 type="text"
-                                :disabled="resetInProgress || loginInProgress"
-                                v-model="username"
+                                :disabled="state !== Status.None"
+                                v-model="credentials.username"
                                 name="username"
                                 placeholder="Name (Vorname.Nachname)"
                                 autofocus
@@ -24,18 +24,18 @@
                                 class="w-20 text-center"
                                 min="1"
                                 max="206568"
-                                :disabled="resetInProgress || loginInProgress"
+                                :disabled="state !== Status.None"
                                 type="number"
-                                v-model="school"
+                                v-model="credentials.school"
                                 name="school"
                                 placeholder="Schule"
                                 required />
                         </div>
                         <div class="relative flex items-center">
                             <input
-                                type="password"
-                                :disabled="resetInProgress || loginInProgress"
-                                v-model="password"
+                                :type="passwordVisible ? 'text' : 'password'"
+                                :disabled="state !== Status.None"
+                                v-model="credentials.password"
                                 placeholder="Passwort"
                                 name="password"
                                 required
@@ -44,12 +44,12 @@
                                 <font-awesome-icon
                                     id="login-password-toggle"
                                     class="rounded-button mx-2 aspect-square"
-                                    @mousedown="togglePasswordVisibility"
-                                    :icon="['fas', passwordButtonType]"></font-awesome-icon>
+                                    @mousedown="passwordVisible = !passwordVisible"
+                                    :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
                             </ClientOnly>
                         </div>
-                        <button :disabled="resetInProgress || loginInProgress">
-                            <div v-if="!loginInProgress">
+                        <button :disabled="state !== Status.None">
+                            <div v-if="state !== Status.LoggingIn">
                                 <ClientOnly>
                                     <font-awesome-icon class="mr-1" :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
                                 </ClientOnly>
@@ -60,7 +60,7 @@
                     </div>
                 </form>
             </div>
-            <div v-else-if="loginSuccessful" class="grid place-content-center mt-2 text-center login-stage" stage="2">
+            <div v-else-if="state === Status.LoginSuccessful" class="grid place-content-center mt-2 text-center login-stage" stage="2">
                 <div class="info">Deine Anmeldedaten bleiben gespeichert</div>
                 <ClientOnly>
                     <font-awesome-icon class="text-3xl w-full justify-center mt-2" :icon="['fas', 'check']"></font-awesome-icon>
@@ -68,20 +68,16 @@
                 <p>Login erfolgreich</p>
                 <small>Die Seite wird gleich neu geladen</small>
             </div>
-            <div v-else class="grid mt-3 justify-items-center">
-                <div class="spinner" style="--size: 2.5rem"></div>
-                <p class="text-center mt-0.5">Wird geladen</p>
-            </div>
-            <div class="error mt-2" v-if="errorMessage">
+            <div class="error mt-2" v-if="errors.login.message">
                 <span>
-                    {{ errorMessage }}
+                    {{ errors.login.message }}
                 </span>
             </div>
         </main>
         <footer class="mt-4 overflow-hidden basic-card" id="reset">
             <h1 class="ml-5">Passwort vergessen</h1>
             <div class="grid my-2 text-center">
-                <div v-if="useState<boolean>('loaded') && resetState === 1" class="pw-reset" stage="1">
+                <div v-if="![Status.ResetCodeVerification, Status.VerifyingCode, Status.ResetDone].includes(state)" class="reset-stage" stage="1">
                     <div class="flex justify-center">
                         <div class="warning">Nur mit hinterlegter E-Mail möglich</div>
                     </div>
@@ -105,45 +101,43 @@
                             Lehrer
                         </div>
                     </div>
-                    <form id="reset" @submit="handleResetPassword" class="flex justify-center mt-2">
+                    <form id="reset" @submit.prevent="beginReset" class="flex justify-center mt-2">
                         <div id="form-wrapper" class="grid w-80 place-content-center">
                             <input
                                 class="w-60"
-                                :disabled="resetInProgress"
+                                :disabled="state !== Status.None"
                                 type="text"
                                 name="birthday"
-                                v-model="birthday"
+                                v-model="reset.birthday"
                                 placeholder="Geburtsdatum (dd.mm.yyyy)"
                                 required />
-                            <input type="text" hidden v-model="username" name="username" placeholder="Name (Vorname.Nachname)" />
-                            <input hidden type="number" v-model="school" name="school" placeholder="Schule" />
-                            <button :disabled="resetInProgress || loginInProgress">
-                                <div v-if="!resetInProgress">Weiter</div>
+                            <button :disabled="state !== Status.None">
+                                <div v-if="state !== Status.ResetSending">Weiter</div>
                                 <div v-else class="spinner" style="--size: 1.5rem"></div>
                             </button>
                         </div>
                     </form>
                 </div>
-                <div v-else-if="resetState === 2" class="pw-reset" stage="2" style="opacity: 0">
+                <div v-else-if="[Status.ResetCodeVerification, Status.VerifyingCode].includes(state)" class="reset-stage" stage="2">
                     <div class="flex justify-center mb-2">
                         <div class="info">Du hast keinen Code erhalten?<br />Kontaktiere deine Schule</div>
                     </div>
                     <p class="my-2 leading-4">Du hast einen Code per E-Mail erhalten<br />Dieser ist für 10 Minuten gültig</p>
                     <form name="reset-code" class="flex justify-center" @input="handleResetInput" @keyup="handleResetInput">
-                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
                         <span>-</span>
-                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
                         <span>-</span>
-                        <input v-for="i in 4" required type="text" :disabled="verifyingCode" />
+                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
                     </form>
                 </div>
-                <div class="pw-reset" v-else-if="resetState === 3" stage="3">
+                <div class="reset-stage" v-else-if="state === Status.ResetDone" stage="3">
                     <div class="flex justify-center mb-2">
-                        <div class="warning">Neues Passwort nach ca.<br />10 Minuten nutzbar</div>
+                        <div class="warning">Dein neues Passwort ist nach<br />ungefähr 10 Minuten nutzbar</div>
                     </div>
                     <p>
                         Dein neues Passwort ist<br /><b
-                            ><u>{{ newPassword }}</u></b
+                            ><u>{{ reset.password }}</u></b
                         >
                     </p>
                     <p>Bei deiner nächsten Anmeldung <b>online</b><br />musst du ein neues Passwort festlegen</p>
@@ -159,20 +153,16 @@
                         </ClientOnly>
                         <span>Öffnen</span>
                     </button>
-                    <button class="button-with-symbol" @click="openDefaultLogin">
+                    <button class="button-with-symbol" onclick="location.reload()">
                         <ClientOnly>
                             <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
                         </ClientOnly>
                         <span>Neu laden</span>
                     </button>
                 </div>
-                <div v-else class="grid mt-3 justify-items-center">
-                    <div class="spinner" style="--size: 2.5rem"></div>
-                    <p class="text-center mt-0.5">Wird geladen</p>
-                </div>
-                <div class="error mt-2" v-if="resetErrorMessage">
+                <div class="error mt-2" v-if="errors.reset.message">
                     <span>
-                        {{ resetErrorMessage }}
+                        {{ errors.reset.message }}
                     </span>
                 </div>
             </div>
@@ -182,7 +172,7 @@
                 <div class="h-[60vh] py-3" v-if="search.loaded">
                     <div class="w-full flex justify-center">
                         <input
-                            @input="searchSchools"
+                            v-model="searchQuery"
                             type="text"
                             class="w-60 h-10 rounded-md drop-shadow-md px-2"
                             placeholder="Suche eine Schule..." />
@@ -201,7 +191,7 @@
                             </li>
                         </ul>
                         <p class="text-center">
-                            <span v-if="search.query === ''">Na los! Suche etwas...</span>
+                            <span v-if="searchQuery === ''">Na los! Suche etwas...</span>
                             <span v-else-if="!search.results.length">Keine Ergebnisse gefunden</span>
                         </p>
                     </div>
@@ -212,7 +202,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 // This only exists so that TypeScript doesn't complain about
 // all those things that would otherwise be undefined when building
 // the list there
@@ -221,360 +211,271 @@ interface School {
     name: string;
     town: number;
 }
-export default defineComponent({
-    name: "LoginMenu",
-    data() {
-        const schools: School[] = [];
-        const results: School[] = [];
-        return {
-            username: "",
-            password: "",
-            school: null,
-            loginInProgress: false,
-            loginSuccessful: false,
-            errorMessage: "",
-            resetErrorMessage: "",
-            birthday: "",
-            resetInProgress: false,
-            resetState: 1,
-            // Only used to help inputs to identify whether the code is getting checked
-            verifyingCode: false,
-            resetData: {
-                token: "",
-                sid: "",
-                ikey: ""
-            },
-            newPassword: "1",
-            passwordButtonType: "eye",
-            token: "",
-            search: {
-                loaded: false,
-                schools,
-                results,
-                query: ""
-            }
-        };
-    },
-    computed: {
-        element() {
-            return document.querySelector("main#login");
-        }
-    },
-    methods: {
-        async showSchoolSearch() {
-            if (this.loginInProgress || this.resetInProgress || this.loginSuccessful) return;
-            const dialog = document.querySelector("dialog#school-search");
-            if (!(dialog instanceof HTMLDialogElement)) return;
-
-            dialog.showModal();
-
-            if (this.search.loaded) return;
-
-            try {
-                const response = await fetch("/schools.json");
-                const districts = await response.json();
-                if (!Array.isArray(districts)) throw new TypeError("Expected to recieve school districts");
-                districts.forEach((district) => district.schools.forEach((school: School) => this.search.schools.push(school)));
-                this.search.loaded = true;
-            } catch (error) {
-                console.error(error);
-                useState("api-error").value = {
-                    response: error,
-                    message: "Konnte Schulen nicht laden"
-                };
-            }
-        },
-        closeSchoolSearch(id?: number) {
-            const dialog = document.querySelector("dialog#school-search");
-            if (!(dialog instanceof HTMLDialogElement)) return;
-
-            // @ts-expect-error
-            if (id) this.school = id;
-
-            // @ts-expect-error
-            dialog.querySelector("input").value = "";
-            this.search.results = [];
-
-            dialog.close();
-        },
-        searchSchools(event: Event) {
-            if (!(event.target instanceof HTMLInputElement)) return;
-
-            this.search.query = event.target.value;
-            if (!event.target.value) return (this.search.results = []);
-
-            const regex = new RegExp(event.target.value, "i");
-            this.search.results = this.search.schools.filter((school) => regex.test(school.name)).slice(0, 10);
-        },
-        togglePasswordVisibility() {
-            const input = document.querySelector("form#login input[name=password]");
-            const passwordHidden = input?.getAttribute("type") === "password";
-            input?.setAttribute("type", passwordHidden ? "text" : "password");
-            this.passwordButtonType = passwordHidden ? "eye-slash" : "eye";
-        },
-        showErrorMessage(text: string, reset?: boolean) {
-            const form = document.querySelector("form#" + (reset ? "reset" : "login"));
-            clearTimeout(parseInt(form?.getAttribute("error-timeout") || "0"));
-            if (reset) this.resetErrorMessage = text;
-            else this.errorMessage = text;
-            const timeout = setTimeout(() => {
-                if (reset) this.resetErrorMessage = "";
-                else this.errorMessage = "";
-            }, 2000);
-            form?.setAttribute("error-timeout", String(timeout));
-        },
-        async handleFormSubmit(event: Event) {
-            event.preventDefault();
-            // This either matches a name max.mustermann or a teacher ID like ABC
-            if (!/^([A-Z]+\.[A-Z]+(?:-[A-Z]+)?|[A-Z]{3})$/i.test(this.username)) return this.showErrorMessage("Nutzername ungültig");
-            if (!this.school || this.school < 1 || this.school > 206568 || !Number.isInteger(this.school))
-                return this.showErrorMessage("Schule ungültig", true);
-            this.loginInProgress = true;
-            try {
-                const login = await fetch("/api/login", {
-                    method: "POST",
-                    headers: [["Content-Type", "application/json"]],
-                    body: JSON.stringify({
-                        username: this.username,
-                        password: this.password,
-                        school: this.school
-                    })
-                });
-                const data = await login.json();
-                if (data.error) {
-                    this.loginInProgress = false;
-                    if (data.cooldown) return this.showErrorMessage(`Warte ${data.cooldown} Sekunde${data.cooldown > 1 ? "n" : ""}`);
-                    return this.showErrorMessage(login.status === 401 ? "Anmeldedaten falsch" : data.error_details || `Fehler (${login.status})`);
-                }
-                this.token = data.token;
-                useSession().value = data.session;
-            } catch (error) {
-                this.loginInProgress = false;
-                return this.showErrorMessage("Netzwerkfehler");
-            }
-
-            const element = document.querySelector("main#login");
-            // If there would be an issue (very unexpected, should be impossible),
-            // we just proceed to the next screen without running the animation
-            if (!element || !(element instanceof HTMLElement)) return (this.loginSuccessful = true);
-            const oldHeight = element.clientHeight;
-            element.style.height = oldHeight + "px";
-
-            element.querySelector(".login-stage[stage='1']")?.animate([{ opacity: 1 }, { opacity: 0 }], {
-                duration: 400,
-                easing: "ease-in",
-                fill: "forwards"
-            });
-
-            await useWait(400);
-            this.loginSuccessful = true;
-            await nextTick();
-
-            element.style.height = "";
-            element.querySelector(".login-stage[stage='2']")?.animate([{ opacity: 0 }, { opacity: 1 }], {
-                duration: 400,
-                easing: "ease-out",
-                fill: "forwards"
-            });
-
-            const newHeight = element.clientHeight;
-            element.animate([{ height: `${oldHeight}px` }, { height: `${newHeight}px` }], {
-                duration: 400,
-                easing: "ease-in-out"
-            });
-
-            await useWait(1000);
-
-            useCookie<{}>("credentials", {
-                path: "/",
-                expires: new Date("1/1/2037")
-            }).value = {
-                username: this.username,
-                password: this.password,
-                school: this.school
-            };
-            useCookie("token", {
-                path: "/",
-                expires: new Date("1/1/2037")
-            }).value = this.token;
-            location.reload();
-        },
-        async handleResetPassword(event: Event) {
-            event.preventDefault();
-            if (!/^([A-Z]+\.[A-Z]+(?:-[A-Z]+)?|[A-Z]{3})$/i.test(this.username)) return this.showErrorMessage("Trage deinen Namen oben ein", true);
-            if (!/^(([12][0-9]|0[1-9]|3[0-1])\.(0[1-9]|11|12)\.(?:19|20)\d{2})$/.test(this.birthday))
-                return this.showErrorMessage("Geburtstag ungültig", true);
-            if (!this.school || this.school < 1 || this.school > 206568 || !Number.isInteger(this.school))
-                return this.showErrorMessage("Trage deine Schule oben ein", true);
-            this.resetInProgress = true;
-            const types = ["student", "parent", "teacher"];
-            const type = types.indexOf(document.querySelector(".select#resetType > div[selected]")?.id || "student");
-            try {
-                const response = await fetch("/api/resetpassword", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        type,
-                        username: this.username,
-                        birthday: this.birthday,
-                        school: this.school
-                    }),
-                    headers: [["Content-Type", "application/json"]]
-                });
-                const data = await response.json();
-                if (data.error) {
-                    this.resetInProgress = false;
-                    return this.showErrorMessage(data.error_details || "Fehler beim Zurücksetzen", true);
-                }
-                this.resetData = data;
-            } catch (error) {
-                this.resetInProgress = false;
-                return this.showErrorMessage("Netzwerkfehler", true);
-            }
-            this.setResetState(2);
-        },
-        updateResetSelection(type: string) {
-            if (this.resetInProgress || this.loginInProgress) return;
-            document.querySelector(`.select#resetType > div#${type}`)?.setAttribute("selected", "");
-            document.querySelectorAll(`.select#resetType > div:not(#${type})`).forEach((x) => x.removeAttribute("selected"));
-        },
-        setResetState(state: number) {
-            const footer = document.querySelector("footer#reset");
-            if (!footer || !(footer instanceof HTMLElement)) return;
-            const oldHeight = footer.clientHeight;
-            footer.style.height = oldHeight + "px";
-            footer.querySelector(`.pw-reset[stage='${this.resetState}']`)?.animate([{ opacity: 1 }, { opacity: 0 }], {
-                duration: 400,
-                easing: "ease-in",
-                fill: "forwards"
-            });
-
-            setTimeout(() => {
-                this.resetState = state;
-                // The element has yet to be attached to the DOM
-                // so we just wait for all the proxy stuff to be
-                // executed and put this right after
-                footer.style.height = "";
-                setTimeout(() => {
-                    footer.querySelector(`.pw-reset[stage='${state}']`)?.animate([{ opacity: 0 }, { opacity: 1 }], {
-                        duration: 400,
-                        easing: "ease-out",
-                        fill: "forwards"
-                    });
-                    const newHeight = footer.clientHeight;
-
-                    footer.animate([{ height: `${oldHeight}px` }, { height: `${newHeight}px` }], {
-                        duration: 400,
-                        easing: "ease-in-out"
-                    });
-                    if (state === 1) {
-                        this.resetInProgress = false;
-                        this.birthday = "";
-                    } else if (state === 2) {
-                        document
-                            .querySelectorAll(".pw-reset[stage='2'] input")
-                            // @ts-expect-error
-                            .forEach((element) => (element.value = ""));
-                    }
-                }, 0);
-            }, 400);
-        },
-        async verifyResetCode() {
-            let code = "";
-            const satisfied = Array.from(document.querySelectorAll(".pw-reset[stage='2'] input")).every((element, index) => {
-                if (!(element instanceof HTMLInputElement)) return true;
-                const value = element.value.substring(0, 1);
-                if (value === "") {
-                    this.verifyingCode = false;
-                    element.focus();
-                    return false;
-                }
-                code += `${value}${[3, 7].includes(index) ? "-" : ""}`;
-                return true;
-            });
-            if (!satisfied) return;
-            if (!/^([a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4})$/i.test(code)) return this.showErrorMessage("Code kann nicht gültig sein", true);
-            this.verifyingCode = true;
-            try {
-                const raw = await fetch("/api/resetpassword", {
-                    method: "PUT",
-                    body: JSON.stringify({
-                        token: this.resetData.token,
-                        ikey: this.resetData.ikey,
-                        sid: this.resetData.sid,
-                        code
-                    }),
-                    headers: [["Content-Type", "application/json"]]
-                });
-                const data = await raw.json();
-                if (data.error) {
-                    this.resetInProgress = false;
-                    this.showErrorMessage(data.error_details || "Fehler beim Zurücksetzen", true);
-                    return setTimeout(() => {
-                        this.setResetState(1);
-                        this.verifyingCode = false;
-                    }, 2000);
-                }
-
-                this.newPassword = data.password;
-            } catch (error) {
-                this.resetInProgress = false;
-                this.verifyingCode = false;
-                this.showErrorMessage("Fehler beim Zurücksetzen", true);
-                return setTimeout(() => {
-                    this.setResetState(1);
-                    this.verifyingCode = false;
-                }, 2000);
-            }
-
-            this.verifyingCode = false;
-            this.setResetState(3);
-        },
-        async handleResetInput(event: Event) {
-            function getOtherElement(element: HTMLInputElement, action: "nextElementSibling" | "previousElementSibling"): HTMLInputElement | null {
-                const other = element[action];
-                if (other === null) return null;
-                if (!(other instanceof HTMLInputElement)) {
-                    const otherSquared = other[action];
-                    if (!(otherSquared instanceof HTMLInputElement)) return null;
-                    return otherSquared;
-                }
-                return other;
-            }
-            if (!(event.target instanceof HTMLInputElement)) return;
-            // Must be a keydown - we want to check for backspace
-            if (event instanceof KeyboardEvent) {
-                if (event.key !== "Backspace") return;
-                const previous = getOtherElement(event.target, "previousElementSibling");
-                if (previous === null) return;
-                previous.focus();
-                previous.value = "";
-            }
-            if (!(event instanceof InputEvent)) return;
-            // Multiple characters have been pasted
-            if (event.target.value.length > 1) {
-                let element = event.target;
-                const characters = element.value.replace(/-/g, "").split("");
-                characters.every((character, index) => {
-                    element.value = character;
-                    const next = getOtherElement(element, "nextElementSibling");
-                    if (next === null) return false;
-                    element = next;
-                    if (index === characters.length - 1) element.focus();
-                    return true;
-                });
-            }
-            // One character has been typed -> one forwards
-            else getOtherElement(event.target, "nextElementSibling")?.focus();
-            if (document.forms.namedItem("reset-code")?.checkValidity()) this.verifyResetCode();
-        },
-        copyNewPassword() {
-            window.navigator.clipboard.writeText(this.newPassword);
-        },
-        openDefaultLogin() {
-            window.open("https://login.schulportal.hessen.de/?i=" + this.school, "_blank");
-        }
-    }
+const credentials = ref<{ username: string; password: string; school: number | null }>({
+    username: "",
+    password: "",
+    school: null
 });
+const reset = ref({
+    birthday: "",
+    token: "",
+    sid: "",
+    ikey: "",
+    password: ""
+});
+enum Status {
+    None,
+    LoggingIn,
+    LoginSuccessful,
+    ResetSending,
+    ResetCodeVerification,
+    VerifyingCode,
+    ResetDone
+}
+const passwordVisible = ref(false);
+const state: Ref<Status> = ref(Status.None);
+interface Search {
+    loaded: boolean;
+    schools: School[];
+    results: School[];
+}
+const search = ref<Search>({
+    loaded: false,
+    schools: [],
+    results: []
+});
+const searchQuery = ref("");
+
+async function showSchoolSearch() {
+    if (state.value !== Status.None) return;
+    const dialog = document.querySelector<HTMLDialogElement>("dialog#school-search");
+    dialog?.showModal();
+    // All further processing is just for fetching the list
+    if (search.value.loaded) return;
+    try {
+        const response = await fetch("/schools.json");
+        const districts = await response.json();
+        if (!Array.isArray(districts)) throw new TypeError("Expected to recieve list of districts");
+        search.value.schools = search.value.schools.concat(...districts.map((district) => district.schools as School[]));
+        search.value.loaded = true;
+    } catch (error) {
+        console.error(error);
+        dialog?.close();
+    }
+}
+function closeSchoolSearch(id?: number) {
+    const dialog = document.querySelector("dialog#school-search");
+    if (!(dialog instanceof HTMLDialogElement)) return;
+    searchQuery.value = "";
+    search.value.results = [];
+    dialog.close();
+    if (!id) return;
+    credentials.value.school = id;
+}
+watch(searchQuery, (value) => {
+    const regex = new RegExp(value, "i");
+    console.log(search.value.schools);
+    search.value.results = search.value.schools.filter((school) => regex.test(school.name)).slice(0, 10);
+});
+
+const errors = ref<{ [key: string]: { message: string | null; timeout?: NodeJS.Timeout } }>({
+    login: { message: null },
+    reset: { message: null }
+});
+function showErrorMessage(message: string, type: "login" | "reset" = "login") {
+    clearTimeout(errors.value[type].timeout);
+    errors.value[type] = {
+        timeout: setTimeout(() => (errors.value[type].message = null), 2000),
+        message
+    };
+}
+
+async function login() {
+    const { username, school } = credentials.value;
+    if (!patterns.USERNAME.test(username)) return showErrorMessage("Nutzername ungültig");
+    if (school === null || school < 1 || school > 206568 || !Number.isInteger(school)) return showErrorMessage("Schule ungültig");
+    state.value = Status.LoggingIn;
+    const { data, error } = await useFetch<LoginResponse>("/api/login", {
+        method: "POST",
+        body: credentials.value
+    });
+    if (error.value !== null) {
+        state.value = Status.None;
+        const { data, cause } = error.value;
+        showErrorMessage(data?.error_details || cause);
+        return;
+    }
+
+    // A cookie can only be set for at most one year
+    const expiration = new Date();
+    expiration.setFullYear(expiration.getFullYear() + 1);
+    useCookie<{}>("credentials", { expires: expiration }).value = toRaw(credentials.value);
+    useCookie("token").value = data.value?.token;
+    useCookie("session").value = data.value?.session;
+
+    const card = document.querySelector("main#login");
+    if (!(card instanceof HTMLElement)) return;
+    await resizeCard(card, { in: ".login-stage[stage='2']", out: ".login-stage[stage='1']" }, () => (state.value = Status.LoginSuccessful));
+    location.reload();
+}
+
+async function resizeCard(element: HTMLElement, content: { in: string; out: string }, trigger: Function) {
+    element.querySelector(content.out)?.animate(
+        {
+            opacity: 0
+        },
+        250
+    );
+    const previousHeight = element.clientHeight;
+    await useWait(250);
+    await trigger();
+    await nextTick();
+    const height = element.clientHeight;
+    element.querySelector(content.in)?.animate([{ opacity: 0 }, { opacity: 1 }], 250);
+    element.animate([{ height: previousHeight + "px" }, { height: height + "px" }], 250);
+    // This timeout is just so the function does not actually resolve
+    // until all the animations are all done (if caller awaits this func)
+    await useWait(250);
+}
+
+interface InitialResetResponse {
+    error: boolean;
+    error_details?: any;
+    ikey: string;
+    token: string;
+    sid: string;
+}
+async function beginReset() {
+    const { username, school } = credentials.value;
+    if (!patterns.USERNAME.test(username)) return showErrorMessage("Nutzername oben ungültig", "reset");
+    if (school === null || school < 1 || school > 206568 || !Number.isInteger(school)) return showErrorMessage("Schule oben ungültig", "reset");
+    if (!patterns.BIRTHDAY.test(reset.value.birthday)) return showErrorMessage("Geburtstag ungültig", "reset");
+    state.value = Status.ResetSending;
+    const types = ["student", "parent", "teacher"];
+    const type = types.indexOf(document.querySelector(".select#resetType > div[selected]")?.id || "student");
+    const { data, error } = await useFetch<InitialResetResponse>("/api/resetpassword", {
+        method: "POST",
+        body: {
+            type,
+            username,
+            school,
+            birthday: reset.value.birthday
+        }
+    });
+    if (error.value !== null) {
+        state.value = Status.None;
+        const { data, cause } = error.value;
+        showErrorMessage(data?.error_details || cause, "reset");
+        return;
+    }
+    // This should be impossible, as if data is null,
+    // error shouldn't be null but TS does not know that...
+    if (data.value === null) return (state.value = Status.None);
+    const { ikey, token, sid } = data.value;
+    reset.value = {
+        ...reset.value,
+        ikey,
+        token,
+        sid
+    };
+    const card = document.querySelector("footer#reset");
+    if (!(card instanceof HTMLElement)) return;
+    await resizeCard(card, { in: ".reset-stage[stage='2']", out: ".reset-stage[stage='1']" }, () => (state.value = Status.ResetCodeVerification));
+}
+
+function updateResetSelection(type: string) {
+    if (state.value !== Status.None) return;
+    document.querySelector(`.select#resetType > div#${type}`)?.setAttribute("selected", "");
+    document.querySelectorAll(`.select#resetType > div:not(#${type})`).forEach((x) => x.removeAttribute("selected"));
+}
+
+async function handleResetInput(event: Event) {
+    function getOtherElement(element: HTMLInputElement, action: "nextElementSibling" | "previousElementSibling"): HTMLInputElement | null {
+        const other = element[action];
+        if (other === null) return null;
+        if (!(other instanceof HTMLInputElement)) {
+            const otherSquared = other[action];
+            if (!(otherSquared instanceof HTMLInputElement)) return null;
+            return otherSquared;
+        }
+        return other;
+    }
+    if (!(event.target instanceof HTMLInputElement)) return;
+    // Must be a keydown - we want to check for backspace
+    if (event instanceof KeyboardEvent) {
+        if (event.key !== "Backspace") return;
+        const previous = getOtherElement(event.target, "previousElementSibling");
+        if (previous === null) return;
+        previous.focus();
+        previous.value = "";
+    }
+    if (!(event instanceof InputEvent)) return;
+    // Multiple characters have been pasted
+    if (event.target.value.length > 1) {
+        let element = event.target;
+        const characters = element.value.replace(/-/g, "").split("");
+        characters.every((character, index) => {
+            element.value = character;
+            const next = getOtherElement(element, "nextElementSibling");
+            if (next === null) return false;
+            element = next;
+            if (index === characters.length - 1) element.focus();
+            return true;
+        });
+    }
+    // One character has been typed -> one forwards
+    else getOtherElement(event.target, "nextElementSibling")?.focus();
+    if (document.forms.namedItem("reset-code")?.checkValidity()) verifyResetCode();
+}
+
+interface FinalResetResponse {
+    error: boolean;
+    error_details?: any;
+    password: string;
+}
+async function verifyResetCode() {
+    let code = "";
+    const satisfied = Array.from(document.querySelectorAll(".reset-stage[stage='2'] input")).every((element, index) => {
+        if (!(element instanceof HTMLInputElement)) return true;
+        const value = element.value.substring(0, 1);
+        if (value === "") return false;
+        code += `${value}${[3, 7].includes(index) ? "-" : ""}`;
+        return true;
+    });
+    if (!satisfied) return;
+    if (!/^([a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4})$/i.test(code)) return showErrorMessage("Code kann nicht gültig sein", "reset");
+    state.value = Status.VerifyingCode;
+    const { ikey, token, sid } = reset.value;
+    const { data, error } = await useFetch<FinalResetResponse>("/api/resetpassword", {
+        method: "PUT",
+        body: {
+            ikey,
+            token,
+            sid,
+            code
+        }
+    });
+    const card = document.querySelector("footer#reset");
+    // We cannot risk the password getting lost just because it
+    // couldn't find the element (how that would be possible I dunno)
+    if (!(card instanceof HTMLElement)) return (state.value = Status.ResetDone);
+    if (error.value !== null) {
+        await resizeCard(card, { in: ".reset-stage[stage='1']", out: ".reset-stage[stage='2']" }, () => (state.value = Status.None));
+        const { data, cause } = error.value;
+        showErrorMessage(data?.error_details || cause, "reset");
+        return;
+    }
+    if (!data.value) return;
+    reset.value.password = data.value.password;
+    await resizeCard(card, { in: ".reset-stage[stage='3']", out: ".reset-stage[stage='2']" }, () => (state.value = Status.ResetDone));
+}
+
+function copyNewPassword() {
+    window.navigator.clipboard.writeText(reset.value.password);
+}
+function openDefaultLogin() {
+    window.open("https://login.schulportal.hessen.de/?i=" + credentials.value.school, "_blank");
+}
 </script>
 
 <style scoped>
@@ -598,7 +499,7 @@ form {
         background: var(--element-color);
     }
 }
-.pw-reset[stage="2"] {
+.reset-stage[stage="2"] {
     input {
         @apply h-12 w-5 p-0 text-center mx-0.5;
     }

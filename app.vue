@@ -82,7 +82,6 @@ onServerPrefetch(async () => {
     // start loading all the apps, Moodle and such
     loggedIn.value = true;
 });
-
 onMounted(async () => {
     // It has not worked on the server side
     if (!loggedIn.value) return;
@@ -96,6 +95,7 @@ onMounted(async () => {
     loadSplan();
     loadVplan();
     loadMyLessons();
+    loadAESKey();
     const moodleLoggedIn = await moodleLogin();
     if (!moodleLoggedIn) return;
     // All of these are Moodle specific things, thus only being
@@ -143,7 +143,7 @@ async function loadMoodleEvents() {
 async function loadMoodleNotifications() {
     const notifications = await useMoodleNotifications();
     if (typeof notifications === "string") return (errors.value["moodle-notifications"] = notifications);
-    useAppNews().value.moodle += notifications.filter((notification) => notification.read).length;
+    useAppNews().value.moodle += notifications.filter((notification) => !notification.read).length;
     useState("moodle-notifications", () => notifications);
 }
 async function loadMoodleCourses() {
@@ -277,6 +277,8 @@ async function logout() {
         icon: "done.png",
         details: "Erneute Anmeldung jederzeit möglich"
     };
+    await useWait(1000);
+    location.reload();
 }
 
 useHead({

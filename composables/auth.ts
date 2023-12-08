@@ -9,7 +9,7 @@ interface CheckResponse {
     error_details?: any;
     valid?: boolean;
 }
-interface LoginResponse {
+export interface LoginResponse {
     error: boolean;
     error_details?: any;
     token?: string;

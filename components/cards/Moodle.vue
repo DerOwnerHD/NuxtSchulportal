@@ -15,7 +15,7 @@
                             </ClientOnly>
                             <span v-if="appErrors['moodle-notifications']">Fehler</span>
                             <span v-else-if="!notifications" class="spinner" style="--size: 0.75rem"></span>
-                            <span v-else>{{ notifications.filter((notification) => notification.read).length }}</span>
+                            <span v-else>{{ notifications.filter((notification) => !notification.read).length }}</span>
                         </span>
                     </div>
                     <div class="grid place-content-center py-2" v-if="appErrors['moodle-courses'] != null">
