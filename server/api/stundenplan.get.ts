@@ -1,4 +1,4 @@
-import { APIError, generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
+import { APIError, generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
 
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
 
         // There might be a redirect, as the server might be down
         // Even if there is no logged in user, the server will still 200
-        if (raw.status !== 200) throw new APIError("Couldn't load SPlan");
+        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
         const { i } = parseCookie(raw.headers.get("set-cookie") || "");
         // The cookie might either be nonexistent or set to 0 if the user isn't logged in

@@ -7,6 +7,7 @@ const DEFAULT_ERRORS: { [status: string]: string } = {
     "404": "Not Found",
     "405": "Method Not Allowed",
     "410": "Gone",
+    "418": "I'm a teapot",
     "429": "Too Many Requests",
     "500": "Internal Server Error",
     "502": "Bad Gateway",
@@ -41,8 +42,17 @@ export const patterns = {
     SID: /^[a-z0-9]{26}$/,
     NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
-    AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/
+    AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
+    DATE_YYYY_MM_DD_HYPHENS: /^20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
+    DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/
 };
+
+// This is in use when the user has to reset their password on SPH
+// All URLs get redirected to this URL and we need to make them aware of it
+// The second part is needed by the Splan, as it has to follow redirects
+export const hasPasswordResetLocationSet = (response: Response) =>
+    (response.status === 302 && response.headers.get("location") === "benutzerverwaltung.php?a=userChangePassword") ||
+    response.url === "https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userChangePassword";
 
 export const knownSubscriptionServices = [
     "android.googleapis.com",
@@ -81,11 +91,23 @@ export const validateQuery = (
         if (typeof value === "string" && ((object.pattern && !object.pattern.test(value)) || (object.options && !object.options.includes(value))))
             return false;
 
-        if (object.type === "number") {
+        if (object.type === "number" && value != undefined) {
             const valueAsNumber = parseFloat(value);
             if (!Number.isInteger(valueAsNumber) || !Number.isSafeInteger(valueAsNumber) || !Number.isFinite(valueAsNumber)) return false;
             if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
         }
+
+        // If we have a string and it is either too large or too small, we fail
+        if (
+            object.type === "string" &&
+            value != undefined &&
+            ((object.min && object.min > value.length) || (object.max && object.max < value.length))
+        )
+            return false;
+
+        // As we always just recieve strings, we have
+        // to make sure it is a boolean this way
+        if (object.type === "boolean" && value != undefined && !["false", "true"].includes(value)) return false;
 
         if ((value == undefined && object.required) || (object.length !== undefined && value?.length !== object.length && value != undefined))
             return false;

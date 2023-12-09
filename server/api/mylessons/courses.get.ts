@@ -1,6 +1,6 @@
 import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
+import { generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
 
@@ -34,6 +34,8 @@ export default defineEventHandler(async (event) => {
             redirect: "manual",
             method: "GET"
         });
+
+        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
         const { i } = parseCookie(raw.headers.get("set-cookie") || "");
         // The cookie might either be nonexistent or set to 0 if the user isn't logged in

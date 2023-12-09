@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { APIError, generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
+import { APIError, generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
 import { JSDOM } from "jsdom";
 // Starts on sunday cos Date#getDay does too
 const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
@@ -25,13 +25,14 @@ export default defineEventHandler(async (event) => {
 
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/vertretungsplan.php", {
+            redirect: "manual",
             headers: {
                 Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
                 ...generateDefaultHeaders(address)
             }
         });
 
-        if (raw.status !== 200) throw new APIError("Couldn't load VPlan");
+        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
         const { i } = parseCookie(raw.headers.get("set-cookie") || "");
         // The cookie might either be nonexistent or set to 0 if the user isn't logged in
