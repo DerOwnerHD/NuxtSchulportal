@@ -1,10 +1,10 @@
 <template>
-    <main v-if="cardsOpen.includes('messages')">
+    <main v-if="cards.includes('messages')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
             <div>
                 <div class="grid place-content-center py-2" v-if="conversations == undefined || !conversations.all.length">
-                    <div class="error" v-if="appErrors['conversations'] != null">
-                        <span>{{ appErrors["conversations"] }}</span>
+                    <div class="error" v-if="errors['conversations'] != null">
+                        <span>{{ errors["conversations"] }}</span>
                     </div>
                     <div v-else class="spinner" style="--size: 2rem"></div>
                 </div>
@@ -15,25 +15,14 @@
     </main>
     <footer>
         <button @click="useOpenSheet('messages', true)">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             <span>Alle Chats anzeigen</span>
         </button>
     </footer>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-    name: "Messages",
-    data() {
-        return {
-            conversations: useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations"),
-            cardsOpen: useState<Array<string>>("cards-open"),
-            appErrors: useAppErrors(),
-            sheets: useState<{ open: string[] }>("sheets"),
-            credentials: useMoodleCredentials()
-        };
-    }
-});
+<script setup lang="ts">
+const conversations = useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations");
+const cards = useOpenCards();
+const errors = useAppErrors();
 </script>

@@ -26,9 +26,7 @@
                     {{ conversation.messages[0].text }}
                 </p>
                 <p v-else-if="conversation.messages.length">
-                    <ClientOnly>
                         <font-awesome-icon :icon="['far', 'image']"></font-awesome-icon>
-                    </ClientOnly>
                     <span class="ml-1">Andere Medien</span>
                 </p>
                 <p v-else>Keine Nachrichten</p>

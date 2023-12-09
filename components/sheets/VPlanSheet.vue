@@ -1,25 +1,19 @@
 <template>
     <div class="relative">
         <div class="flex w-screen items-center justify-center">
-            <ClientOnly>
-                <font-awesome-icon class="mr-2" :icon="['fas', 'book']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon class="mr-2" :icon="['fas', 'book']"></font-awesome-icon>
             <h1>Vertretungsplan</h1>
         </div>
-        <ClientOnly>
-            <font-awesome-icon
-                class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
-                :icon="['fas', 'up-right-from-square']"
-                onclick="window.open('https://start.schulportal.hessen.de/vertretungsplan.php')">
-            </font-awesome-icon>
-        </ClientOnly>
+        <font-awesome-icon
+            class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
+            :icon="['fas', 'up-right-from-square']"
+            onclick="window.open('https://start.schulportal.hessen.de/vertretungsplan.php')">
+        </font-awesome-icon>
         <button
             class="rounded-button absolute left-5 top-[-0.5rem] !p-2 !px-3 h-8 flex justify-center items-center"
             v-if="plan && plan.days && plan.days.length"
             @click="openNewsSheet">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
             <span class="ml-2" v-if="selectedDay">{{ selectedDay.news.length }}</span>
         </button>
         <div class="grid place-content-center py-2" v-if="!plan">
@@ -59,9 +53,7 @@
                     <thead>
                         <tr>
                             <td v-for="row in ['clock', 'book', 'user', 'user-slash', 'location-dot', 'info']">
-                                <ClientOnly>
-                                    <font-awesome-icon :icon="['fas', row]"></font-awesome-icon>
-                                </ClientOnly>
+                                <font-awesome-icon :icon="['fas', row]"></font-awesome-icon>
                             </td>
                         </tr>
                     </thead>
@@ -78,9 +70,7 @@
                 </table>
                 <div class="flex justify-center" v-if="lastUpdated">
                     <div class="mt-2 px-3 rounded-full border-white border-[1px] w-fit drop-shadow">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
-                        </ClientOnly>
+                        <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
                         <span class="ml-2" v-html="lastUpdated"></span>
                     </div>
                 </div>

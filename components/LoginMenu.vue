@@ -4,9 +4,7 @@
             <h1 class="ml-5">Anmeldung</h1>
             <div v-if="state !== Status.LoginSuccessful" stage="1" class="login-stage">
                 <div class="rounded-button absolute right-4 !px-3 top-2.5" @click="showSchoolSearch">
-                    <ClientOnly>
-                        <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
-                    </ClientOnly>
+                    <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
                     <span class="ml-2">Schule</span>
                 </div>
                 <form id="login" @submit.prevent="login" class="flex justify-center">
@@ -40,19 +38,15 @@
                                 name="password"
                                 required
                                 class="flex-auto" />
-                            <ClientOnly>
-                                <font-awesome-icon
-                                    id="login-password-toggle"
-                                    class="rounded-button mx-2 aspect-square"
-                                    @mousedown="passwordVisible = !passwordVisible"
-                                    :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
-                            </ClientOnly>
+                            <font-awesome-icon
+                                id="login-password-toggle"
+                                class="rounded-button mx-2 aspect-square"
+                                @mousedown="passwordVisible = !passwordVisible"
+                                :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
                         </div>
                         <button :disabled="state !== Status.None">
                             <div v-if="state !== Status.LoggingIn">
-                                <ClientOnly>
-                                    <font-awesome-icon class="mr-1" :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
-                                </ClientOnly>
+                                <font-awesome-icon class="mr-1" :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
                                 <span>Anmelden</span>
                             </div>
                             <div v-else class="spinner" style="--size: 1.5rem"></div>
@@ -62,9 +56,7 @@
             </div>
             <div v-else-if="state === Status.LoginSuccessful" class="grid place-content-center mt-2 text-center login-stage" stage="2">
                 <div class="info">Deine Anmeldedaten bleiben gespeichert</div>
-                <ClientOnly>
-                    <font-awesome-icon class="text-3xl w-full justify-center mt-2" :icon="['fas', 'check']"></font-awesome-icon>
-                </ClientOnly>
+                <font-awesome-icon class="text-3xl w-full justify-center mt-2" :icon="['fas', 'check']"></font-awesome-icon>
                 <p>Login erfolgreich</p>
                 <small>Die Seite wird gleich neu geladen</small>
             </div>
@@ -83,21 +75,15 @@
                     </div>
                     <div class="select" id="resetType">
                         <div id="student" selected @click="updateResetSelection('student')">
-                            <ClientOnly>
-                                <font-awesome-icon :icon="['fas', 'child']"></font-awesome-icon>
-                            </ClientOnly>
+                            <font-awesome-icon :icon="['fas', 'child']"></font-awesome-icon>
                             Schüler
                         </div>
                         <div id="parent" @click="updateResetSelection('parent')">
-                            <ClientOnly>
-                                <font-awesome-icon :icon="['fas', 'hands-holding-child']"></font-awesome-icon>
-                            </ClientOnly>
+                            <font-awesome-icon :icon="['fas', 'hands-holding-child']"></font-awesome-icon>
                             Eltern
                         </div>
                         <div id="teacher" @click="updateResetSelection('teacher')">
-                            <ClientOnly>
-                                <font-awesome-icon :icon="['fas', 'user']"></font-awesome-icon>
-                            </ClientOnly>
+                            <font-awesome-icon :icon="['fas', 'user']"></font-awesome-icon>
                             Lehrer
                         </div>
                     </div>
@@ -142,21 +128,15 @@
                     </p>
                     <p>Bei deiner nächsten Anmeldung <b>online</b><br />musst du ein neues Passwort festlegen</p>
                     <button class="button-with-symbol" @click="copyNewPassword">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-                        </ClientOnly>
+                        <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
                         <span>Kopieren</span>
                     </button>
                     <button class="button-with-symbol" @click="openDefaultLogin">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
-                        </ClientOnly>
+                        <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
                         <span>Öffnen</span>
                     </button>
                     <button class="button-with-symbol" onclick="location.reload()">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
-                        </ClientOnly>
+                        <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
                         <span>Neu laden</span>
                     </button>
                 </div>
@@ -176,12 +156,11 @@
                             type="text"
                             class="w-60 h-10 rounded-md drop-shadow-md px-2"
                             placeholder="Suche eine Schule..." />
-                        <ClientOnly>
-                            <font-awesome-icon
-                                @click="closeSchoolSearch"
-                                class="rounded-button text-2xl aspect-square self-center ml-2"
-                                :icon="['fas', 'xmark']"></font-awesome-icon>
-                        </ClientOnly>
+
+                        <font-awesome-icon
+                            @click="closeSchoolSearch"
+                            class="rounded-button text-2xl aspect-square self-center ml-2"
+                            :icon="['fas', 'xmark']"></font-awesome-icon>
                     </div>
                     <div class="mt-5">
                         <ul id="schools" v-for="school in search.results">
@@ -302,6 +281,7 @@ async function login() {
     if (error.value !== null) {
         state.value = Status.None;
         const { data, cause } = error.value;
+        if (data?.cooldown) return showErrorMessage(`Bitte warte ${data.cooldown} Sekunde${data.cooldown > 1 ? "n" : ""}`);
         showErrorMessage(data?.error_details || cause);
         return;
     }
@@ -460,6 +440,9 @@ async function verifyResetCode() {
     // couldn't find the element (how that would be possible I dunno)
     if (!(card instanceof HTMLElement)) return (state.value = Status.ResetDone);
     if (error.value !== null) {
+        // This means we have just been rate limited and we do not want
+        // to destroy the whole process so we just let the user try again
+        if (error.value.status === 429) return showErrorMessage("Versuche es gleich erneut", "reset");
         await resizeCard(card, { in: ".reset-stage[stage='1']", out: ".reset-stage[stage='2']" }, () => (state.value = Status.None));
         const { data, cause } = error.value;
         showErrorMessage(data?.error_details || cause, "reset");

@@ -1,20 +1,16 @@
 <template>
     <button id="secret-button" class="fixed top-0 right-0 p-1 pb-2 pl-2 grid place-content-center opacity-0" @click="show">
-        <ClientOnly>
-            <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
-        </ClientOnly>
+        <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
     </button>
     <dialog id="secrets">
-        <ClientOnly>
-            <button class="button-with-symbol" @click="deleteSW">
-                <font-awesome-icon :icon="['fas', 'trash']"></font-awesome-icon>
-                <span>SW löschen</span>
-            </button>
-            <button class="button-with-symbol" @click="close">
-                <font-awesome-icon :icon="['fas', 'xmark']"></font-awesome-icon>
-                <span>Schließen</span>
-            </button>
-        </ClientOnly>
+        <button class="button-with-symbol" @click="deleteSW">
+            <font-awesome-icon :icon="['fas', 'trash']"></font-awesome-icon>
+            <span>SW löschen</span>
+        </button>
+        <button class="button-with-symbol" @click="close">
+            <font-awesome-icon :icon="['fas', 'xmark']"></font-awesome-icon>
+            <span>Schließen</span>
+        </button>
     </dialog>
 </template>
 

@@ -1,9 +1,9 @@
 <template>
-    <main v-if="cardsOpen.includes('splan')">
+    <main v-if="cards.includes('splan')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
             <div class="grid place-content-center py-2" v-if="!plans || !plans.length">
-                <div class="error" v-if="appErrors.splan">
-                    <span>{{ appErrors.splan }}</span>
+                <div class="error" v-if="errors.splan">
+                    <span>{{ errors.splan }}</span>
                 </div>
                 <div class="py-1.5 placeholder" v-else>
                     <div class="flex justify-center" excluded>
@@ -58,15 +58,11 @@
     </main>
     <footer>
         <button @click="useOpenSheet('splan', true)">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             <span>Ganzer Plan</span>
         </button>
         <button class="relative">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
             <span>Wechseln</span>
             <select class="absolute h-full w-full left-0 opacity-0" @change="updateDaySelection" v-if="plans != null">
                 <option v-for="(day, index) of days" :value="index" :selected="index === currentOrSelectedDayIndex ? true : false">{{ day }}</option>
@@ -83,17 +79,14 @@ export default defineComponent({
     },
     data() {
         return {
-            cardsOpen: useState<Array<string>>("cards-open"),
+            cards: useOpenCards(),
             plans: useState<Stundenplan[]>("splan"),
-            appErrors: useAppErrors(),
+            errors: useAppErrors(),
             days: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"],
             months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
             selected: -1,
             day: -1
         };
-    },
-    props: {
-        extended: { type: Boolean, required: true }
     },
     computed: {
         plansMergedLessons() {
@@ -196,7 +189,7 @@ export default defineComponent({
             this.day = parseInt(event.target.value);
         },
         async fadeIn() {
-            if (!this.extended || !Array.isArray(this.plans)) return;
+            if (!this.cards.includes("splan") || !Array.isArray(this.plans)) return;
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
                 await useWait(index * 60);
@@ -218,10 +211,10 @@ export default defineComponent({
         }
     },
     watch: {
-        plans() {
-            this.fadeIn();
+        cards(value, old) {
+            if (value.includes("splan") && !old.includes("splan")) this.fadeIn();
         },
-        extended() {
+        plans() {
             this.fadeIn();
         }
     }

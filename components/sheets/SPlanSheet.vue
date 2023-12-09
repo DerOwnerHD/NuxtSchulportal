@@ -1,22 +1,16 @@
 <template>
     <div class="relative">
         <div class="flex w-screen items-center justify-center">
-            <ClientOnly>
-                <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
             <h1>Stundenplan</h1>
         </div>
-        <ClientOnly>
-            <font-awesome-icon
-                class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
-                :icon="['fas', 'up-right-from-square']"
-                onclick="window.open('https://start.schulportal.hessen.de/stundenplan.php')">
-            </font-awesome-icon>
-        </ClientOnly>
+        <font-awesome-icon
+            class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
+            :icon="['fas', 'up-right-from-square']"
+            onclick="window.open('https://start.schulportal.hessen.de/stundenplan.php')">
+        </font-awesome-icon>
         <button class="rounded-button absolute left-5 top-[-0.5rem] !p-2 w-8 h-8 grid place-content-center">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
             <select class="absolute h-full w-full left-0 opacity-0" @change="updateSelectedPlan">
                 <option v-for="(plan, index) of plans" :value="index">
                     Ab {{ startAndEndForDate(plan)[0] }}

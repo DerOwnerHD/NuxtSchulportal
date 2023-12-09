@@ -1,5 +1,5 @@
 <template>
-    <main v-if="cardsOpen.includes('moodle')">
+    <main v-if="cards.includes('moodle')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
             <div class="px-5 py-2">
                 <div id="courses">
@@ -10,9 +10,7 @@
                             class="course-counter absolute right-4 flex items-center !px-2 hover:active:scale-95"
                             @click="openNotifications"
                             id="moodle-notifications-button">
-                            <ClientOnly>
-                                <font-awesome-icon class="mr-1" :icon="['fas', 'bell']"></font-awesome-icon>
-                            </ClientOnly>
+                            <font-awesome-icon class="mr-1" :icon="['fas', 'bell']"></font-awesome-icon>
                             <span v-if="appErrors['moodle-notifications']">Fehler</span>
                             <span v-else-if="!notifications" class="spinner" style="--size: 0.75rem"></span>
                             <span v-else>{{ notifications.filter((notification) => !notification.read).length }}</span>
@@ -67,9 +65,7 @@
     </main>
     <footer>
         <button @click="openLink('https://start.schulportal.hessen.de/schulmoodle.php')">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
             <span>Öffnen</span>
         </button>
     </footer>
@@ -84,7 +80,7 @@ export default defineComponent({
     },
     data() {
         return {
-            cardsOpen: useState<string[]>("cards-open"),
+            cards: useOpenCards(),
             appErrors: useAppErrors(),
             courses: useState<MoodleCourse[]>("moodle-courses"),
             events: useState<MoodleEvent[]>("moodle-events"),
@@ -92,9 +88,6 @@ export default defineComponent({
             moodleCredentials: useMoodleCredentials(),
             credentials: useCredentials<Credentials>()
         };
-    },
-    props: {
-        extended: { type: Boolean, required: true }
     },
     methods: {
         proxyCourseImage(image?: string) {
@@ -105,7 +98,7 @@ export default defineComponent({
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&paula=${this.moodleCredentials.paula}&path=${path}`;
         },
         async fadeIn(type: "all" | "courses" | "events") {
-            if (!this.extended) return;
+            if (!this.cards.includes("moodle")) return;
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
                 await useWait(index * 80 + 1);
@@ -138,8 +131,8 @@ export default defineComponent({
         events() {
             this.fadeIn("events");
         },
-        extended() {
-            this.fadeIn("all");
+        cards(value, old) {
+            if (value.includes("moodle") && !old.includes("moodle")) this.fadeIn("all");
         }
     }
 });

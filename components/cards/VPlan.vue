@@ -47,15 +47,11 @@
     </main>
     <footer>
         <button @click="useOpenSheet('vplan', true)">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             <span>Details</span>
         </button>
         <button @click="refreshPlan(false)">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
             <span>Neu laden</span>
         </button>
     </footer>
@@ -63,12 +59,15 @@
 
 <script setup lang="ts">
 const months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-const cards = useOpenCards();
+const cards = ref(useOpenCards());
 const plan = useState<Vertretungsplan>("vplan");
 const errors = useAppErrors();
 let distanceInterval: NodeJS.Timeout;
 
-onMounted(fadeIn);
+onMounted(() => {
+    fadeIn();
+    continuousUpdate();
+});
 const datesForDays = computed(() => {
     if (!plan.value?.days) return [];
     return plan.value.days.map((day) => {
@@ -77,13 +76,14 @@ const datesForDays = computed(() => {
     });
 });
 const distanceToLastUpdated = ref<string | null>(null);
-const props = defineProps<{ extended: boolean }>();
 
 watch(plan, () => {
     fadeIn();
     continuousUpdate();
 });
-watch(props, () => fadeIn());
+watch(cards, (value, old) => {
+    if (value.includes("vplan") && !old.includes("vplan")) fadeIn();
+});
 
 function calculateDistance() {
     if (!plan.value?.last_updated) return "<unbekannt>";
@@ -133,7 +133,7 @@ async function refreshPlan(bypass: boolean): Promise<any> {
 }
 
 async function fadeIn() {
-    if (!props.extended || !Array.isArray(plan.value?.days) || !plan.value?.days?.length) return;
+    if (!cards.value.includes("vplan") || !Array.isArray(plan.value?.days) || !plan.value?.days?.length) return;
     async function fadeInElement(element: Element, index: number) {
         if (!(element instanceof HTMLElement)) return;
         // They should be stacked after each other

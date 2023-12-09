@@ -16,5 +16,14 @@ export default defineNuxtConfig({
         public: {
             vapidPublicKey: "BNl0RNQwHriSgY-lij0VR0zod5itizA8NiQx4KxRwX070zJncm3PoKGuB0-0w0zDCoN4ZxSuPZall-t0wb4eAQI"
         }
+    },
+    build: {
+        transpile: [
+            "@fortawesome/fontawesome-svg-core",
+            "@fortawesome/free-brands-svg-icons",
+            "@fortawesome/free-regular-svg-icons",
+            "@fortawesome/free-solid-svg-icons",
+            "@fortawesome/vue-fontawesome"
+        ]
     }
 });

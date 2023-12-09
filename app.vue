@@ -30,21 +30,17 @@
         <div v-else id="main-content" class="pt-16">
             <LoginMenu v-if="!loggedIn"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
-                <ClientOnly>
-                    <CardList></CardList>
-                    <div class="flex justify-center my-5">
-                        <ClientOnly>
-                            <button class="button-with-symbol" @click="logout">
-                                <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
-                                <span>Abmelden</span>
-                            </button>
-                            <button class="button-with-symbol" @click="notificationMananger = true">
-                                <font-awesome-icon :icon="['fas', 'bell']"></font-awesome-icon>
-                                <span>Benachrichtigungen</span>
-                            </button>
-                        </ClientOnly>
-                    </div>
-                </ClientOnly>
+                <CardList></CardList>
+                <div class="flex justify-center my-5">
+                    <button class="button-with-symbol" @click="logout">
+                        <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
+                        <span>Abmelden</span>
+                    </button>
+                    <button class="button-with-symbol" @click="notificationMananger = true">
+                        <font-awesome-icon :icon="['fas', 'bell']"></font-awesome-icon>
+                        <span>Benachrichtigungen</span>
+                    </button>
+                </div>
             </main>
         </div>
     </div>
@@ -66,14 +62,27 @@ const loggedIn = useState("logged-in", () => false);
 // The SSR shouldn't take long (only a couple 100ms)
 // and login always takes about 300-400ms
 onServerPrefetch(async () => {
+    // These are all required for storing the news count
+    // We pregenerate them on the server so it won't fail rendering the cards
+    const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
+    useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
+    // This also needs to be initialized so the closed cards can be rendered on the server
+    // We do not know what cards are open as that is stored in local storage
+    useOpenCards().value = [];
     const nuxt = useNuxtApp();
     const credentials = useCredentials();
     // Due to us not being logged in, we do not process any
     // the loggedIn state will not get set to true
     // -> thus the login screen gets shown
     if (!credentials.value) return;
-    const alreadyLoggedIn = await useTokenCheck(useToken().value);
-    if (alreadyLoggedIn) return (loggedIn.value = true);
+    // The token (just as the session cookie) expires when the browser
+    // session ends and thus would get lost, not being able to be retrieved
+    // here, failing this whole process and showing "authorization header missing"
+    const token = useToken().value;
+    if (token) {
+        const alreadyLoggedIn = await useTokenCheck(useToken().value);
+        if (alreadyLoggedIn) return (loggedIn.value = true);
+    }
     // This would also just cause the user to
     // be prompted back towards the login screen
     const hasLoginSucceeded = await callWithNuxt(nuxt, useLogin, [false]);
@@ -85,11 +94,8 @@ onServerPrefetch(async () => {
 onMounted(async () => {
     // It has not worked on the server side
     if (!loggedIn.value) return;
-    // These are all required for storing the news count
-    const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
-    useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
     // We store which cards are opened in the local storage
-    useState<Array<string>>("cards-open", () => JSON.parse(useLocalStorage("cards-open") || "[]"));
+    useOpenCards().value = JSON.parse(useLocalStorage("cards-open") || "[]");
     // All this can be loaded syncronously, as it all just requires
     // us to be logged into the SPH, not Moodle
     loadSplan();
@@ -114,7 +120,7 @@ async function moodleLogin() {
     // no longer even bother trying to log into Moodle
     if (useState("api-error").value !== null) return false;
     // Moodle tokens tend to only expire after a pretty long
-    // time (actually visible in /api/moodle/check)
+    // time (actually visible in /api/moodle/check) => 2 hours
     if (hasValidToken) return true;
     const hasAuthed = await useMoodleLogin();
     console.log("Moodle login: " + hasAuthed);

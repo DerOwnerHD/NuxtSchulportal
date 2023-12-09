@@ -1,5 +1,5 @@
 <template>
-    <main v-if="cardsOpen.includes('lessons')">
+    <main v-if="cards.includes('lessons')">
         <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
             <div class="px-5 py-2">
                 <div id="courses">
@@ -26,9 +26,7 @@
                         <article class="opacity-0" v-for="course of coursesSortedByHomework" @click="selectCourse(course.id)">
                             <div class="flex justify-center w-full">
                                 <span v-if="course.last_lesson?.homework" class="news-icon justify-self-center" :style="course.last_lesson.homework.done ? 'background: #4ade80;' : ''">HA</span>
-                                <ClientOnly v-else>
-                                    <font-awesome-icon class="mr-1.5" :icon="['fas', 'book']"></font-awesome-icon>
-                                </ClientOnly>
+                                <font-awesome-icon v-else class="mr-1.5" :icon="['fas', 'book']"></font-awesome-icon>
                             </div>
                             <small>
                                 {{ course.subject }}
@@ -63,20 +61,16 @@
                             <small class="text-center block"><span header-alike>Thema: </span>{{ selectedCourse.last_lesson.topic }}</small>
                             <div v-if="selectedCourse.last_lesson.homework" class="mt-1">
                                 <div class="flex">
-                                    <ClientOnly>
-                                        <span class="text-lg" id="homework-status">
-                                            <font-awesome-icon v-if="selectedCourse.last_lesson.homework.done" class="bg-green-400" :icon="['fas', 'check']"></font-awesome-icon>
-                                            <font-awesome-icon v-else class="bg-red-500" :icon="['fas', 'xmark']"></font-awesome-icon>
-                                        </span>
-                                    </ClientOnly>
+                                    <span class="text-lg" id="homework-status">
+                                        <font-awesome-icon v-if="selectedCourse.last_lesson.homework.done" class="bg-green-400" :icon="['fas', 'check']"></font-awesome-icon>
+                                        <font-awesome-icon v-else class="bg-red-500" :icon="['fas', 'xmark']"></font-awesome-icon>
+                                    </span>
                                     <span class="ml-1.5">Hausaufgaben {{ !selectedCourse.last_lesson.homework.done ? "nicht " : "" }}erledigt</span>
                                 </div>
                                 <small class="leading-3 block" v-html="selectedCourse.last_lesson.homework.description || '<leer> (Merkwürdig...)'"></small>
                                 <div class="flex justify-center">
                                     <button class="button-with-symbol" @click="updateHomework(selectedCourse.id, selectedCourse.last_lesson.homework.done ? 'undone' : 'done')">
-                                        <ClientOnly>
-                                            <font-awesome-icon :icon="['fas', selectedCourse.last_lesson.homework.done ? 'xmark' : 'check']"></font-awesome-icon>
-                                        </ClientOnly>
+                                        <font-awesome-icon :icon="['fas', selectedCourse.last_lesson.homework.done ? 'xmark' : 'check']"></font-awesome-icon>
                                         <span>Als <b>{{ selectedCourse.last_lesson.homework.done ? "un" : "" }}erledigt</b> markieren</span>
                                     </button>
                                 </div>
@@ -95,9 +89,7 @@
     </main>
     <footer>
         <button @click="openLink('https://start.schulportal.hessen.de/meinunterricht.php')">
-            <ClientOnly>
-                <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
             <span>Öffnen</span>
         </button>
     </footer>
@@ -111,15 +103,12 @@ export default defineComponent({
     },
     data() {
         return {
-            cardsOpen: useState<Array<string>>("cards-open"),
+            cards: useOpenCards(),
             appErrors: useAppErrors(),
             courses: useState<MyLessonsAllCourses>("mylessons"),
             selected: -1,
             homeworkError: ""
         };
-    },
-    props: {
-        extended: { type: Boolean, required: true }
     },
     computed: {
         coursesSortedByHomework() {
@@ -152,7 +141,7 @@ export default defineComponent({
             this.selected = id;
         },
         async fadeIn() {
-            if (!this.extended) return;
+            if (!this.cards.includes("lessons")) return;
             async function fadeInElement(element: Element, index: number) {
                 if (!(element instanceof HTMLElement)) return;
                 await useWait(index * 80);
@@ -204,7 +193,8 @@ export default defineComponent({
         courses() {
             this.fadeIn();
         },
-        extended() {
+        cards(value, old) {
+            if (!(value.includes("lessons") && !old.includes("lessons"))) return;
             this.fadeIn();
             this.selected = -1;
         }

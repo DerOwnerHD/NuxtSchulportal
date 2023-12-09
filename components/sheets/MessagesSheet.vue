@@ -1,14 +1,11 @@
 <template>
     <div class="relative">
         <div class="flex w-screen items-center justify-center">
-            <ClientOnly>
-                <font-awesome-icon class="mr-2" :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon class="mr-2" :icon="['fas', 'envelope-open-text']"></font-awesome-icon>
             <h1>Direktnachrichten</h1>
         </div>
-        <ClientOnly>
-            <font-awesome-icon class="rounded-button absolute right-5 top-[-0.5rem] !p-2" :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
-        </ClientOnly>
+
+        <font-awesome-icon class="rounded-button absolute right-5 top-[-0.5rem] !p-2" :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
         <div class="grid place-content-center py-2" v-if="!conversations || !conversations[selected]">
             <div class="error" v-if="appErrors.conversations">
                 <span>{{ appErrors.conversations }}</span>
@@ -23,9 +20,7 @@
                         :id="group.id"
                         :selected="group.selected ? '' : null"
                         @click="updateTypeSelection(group.id)">
-                        <ClientOnly>
-                            <font-awesome-icon :icon="group.icon"></font-awesome-icon>
-                        </ClientOnly>
+                        <font-awesome-icon :icon="group.icon"></font-awesome-icon>
                         {{ group.name }}
                     </div>
                 </div>

@@ -1,9 +1,7 @@
 <template>
     <div id="card-news-container" class="flex w-80 justify-evenly mt-1">
         <article class="card-news" v-for="card of cards" :style="`background: ${card.gradient};`" @click="scrollToCard(card.id)">
-            <ClientOnly>
-                <font-awesome-icon :icon="card.icon"></font-awesome-icon>
-            </ClientOnly>
+            <font-awesome-icon :icon="card.icon"></font-awesome-icon>
             <span class="news-icon absolute right-0" v-if="news[card.id]">{{ news[card.id] }}</span>
         </article>
     </div>
