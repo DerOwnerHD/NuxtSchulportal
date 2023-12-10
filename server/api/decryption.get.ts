@@ -43,6 +43,8 @@ export default defineEventHandler(async (event) => {
     try {
         // This is a random string (UUID) encrypted using a random key
         // using symetric encryption (AES)
+        // => we also just throw away the key, this is just so there is
+        // a pseudo-random string we can use (always better)
         const password = cryptoJS.AES.encrypt(generateUUID(), generateUUID());
         // Our encrypted password is then RSA encrypted using the public
         // key provided by SPH to be then sent to them in a handshake

@@ -1,6 +1,15 @@
 import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
+import {
+    generateDefaultHeaders,
+    hasPasswordResetLocationSet,
+    parseCookie,
+    patterns,
+    removeBreaks,
+    setErrorResponse,
+    transformEndpointSchema,
+    validateQuery
+} from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
 
