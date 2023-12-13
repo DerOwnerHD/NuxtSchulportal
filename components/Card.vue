@@ -20,6 +20,7 @@
         <CardsSPlan v-if="type === 'splan'"></CardsSPlan>
         <CardsMoodle v-if="type === 'moodle'"></CardsMoodle>
         <CardsMessages v-if="type === 'messages'"></CardsMessages>
+        <CardsCalendar v-if="type === 'calendar'"></CardsCalendar>
         <CardsLessons v-if="type === 'lessons'"></CardsLessons>
     </article>
 </template>

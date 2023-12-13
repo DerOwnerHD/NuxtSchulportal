@@ -327,8 +327,9 @@ interface InitialResetResponse {
 }
 async function beginReset() {
     const { username, school } = credentials.value;
-    if (!patterns.USERNAME.test(username)) return showErrorMessage("Nutzername oben ungültig", "reset");
-    if (school === null || school < 1 || school > 206568 || !Number.isInteger(school)) return showErrorMessage("Schule oben ungültig", "reset");
+    if (!patterns.USERNAME.test(username)) return showErrorMessage("Trage deinen Nutznamen oben ein", "reset");
+    if (school === null || school < 1 || school > 206568 || !Number.isInteger(school))
+        return showErrorMessage("Trage deine Schule oben ein", "reset");
     if (!patterns.BIRTHDAY.test(reset.value.birthday)) return showErrorMessage("Geburtstag ungültig", "reset");
     state.value = Status.ResetSending;
     const types = ["student", "parent", "teacher"];

@@ -220,6 +220,7 @@ useState("cards", () => [
         name: "Direktnachrichten",
         index: 3
     },
+    { id: "calendar", gradient: "linear-gradient(315deg,#86163e 0,#df243a 70%)", icon: ["fas", "calendar-days"], name: "Kalender" },
     { id: "lessons", gradient: "linear-gradient(90deg, #6a61f8 0%, #4f49d1 100%)", icon: ["fas", "address-book"], name: "Mein Unterricht", index: 4 }
 ]);
 useState<boolean>("card-switching", () => false);

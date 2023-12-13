@@ -20,7 +20,7 @@
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
                     </header>
                     <main>
-                        <p v-if="!day.vertretungen.length">Keine Vertretungen</p>
+                        <p v-if="!day.vertretungen.length" class="opacity-0">Keine Vertretungen</p>
                         <ul v-else>
                             <li
                                 v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen.slice(

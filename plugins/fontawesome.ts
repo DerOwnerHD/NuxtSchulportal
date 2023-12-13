@@ -36,7 +36,15 @@ import {
     faLock,
     faNewspaper,
     faChevronRight,
-    faChevronLeft
+    faChevronLeft,
+    faPenToSquare,
+    faThumbsUp,
+    faClipboardList,
+    faServer,
+    faAt,
+    faChalkboardUser,
+    faGraduationCap,
+    faCar
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -81,7 +89,19 @@ library.add(
     faTrash,
     faBell,
     faLock,
-    faNewspaper
+    faNewspaper,
+    faPenToSquare,
+    faBell,
+    faExpand,
+    faThumbsUp,
+    faClipboardList,
+    faServer,
+    faAt,
+    faChalkboardUser,
+    faGraduationCap,
+    faCar,
+    faLocationDot,
+    faLock
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

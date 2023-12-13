@@ -146,6 +146,9 @@ export const useMoodleLogin = async (): Promise<boolean> => {
 
     // It isn't dramatic if the Moodle login is not successful
     if (fetchError.value !== null || data.value === null) {
+        // On Windows, it often fails using the EBUSY error,
+        // so this would be very annoying to get every time we run
+        if (window.location.host === "localhost") return false;
         useState<APIError>("api-error").value = {
             response: syntaxHighlight(fetchError.value?.data || "Serverfehler"),
             message: "Konnte Moodledaten nicht überprüfen",
@@ -176,6 +179,7 @@ export const useMoodleCheck = async (): Promise<boolean> => {
     });
 
     if (error.value !== null) {
+        if (window.location.host === "localhost") return false;
         useState<APIError>("api-error").value = {
             response: syntaxHighlight(error.value.data),
             message: "Konnte Moodledaten nicht überprüfen",

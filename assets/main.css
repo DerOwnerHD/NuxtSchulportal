@@ -71,7 +71,7 @@ h1,
     width: 1rem;
 }
 #header {
-    z-index: 2;
+    z-index: 3;
     background: linear-gradient(to right, #18d6ee, #3a7cd5);
 }
 .card {
@@ -91,9 +91,13 @@ h1,
         }
     }
 }
+.gradient-border {
+    @apply relative;
+}
 .gradient-border::before {
-    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""] w-[inherit];
+    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
     background: var(--gradient);
+    width: calc(100% + 6px);
 }
 .gradient-border > * {
     background: linear-gradient(to bottom, #212121, #080808);
