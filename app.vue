@@ -14,15 +14,11 @@
                 <p>{{ criticalAPIError.message }}</p>
                 <pre class="whitespace-pre-wrap" v-html="criticalAPIError.response"></pre>
                 <button class="button-with-symbol" onclick="location.reload()">
-                    <ClientOnly>
-                        <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
-                    </ClientOnly>
+                    <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
                     <span>Neu laden</span>
                 </button>
                 <button class="button-with-symbol" v-if="criticalAPIError.recoverable" @click="criticalAPIError = null">
-                    <ClientOnly>
-                        <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
-                    </ClientOnly>
+                    <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
                     <span>Weiter</span>
                 </button>
             </div>
@@ -46,9 +42,7 @@
     </div>
     <BottomSheet v-for="sheet of sheetStates.open" :menu="sheet"></BottomSheet>
     <InfoDialog v-if="useInfoDialog().value"></InfoDialog>
-    <ClientOnly>
-        <NotificationManager v-if="notificationMananger"></NotificationManager>
-    </ClientOnly>
+    <NotificationManager v-if="notificationMananger"></NotificationManager>
     <MoodleNotifications v-if="moodleNotificationsOpen"></MoodleNotifications>
 </template>
 
@@ -85,7 +79,7 @@ onServerPrefetch(async () => {
     }
     // This would also just cause the user to
     // be prompted back towards the login screen
-    const hasLoginSucceeded = await callWithNuxt(nuxt, useLogin, [false]);
+    const hasLoginSucceeded = await callWithNuxt(nuxt, useLogin, [true]);
     if (!hasLoginSucceeded) return;
     // After this the client will take over and actually
     // start loading all the apps, Moodle and such
@@ -158,8 +152,11 @@ async function loadMoodleCourses() {
     useState("moodle-courses", () => courses);
 }
 async function loadAESKey() {
+    const hasKeyStored = /^[A-Za-z0-9/\+=]{88}$/.test(window.localStorage.getItem("aes-key") ?? "");
+    if (hasKeyStored) return;
     const key = await useAESKey();
     if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
+    console.log(key);
     useState("aes-key", () => key);
     useLocalStorage("aes-key", key);
 }

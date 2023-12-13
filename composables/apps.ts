@@ -321,13 +321,6 @@ export const useMyLessons = async (): Promise<MyLessonsAllCourses | string> => {
     if (!token.value || !session.value) return "401: Unauthorized";
 
     let key = useLocalStorage("aes-key") || undefined;
-    // We want to generate one if there is not one yet set
-    // NOTE: If one has already been generated using that session,
-    // the new one will NOT work (it doesn't matter though)
-    if (!key) {
-        let key = (await useAESKey()) || undefined;
-        if (typeof key === "string" && !/^[A-Za-z0-9/\+=]{88}$/.test(key)) useLocalStorage("aes-key", key);
-    }
 
     const { data, error: fetchError } = await useFetch<MyLessonsResponse>("/api/mylessons/courses", {
         method: "GET",

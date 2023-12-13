@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { APIError, generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
+import { generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
 import { JSDOM } from "jsdom";
 // Starts on sunday cos Date#getDay does too
 const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];

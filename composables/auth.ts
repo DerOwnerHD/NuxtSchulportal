@@ -99,6 +99,7 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
     });
 
     if (error.value !== null) {
+        // This prevents us getting thrown back to the login screen
         if (failOnError)
             // @ts-expect-error
             (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
@@ -106,7 +107,6 @@ export const useLogin = async (failOnError: boolean): Promise<boolean> => {
                 message: "Anmeldung fehlgeschlagen",
                 recoverable: false
             };
-
         return false;
     }
 
