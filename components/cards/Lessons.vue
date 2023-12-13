@@ -25,7 +25,12 @@
                     <div class="flex overflow-x-scroll" v-else>
                         <article class="opacity-0" v-for="course of coursesSortedByHomework" @click="selectCourse(course.id)">
                             <div class="flex justify-center w-full">
-                                <span v-if="course.last_lesson?.homework" class="news-icon justify-self-center" :style="course.last_lesson.homework.done ? 'background: #4ade80;' : ''">HA</span>
+                                <span
+                                    v-if="course.last_lesson?.homework"
+                                    class="news-icon justify-self-center"
+                                    :style="course.last_lesson.homework.done ? 'background: #4ade80;' : ''"
+                                    >HA</span
+                                >
                                 <font-awesome-icon v-else class="mr-1.5" :icon="['fas', 'book']"></font-awesome-icon>
                             </div>
                             <small>
@@ -38,18 +43,18 @@
                     <div class="flex items-center">
                         <h1>Kursdetails</h1>
                         <small class="ml-1 overflow-hidden whitespace-nowrap text-ellipsis">
-                            für {{ selected > -1 ? selectedCourse?.subject : "<nichts>" }}
+                            für {{ selected > -1 ? selectedCourse?.subject : "nichts" }}
                         </small>
                     </div>
                     <p class="text-center text-sm" v-if="selected === -1 || !selectedCourse">Wähle einen Kurs aus</p>
                     <div id="content" v-else class="px-2">
-                        <div id="attendance" v-if="selectedCourse.attendance && Object.values(selectedCourse.attendance).some((type) => type !== null)">
+                        <div
+                            id="attendance"
+                            v-if="selectedCourse.attendance && Object.values(selectedCourse.attendance).some((type) => type !== null)">
                             <span header-alike>Anwesendheit</span>
                             <ul>
                                 <li v-for="item of Object.keys(selectedCourse.attendance)">
-                                    <span v-if="selectedCourse.attendance[item]">
-                                        {{ selectedCourse.attendance[item] }} Stunde(n) {{ item }}
-                                    </span>
+                                    <span v-if="selectedCourse.attendance[item]"> {{ selectedCourse.attendance[item] }} Stunde(n) {{ item }} </span>
                                 </li>
                             </ul>
                         </div>
@@ -62,16 +67,26 @@
                             <div v-if="selectedCourse.last_lesson.homework" class="mt-1">
                                 <div class="flex">
                                     <span class="text-lg" id="homework-status">
-                                        <font-awesome-icon v-if="selectedCourse.last_lesson.homework.done" class="bg-green-400" :icon="['fas', 'check']"></font-awesome-icon>
+                                        <font-awesome-icon
+                                            v-if="selectedCourse.last_lesson.homework.done"
+                                            class="bg-green-400"
+                                            :icon="['fas', 'check']"></font-awesome-icon>
                                         <font-awesome-icon v-else class="bg-red-500" :icon="['fas', 'xmark']"></font-awesome-icon>
                                     </span>
                                     <span class="ml-1.5">Hausaufgaben {{ !selectedCourse.last_lesson.homework.done ? "nicht " : "" }}erledigt</span>
                                 </div>
-                                <small class="leading-3 block" v-html="selectedCourse.last_lesson.homework.description || '<leer> (Merkwürdig...)'"></small>
+                                <small
+                                    class="leading-3 block"
+                                    v-html="selectedCourse.last_lesson.homework.description || '<leer> (Merkwürdig...)'"></small>
                                 <div class="flex justify-center">
-                                    <button class="button-with-symbol" @click="updateHomework(selectedCourse.id, selectedCourse.last_lesson.homework.done ? 'undone' : 'done')">
-                                        <font-awesome-icon :icon="['fas', selectedCourse.last_lesson.homework.done ? 'xmark' : 'check']"></font-awesome-icon>
-                                        <span>Als <b>{{ selectedCourse.last_lesson.homework.done ? "un" : "" }}erledigt</b> markieren</span>
+                                    <button
+                                        class="button-with-symbol"
+                                        @click="updateHomework(selectedCourse.id, selectedCourse.last_lesson.homework.done ? 'undone' : 'done')">
+                                        <font-awesome-icon
+                                            :icon="['fas', selectedCourse.last_lesson.homework.done ? 'xmark' : 'check']"></font-awesome-icon>
+                                        <span
+                                            >Als <b>{{ selectedCourse.last_lesson.homework.done ? "un" : "" }}erledigt</b> markieren</span
+                                        >
                                     </button>
                                 </div>
                                 <div class="flex justify-center mt-2">
@@ -114,25 +129,23 @@ export default defineComponent({
         coursesSortedByHomework() {
             if (!this.courses || !this.courses.courses) return null;
             return this.courses.courses.sort((a, b) => {
-
-                const hasHomework = [a, b].map((course) => (course.last_lesson?.homework && !course.last_lesson.homework.done));
+                const hasHomework = [a, b].map((course) => course.last_lesson?.homework && !course.last_lesson.homework.done);
                 if (hasHomework[0] && !hasHomework[1]) return -1;
                 if (!hasHomework[0] && hasHomework[1]) return 1;
 
                 if (a.last_lesson?.homework && !a.last_lesson.homework.done) return 1;
 
                 const subjects = [a, b].map((course) => course.subject || "");
-            
+
                 if (subjects[0] < subjects[1]) return -1;
                 if (subjects[0] > subjects[1]) return 1;
 
                 return 0;
-
             });
         },
         selectedCourse() {
             if (!this.coursesSortedByHomework) return null;
-            return this.coursesSortedByHomework.find((x) => x.id === this.selected)
+            return this.coursesSortedByHomework.find((x) => x.id === this.selected);
         }
     },
     methods: {
@@ -163,7 +176,7 @@ export default defineComponent({
             const courseIndex = this.courses.courses.findIndex((x) => x.id === id);
             const course = this.courses.courses[courseIndex];
             if (!course || !course.last_lesson || !course.last_lesson.homework) return;
-            const {data, error} = await useFetch<{ error: boolean; error_details?: any }>("/api/mylessons/homework", {
+            const { data, error } = await useFetch<{ error: boolean; error_details?: any }>("/api/mylessons/homework", {
                 method: "POST",
                 headers: {
                     Authorization: useToken().value
@@ -176,17 +189,18 @@ export default defineComponent({
             });
 
             if (data.value === null || error.value !== null) {
-
                 this.homeworkError = error.value?.data.error_details || "Serverfehler";
                 await useWait(3000);
-                return this.homeworkError = "";
-
+                return (this.homeworkError = "");
             }
 
             // @ts-expect-error we already have run all the checks
             this.courses.courses[courseIndex].last_lesson.homework.done = action === "done";
             await useWait(1);
-            useAppNews().value.lessons = this.courses.courses.reduce((acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0), 0);
+            useAppNews().value.lessons = this.courses.courses.reduce(
+                (acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0),
+                0
+            );
         }
     },
     watch: {

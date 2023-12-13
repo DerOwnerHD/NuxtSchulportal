@@ -2,31 +2,33 @@
     <p v-if="!conversations[type].length">Keine Chats gefunden</p>
     <p v-else-if="sheet">{{ conversations[type].length }} Chat(s)</p>
     <ul class="overflow-auto">
-        <li v-for="conversation of conversations[type].slice(0, splice || conversations[type].length)
-        .map((conversation) => { return { 
-            ...conversation, 
-            messages: conversation.messages.map((message) => { 
-                return { 
-                    ...message, 
-                    text: message.text.replace(/(<([^>]+)>)/ig, '') 
-                }
-            })
-        }})">
+        <li
+            v-for="conversation of conversations[type].slice(0, splice || conversations[type].length).map((conversation) => {
+                return {
+                    ...conversation,
+                    messages: conversation.messages.map((message) => {
+                        return {
+                            ...message,
+                            text: message.text.replace(/(<([^>]+)>)/gi, '')
+                        };
+                    })
+                };
+            })">
             <aside class="relative">
                 <span class="absolute right-1 top-0 news-icon" v-if="conversation.unread">{{ conversation.unread }}</span>
-                <img :src="conversation.icon || proxyUserAvatar(conversation.members[0].avatar.small) || 'moodle-default.png'">
+                <img :src="conversation.icon || proxyUserAvatar(conversation.members[0].avatar.small) || 'moodle-default.png'" />
             </aside>
             <main>
                 <p>
                     <b v-if="!conversation.name && conversation.members[0].id === moodleCredentials.user">[Notizen]</b>
-                    {{ conversation.name || conversation.members[0].name || "<Unbenannt>" }}
+                    {{ conversation.name || conversation.members[0].name || "Unbenannt" }}
                 </p>
                 <p v-if="conversation.messages.length && conversation.messages[0].text !== ''">
                     <b>{{ conversation.messages[0].author === moodleCredentials.user ? "Ich: " : "" }}</b>
                     {{ conversation.messages[0].text }}
                 </p>
                 <p v-else-if="conversation.messages.length">
-                        <font-awesome-icon :icon="['far', 'image']"></font-awesome-icon>
+                    <font-awesome-icon :icon="['far', 'image']"></font-awesome-icon>
                     <span class="ml-1">Andere Medien</span>
                 </p>
                 <p v-else>Keine Nachrichten</p>
@@ -56,26 +58,24 @@ export default defineComponent({
         if (!this.sheet) return;
         const list = document.querySelector("aside[menu=messages] ul") as HTMLElement;
         if (!list) return;
-        setTimeout(() => list.style.maxHeight = `${Math.floor(window.innerHeight - list.getBoundingClientRect().top)}px`, 1500);
+        setTimeout(() => (list.style.maxHeight = `${Math.floor(window.innerHeight - list.getBoundingClientRect().top)}px`), 1500);
     },
     data() {
         return {
-            conversations: useState<{[type: string]: MoodleConversation[]}>("moodle-conversations"),
+            conversations: useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations"),
             moodleCredentials: useMoodleCredentials(),
             credentials: useCredentials<Credentials>()
         };
     },
     methods: {
         proxyUserAvatar(avatar?: string) {
-
             if (!avatar) return null;
             const path = avatar.split(".schule.hessen.de")[1];
             if (!/\/pluginfile.php\/\d{1,5}\/user\/icon\/sph\/.*/.test(path)) return "/moodle-default.png";
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&path=${path}`;
-
         }
     }
-})
+});
 </script>
 
 <style scoped>
