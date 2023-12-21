@@ -40,11 +40,6 @@ interface MoodleCredentials {
     paula: string;
     user: number;
 }
-export interface MoodleState {
-    loggedIn: boolean;
-    conversations: [];
-    events: [];
-}
 
 import { callWithNuxt } from "nuxt/app";
 
@@ -127,14 +122,6 @@ export const useMoodleLogin = async (): Promise<boolean> => {
     // The session token is required to proceed to Moodle login
     if (!useSession().value || !useCredentials<Credentials>().value.school) return false;
 
-    // This will get used by other components when building
-    // message boards and other stuff relating to Moodle
-    useState("moodle").value = {
-        loggedIn: false,
-        conversations: [],
-        events: []
-    };
-
     const { data, error: fetchError } = await useFetch<MoodleLoginResponse>("/api/moodle/login", {
         method: "POST",
         body: {
@@ -145,7 +132,13 @@ export const useMoodleLogin = async (): Promise<boolean> => {
     });
 
     // It isn't dramatic if the Moodle login is not successful
-    if (fetchError.value !== null || data.value === null) {
+    if (fetchError.value !== null) {
+        const { data, cause } = fetchError.value;
+        const { error_details } = data;
+        useAppErrors().value.conversations = error_details || cause;
+        useAppErrors().value["moodle-notifications"] = error_details || cause;
+        useAppErrors().value["moodle-courses"] = error_details || cause;
+        useAppErrors().value["moodle-events"] = error_details || cause;
         // On Windows, it often fails using the EBUSY error,
         // so this would be very annoying to get every time we run
         if (window.location.host === "localhost") return false;
@@ -154,11 +147,12 @@ export const useMoodleLogin = async (): Promise<boolean> => {
             message: "Konnte Moodledaten nicht überprüfen",
             recoverable: true
         };
-        useAppErrors().value.conversations = "Serverfehler";
         return false;
     }
 
-    useState<MoodleState>("moodle").value.loggedIn = true;
+    // We can reasonably assert that data must exist if error does not
+    if (data.value === null) return false;
+
     const { error, ...credentials } = data.value;
     useMoodleCredentials().value = credentials;
 

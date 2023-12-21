@@ -253,11 +253,11 @@ async function connect() {
                     const now = new Date();
                     if (oldPlan && ![0, 6].includes(now.getUTCDay())) {
                         const days = [oldPlan, plan].map((plan) => plan.days.find((x) => daysOfWeek.indexOf(x.day_of_week) === now.getUTCDay()));
-                        if (days[0] && !days[1]) return;
+                        if (days[0] && !days[1]) return console.log(consoleTime() + `❌ Current day has disappeared for user ${i}`);
                     }
 
                     // We don't want to save that plan most likely
-                    if (!plan.days.length) return;
+                    if (!plan.days.length) return console.log(consoleTime() + `❌ No days found for user ${i}`);
 
                     let text = null;
                     if (!oldPlan) text = plan.days.map(buildDay).join("\n");

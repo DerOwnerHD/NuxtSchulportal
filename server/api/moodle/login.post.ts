@@ -59,16 +59,17 @@ export default defineEventHandler(async (event) => {
         // If the previous request was sucessful, we can now GET to this location, which will
         // redirect us back to the Moodle Login page (/login/index.php) with a Paula cookie
         // This Paula cookie is then needed for authentication in Moodle
-        const redirectToMoodle = (
-            await fetch(proxySingleSignOnArtifact, {
-                redirect: "manual",
-                headers: generateDefaultHeaders(address)
-            })
-        ).headers;
+        const redirectToMoodle = await fetch(proxySingleSignOnArtifact, {
+            redirect: "manual",
+            headers: generateDefaultHeaders(address)
+        });
         // This has to be dynamic so it can apply to multiple institutions
-        const moodleRedirectCookies = parseCookie(redirectToMoodle.get("set-cookie") || "");
+        const moodleRedirectCookies = parseCookie(redirectToMoodle.headers.get("set-cookie") || "");
         const paulaCookie = moodleRedirectCookies["Paula"];
-        if (redirectToMoodle.get("location") !== institutionLogin || !paulaCookie) return setErrorResponse(res, 401);
+        // The site should normally always redirect to Moodle, but if it does not, we know
+        // something has to have gone wrong, most likely some maintenance
+        if (redirectToMoodle.status !== 302) return setErrorResponse(res, 503, "Wartungsarbeiten");
+        if (redirectToMoodle.headers.get("location") !== institutionLogin || !paulaCookie) return setErrorResponse(res, 401);
 
         const moodleLogin = await fetch(institutionLogin, {
             redirect: "manual",

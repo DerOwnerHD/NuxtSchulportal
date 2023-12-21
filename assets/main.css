@@ -71,7 +71,7 @@ h1,
     width: 1rem;
 }
 #header {
-    z-index: 3;
+    z-index: 4;
     background: linear-gradient(to right, #18d6ee, #3a7cd5);
 }
 .card {
