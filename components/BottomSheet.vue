@@ -1,6 +1,6 @@
 <template>
     <div
-        class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[2]"
+        class="aside-backdrop h-screen w-screen fixed top-0 left-0 z-[5]"
         :menu="menu"
         @click="closeMenu"
         v-if="useSheetState().value.open.includes(menu)">
@@ -156,7 +156,7 @@ aside {
     background: linear-gradient(to bottom, #1e1e1e, #121212);
     bottom: -5px;
     transition: transform 20ms ease;
-    z-index: 2;
+    z-index: 5;
 }
 .aside-backdrop {
     background: transparent;

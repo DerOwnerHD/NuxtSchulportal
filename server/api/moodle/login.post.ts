@@ -90,7 +90,7 @@ export default defineEventHandler(async (event) => {
 
         // Using this we may attempt to request the /my/ page of moodle
         // and there fetch the session key which is embedded in a logoff menu
-        const moodleSession = parseCookie(moodleLogin.headers.get("set-cookie") || "")["MoodleSession"];
+        const moodleSession = parseCookie(moodleLogin.headers.getSetCookie().join("; "))["MoodleSession"];
         if (!moodleSession) return setErrorResponse(res, 401);
         const mainPage = await fetch(`https://mo${school}.schule.hessen.de/my/`, {
             redirect: "manual",

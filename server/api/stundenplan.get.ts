@@ -128,7 +128,9 @@ async function loadSplanForDate(options: PlanOptions, auth: string, load: boolea
         )
     };
 
-    document.querySelectorAll("#all .plan table.table tbody tr").forEach((lessons, index) => {
+    // For some reason, there is an empty row at the first spot
+    // -> thus we skip that first child element (tr)
+    document.querySelectorAll("#all .plan table.table tbody tr:not(:first-child)").forEach((lessons, index) => {
         // Normally, it would always have 6 children (lesson and all the days)
         // But if there are double lessons, there will only be one td item
         // Thus, if this is the case, we need to make sure we use the correct
