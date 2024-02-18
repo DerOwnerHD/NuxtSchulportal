@@ -116,6 +116,18 @@ const rateLimits: RouteRateLimit[] = [
         interval: 15 * 1000,
         allowedPerInterval: 3,
         clients: []
+    },
+    {
+        route: "/api/messages.get",
+        interval: 15 * 1000,
+        allowedPerInterval: 2,
+        clients: []
+    },
+    {
+        route: "/api/message.get",
+        interval: 10 * 1000,
+        allowedPerInterval: 3,
+        clients: []
     }
 ];
 
