@@ -44,8 +44,7 @@ export const patterns = {
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
     DATE_YYYY_MM_DD_HYPHENS: /^20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
-    DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
-    SPH_DIRECT_MESSAGE_UUID: /^[0-9a-f]{32}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+    DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/
 };
 
 // This is in use when the user has to reset their password on SPH
@@ -190,6 +189,8 @@ export const parseCookie = (str: string) =>
             accumulated[decodeURIComponent(pair[0].trim())] = decodeURIComponent(pair[1].trim());
             return accumulated;
         }, {});
+
+export const parseCookies = (strings: string[]) => parseCookie(strings.join("; "));
 
 /**
  * Cleans a string from all empty spaces which may stop

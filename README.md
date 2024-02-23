@@ -25,12 +25,13 @@ Alle Apps benötigen das Token (sid) als <code>Authorization</code> header
 
 -   <code>GET</code> <code>/vertretungen</code> Individueller Vertretungsplan
 -   <code>GET</code> <code>/stundenplan</code> Persönlicher Stundenplan
-<br>
+    <br>
 
 Nutzt token als **Parameter**, nicht als <code>Authorization</code> header
+
 -   <code>GET</code> <code>/mylessons/courses</code> Kurse in **Mein Unterricht**
 -   <code>POST</code> <code>/mylessons/homework</code> Hausaufgaben als erledigt markieren
--   <code>GET</code> <code>/messages</code> Direktnachrichten auflisten 
+-   <code>GET</code> <code>/messages</code> Direktnachrichten auflisten
 -   <code>GET</code> <code>/message</code> Nachrichteninhalt zeigen
 
 ---
