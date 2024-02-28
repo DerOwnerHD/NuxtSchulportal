@@ -128,6 +128,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 3,
         clients: []
+    },
+    {
+        route: "/api/courses.get",
+        interval: 20 * 1000,
+        allowedPerInterval: 3,
+        clients: []
     }
 ];
 

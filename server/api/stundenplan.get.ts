@@ -29,7 +29,6 @@ export default defineEventHandler(async (event) => {
                 Cookie: `sid=${token}`,
                 ...generateDefaultHeaders(address)
             },
-            redirect: "follow"
         });
 
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
@@ -72,7 +71,7 @@ export default defineEventHandler(async (event) => {
             }
         }
 
-        plans.push(await loadSplanForDate(initialPlan, token, false, address));
+        plans.push(await loadSplanForDate(initialPlan, token, false, address, html));
 
         return {
             error: false,
