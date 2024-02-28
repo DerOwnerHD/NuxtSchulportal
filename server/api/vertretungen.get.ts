@@ -1,69 +1,44 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
+import {
+    authHeaderOrQuery,
+    generateDefaultHeaders,
+    hasInvalidAuthentication,
+    hasPasswordResetLocationSet,
+    patterns,
+    removeBreaks,
+    setErrorResponse
+} from "../utils";
 import { JSDOM } from "jsdom";
 // Starts on sunday cos Date#getDay does too
 const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
-
-interface VertretungsDay {
-    date: string;
-    day: string;
-    day_of_week: string;
-    relative: string;
-    vertretungen: Vertretung[];
-    news: string[];
-}
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/vertretungen.get", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     try {
-        const raw = await fetch("https://start.schulportal.hessen.de/vertretungsplan.php", {
+        const response = await fetch("https://start.schulportal.hessen.de/vertretungsplan.php", {
             redirect: "manual",
             headers: {
-                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                // There should be no need to URL-encode this, only alphanumerical values can be passed as a token
+                Cookie: `sid=${token}`,
                 ...generateDefaultHeaders(address)
             }
         });
 
-        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
-        const { i } = parseCookie(raw.headers.get("set-cookie") || "");
-        // The cookie might either be nonexistent or set to 0 if the user isn't logged in
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
-
-        const response: { error: boolean; days: VertretungsDay[]; last_updated: string | null; updating: boolean } = {
-            error: false,
-            days: [],
-            last_updated: null,
-            updating: false
-        };
-
-        const { window } = new JSDOM(removeBreaks(await raw.text()));
+        const { window } = new JSDOM(removeBreaks(await response.text()));
         const days = window.document.querySelectorAll("#content .panel.panel-info:not(#menue_tag), #content .panel.panel-primary");
 
-        // This is basically the "Der Vertretungsplan wird aktuell aktualisiert!" disclaimer, which
-        // is most definitely bullshit, but it might still be important to show anyways lol
-        response.updating = window.document.querySelector("#content .alert.alert-danger a[href].btn.btn-primary") !== null;
-
-        response.last_updated = (() => {
-            const element = window.document.querySelector(".panel:not(#menue_tag) .panel-body .pull-right i:not(.glyphicon)");
-            if (element === null) return null;
-
-            const matches = element.innerHTML.match(/(\d{2}\.\d{2}\.\d{4})(?: um )(\d{2}:\d{2}:\d{2})/i);
-            if (matches === null || matches.length !== 3) return null;
-
-            const day = matches[1].split(".").reverse().join("-");
-            const time = matches[2];
-            return `${day} ${time}`;
-        })();
-
+        const data = [];
         for (const day of days) {
             const date = day.id.replace(/tag/i, "").split("_");
             // Something must be broken then, so we better just skip over this element
@@ -96,7 +71,6 @@ export default defineEventHandler(async (event) => {
             table.querySelectorAll("tbody > tr").forEach((entry) => {
                 if (hasNoEntries) return;
                 const children = Array.from(entry.children);
-
                 // This has to be done as there might be things like 1 - 10 in lessons
                 // which, if we would only convert the two to an array would result in
                 // weird behaviour we might not want to have. However we still just
@@ -122,7 +96,7 @@ export default defineEventHandler(async (event) => {
                     note: children[8].innerHTML.trim() || null
                 });
             });
-            response.days.push({
+            data.push({
                 date: time.toString(),
                 day: date.join("-"),
                 day_of_week: DAYS[time.getDay()],
@@ -132,7 +106,24 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        return response;
+        return {
+            error: false,
+            days: data,
+            last_updated: (() => {
+                const element = window.document.querySelector(".panel:not(#menue_tag) .panel-body .pull-right i:not(.glyphicon)");
+                if (element === null) return null;
+
+                const matches = element.innerHTML.match(/(\d{2}\.\d{2}\.\d{4})(?: um )(\d{2}:\d{2}:\d{2})/i);
+                if (matches === null || matches.length !== 3) return null;
+
+                const day = matches[1].split(".").reverse().join("-");
+                const time = matches[2];
+                return `${day} ${time}`;
+            })(),
+            // This is basically the "Der Vertretungsplan wird aktuell aktualisiert!" disclaimer, which
+            // is most definitely bullshit, but it might still be important to show anyways lol
+            updating: window.document.querySelector("#content .alert.alert-danger a[href].btn.btn-primary") !== null
+        };
     } catch (error) {
         console.error(error);
         return setErrorResponse(res, 500);

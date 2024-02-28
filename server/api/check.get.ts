@@ -1,12 +1,12 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, patterns, setErrorResponse } from "../utils";
+import { authHeaderOrQuery, generateDefaultHeaders, patterns, setErrorResponse } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/check.get", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/startseite.php?a=ajax", {
             headers: {
-                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                Cookie: `sid=${token}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",

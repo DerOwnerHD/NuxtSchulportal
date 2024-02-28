@@ -2,6 +2,7 @@ import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import {
     generateDefaultHeaders,
+    hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     parseCookie,
     patterns,
@@ -35,7 +36,7 @@ export default defineEventHandler(async (event) => {
     const { token, session, key } = query;
 
     try {
-        const raw = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
+        const response = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
                 Cookie: `sid=${token}; SPH-Session=${session}`,
                 ...generateDefaultHeaders(address)
@@ -44,13 +45,10 @@ export default defineEventHandler(async (event) => {
             method: "GET"
         });
 
-        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
-        const { i } = parseCookie(raw.headers.get("set-cookie") || "");
-        // The cookie might either be nonexistent or set to 0 if the user isn't logged in
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
-
-        const html = removeBreaks(await raw.text());
+        const html = removeBreaks(await response.text());
         const { window } = new JSDOM(html);
         const { document } = window;
 

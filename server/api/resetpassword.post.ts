@@ -2,7 +2,7 @@ import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     APIError,
     generateDefaultHeaders,
-    parseCookie,
+    parseCookies,
     patterns,
     removeBreaks,
     setErrorResponse,
@@ -23,12 +23,9 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.method !== "POST") return setErrorResponse(res, 405);
-
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
     const body = await readBody<{ username: string; type: number; birthday: string; school: number }>(event);
-    // Just making sure the username isn't invalid (this is also tested in the frontend)
     if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/resetpassword.post", address);
@@ -44,8 +41,8 @@ export default defineEventHandler(async (event) => {
             headers: generateDefaultHeaders(address)
         });
 
-        const { sid } = parseCookie(firstStep.headers.get("set-cookie") || "");
-        if (!sid) throw TypeError();
+        const { sid } = parseCookies(firstStep.headers.getSetCookie());
+        if (!sid) return setErrorResponse(res, 503);
 
         const html = removeBreaks(await firstStep.text());
         const firstIkey = readIkey(html);

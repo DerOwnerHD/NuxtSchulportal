@@ -1,8 +1,8 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     generateDefaultHeaders,
+    hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    parseCookie,
     patterns,
     setErrorResponse,
     transformEndpointSchema,
@@ -49,10 +49,8 @@ export default defineEventHandler(async (event) => {
             body: `a=headers&getType=${typeTransforms[type] || "All"}&last=0`
         });
 
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
-
-        const { i } = parseCookie(response.headers.getSetCookie().join("; "));
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
 
         const data = await response.json();
         // If there was no AES key previously stored, we would expect this to just be set to false

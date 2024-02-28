@@ -32,8 +32,7 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ token: string; session: string }>(event);
-    const valid = validateQuery(query, schema.query);
-    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/decryption.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
+import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
 const schema = {
     body: {
         autologin: { type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN, required: true }
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
-    const body = await readBody(event);
+    const body = await readBody<{ autologin: string }>(event);
 
     const valid = validateBody(body, schema.body);
     if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
         // just skip this step lol
         if (obtainSession.status !== 302 || obtainSession.headers.get("location") !== LOGIN_URL) return setErrorResponse(res, 503);
 
-        const sessionCookies = parseCookie(obtainSession.headers.getSetCookie().join("; "));
+        const sessionCookies = parseCookies(obtainSession.headers.getSetCookie());
         const session = sessionCookies["SPH-Session"];
 
         if (!session || !patterns.SESSION_OR_AUTOLOGIN.test(session)) return setErrorResponse(res, 401);
@@ -83,9 +83,7 @@ export default defineEventHandler(async (event) => {
             headers: generateDefaultHeaders(address)
         });
 
-        const cookies = parseCookie(schulportalLogin.headers.getSetCookie().join("; "));
-        const sid = cookies["sid"];
-
+        const { sid } = parseCookies(schulportalLogin.headers.getSetCookie());
         if (!sid || !patterns.SID.test(sid)) return setErrorResponse(res, 401);
 
         return {

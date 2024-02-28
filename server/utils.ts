@@ -44,7 +44,8 @@ export const patterns = {
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
     DATE_YYYY_MM_DD_HYPHENS: /^20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
-    DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/
+    DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
+    SPH_DIRECT_MESSAGE_UUID: /^[0-9a-f]{32}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 };
 
 // This is in use when the user has to reset their password on SPH
@@ -235,6 +236,33 @@ export const generateDefaultHeaders = (address?: string) => {
         "X-Forwarded-For": address || "127.0.0.1",
         "User-Agent": "NuxtSchulportal (https://github.com/DerOwnerHD/NuxtSchulportal)"
     };
+};
+
+/**
+ * Checks whether the response has the "i" (institution) cookie is set to "0",
+ * thus meaning the authentication provided by the user is not valid.
+ * @param response The Fetch API response thats supposed to be parsed
+ * @returns whether the request is sucessfully authed
+ */
+export const hasInvalidAuthentication = (response: Response) => parseCookies(response.headers.getSetCookie())["i"] === "0";
+
+/**
+ * Gets either the content of the Authorization header or the query key "token",
+ * either one of these may contain the SPH token (sid cookie) needed for most requests.
+ * @param event The H3Event given by Nuxt's event handler
+ * @returns The cookie string or just null if it is not given or incorrect
+ */
+export const authHeaderOrQuery = (event: any): string | null => {
+    const { token } = getQuery<{ token?: string }>(event);
+    const {
+        headers: { authorization }
+    } = event.node.req as IncomingMessage;
+    // Neither of them are given...
+    if (typeof token !== "string" && typeof authorization !== "string") return null;
+    // We can safely assume that one of them has to be correct
+    if (!patterns.SID.test(token || authorization!)) return null;
+    // Again, we can block this TS error as we know that one of them HAS to be a string
+    return token || authorization!;
 };
 
 /**

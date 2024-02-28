@@ -1,4 +1,12 @@
-import { generateDefaultHeaders, hasPasswordResetLocationSet, parseCookie, patterns, removeBreaks, setErrorResponse } from "../utils";
+import {
+    generateDefaultHeaders,
+    hasPasswordResetLocationSet,
+    parseCookie,
+    authHeaderOrQuery,
+    removeBreaks,
+    setErrorResponse,
+    hasInvalidAuthentication
+} from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
 
@@ -6,8 +14,8 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/stundenplan.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -16,28 +24,22 @@ export default defineEventHandler(async (event) => {
         // We don't want to follow redirects cause in case
         // we aren't logged in and should get redirected, we
         // want to prevent this unhandled behaviour
-        const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php", {
+        const response = await fetch("https://start.schulportal.hessen.de/stundenplan.php", {
             headers: {
-                Cookie: `sid=${encodeURIComponent(req.headers.authorization)}`,
+                Cookie: `sid=${token}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "follow"
         });
 
-        // There might be a redirect, as the server might be down
-        // Even if there is no logged in user, the server will still 200
-        if (hasPasswordResetLocationSet(raw)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
-        const { i } = parseCookie(raw.headers.get("set-cookie") || "");
-        // The cookie might either be nonexistent or set to 0 if the user isn't logged in
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
-
-        const html = removeBreaks(await raw.text());
-
+        const html = removeBreaks(await response.text());
+        const {
+            window: { document }
+        } = new JSDOM(html);
         const plans: Stundenplan[] = [];
-
-        const { window } = new JSDOM(html);
-        const { document } = window;
 
         const initialPlan: PlanOptions = {
             start: document.querySelector("#all .plan")?.getAttribute("data-date") || "",
@@ -66,11 +68,11 @@ export default defineEventHandler(async (event) => {
                     plan.end = transformed;
                 }
 
-                plans.push(await loadSplanForDate(plan, req.headers.authorization, true, address));
+                plans.push(await loadSplanForDate(plan, token, true, address));
             }
         }
 
-        plans.push(await loadSplanForDate(initialPlan, req.headers.authorization, false, address, html));
+        plans.push(await loadSplanForDate(initialPlan, token, false, address));
 
         return {
             error: false,
@@ -100,12 +102,12 @@ async function loadSplanForDate(options: PlanOptions, auth: string, load: boolea
     if (load) {
         const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + options.start, {
             method: "GET",
+            redirect: "manual",
             headers: {
-                Cookie: `sid=${encodeURIComponent(auth)}`,
+                Cookie: `sid=${auth}`,
                 ...generateDefaultHeaders(address)
             }
         });
-
         html = removeBreaks(await raw.text());
     }
 

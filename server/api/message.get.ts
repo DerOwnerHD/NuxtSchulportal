@@ -1,8 +1,8 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     generateDefaultHeaders,
+    hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    parseCookie,
     patterns,
     setErrorResponse,
     transformEndpointSchema,
@@ -18,9 +18,6 @@ const schema = {
         id: { required: true, pattern: patterns.SPH_DIRECT_MESSAGE_UUID }
     }
 };
-
-// yes, they called it unvisibleOnly, not invisible (wtf)
-const typeTransforms = { all: "All", visible: "visibleOnly", invisible: "unvisibleOnly" };
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -50,10 +47,8 @@ export default defineEventHandler(async (event) => {
             body: `a=read&uniqid=${encodedId}`
         });
 
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
-
-        const { i } = parseCookie(response.headers.getSetCookie().join("; "));
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
 
         const data = await response.json();
         if (data.error !== "0") return setErrorResponse(res, 400, "AES key not yet set");

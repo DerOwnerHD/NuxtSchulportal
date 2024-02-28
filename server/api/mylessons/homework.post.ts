@@ -1,5 +1,13 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, setErrorResponse, validateBody } from "../../utils";
+import {
+    generateDefaultHeaders,
+    parseCookie,
+    authHeaderOrQuery,
+    setErrorResponse,
+    validateBody,
+    hasInvalidAuthentication,
+    hasPasswordResetLocationSet
+} from "../../utils";
 
 const schema = {
     body: {
@@ -18,8 +26,8 @@ export default defineEventHandler(async (event) => {
     const body = await readBody<{ action: "done" | "undone"; id: number; lesson: number }>(event);
     if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, schema);
 
-    if (!req.headers.authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(req.headers.authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/mylessons/homework.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -29,7 +37,7 @@ export default defineEventHandler(async (event) => {
     try {
         const response = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${req.headers.authorization}`,
+                Cookie: `sid=${token}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-Requested-With": "XMLHttpRequest",
                 ...generateDefaultHeaders(address)
@@ -39,9 +47,8 @@ export default defineEventHandler(async (event) => {
             method: "POST"
         });
 
-        const { i } = parseCookie(response.headers.get("set-cookie") || "");
-        // The cookie might either be nonexistent or set to 0 if the user isn't logged in
-        if (typeof i === "undefined" || i == "0") return setErrorResponse(res, 401);
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
         const text = await response.text();
         // This is the restrictor that occurs when the class is hidden for the user

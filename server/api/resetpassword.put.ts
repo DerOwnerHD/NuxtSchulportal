@@ -13,10 +13,7 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.method !== "PUT") return setErrorResponse(res, 405);
-
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
-
     const body = await readBody<{ token: string; ikey: string; sid: string; code: string }>(event);
 
     if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
@@ -36,7 +33,7 @@ export default defineEventHandler(async (event) => {
         const raw = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
             method: "POST",
             headers: {
-                Cookie: `sid=${encodeURIComponent(sid)}`,
+                Cookie: `sid=${sid}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders(address)
             },

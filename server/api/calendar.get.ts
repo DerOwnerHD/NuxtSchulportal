@@ -1,5 +1,15 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../utils";
+import {
+    generateDefaultHeaders,
+    parseCookie,
+    patterns,
+    setErrorResponse,
+    transformEndpointSchema,
+    validateQuery,
+    authHeaderOrQuery,
+    hasInvalidAuthentication,
+    hasPasswordResetLocationSet
+} from "../utils";
 
 const schema = {
     query: {
@@ -7,7 +17,8 @@ const schema = {
         start: { required: true, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS_OR_YEAR },
         end: { required: false, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS },
         query: { required: false, type: "string", max: 20 },
-        new: { required: false, type: "boolean" }
+        new: { required: false, type: "boolean" },
+        token: { required: false, type: "string", pattern: patterns.SID }
     }
 };
 
@@ -18,9 +29,8 @@ export default defineEventHandler(async (event) => {
     const query = getQuery<{ category?: number; start: string; end?: string; query?: string; new?: "true" | "false" }>(event);
     if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
-    const { authorization } = req.headers;
-    if (!authorization) return setErrorResponse(res, 400, "'authorization' header missing");
-    if (!patterns.SID.test(authorization)) return setErrorResponse(res, 400, "'authorization' header invalid");
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/calendar.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -42,17 +52,15 @@ export default defineEventHandler(async (event) => {
         const response = await fetch("https://start.schulportal.hessen.de/kalender.php", {
             method: "POST",
             headers: {
-                Cookie: `sid=${authorization}`,
+                Cookie: `sid=${token}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders()
             },
             body: requestForm
         });
 
-        // The "i" cookie is the institution (school) cookie and if it's set to
-        // 0, no school is obviously selected (so the sid is invalid or expired)
-        const cookies = parseCookie(response.headers.getSetCookie().join("; "));
-        if (cookies.i === "0") return setErrorResponse(res, 401);
+        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
         const data = (await response.json()) as BasicCalendarEntry[];
         if (!Array.isArray(data)) throw new TypeError("Calendar entries expected to be Array");
