@@ -1,3 +1,4 @@
+import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import {
     generateDefaultHeaders,
@@ -52,8 +53,7 @@ export default defineEventHandler(async (event) => {
 
         const text = await response.text();
         // This is the restrictor that occurs when the class is hidden for the user
-        if (text.includes("Dieses Heft kann für diesen Account nicht geöffnet werden!"))
-            return setErrorResponse(res, 403, "Class not available for user");
+        if (text.includes(COURSE_UNAVAILABLE_ERROR)) return setErrorResponse(res, 403, "Class not available for user");
         // There is no other way to check - so if the request
         // ACTUALLY succeeded we have no real way of knowing
         // For example: If the lesson doesn't even exist or has

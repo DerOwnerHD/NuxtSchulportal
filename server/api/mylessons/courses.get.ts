@@ -4,7 +4,6 @@ import {
     generateDefaultHeaders,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    parseCookie,
     patterns,
     removeBreaks,
     setErrorResponse,
@@ -27,8 +26,7 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ token: string; session: string; key?: string }>(event);
-    const valid = validateQuery(query, schema.query);
-    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
     const rateLimit = handleRateLimit("/api/mylessons/courses.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -48,9 +46,9 @@ export default defineEventHandler(async (event) => {
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 
-        const html = removeBreaks(await response.text());
-        const { window } = new JSDOM(html);
-        const { document } = window;
+        const {
+            window: { document }
+        } = new JSDOM(removeBreaks(await response.text()));
 
         const courses: MyLessonsCourse[] = [];
         const expired: MyLessonsCourse[] = [];
@@ -138,7 +136,15 @@ export default defineEventHandler(async (event) => {
 
             courses[courseIndex] = {
                 ...courses[courseIndex],
-                last_lesson: { topic, date, index: lesson, homework: hasHomework ? { done: homeworkDone, description: homework } : null }
+                last_lesson: {
+                    topic,
+                    date,
+                    index: lesson,
+                    homework: hasHomework ? { done: homeworkDone, description: homework } : null,
+                    // Both of these are not yet implemented in this system
+                    uploads: [],
+                    downloads: []
+                }
             };
         });
 
