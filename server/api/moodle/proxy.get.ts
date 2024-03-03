@@ -5,7 +5,7 @@ const schema = {
     query: {
         cookie: { required: true, length: 26, pattern: patterns.MOODLE_COOKIE },
         school: { required: true, type: "number", min: 1, max: 9999 },
-        path: { required: true, min: 1, max: 100, pattern: /\/pluginfile.php\/\d{1,10}\/.*/ },
+        path: { required: true, min: 1, max: 100, pattern: /^\/pluginfile.php\/\d{1,10}\/.*$/ },
         paula: { required: false, length: 64, pattern: patterns.HEX_CODE }
     }
 };

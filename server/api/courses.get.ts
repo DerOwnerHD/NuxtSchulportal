@@ -3,7 +3,6 @@ import {
     generateDefaultHeaders,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    patterns,
     removeBreaks,
     setErrorResponse,
     authHeaderOrQuery

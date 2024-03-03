@@ -81,6 +81,11 @@ export const validateQuery = (
         };
     }
 ): boolean => {
+    const keys = Object.keys(query);
+    const allowedKeys = Object.keys(schema);
+    for (const key of keys) {
+        if (!allowedKeys.includes(key)) return false;
+    }
     for (const key in schema) {
         if (!key.length) continue;
 

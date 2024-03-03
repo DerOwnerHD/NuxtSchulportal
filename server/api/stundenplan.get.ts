@@ -28,7 +28,7 @@ export default defineEventHandler(async (event) => {
             headers: {
                 Cookie: `sid=${token}`,
                 ...generateDefaultHeaders(address)
-            },
+            }
         });
 
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
