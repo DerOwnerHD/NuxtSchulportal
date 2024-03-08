@@ -1,6 +1,6 @@
 <template>
     <main v-if="cards.includes('moodle')">
-        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
+        <GradientBorder class="mb-2 rounded-2xl w-[90%] mx-[5%] max-w-[18rem]">
             <div class="px-5 py-2">
                 <div id="courses">
                     <div class="flex">
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </GradientBorder>
     </main>
     <footer>
         <button @click="openLink('https://start.schulportal.hessen.de/schulmoodle.php')">

@@ -18,6 +18,7 @@
                 <SheetsVPlanNewsSheet v-if="menu === 'vplan-news'" @close="closeMenu(null, 100)"></SheetsVPlanNewsSheet>
                 <SheetsSPlanSheet v-if="menu === 'splan'" @close="closeMenu(null, 100)"></SheetsSPlanSheet>
                 <SheetsMessagesSheet v-if="menu === 'messages'" @close="closeMenu(null, 100)"></SheetsMessagesSheet>
+                <SheetsMyLessonsSheet v-if="menu === 'lessons'" @close="closeMenu(null, 100)"></SheetsMyLessonsSheet>
             </main>
         </aside>
     </div>

@@ -1,15 +1,15 @@
 <template>
     <main v-if="cards.includes('lessons')">
-        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
+        <GradientBorder class="mb-2 rounded-2xl w-[90%] mx-[5%] max-w-[18rem]">
             <div class="px-5 py-2">
                 <div id="courses">
                     <div class="flex">
                         <h1>Deine Kurse</h1>
-                        <span class="course-counter" v-if="courses && courses.courses">{{ courses.courses.length }}</span>
+                        <span class="course-counter" v-if="courses && Array.isArray(courses.courses)">{{ courses.courses.length }}</span>
                     </div>
                     <div class="grid place-content-center py-2" v-if="!courses || typeof courses === 'string' || !courses.courses">
-                        <div class="error" v-if="appErrors.mylessons">
-                            <span>{{ appErrors.mylessons }}</span>
+                        <div class="error" v-if="errors.mylessons">
+                            <span>{{ errors.mylessons }}</span>
                         </div>
                         <div class="flex placeholder pl-3 mb-[-1rem]" v-else>
                             <article excluded v-for="n in 4">
@@ -22,85 +22,32 @@
                         </div>
                     </div>
                     <p v-else-if="!courses.courses.length" class="text-center py-1">Keine Kurse</p>
-                    <div class="flex overflow-x-scroll" v-else>
-                        <article class="opacity-0" v-for="course of coursesSortedByHomework" @click="selectCourse(course.id)">
-                            <div class="flex justify-center w-full">
-                                <span
-                                    v-if="course.last_lesson?.homework"
-                                    class="news-icon justify-self-center"
-                                    :style="course.last_lesson.homework.done ? 'background: #4ade80;' : ''"
-                                    >HA</span
-                                >
-                                <font-awesome-icon v-else class="mr-1.5" :icon="['fas', 'book']"></font-awesome-icon>
+                    <div class="overflow-y-scroll overflow-x-hidden relative grid" v-else>
+                        <article
+                            class="opacity-0 my-1 items-center overflow-x-hidden flex"
+                            v-for="(course, index) of coursesSortedByHomework"
+                            @click="openSheet(course, proxyUserImage(teacherImagesForCourses[index]?.teacher.image))">
+                            <img class="rounded-full h-6 inline-flex" :src="proxyUserImage(teacherImagesForCourses[index]?.teacher.image)" />
+                            <span class="whitespace-nowrap ml-1">{{ course.subject }}</span>
+                            <small class="whitespace-nowrap text-xs mt-1 ml-1">
+                                bei <b>{{ course.teacher.full?.split(", ")[0] }}</b></small
+                            >
+                            <div class="absolute right-0 flex bg-[#181818]" id="icons">
+                                <span class="bg-blue-500" v-if="course.last_lesson?.downloads">
+                                    <font-awesome-icon :icon="['fas', 'download']"></font-awesome-icon>
+                                </span>
+                                <span class="bg-amber-500" v-if="course.last_lesson?.uploads">
+                                    <font-awesome-icon :icon="['fas', 'upload']"></font-awesome-icon>
+                                </span>
+                                <span class="bg-red-500" v-if="course.last_lesson?.homework?.done === false">
+                                    <font-awesome-icon :icon="['fas', 'pen-to-square']"></font-awesome-icon>
+                                </span>
                             </div>
-                            <small>
-                                {{ course.subject }}
-                            </small>
                         </article>
                     </div>
                 </div>
-                <div id="details">
-                    <div class="flex items-center">
-                        <h1>Kursdetails</h1>
-                        <small class="ml-1 overflow-hidden whitespace-nowrap text-ellipsis">
-                            für {{ selected > -1 ? selectedCourse?.subject : "nichts" }}
-                        </small>
-                    </div>
-                    <p class="text-center text-sm" v-if="selected === -1 || !selectedCourse">Wähle einen Kurs aus</p>
-                    <div id="content" v-else class="px-2">
-                        <div
-                            id="attendance"
-                            v-if="selectedCourse.attendance && Object.values(selectedCourse.attendance).some((type) => type !== null)">
-                            <span header-alike>Anwesendheit</span>
-                            <ul>
-                                <li v-for="item of Object.keys(selectedCourse.attendance)">
-                                    <span v-if="selectedCourse.attendance[item]"> {{ selectedCourse.attendance[item] }} Stunde(n) {{ item }} </span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div v-if="selectedCourse.last_lesson">
-                            <p class="text-center">
-                                <span header-alike class="text-[0.9rem]">Letzte Stunde</span>
-                                <small> am {{ selectedCourse.last_lesson.date?.split("-").reverse().join(".") }}</small>
-                            </p>
-                            <small class="text-center block"><span header-alike>Thema: </span>{{ selectedCourse.last_lesson.topic }}</small>
-                            <div v-if="selectedCourse.last_lesson.homework" class="mt-1">
-                                <div class="flex">
-                                    <span class="text-lg" id="homework-status">
-                                        <font-awesome-icon
-                                            v-if="selectedCourse.last_lesson.homework.done"
-                                            class="bg-green-400"
-                                            :icon="['fas', 'check']"></font-awesome-icon>
-                                        <font-awesome-icon v-else class="bg-red-500" :icon="['fas', 'xmark']"></font-awesome-icon>
-                                    </span>
-                                    <span class="ml-1.5">Hausaufgaben {{ !selectedCourse.last_lesson.homework.done ? "nicht " : "" }}erledigt</span>
-                                </div>
-                                <small
-                                    class="leading-3 block"
-                                    v-html="selectedCourse.last_lesson.homework.description || '<leer> (Merkwürdig...)'"></small>
-                                <div class="flex justify-center">
-                                    <button
-                                        class="button-with-symbol"
-                                        @click="updateHomework(selectedCourse.id, selectedCourse.last_lesson.homework.done ? 'undone' : 'done')">
-                                        <font-awesome-icon
-                                            :icon="['fas', selectedCourse.last_lesson.homework.done ? 'xmark' : 'check']"></font-awesome-icon>
-                                        <span
-                                            >Als <b>{{ selectedCourse.last_lesson.homework.done ? "un" : "" }}erledigt</b> markieren</span
-                                        >
-                                    </button>
-                                </div>
-                                <div class="flex justify-center mt-2">
-                                    <div class="error" v-if="homeworkError">
-                                        <span>{{ homeworkError }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <p v-else class="text-center text-sm">Keine Hausaufgaben</p>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
+        </GradientBorder>
     </main>
     <footer>
         <button @click="openLink('https://start.schulportal.hessen.de/meinunterricht.php')">
@@ -110,110 +57,75 @@
     </footer>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-    name: "Lessons",
-    mounted() {
-        this.fadeIn();
-    },
-    data() {
-        return {
-            cards: useOpenCards(),
-            appErrors: useAppErrors(),
-            courses: useState<MyLessonsAllCourses>("mylessons"),
-            selected: -1,
-            homeworkError: ""
-        };
-    },
-    computed: {
-        coursesSortedByHomework() {
-            if (!this.courses || !this.courses.courses) return null;
-            return this.courses.courses.sort((a, b) => {
-                const hasHomework = [a, b].map((course) => course.last_lesson?.homework && !course.last_lesson.homework.done);
-                if (hasHomework[0] && !hasHomework[1]) return -1;
-                if (!hasHomework[0] && hasHomework[1]) return 1;
-
-                if (a.last_lesson?.homework && !a.last_lesson.homework.done) return 1;
-
-                const subjects = [a, b].map((course) => course.subject || "");
-
-                if (subjects[0] < subjects[1]) return -1;
-                if (subjects[0] > subjects[1]) return 1;
-
-                return 0;
-            });
-        },
-        selectedCourse() {
-            if (!this.coursesSortedByHomework) return null;
-            return this.coursesSortedByHomework.find((x) => x.id === this.selected);
-        }
-    },
-    methods: {
-        selectCourse(id: number) {
-            if (!this.coursesSortedByHomework || !this.coursesSortedByHomework.find((x) => x.id === id)) return;
-            this.selected = id;
-        },
-        async fadeIn() {
-            if (!this.cards.includes("lessons")) return;
-            async function fadeInElement(element: Element, index: number) {
-                if (!(element instanceof HTMLElement)) return;
-                await useWait(index * 80);
-                element.animate(
-                    [
-                        { opacity: 0, transform: "scale(90%)" },
-                        { opacity: 1, transform: "scale(100%)" }
-                    ],
-                    400
-                );
-                await useWait(390);
-                element.style.opacity = "1";
-            }
-            await useWait(10);
-            if (!this.courses || !this.courses.courses) return;
-            document.querySelectorAll("article[card=lessons] #courses article").forEach(fadeInElement);
-        },
-        async updateHomework(id: number, action: "done" | "undone") {
-            const courseIndex = this.courses.courses.findIndex((x) => x.id === id);
-            const course = this.courses.courses[courseIndex];
-            if (!course || !course.last_lesson || !course.last_lesson.homework) return;
-            const { data, error } = await useFetch<{ error: boolean; error_details?: any }>("/api/mylessons/homework", {
-                method: "POST",
-                headers: {
-                    Authorization: useToken().value
-                },
-                body: {
-                    lesson: course.last_lesson?.index,
-                    action,
-                    id
-                }
-            });
-
-            if (data.value === null || error.value !== null) {
-                this.homeworkError = error.value?.data.error_details || "Serverfehler";
-                await useWait(3000);
-                return (this.homeworkError = "");
-            }
-
-            // @ts-expect-error we already have run all the checks
-            this.courses.courses[courseIndex].last_lesson.homework.done = action === "done";
-            await useWait(1);
-            useAppNews().value.lessons = this.courses.courses.reduce(
-                (acc, course) => acc + (course.last_lesson?.homework && !course.last_lesson.homework.done ? 1 : 0),
-                0
-            );
-        }
-    },
-    watch: {
-        courses() {
-            this.fadeIn();
-        },
-        cards(value, old) {
-            if (!(value.includes("lessons") && !old.includes("lessons"))) return;
-            this.fadeIn();
-            this.selected = -1;
-        }
-    }
+<script setup lang="ts">
+// This is the default image used by SPH, just uploaded there
+// so it is accessible without authentication
+// -> findable under https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userFoto&b=show
+const DEFAULT_USER_IMAGE = "/moodle-default.png";
+const courses = useMyLessonsCourses();
+const lerngruppen = useLerngruppen();
+const cards = useOpenCards();
+const errors = useAppErrors();
+watch(courses, () => fadeIn());
+watch(cards, (value, old) => {
+    if (value.includes("lessons") && !old.includes("lessons")) fadeIn();
 });
+const coursesSortedByHomework = computed(() =>
+    courses.value.courses.sort((a, b) => {
+        const hasHomework = [a, b].map((course) => course.last_lesson?.homework && !course.last_lesson.homework.done);
+        if (hasHomework[0] && !hasHomework[1]) return -1;
+        if (!hasHomework[0] && hasHomework[1]) return 1;
+
+        // If however the homework has already been completed, we
+        // don't need to show it off right at the top
+        if (a.last_lesson?.homework && !a.last_lesson.homework.done) return 1;
+
+        const subjects = [a, b].map((course) => course.subject || "");
+
+        if (subjects[0] < subjects[1]) return -1;
+        if (subjects[0] > subjects[1]) return 1;
+
+        return 0;
+    })
+);
+const teacherImagesForCourses = computed(() => {
+    if (!lerngruppen.value || !coursesSortedByHomework.value) return [];
+    return coursesSortedByHomework.value.map((course) => {
+        // Some courses on mylessons may have a class or subject type attached to them
+        // -> they are encapsuled and can thusly be removed
+        const courseNameWithoutSubject = course.subject?.replace(/\([^()]+\)/gi, "").trim();
+        // As this is just for fetching the teacher images, it does not really matter
+        // if we may fetch a course of another subject with the same teacher
+        return lerngruppen.value.find((gruppe) => courseNameWithoutSubject === gruppe.course || gruppe.teacher.name === course.teacher.full);
+    });
+});
+async function fadeIn() {
+    if (!cards.value.includes("lessons")) return;
+    async function fadeInElement(element: Element, index: number) {
+        if (!(element instanceof HTMLElement)) return;
+        await useWait(index * 80);
+        element.animate(
+            [
+                { opacity: 0, transform: "scale(90%)" },
+                { opacity: 1, transform: "scale(100%)" }
+            ],
+            400
+        );
+        await useWait(390);
+        element.style.opacity = "1";
+    }
+    await nextTick();
+    document.querySelectorAll("article[card=lessons] #courses article").forEach(fadeInElement);
+}
+function proxyUserImage(image?: string | null) {
+    if (typeof image !== "string") return DEFAULT_USER_IMAGE;
+    return `/api/proxy?token=${useToken().value}&path=${encodeURIComponent(image)}`;
+}
+function openSheet(course: MyLessonsCourse, image: string) {
+    useSelectedMyLessonsCourse().value = course;
+    useState("selected-mylessons-course-image").value = image;
+    useOpenSheet("lessons");
+}
 </script>
 
 <style scoped>
@@ -229,31 +141,13 @@ export default defineComponent({
             @apply rounded-full w-3;
         }
     }
-    article {
-        small {
-            @apply mt-1 block;
-        }
-        span {
-            font-size: 0.65rem;
-        }
-        @apply h-14 min-w-[3.5rem] w-14 overflow-hidden text-ellipsis text-center mt-1 mr-3 relative;
-        line-break: anywhere;
-        line-height: 0.8;
-    }
     article:not(.placeholder):hover:active {
         @apply scale-95;
     }
-}
-#details {
-    @apply mt-4 pt-2;
-    border-top: solid 1px;
-    border-image: linear-gradient(to left, transparent 0%, #ffffff 50%, transparent 100%) 1;
-}
-#homework-status > svg {
-    @apply rounded-full aspect-square p-0.5;
-}
-#attendance {
-    @apply mb-1 pb-2 text-sm text-center;
-    border-bottom: solid 1px #636363;
+    article {
+        #icons span {
+            @apply rounded-full h-6 w-6 grid place-content-center text-sm mx-0.5;
+        }
+    }
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <main v-if="cards.includes('vplan')">
-        <div id="table" class="w-[90%] mx-[5%] rounded-2xl mb-2 text-white shadow-md z-0 relative gradient-border">
+        <GradientBorder class="w-[90%] mx-[5%] rounded-2xl mb-2 text-center text-white">
             <div class="grid place-content-center py-2" v-if="!plan">
                 <div class="error" v-if="errors.vplan">
                     <span>{{ errors.vplan }}</span>
@@ -13,7 +13,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else>
+            <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else id="content">
                 <p v-if="!plan.days.length" class="opacity-0">Keine Tage verfügbar</p>
                 <div v-for="(day, index) of plan.days">
                     <header class="leading-3 my-1">
@@ -32,7 +32,10 @@
                                 <span v-if="!substitute && !subject"> Ausfall in </span>
                                 <b>{{ subject || subject_old }}</b>
                                 <span v-if="substitute && teacher && teacher.replace(/<\/?del>/gi, '') !== substitute">
-                                    bei <b>{{ substitute || teacher?.replace(/<\/?del>/gi, "") }}</b></span
+                                    bei
+                                    <b>{{
+                                        replaceShortNameBySurname(substitute) || replaceShortNameBySurname(teacher?.replace(/<\/?del>/gi, ""))
+                                    }}</b></span
                                 >
                                 <span v-if="room"> in {{ room }}</span>
                                 <span v-if="note"> ({{ note }})</span>
@@ -42,7 +45,7 @@
                     </main>
                 </div>
             </div>
-        </div>
+        </GradientBorder>
         <p v-if="plan != null" class="card-main-description">Aktualisert vor {{ distanceToLastUpdated }}</p>
     </main>
     <footer>
@@ -59,10 +62,29 @@
 
 <script setup lang="ts">
 const months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-const cards = ref(useOpenCards());
+const cards = useOpenCards();
 const plan = useState<Vertretungsplan>("vplan");
 const errors = useAppErrors();
 let distanceInterval: NodeJS.Timeout;
+
+const lerngruppen = useLerngruppen();
+const knownTeachers = computed(() => {
+    const teachers = [];
+    for (const group of lerngruppen.value) {
+        const { name } = group.teacher;
+        const nameWithoutShort = name.replace(/\([^)]+\)/, "").trim();
+        const short = name.split("(")[1]?.replace(")", "").trim();
+        const surname = nameWithoutShort.split(", ")[0];
+        teachers.push({ short, surname });
+    }
+
+    return teachers;
+});
+
+function replaceShortNameBySurname(short: string) {
+    const teacher = knownTeachers.value.find((x) => x.short === short);
+    return teacher?.surname ?? short;
+}
 
 onMounted(() => {
     fadeIn();
@@ -149,8 +171,8 @@ async function fadeIn() {
     await useWait(10);
     // If we don't do it for each day seperatly, it would go through the first
     // day and only THEN start fading in the lessons of the second day
-    document.querySelectorAll("article[card=vplan] #table ul").forEach((list) => list.querySelectorAll("li").forEach(fadeInElement));
-    document.querySelectorAll("article[card=vplan] #table p").forEach(fadeInElement);
+    document.querySelectorAll("article[card=vplan] #content ul").forEach((list) => list.querySelectorAll("li").forEach(fadeInElement));
+    document.querySelectorAll("article[card=vplan] #content p").forEach(fadeInElement);
 }
 
 function continuousUpdate() {

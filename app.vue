@@ -50,6 +50,8 @@
 import { callWithNuxt } from "nuxt/app";
 import SecretButton from "./components/utils/SecretButton.vue";
 const loggedIn = useState("logged-in", () => false);
+// Used to determine whether we should regenerate the AES key
+const freshlyAuthenticated = useState("freshly-authed", () => false);
 // On the server, we only want to be processing basic SPH login
 // Does not include any API calls for apps, nor Moodle nor keygen
 // for messages (not yet) and lessons decryption
@@ -84,6 +86,7 @@ onServerPrefetch(async () => {
     // After this the client will take over and actually
     // start loading all the apps, Moodle and such
     loggedIn.value = true;
+    freshlyAuthenticated.value = true;
 });
 onMounted(async () => {
     // It has not worked on the server side
@@ -94,8 +97,12 @@ onMounted(async () => {
     // us to be logged into the SPH, not Moodle
     loadSplan();
     loadVplan();
-    loadMyLessons();
-    loadAESKey();
+    if (freshlyAuthenticated.value) {
+        localStorage.removeItem("aes-key");
+        await useAESKey();
+    }
+    useLerngruppenFetch();
+    useMyLessonsCoursesFetch();
     const moodleLoggedIn = await moodleLogin();
     if (!moodleLoggedIn) return;
     // All of these are Moodle specific things, thus only being
@@ -159,12 +166,6 @@ async function loadAESKey() {
     console.log(key);
     useState("aes-key", () => key);
     useLocalStorage("aes-key", key);
-}
-async function loadMyLessons() {
-    const courses = await useMyLessons();
-    if (typeof courses === "string" || !courses.courses) return (errors.value.mylessons = courses.toString());
-    useState("mylessons", () => courses);
-    useAppNews().value.lessons = courses.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
 }
 async function loadConversations() {
     const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

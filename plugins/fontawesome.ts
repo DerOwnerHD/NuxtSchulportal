@@ -44,7 +44,11 @@ import {
     faAt,
     faChalkboardUser,
     faGraduationCap,
-    faCar
+    faCar,
+    faUpload,
+    faDownload,
+    faBarsStaggered,
+    faList
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -101,7 +105,11 @@ library.add(
     faGraduationCap,
     faCar,
     faLocationDot,
-    faLock
+    faLock,
+    faUpload,
+    faDownload,
+    faPenToSquare,
+    faList
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

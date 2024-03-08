@@ -210,27 +210,6 @@ interface MoodleEventsResponse {
     events: MoodleEvent[];
 }
 
-export interface MyLessonsCourse {
-    subject: string | null;
-    teacher: {
-        full: string | null;
-        short: string | null;
-    };
-    id: number;
-    attendance?: { [type: string]: number };
-    last_lesson?: MyLessonsLesson;
-}
-
-export interface MyLessonsLesson {
-    topic: string | null;
-    date: string | null;
-    index: number | null;
-    homework: {
-        done: boolean;
-        description: string | null;
-    } | null;
-}
-
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
 export const useAppErrors = () => useState<AppErrorState>("app-errors");
 export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
@@ -280,60 +259,6 @@ export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
     });
 
     return handleReponse(error, data, data.value?.courses);
-};
-
-export interface MyLessonsAllCourses {
-    courses: MyLessonsCourse[];
-    expired: MyLessonsCourse[];
-}
-
-interface MyLessonsResponse extends MyLessonsAllCourses {
-    error: boolean;
-    error_details?: any;
-}
-
-interface AESKeyResponse {
-    error: boolean;
-    error_details?: any;
-    key: string;
-}
-
-export const useAESKey = async (): Promise<string | null> => {
-    const token = useToken();
-    const session = useSession();
-    if (!token.value || !session.value) return null;
-
-    const { data, error } = await useFetch<AESKeyResponse>("/api/decryption", {
-        method: "GET",
-        query: {
-            session: session.value,
-            token: token.value
-        },
-        retry: false
-    });
-
-    return handleReponse(error, data, data.value?.key);
-};
-
-export const useMyLessons = async (): Promise<MyLessonsAllCourses | string> => {
-    const token = useToken();
-    const session = useSession();
-    if (!token.value || !session.value) return "401: Unauthorized";
-
-    let key = useLocalStorage("aes-key") || undefined;
-
-    const { data, error: fetchError } = await useFetch<MyLessonsResponse>("/api/mylessons/courses", {
-        method: "GET",
-        query: {
-            session: session.value,
-            token: token.value,
-            key
-        },
-        retry: false
-    });
-
-    const { error, ...courses } = data.value || {};
-    return handleReponse(fetchError, data, courses);
 };
 
 export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
