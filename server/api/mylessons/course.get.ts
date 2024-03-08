@@ -34,7 +34,6 @@ export default defineEventHandler(async (event) => {
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
     const { token, session, key, semester, id } = query;
-    console.log(typeof semester);
 
     try {
         const response = await fetch(`https://start.schulportal.hessen.de/meinunterricht.php?a=sus_view&id=${id}&halb=${semester}`, {
@@ -105,11 +104,11 @@ export default defineEventHandler(async (event) => {
                                   // https://start.schulportal.hessen.de/meinunterricht.php?a=downloadFile&id=<course>&e=<lesson>&f=<file name>
                                   extension: file.getAttribute("data-extension") || null,
                                   name: file.getAttribute("data-file") || null,
-                                  size: file.querySelector("a small")?.innerHTML.replace(/\(|\)/g, "")
+                                  size: file.querySelector("a small")?.innerHTML.replace(/\(|\)/g, "") || null
                               };
                           })
                       }
-                    : [];
+                    : { link: null, files: [] };
 
             const uploads = Array.from(lesson.querySelectorAll("td:nth-child(2) .btn-group")).map((uploadElement) => {
                 const button = uploadElement.querySelector("button");

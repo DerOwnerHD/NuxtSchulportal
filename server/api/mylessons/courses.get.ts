@@ -142,8 +142,8 @@ export default defineEventHandler(async (event) => {
                     index: lesson,
                     homework: hasHomework ? { done: homeworkDone, description: homework } : null,
                     // Both of these are not yet implemented in this system
-                    uploads: [],
-                    downloads: []
+                    uploads: null,
+                    downloads: null
                 }
             };
         });
