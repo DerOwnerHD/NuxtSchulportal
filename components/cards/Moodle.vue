@@ -28,12 +28,12 @@
                             <small></small>
                         </article>
                     </div>
-                    <div v-else class="flex overflow-x-auto">
+                    <UtilsFadingScroll v-else class="flex overflow-x-auto" direction="x" id="moodle-card-list">
                         <article v-for="course of courses" @click="openLink(course.link)" class="opacity-0">
                             <div :style="`background-image: url(${proxyCourseImage(course.image)})`"></div>
                             <small>{{ course.names.short }}</small>
                         </article>
-                    </div>
+                    </UtilsFadingScroll>
                 </div>
                 <div id="events">
                     <h1>Anstehende Abgaben</h1>

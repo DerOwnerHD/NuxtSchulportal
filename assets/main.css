@@ -26,6 +26,7 @@ body {
     --element-color: #2d2d2d;
     --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
     --small-button-color: #4e5760;
+    --full-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     color: white;
 }
 @keyframes spin {

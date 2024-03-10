@@ -59,7 +59,7 @@ async function switchNotification(direction: 1 | -1) {
 
 onMounted(() => {
     if (!position.value) throw new Error("Expected position of MoodleNotifications menu to be set");
-    if (window.innerHeight - position.value[1] < 100) return (useState("moodle-notifications-open").value = false);
+    if (window.innerHeight - position.value[1] < 100 || !notifications.value.length) return (useState("moodle-notifications-open").value = false);
     document.body.style.overflow = "hidden";
 
     function detectClick(event: MouseEvent) {

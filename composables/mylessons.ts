@@ -78,7 +78,7 @@ export interface MyLessonsCourse {
 export interface MyLessonsLesson {
     topic: NullableString;
     date: NullableString;
-    index: number | null;
+    entry: number | null;
     lessons?: number[];
     homework: {
         done: boolean;

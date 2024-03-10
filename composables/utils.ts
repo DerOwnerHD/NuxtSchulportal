@@ -60,5 +60,6 @@ export const patterns = {
     SID: /^[a-z0-9]{26}$/,
     NOTIFICATION_AUTH: /^[a-z0-9_-]{22}$/i,
     NOTIFICATION_P256DH: /^B[a-z0-9_-]+$/i,
-    AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/
+    AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
+    TEACHER_NAME_FULL_STRING: /^[^,]+, [^(]+ \([^)]{3,4}\)$/i
 };

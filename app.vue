@@ -60,7 +60,7 @@ const freshlyAuthenticated = useState("freshly-authed", () => false);
 onServerPrefetch(async () => {
     // These are all required for storing the news count
     // We pregenerate them on the server so it won't fail rendering the cards
-    const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
+    const apps = ["vplan", "splan", "messages", "moodle", "calendar", "lessons"];
     useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
     // This also needs to be initialized so the closed cards can be rendered on the server
     // We do not know what cards are open as that is stored in local storage
@@ -101,7 +101,8 @@ onMounted(async () => {
         localStorage.removeItem("aes-key");
         await useAESKey();
     }
-    useLerngruppenFetch();
+    await useLerngruppenFetch();
+    await loadSurnamesFromLerngruppen();
     useMyLessonsCoursesFetch();
     const moodleLoggedIn = await moodleLogin();
     if (!moodleLoggedIn) return;
@@ -157,15 +158,6 @@ async function loadMoodleCourses() {
     const courses = await useMoodleCourses();
     if (typeof courses === "string") return (errors.value["moodle-courses"] = courses);
     useState("moodle-courses", () => courses);
-}
-async function loadAESKey() {
-    const hasKeyStored = /^[A-Za-z0-9/\+=]{88}$/.test(window.localStorage.getItem("aes-key") ?? "");
-    if (hasKeyStored) return;
-    const key = await useAESKey();
-    if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
-    console.log(key);
-    useState("aes-key", () => key);
-    useLocalStorage("aes-key", key);
 }
 async function loadConversations() {
     const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

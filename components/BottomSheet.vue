@@ -5,12 +5,12 @@
         @click="closeMenu"
         v-if="useSheetState().value.open.includes(menu)">
         <aside
-            class="fixed w-screen rounded-t-3xl overflow-visible max-h-[80vh] focus:outline-none"
+            class="fixed w-screen rounded-t-3xl overflow-y-auto overflow-x-hidden max-h-[30vh] focus:outline-none"
             @touchstart="startDrag"
             @touchmove="updateDrag"
             @touchend="endDrag"
             :menu="menu">
-            <header class="flex place-content-center py-2 rounded-md">
+            <header id="bottom-sheet-header" class="flex sticky top-0 place-content-center py-3 pb-3.5 bg-[#1c1c1c] z-[5]">
                 <div class="w-10 h-1.5 rounded-full"></div>
             </header>
             <main class="text-center mb-5">
@@ -81,6 +81,8 @@ export default defineComponent({
         updateDrag(event: TouchEvent) {
             const target = event.target as HTMLElement;
             if (target.closest("#sheet-inner-content")) return;
+            // Scrolling inside the container has to be prevented when dragging the box
+            event.preventDefault();
 
             const elementType = (event.target as Element).nodeName;
             if (this.moving || elementsIgnoringMove.includes(elementType)) return;

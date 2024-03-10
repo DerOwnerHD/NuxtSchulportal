@@ -1,10 +1,14 @@
 <template>
-    <div class="outer">
+    <div class="outer" :class="{ small }">
         <div class="inner">
             <slot />
         </div>
     </div>
 </template>
+
+<script setup lang="ts">
+const { small } = defineProps<{ small?: boolean }>();
+</script>
 
 <style scoped>
 .outer {
@@ -16,6 +20,9 @@
     content: "";
     background: var(--gradient);
     box-shadow: 0px 0px 15px 2px rgba(0, 0, 0, 0.3);
+}
+.outer.small::before {
+    @apply !left-[-1px] !right-[-1px] !top-[-1px] !bottom-[-1px];
 }
 .inner {
     position: relative;
