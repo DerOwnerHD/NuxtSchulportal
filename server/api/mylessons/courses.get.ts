@@ -139,7 +139,7 @@ export default defineEventHandler(async (event) => {
                 last_lesson: {
                     topic,
                     date,
-                    index: lesson,
+                    entry: lesson,
                     homework: hasHomework ? { done: homeworkDone, description: homework } : null,
                     // Both of these are not yet implemented in this system
                     uploads: null,

@@ -21,15 +21,12 @@ get in some more nuuuuxt here
 
 #### SPH-Apps
 
-Alle Apps benötigen das Token (sid) als <code>Authorization</code> header
+Alle Apps benötigen das Token (sid) als <code>Authorization</code>-Header oder <code>token</code>-Parameter
 
 -   <code>GET</code> <code>/vertretungen</code> Individueller Vertretungsplan
 -   <code>GET</code> <code>/stundenplan</code> Persönlicher Stundenplan
-    <br>
-
-Nutzt token als **Parameter**, nicht als <code>Authorization</code> header
-
 -   <code>GET</code> <code>/mylessons/courses</code> Kurse in **Mein Unterricht**
+-   <code>GET</code> <code>/mylessons/course</code> Kursdetails (alle Stunden)
 -   <code>POST</code> <code>/mylessons/homework</code> Hausaufgaben als erledigt markieren
 -   <code>GET</code> <code>/messages</code> Direktnachrichten auflisten
 -   <code>GET</code> <code>/message</code> Nachrichteninhalt zeigen
