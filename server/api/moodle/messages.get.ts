@@ -1,12 +1,18 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
-import { MoodleConversationMember, MoodleConversationMessage, lookupSchoolMoodle, transformMoodleMember, transformMoodleMessage } from "../../moodle";
+import {
+    MoodleConversationMember,
+    MoodleConversationMessage,
+    generateMoodleURL,
+    lookupSchoolMoodle,
+    transformMoodleMember,
+    transformMoodleMessage
+} from "../../moodle";
 
 const schema = {
     query: {
         session: { required: true, length: 10, pattern: patterns.MOODLE_SESSION },
         cookie: { required: true, length: 26, pattern: patterns.MOODLE_COOKIE },
-        paula: { required: true, length: 64, pattern: patterns.HEX_CODE },
         school: { required: true, type: "number", min: 1, max: 9999 },
         user: { required: true, type: "number", min: 1 },
         conversation: { required: true, type: "number", min: 1 }
@@ -23,16 +29,16 @@ export default defineEventHandler(async (event) => {
     const rateLimit = handleRateLimit("/api/moodle/messages.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
-    const { session, cookie, paula, school, user, conversation } = query;
+    const { session, cookie, school, user, conversation } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
         if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
 
-        const response = await fetch(`https://mo${school}.schule.hessen.de/lib/ajax/service.php?sesskey=${session}`, {
+        const response = await fetch(`${generateMoodleURL(school)}/lib/ajax/service.php?sesskey=${session}`, {
             method: "POST",
             headers: {
-                Cookie: `MoodleSession=${cookie}; Paula=${paula}`,
+                Cookie: `MoodleSession=${cookie}`,
                 "Content-Type": "application/json",
                 ...generateDefaultHeaders(address)
             },

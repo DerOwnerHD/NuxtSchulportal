@@ -308,9 +308,20 @@ export const transformMoodleConversation = (conversation: MoodleConversation) =>
 
 export const lookupSchoolMoodle = async (school: any): Promise<boolean> => {
     try {
-        await lookup(`mo${school}.schule.hessen.de`);
+        await lookup(generateMoodleURL(school, true));
         return true;
     } catch (error) {
         return false;
     }
 };
+
+const BASE_MOODLE_URL = useRuntimeConfig().public.baseMoodleURL;
+/**
+ * Generates a Moodle URL for Schulportal.
+ * May change dynamically based on updates.
+ * @param school The school ID (xxxx)
+ * @param withoutProtocol Whether the HTTPS protocol should be included (only needed for DNS lookup)
+ * @returns The generated URL
+ */
+export const generateMoodleURL = (school: any, withoutProtocol: boolean = false): string =>
+    `${withoutProtocol ? "" : "https://"}mo${school}.${BASE_MOODLE_URL}`;

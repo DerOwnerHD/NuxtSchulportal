@@ -23,7 +23,6 @@ export async function loadSurnamesFromLerngruppen() {
         const [firstname, short] = combination.split("(").map((x) => x.replace(")", "").trim());
         teachers.push({ firstname, surname, short, full: name });
     }
-    console.log(teachers);
     useSurnames().value = teachers;
 }
 

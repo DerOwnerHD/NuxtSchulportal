@@ -1,6 +1,6 @@
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../../utils";
+import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
-import { lookupSchoolMoodle } from "../../moodle";
+import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 
 const schema = {
     body: {
@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
 
     const { session, school } = body;
 
-    const institutionLogin = `https://mo${school}.schule.hessen.de/login/index.php`;
+    const institutionLogin = `${generateMoodleURL(school)}/login/index.php`;
 
     try {
         // We need to ensure that a moodle link of that school actually exists
@@ -33,8 +33,9 @@ export default defineEventHandler(async (event) => {
 
         // Sends request to SAMLSingleSignOn which provides a URL which actually requires
         // authentication in form of a SPH-Session cookie (provided by user in POST request)
+        // Moved to llngproxy01.schulportal.hessen.de in some update
         const samlSingleSignOn = (
-            await fetch("https://loginproxy1.schulportal.hessen.de/?url=" + Buffer.from(institutionLogin).toString("base64"), {
+            await fetch("https://llngproxy01.schulportal.hessen.de//?url=" + Buffer.from(institutionLogin).toString("base64"), {
                 redirect: "manual",
                 headers: generateDefaultHeaders(address)
             })
@@ -54,6 +55,7 @@ export default defineEventHandler(async (event) => {
             })
         ).headers.get("location");
 
+        // The proxySingleSignOnArtifact has been moved to llngproxy01.schulportal.hessen.de as well
         if (!proxySingleSignOnArtifact) return setErrorResponse(res, 401);
 
         // If the previous request was sucessful, we can now GET to this location, which will
@@ -61,20 +63,25 @@ export default defineEventHandler(async (event) => {
         // This Paula cookie is then needed for authentication in Moodle
         const redirectToMoodle = await fetch(proxySingleSignOnArtifact, {
             redirect: "manual",
-            headers: generateDefaultHeaders(address)
+            headers: {
+                Cookie: `SPH-Session=${session}`,
+                ...generateDefaultHeaders(address)
+            }
         });
+
         // This has to be dynamic so it can apply to multiple institutions
-        const moodleRedirectCookies = parseCookie(redirectToMoodle.headers.get("set-cookie") || "");
-        const paulaCookie = moodleRedirectCookies["Paula"];
+        const moodleRedirectCookies = parseCookies(redirectToMoodle.headers.getSetCookie());
+        // This cookie is NEW and appears to replace the Paula cookie
+        const moodleCookie = moodleRedirectCookies["mo-prod01"];
         // The site should normally always redirect to Moodle, but if it does not, we know
         // something has to have gone wrong, most likely some maintenance
         if (redirectToMoodle.status !== 302) return setErrorResponse(res, 503, "Wartungsarbeiten");
-        if (redirectToMoodle.headers.get("location") !== institutionLogin || !paulaCookie) return setErrorResponse(res, 401);
+        if (redirectToMoodle.headers.get("location") !== institutionLogin || !moodleCookie) return setErrorResponse(res, 401);
 
         const moodleLogin = await fetch(institutionLogin, {
             redirect: "manual",
             headers: {
-                Cookie: `Paula=${paulaCookie}`,
+                Cookie: `mo-prod01=${moodleCookie}`,
                 ...generateDefaultHeaders(address)
             }
         });
@@ -84,15 +91,18 @@ export default defineEventHandler(async (event) => {
         const locationHeader = moodleLogin.headers.get("location");
         if (moodleLogin.status !== 303 || locationHeader === null) return setErrorResponse(res, 401);
 
-        const loginValidation = locationHeader.match(/^(?:https:\/\/mo(?:[0-9]{1,6})\.schule\.hessen\.de\/login\/index.php\?testsession=)([0-9]+)$/i);
+        // TODO: De-hardcode that stuff
+        const loginValidation = locationHeader.match(
+            /^(?:https:\/\/mo(?:[0-9]{1,6})\.schulportal\.hessen\.de\/login\/index.php\?testsession=)([0-9]+)$/i
+        );
         // We would expect that in index 1 is the user ID
         if (loginValidation === null || !loginValidation[1]) return setErrorResponse(res, 401);
 
         // Using this we may attempt to request the /my/ page of moodle
         // and there fetch the session key which is embedded in a logoff menu
-        const moodleSession = parseCookie(moodleLogin.headers.getSetCookie().join("; "))["MoodleSession"];
+        const moodleSession = parseCookies(moodleLogin.headers.getSetCookie())["MoodleSession"];
         if (!moodleSession) return setErrorResponse(res, 401);
-        const mainPage = await fetch(`https://mo${school}.schule.hessen.de/my/`, {
+        const mainPage = await fetch(`${generateMoodleURL(school)}/my/`, {
             redirect: "manual",
             headers: {
                 Cookie: `MoodleSession=${moodleSession}`,
@@ -108,7 +118,9 @@ export default defineEventHandler(async (event) => {
             error: false,
             cookie: moodleSession,
             session: sessionKeyMatch[1],
-            paula: paulaCookie,
+            // We'll just pretend that this is actually still called Paula...
+            // (just on the frontend por favor)
+            paula: moodleCookie,
             user: parseInt(loginValidation[1])
         };
     } catch (error) {
