@@ -63,3 +63,10 @@ export const patterns = {
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
     TEACHER_NAME_FULL_STRING: /^[^,]+, [^(]+ \([^)]{3,4}\)$/i
 };
+
+export const useOpenDialogBoxes = () => useState<string[]>("open-dialog-boxes", () => []);
+export function modifyOpenDialogBoxes(box: string) {
+    const index = useOpenDialogBoxes().value.findIndex((x) => x === box);
+    if (index === -1) return useOpenDialogBoxes().value.push(box);
+    useOpenDialogBoxes().value.splice(index, 1);
+}

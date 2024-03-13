@@ -140,9 +140,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.sticky {
-    clip-path: var(--full-clip-path);
-}
 td,
 th {
     border: solid 1px #636363;

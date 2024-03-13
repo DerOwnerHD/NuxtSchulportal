@@ -8,6 +8,7 @@
             <span class="text-3xl">Schulportal</span>
             <span class="mt-[-0.75rem] ml-0.5">HESSEN</span>
         </header>
+        <OberstufenwahlAlert v-if="openDialogBoxes.includes('oberstufenwahl')"></OberstufenwahlAlert>
         <div v-if="criticalAPIError !== null" id="api-error" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
             <div id="api-error-display" class="basic-card px-4 overflow-y-scroll">
                 <h1>Fehler beim Laden</h1>
@@ -27,7 +28,7 @@
             <LoginMenu v-if="!loggedIn"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <CardList></CardList>
-                <div class="flex justify-center my-5">
+                <div class="flex justify-center my-5 flex-wrap w-80">
                     <button class="button-with-symbol" @click="logout">
                         <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
                         <span>Abmelden</span>
@@ -35,6 +36,10 @@
                     <button class="button-with-symbol" @click="notificationMananger = true">
                         <font-awesome-icon :icon="['fas', 'bell']"></font-awesome-icon>
                         <span>Benachrichtigungen</span>
+                    </button>
+                    <button class="button-with-symbol" @click="modifyOpenDialogBoxes('oberstufenwahl')">
+                        <font-awesome-icon :icon="['fas', 'check-to-slot']"></font-awesome-icon>
+                        <span>Oberstufenwahlen</span>
                     </button>
                 </div>
             </main>
@@ -49,9 +54,11 @@
 <script setup lang="ts">
 import { callWithNuxt } from "nuxt/app";
 import SecretButton from "./components/utils/SecretButton.vue";
+import OberstufenwahlAlert from "./components/OberstufenwahlAlert.vue";
 const loggedIn = useState("logged-in", () => false);
 // Used to determine whether we should regenerate the AES key
 const freshlyAuthenticated = useState("freshly-authed", () => false);
+const openDialogBoxes = useOpenDialogBoxes();
 // On the server, we only want to be processing basic SPH login
 // Does not include any API calls for apps, nor Moodle nor keygen
 // for messages (not yet) and lessons decryption
@@ -97,6 +104,7 @@ onMounted(async () => {
     // us to be logged into the SPH, not Moodle
     loadSplan();
     loadVplan();
+    fetchOberstufenWahl();
     if (freshlyAuthenticated.value) {
         localStorage.removeItem("aes-key");
         await useAESKey();

@@ -27,6 +27,9 @@ body {
     --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
     --small-button-color: #4e5760;
     --full-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --white-gradient-border-image-zero: linear-gradient(0deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --gradient-border-degrees: 90deg;
     color: white;
 }
 @keyframes spin {
@@ -166,7 +169,7 @@ h1,
     background: linear-gradient(to bottom, #282828, #121212);
     @apply w-80 shadow-lg rounded-xl mx-5 text-white py-3;
     border-top: solid 1px;
-    border-image: linear-gradient(90deg, #282828 10%, #ffffff 50%, #282828 90%) 1;
+    border-image: var(--white-gradient-border-image);
     h1 {
         @apply text-2xl mt-1;
     }

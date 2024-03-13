@@ -66,6 +66,7 @@ const courses = useMyLessonsCourses();
 const lerngruppen = useLerngruppen();
 const cards = useOpenCards();
 const errors = useAppErrors();
+onMounted(() => fadeIn());
 watch(courses, () => fadeIn());
 watch(cards, (value, old) => {
     if (value.includes("lessons") && !old.includes("lessons")) fadeIn();

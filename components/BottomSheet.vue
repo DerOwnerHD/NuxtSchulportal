@@ -5,12 +5,12 @@
         @click="closeMenu"
         v-if="useSheetState().value.open.includes(menu)">
         <aside
-            class="fixed w-screen rounded-t-3xl overflow-y-auto overflow-x-hidden max-h-[30vh] focus:outline-none"
+            class="fixed w-screen rounded-t-3xl overflow-y-auto overflow-x-hidden max-h-[80vh] focus:outline-none"
             @touchstart="startDrag"
             @touchmove="updateDrag"
             @touchend="endDrag"
             :menu="menu">
-            <header id="bottom-sheet-header" class="flex sticky top-0 place-content-center py-3 pb-3.5 bg-[#1c1c1c] z-[5]">
+            <header id="bottom-sheet-header" class="flex sticky top-0 place-content-center py-3 pb-3.5 z-[5]">
                 <div class="w-10 h-1.5 rounded-full"></div>
             </header>
             <main class="text-center mb-5">
@@ -172,11 +172,9 @@ aside[moving] {
     transition: transform 500ms ease-in-out;
     transition-delay: 100ms;
 }
-
 header > div {
     background: #454746;
 }
-
 header > button {
     background: #f1f2f4;
     color: #4e5760;

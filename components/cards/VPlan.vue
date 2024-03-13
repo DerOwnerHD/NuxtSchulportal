@@ -15,7 +15,7 @@
             </div>
             <div class="flex rounded-[inherit] py-2 px-1 justify-evenly" v-else id="content">
                 <p v-if="!plan.days.length" class="opacity-0">Keine Tage verfügbar</p>
-                <div v-for="(day, index) of plan.days">
+                <div v-for="(day, index) of plan.days" class="day">
                     <header class="leading-3 my-1">
                         {{ day.day_of_week.substring(0, 2) }}<small>, {{ datesForDays[index].day }}. {{ datesForDays[index].month }}</small>
                     </header>
@@ -33,9 +33,7 @@
                                 <b>{{ subject || subject_old }}</b>
                                 <span v-if="substitute && teacher && teacher.replace(/<\/?del>/gi, '') !== substitute">
                                     bei
-                                    <b>{{
-                                        replaceShortNameBySurname(substitute) || replaceShortNameBySurname(teacher?.replace(/<\/?del>/gi, ""))
-                                    }}</b></span
+                                    <b>{{ substitute || teacher?.replace(/<\/?del>/gi, "") }}</b></span
                                 >
                                 <span v-if="room"> in {{ room }}</span>
                                 <span v-if="note"> ({{ note }})</span>
@@ -67,25 +65,6 @@ const plan = useState<Vertretungsplan>("vplan");
 const errors = useAppErrors();
 let distanceInterval: NodeJS.Timeout;
 
-const lerngruppen = useLerngruppen();
-const knownTeachers = computed(() => {
-    const teachers = [];
-    for (const group of lerngruppen.value) {
-        const { name } = group.teacher;
-        const nameWithoutShort = name.replace(/\([^)]+\)/, "").trim();
-        const short = name.split("(")[1]?.replace(")", "").trim();
-        const surname = nameWithoutShort.split(", ")[0];
-        teachers.push({ short, surname });
-    }
-
-    return teachers;
-});
-
-function replaceShortNameBySurname(short: string) {
-    const teacher = knownTeachers.value.find((x) => x.short === short);
-    return teacher?.surname ?? short;
-}
-
 onMounted(() => {
     fadeIn();
     continuousUpdate();
@@ -106,27 +85,6 @@ watch(plan, () => {
 watch(cards, (value, old) => {
     if (value.includes("vplan") && !old.includes("vplan")) fadeIn();
 });
-
-function calculateDistance() {
-    if (!plan.value?.last_updated) return "<unbekannt>";
-    const steps = [1000, 60, 60, 24];
-    const difference = Date.now() - new Date(plan.value.last_updated).getTime();
-    let iterator = 0;
-    for (const step of ["Sekunde", "Minute", "Stunde"]) {
-        // This multiplies all steps before and including this current one
-        // -> Refers to second, minute and hour
-        const multiplier = steps.slice(0, iterator + 1).reduce((acc, value) => acc * value, 1);
-        if (difference < multiplier * steps[iterator + 1]) {
-            const number = Math.floor(difference / multiplier);
-            return `${number} ${step}${number !== 1 ? "n" : ""}`;
-        }
-        iterator++;
-    }
-    // This is just a fallback if the thing has not been reloaded within the
-    // last 24 hours (like on weekends) -> there shouldn't be 100 hours on the counter
-    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-    return `${days} Tag${days !== 1 ? "en" : ""}`;
-}
 async function refreshPlan(bypass: boolean): Promise<any> {
     const nulledPlan = useState("vplan");
     // When the plan is ALREADY reloading and we aren't bypassing that
@@ -182,14 +140,14 @@ function continuousUpdate() {
     // If it is already past more than an hour, there will
     // be no need of always updating it, as it would only do
     // so very rarely (thus we only compute it once at creation)
-    distanceToLastUpdated.value = calculateDistance();
+    distanceToLastUpdated.value = calculateDateDistance(new Date(plan.value.last_updated).getTime(), true);
     if (difference > 1000 * 60 * 60) return;
     // @ts-ignore timeouts also work as numbers (the index of the timeout)
     distanceInterval = setInterval(
         () => {
             if (!plan.value?.last_updated) return clearInterval(distanceInterval);
             // The distance will only get calculated inside this interval
-            distanceToLastUpdated.value = calculateDistance();
+            distanceToLastUpdated.value = calculateDateDistance(new Date(plan.value.last_updated).getTime(), true);
             // If the difference is already larger than a minute, we
             // only run this every minute, else every second
         },
@@ -213,37 +171,32 @@ function continuousUpdate() {
         @apply ml-2;
     }
 }
-#table {
-    > div > div {
-        min-width: 45%;
+.day {
+    @apply px-1;
+    header {
+        text-align: center;
+    }
+    main {
         @apply px-1;
-        header {
+        font-size: 0.8rem;
+        p {
             text-align: center;
         }
-        main {
-            @apply px-1;
-            font-size: 0.8rem;
-            p {
-                text-align: center;
-            }
-            li {
-                list-style: disc inside;
-                line-break: loose;
-                margin-left: 1rem;
-                font-size: 0.75rem;
-            }
+        li {
+            text-align: left;
+            list-style: disc inside;
+            line-break: loose;
+            margin-left: 1rem;
+            font-size: 0.75rem;
         }
     }
-    > div > div:not(:first-child) {
-        border-left: solid 1px;
-        border-image: linear-gradient(#00000000 0%, #ffffff 50%, #00000000 100%) 1;
-    }
+}
+.day:not(:first-child) {
+    @apply ml-1;
+    border-left: solid 1px;
+    border-image: var(--white-gradient-border-image-zero);
 }
 small {
     font-weight: 100;
-}
-#table::before {
-    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
-    background: var(--gradient);
 }
 </style>

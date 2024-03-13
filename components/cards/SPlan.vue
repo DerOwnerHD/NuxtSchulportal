@@ -225,7 +225,8 @@ export default defineComponent({
 #classes {
     @apply pl-3 mr-3 overflow-hidden;
     border-left: solid 1px;
-    border-image: linear-gradient(#00000000 0%, #ffffff 50%, #00000000 100%) 1;
+    --gradient-border-degrees: 0deg;
+    border-image: var(--white-gradient-border-image-zero);
     max-width: 70%;
     span:not(:first-child)::before {
         content: " | ";
