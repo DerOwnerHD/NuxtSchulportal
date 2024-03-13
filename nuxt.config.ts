@@ -14,7 +14,9 @@ export default defineNuxtConfig({
             rateLimitBypass: process.env.RATELIMIT_BYPASS_KEY
         },
         public: {
-            vapidPublicKey: "BNl0RNQwHriSgY-lij0VR0zod5itizA8NiQx4KxRwX070zJncm3PoKGuB0-0w0zDCoN4ZxSuPZall-t0wb4eAQI"
+            vapidPublicKey: "BNl0RNQwHriSgY-lij0VR0zod5itizA8NiQx4KxRwX070zJncm3PoKGuB0-0w0zDCoN4ZxSuPZall-t0wb4eAQI",
+            currentSemester: process.env.CURRENT_SEMESTER,
+            baseMoodleURL: process.env.BASE_MOODLE_URL
         }
     },
     build: {

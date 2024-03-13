@@ -1,6 +1,6 @@
 <template>
     <main v-if="cards.includes('moodle')">
-        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem] text-white">
+        <GradientBorder class="mb-2 rounded-2xl w-[90%] mx-[5%] max-w-[18rem]">
             <div class="px-5 py-2">
                 <div id="courses">
                     <div class="flex">
@@ -28,12 +28,12 @@
                             <small></small>
                         </article>
                     </div>
-                    <div v-else class="flex overflow-x-auto">
+                    <UtilsFadingScroll v-else class="flex overflow-x-auto" direction="x" id="moodle-card-list">
                         <article v-for="course of courses" @click="openLink(course.link)" class="opacity-0">
                             <div :style="`background-image: url(${proxyCourseImage(course.image)})`"></div>
                             <small>{{ course.names.short }}</small>
                         </article>
-                    </div>
+                    </UtilsFadingScroll>
                 </div>
                 <div id="events">
                     <h1>Anstehende Abgaben</h1>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </GradientBorder>
     </main>
     <footer>
         <button @click="openLink('https://start.schulportal.hessen.de/schulmoodle.php')">

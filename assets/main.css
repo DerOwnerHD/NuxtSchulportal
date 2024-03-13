@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
 body {
     width: 100vw;
     height: 100vh;
@@ -23,6 +24,12 @@ body {
     touch-action: none;
     -ms-touch-action: none;
     --element-color: #2d2d2d;
+    --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
+    --small-button-color: #4e5760;
+    --full-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --white-gradient-border-image-zero: linear-gradient(0deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --gradient-border-degrees: 90deg;
     color: white;
 }
 @keyframes spin {
@@ -60,8 +67,9 @@ h1,
     color: white;
 }
 .rounded-button {
-    @apply p-1 rounded-full shadow-sm hover:active:scale-90 bg-[#4e5760] text-white;
+    @apply p-1 rounded-full shadow-sm hover:active:scale-90 text-white;
     transition: transform 0.2s ease-out;
+    background: var(--small-button-color);
 }
 .big-button {
     @apply bg-white rounded-full w-64 h-8 drop-shadow-md hover:active:scale-90;
@@ -103,16 +111,33 @@ h1,
     background: linear-gradient(to bottom, #212121, #080808);
     border-radius: inherit;
 }
-.warning {
+.warning,
+.basic-warning {
     @apply bg-yellow-500 border-yellow-500;
 }
-.info {
+.info,
+.basic-info {
     @apply bg-blue-500 border-blue-500;
+}
+.basic-error {
+    @apply bg-red-500 border-red-500;
+}
+.basic-info-colored {
+    background-color: var(--bg-color);
+    border-color: var(--color);
+}
+.warning,
+.info,
+.basic-info,
+.basic-warning,
+.basic-error,
+.basic-info-colored {
+    line-height: 1.1rem;
+    @apply bg-opacity-30 border-[1px] w-fit rounded-md shadow-md text-[0.9rem] px-2 py-1 text-white;
 }
 .warning,
 .info {
-    line-height: 1.1rem;
-    @apply bg-opacity-30 border-[1px] w-fit rounded-md inline-flex shadow-md justify-self-center text-[0.9rem] px-2 py-1 text-white;
+    @apply inline-flex justify-self-center;
 }
 .warning::before,
 .info::before {
@@ -144,7 +169,7 @@ h1,
     background: linear-gradient(to bottom, #282828, #121212);
     @apply w-80 shadow-lg rounded-xl mx-5 text-white py-3;
     border-top: solid 1px;
-    border-image: linear-gradient(90deg, #282828 10%, #ffffff 50%, #282828 90%) 1;
+    border-image: var(--white-gradient-border-image);
     h1 {
         @apply text-2xl mt-1;
     }
@@ -189,9 +214,13 @@ h1,
 dialog::backdrop {
     background: #00000090;
 }
-.course-counter {
-    background: #4d565f;
+.course-counter,
+.small-info {
+    background: var(--small-button-color);
     @apply rounded-full ml-2 h-5 min-w-[1.25rem] text-center px-1 text-sm;
+}
+.small-info {
+    @apply px-2 py-0.5;
 }
 pre,
 code {

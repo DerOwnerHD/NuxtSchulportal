@@ -146,6 +146,12 @@ const rateLimits: RouteRateLimit[] = [
         interval: 10 * 1000,
         allowedPerInterval: 3,
         clients: []
+    },
+    {
+        route: "/api/oberstufenwahl.get",
+        interval: 10 * 1000,
+        allowedPerInterval: 2,
+        clients: []
     }
 ];
 

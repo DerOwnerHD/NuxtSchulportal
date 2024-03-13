@@ -1,23 +1,28 @@
 <template>
     <div class="relative">
-        <div class="flex w-screen items-center justify-center">
-            <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
-            <h1>Stundenplan</h1>
+        <div class="sticky top-8">
+            <div class="flex w-screen items-center justify-center">
+                <font-awesome-icon class="mr-2" :icon="['fas', 'hourglass-half']"></font-awesome-icon>
+                <h1>Stundenplan</h1>
+            </div>
+            <font-awesome-icon
+                class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
+                :icon="['fas', 'up-right-from-square']"
+                onclick="window.open('https://start.schulportal.hessen.de/stundenplan.php')">
+            </font-awesome-icon>
+            <button class="rounded-button absolute left-5 top-[-0.5rem] !p-2 w-8 h-8 grid place-content-center">
+                <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
+                <select class="absolute h-full w-full left-0 opacity-0" @change="updateSelectedPlan">
+                    <option v-for="(plan, index) of plans" :value="index">
+                        Ab {{ startAndEndForDate(plan)[0] }}
+                        <span v-if="startAndEndForDate(plan)[1] !== null">bis {{ startAndEndForDate(plan)[1] }}</span>
+                    </option>
+                </select>
+            </button>
+            <small class="mt-[-0.5rem]"
+                >Ab {{ startAndEndDays[0] }}<span v-if="startAndEndDays[1] !== null"> bis {{ startAndEndDays[1] }}</span></small
+            >
         </div>
-        <font-awesome-icon
-            class="rounded-button absolute right-5 top-[-0.5rem] !p-2"
-            :icon="['fas', 'up-right-from-square']"
-            onclick="window.open('https://start.schulportal.hessen.de/stundenplan.php')">
-        </font-awesome-icon>
-        <button class="rounded-button absolute left-5 top-[-0.5rem] !p-2 w-8 h-8 grid place-content-center">
-            <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
-            <select class="absolute h-full w-full left-0 opacity-0" @change="updateSelectedPlan">
-                <option v-for="(plan, index) of plans" :value="index">
-                    Ab {{ startAndEndForDate(plan)[0] }}
-                    <span v-if="startAndEndForDate(plan)[1] !== null">bis {{ startAndEndForDate(plan)[1] }}</span>
-                </option>
-            </select>
-        </button>
         <div class="grid place-content-center py-2" v-if="!plans || !plans.length">
             <div class="error" v-if="appErrors.splan">
                 <span>{{ appErrors.splan }}</span>
@@ -25,9 +30,6 @@
             <div class="spinner" style="--size: 2rem" v-else></div>
         </div>
         <main id="sheet-inner-content" v-else>
-            <small class="mt-[-0.5rem]"
-                >Ab {{ startAndEndDays[0] }}<span v-if="startAndEndDays[1] !== null"> bis {{ startAndEndDays[1] }}</span></small
-            >
             <table class="text-white text-center w-[90vw] ml-[5vw] mt-2 overflow-auto block pb-2">
                 <thead>
                     <tr>
@@ -71,7 +73,7 @@ export default defineComponent({
         await useWait(2000);
         if (!this.plans || !this.plans.length) return;
         const table = this.$el.querySelector("table");
-        table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
+        //table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
     },
     data() {
         return {
@@ -131,7 +133,7 @@ export default defineComponent({
             this.selected = parseInt(event.target.value);
 
             const table = this.$el.querySelector("table");
-            table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
+            //table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
         }
     }
 });

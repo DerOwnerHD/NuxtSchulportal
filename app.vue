@@ -8,6 +8,7 @@
             <span class="text-3xl">Schulportal</span>
             <span class="mt-[-0.75rem] ml-0.5">HESSEN</span>
         </header>
+        <OberstufenwahlAlert v-if="openDialogBoxes.includes('oberstufenwahl')"></OberstufenwahlAlert>
         <div v-if="criticalAPIError !== null" id="api-error" class="fixed w-full h-[90vh] grid place-content-center top-[5vh]">
             <div id="api-error-display" class="basic-card px-4 overflow-y-scroll">
                 <h1>Fehler beim Laden</h1>
@@ -27,7 +28,7 @@
             <LoginMenu v-if="!loggedIn"></LoginMenu>
             <main class="grid justify-center py-2 w-screen overflow-y-scroll" v-else-if="criticalAPIError === null">
                 <CardList></CardList>
-                <div class="flex justify-center my-5">
+                <div class="flex justify-center my-5 flex-wrap w-80">
                     <button class="button-with-symbol" @click="logout">
                         <font-awesome-icon :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
                         <span>Abmelden</span>
@@ -35,6 +36,10 @@
                     <button class="button-with-symbol" @click="notificationMananger = true">
                         <font-awesome-icon :icon="['fas', 'bell']"></font-awesome-icon>
                         <span>Benachrichtigungen</span>
+                    </button>
+                    <button class="button-with-symbol" @click="modifyOpenDialogBoxes('oberstufenwahl')">
+                        <font-awesome-icon :icon="['fas', 'check-to-slot']"></font-awesome-icon>
+                        <span>Oberstufenwahlen</span>
                     </button>
                 </div>
             </main>
@@ -49,7 +54,11 @@
 <script setup lang="ts">
 import { callWithNuxt } from "nuxt/app";
 import SecretButton from "./components/utils/SecretButton.vue";
+import OberstufenwahlAlert from "./components/OberstufenwahlAlert.vue";
 const loggedIn = useState("logged-in", () => false);
+// Used to determine whether we should regenerate the AES key
+const freshlyAuthenticated = useState("freshly-authed", () => false);
+const openDialogBoxes = useOpenDialogBoxes();
 // On the server, we only want to be processing basic SPH login
 // Does not include any API calls for apps, nor Moodle nor keygen
 // for messages (not yet) and lessons decryption
@@ -58,7 +67,7 @@ const loggedIn = useState("logged-in", () => false);
 onServerPrefetch(async () => {
     // These are all required for storing the news count
     // We pregenerate them on the server so it won't fail rendering the cards
-    const apps = ["vplan", "splan", "messages", "moodle", "lessons"];
+    const apps = ["vplan", "splan", "messages", "moodle", "calendar", "lessons"];
     useState("app-news", () => apps.reduce((news, app) => ({ ...news, [app]: 0 }), {}));
     // This also needs to be initialized so the closed cards can be rendered on the server
     // We do not know what cards are open as that is stored in local storage
@@ -84,6 +93,7 @@ onServerPrefetch(async () => {
     // After this the client will take over and actually
     // start loading all the apps, Moodle and such
     loggedIn.value = true;
+    freshlyAuthenticated.value = true;
 });
 onMounted(async () => {
     // It has not worked on the server side
@@ -94,8 +104,14 @@ onMounted(async () => {
     // us to be logged into the SPH, not Moodle
     loadSplan();
     loadVplan();
-    loadMyLessons();
-    loadAESKey();
+    fetchOberstufenWahl();
+    if (freshlyAuthenticated.value) {
+        localStorage.removeItem("aes-key");
+        await useAESKey();
+    }
+    await useLerngruppenFetch();
+    await loadSurnamesFromLerngruppen();
+    useMyLessonsCoursesFetch();
     const moodleLoggedIn = await moodleLogin();
     if (!moodleLoggedIn) return;
     // All of these are Moodle specific things, thus only being
@@ -150,21 +166,6 @@ async function loadMoodleCourses() {
     const courses = await useMoodleCourses();
     if (typeof courses === "string") return (errors.value["moodle-courses"] = courses);
     useState("moodle-courses", () => courses);
-}
-async function loadAESKey() {
-    const hasKeyStored = /^[A-Za-z0-9/\+=]{88}$/.test(window.localStorage.getItem("aes-key") ?? "");
-    if (hasKeyStored) return;
-    const key = await useAESKey();
-    if (key === null || !/^[A-Za-z0-9/\+=]{88}$/.test(key)) return;
-    console.log(key);
-    useState("aes-key", () => key);
-    useLocalStorage("aes-key", key);
-}
-async function loadMyLessons() {
-    const courses = await useMyLessons();
-    if (typeof courses === "string" || !courses.courses) return (errors.value.mylessons = courses.toString());
-    useState("mylessons", () => courses);
-    useAppNews().value.lessons = courses.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
 }
 async function loadConversations() {
     const conversations: { [type: string]: string | MoodleConversation[]; all: MoodleConversation[] } = {

@@ -1,55 +1,51 @@
 <template>
-    <main class="gradient-border w-[90%] mx-[5%] rounded-2xl mb-2 z-[2]" v-if="cards.includes('calendar')">
-        <div class="relative p-2">
-            <div class="placeholder" v-if="entries === null && err === ''">
+    <GradientBorder class="mx-[5%] rounded-2xl mb-2 max-w-[18rem]" v-if="cards.includes('calendar')">
+        <div class="relative">
+            <div class="placeholder p-2" v-if="entries === null && err === ''">
                 <div header-alike></div>
                 <div></div>
                 <div></div>
                 <div></div>
             </div>
-            <div v-else-if="entriesForCategory != null && categoryDetails" class="mx-2">
-                <header class="flex items-center">
-                    <div class="flex items-center whitespace-nowrap">
-                        <font-awesome-icon class="mr-2" :icon="categoryDetails.icon"></font-awesome-icon>
-                        <span header-alike>{{ categoryDetails.name }}</span>
-                        <span class="rounded-full bg-white text-black h-4 px-1 grid place-content-center ml-2 text-sm">{{
-                            entriesForCategory.length
-                        }}</span>
+            <div v-else-if="entries != null" class="overflow-y-scroll overflow-x-clip max-h-[15rem] p-2">
+                <div v-for="(category, index) of categoriesWithEntries" class="mx-2 relative">
+                    <div v-if="!category.hidden">
+                        <div v-if="index !== 1" class="h-[1px] my-2 bg-[#636363]"></div>
+                        <header class="flex sticky top-0 justify-center">
+                            <div class="flex items-center whitespace-nowrap backdrop-blur-sm px-2 rounded-full">
+                                <font-awesome-icon class="mr-2" :icon="category.icon"></font-awesome-icon>
+                                <span header-alike>{{ category.name || "Unbekannt" }}</span>
+                                <span class="rounded-full bg-white text-black h-4 px-1 grid place-content-center ml-2 text-sm">{{
+                                    category.entries.length
+                                }}</span>
+                            </div>
+                        </header>
+                        <ul class="ml-2 list-disc" v-if="category.entries.length">
+                            <li v-for="entry of category.entries" class="opacity-0">
+                                <span>{{ entry.title }}</span>
+                                <small>
+                                    {{ parseDate(entry) }}
+                                </small>
+                                <small v-if="entry.location">
+                                    <font-awesome-icon :icon="['fas', 'location-dot']"></font-awesome-icon>
+                                    {{ entry.location }}
+                                </small>
+                                <small v-if="!entry.public || entry.private">
+                                    <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
+                                </small>
+                            </li>
+                        </ul>
+                        <p v-else class="text-center">Keine Einträge</p>
                     </div>
-                    <div class="h-[1px] bg-[#636363] w-full ml-2"></div>
-                </header>
-                <ul class="ml-2 list-disc" v-if="entriesForCategory.length">
-                    <li v-for="entry of entriesForCategory?.slice(0, 3)" class="opacity-0">
-                        <span>{{ entry.title }}</span>
-                        <small>
-                            {{ parseDate(entry) }}
-                        </small>
-                        <small v-if="entry.location">
-                            <font-awesome-icon :icon="['fas', 'location-dot']"></font-awesome-icon>
-                            {{ entry.location }}
-                        </small>
-                        <small v-if="!entry.public || entry.private">
-                            <font-awesome-icon :icon="['fas', 'lock']"></font-awesome-icon>
-                        </small>
-                    </li>
-                </ul>
-                <p v-else>Keine Einträge ¯\_(ツ)_/¯</p>
+                </div>
             </div>
+            <div v-if="err !== ''" class="p-2"></div>
         </div>
-    </main>
+    </GradientBorder>
     <footer>
         <button>
             <font-awesome-icon :icon="['fas', 'chevron-down']"></font-awesome-icon>
             <span>Mehr</span>
-        </button>
-        <button>
-            <font-awesome-icon :icon="['fas', 'repeat']"></font-awesome-icon>
-            <span>Kategorie</span>
-            <select class="absolute left-0 h-full w-full opacity-0" @change="updateCategory" v-if="entries !== null">
-                <option v-for="item of calendarCategories" :disabled="item.hidden" :value="item.id" :selected="category === item.id">
-                    {{ item.name || "Unbekannt" }} ({{ entries.filter((x) => x.category === item.id).length }})
-                </option>
-            </select>
         </button>
     </footer>
 </template>
@@ -58,13 +54,13 @@
 const months = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
 const cards = useOpenCards();
 const err = ref("");
-// 1 is the "Klausuren" category, the one which we want to
-// show by default (might the most important for users)
-const category = ref(1);
-const categoryDetails = computed(() => calendarCategories.find((x) => x.id === category.value));
-const entriesForCategory = computed(() => entries.value?.filter((x) => x.category === category.value));
 // null is only the initial value to detect once something has been set
 const entries = ref<CalendarEntry[] | null>(null);
+const categoriesWithEntries = computed(() =>
+    calendarCategories.map((category) => {
+        return { ...category, entries: entries.value?.filter((entry) => entry.category === category.id) || [] };
+    })
+);
 onMounted(async () => {
     const { data, error } = await fetchCalendar({ start: "year" });
     if (error.value !== null) return (err.value = error.value.data?.error_details ?? error.value.cause);
@@ -72,14 +68,6 @@ onMounted(async () => {
     // the data, aka body, has to exist (to best of my knowledge)
     entries.value = data.value?.entries ?? [];
 });
-function updateCategory(event: Event) {
-    const { target } = event;
-    if (!(target instanceof HTMLSelectElement)) return;
-    const value = parseInt(target.value);
-    // @ts-expect-error style not defined on Element but HTMLElement
-    document.querySelectorAll("article[card=calendar] li").forEach((item: HTMLElement) => (item.style.opacity = "0"));
-    category.value = value;
-}
 function parseDate(entry: CalendarEntry): string | null {
     const dates = [new Date(entry.start), new Date(entry.end)];
     if (dates.some((date) => date.toString() === "Invalid Date")) return null;
@@ -125,7 +113,6 @@ watch(entries, fadeIn);
 watch(cards, (value, old) => {
     if (value.includes("calendar") && !old.includes("calendar")) fadeIn();
 });
-watch(category, fadeIn);
 </script>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <template>
     <article class="card" :style="'--gradient: ' + gradient" :card="type">
         <header class="grid my-2 justify-center relative">
-            <div class="title relative z-[1] rounded-full shadow-md">
+            <GradientBorder class="rounded-full my-1">
                 <div class="py-2 px-3 rounded-full flex items-center">
                     <div class="relative">
                         <font-awesome-icon class="text-white text-xl mr-2 ml-1" :icon="icon"></font-awesome-icon>
@@ -9,7 +9,7 @@
                     </div>
                     <h1>{{ name }}</h1>
                 </div>
-            </div>
+            </GradientBorder>
             <button
                 @click="toggleCardVisibiltiy"
                 class="absolute right-5 top-2 rounded-full text-white w-7 h-7 shadow-md bg-[#ffffff65] hover:active:scale-[0.95]">
@@ -51,20 +51,6 @@ article[card] {
     @apply w-80 mt-4 rounded-2xl relative grid;
     background: var(--gradient);
     border-top: solid 1px;
-    border-image: linear-gradient(90deg, #00000000 10%, #ffffff 50%, #00000000 90%) 1;
-    > header {
-        .title {
-            background-clip: padding-box;
-            border: solid 3px transparent;
-            box-sizing: border-box;
-            > div {
-                background: linear-gradient(to bottom, #1f1f1f, #0e0e0e);
-            }
-        }
-        .title::before {
-            @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
-            background: var(--gradient);
-        }
-    }
+    border-image: linear-gradient(90deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
 }
 </style>

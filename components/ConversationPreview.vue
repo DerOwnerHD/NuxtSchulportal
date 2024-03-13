@@ -70,8 +70,8 @@ export default defineComponent({
     methods: {
         proxyUserAvatar(avatar?: string) {
             if (!avatar) return null;
-            const path = avatar.split(".schule.hessen.de")[1];
-            if (!/\/pluginfile.php\/\d{1,5}\/user\/icon\/sph\/.*/.test(path)) return "/moodle-default.png";
+            const path = avatar.split("." + useRuntimeConfig().public.baseMoodleURL)[1];
+            if (!/^\/theme\/image\.php\/sph\/core\/\d{1,20}\/.{1,50}$/.test(path)) return "/moodle-default.png";
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&path=${path}`;
         }
     }

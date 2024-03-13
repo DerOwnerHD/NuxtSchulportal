@@ -1,12 +1,11 @@
 import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../../utils";
-import { lookupSchoolMoodle } from "../../moodle";
+import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 
 const schema = {
     query: {
         cookie: { required: true, length: 26, pattern: patterns.MOODLE_COOKIE },
         school: { required: true, type: "number", min: 1, max: 9999 },
-        path: { required: true, min: 1, max: 100, pattern: /^\/pluginfile.php\/\d{1,10}\/.*$/ },
-        paula: { required: false, length: 64, pattern: patterns.HEX_CODE }
+        path: { required: true, min: 1, max: 100, pattern: /^\/theme\/image\.php\/sph\/core\/\d{1,20}\/.{1,50}$/ }
     }
 };
 
@@ -17,16 +16,16 @@ export default defineEventHandler(async (event) => {
     const query = getQuery<{ [key: string]: string }>(event);
     if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
 
-    const { cookie, school, path, paula } = query;
+    const { cookie, school, path } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
         if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
 
-        const response = await fetch(`https://mo${school}.schule.hessen.de${path}`, {
+        const response = await fetch(`${generateMoodleURL(school)}${path}`, {
             method: "GET",
             headers: {
-                Cookie: `MoodleSession=${cookie}; Paula=${paula}`,
+                Cookie: `MoodleSession=${cookie}`,
                 ...generateDefaultHeaders(address)
             }
         });

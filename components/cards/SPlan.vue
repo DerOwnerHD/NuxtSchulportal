@@ -1,6 +1,6 @@
 <template>
     <main v-if="cards.includes('splan')">
-        <div class="mb-2 relative rounded-2xl w-[90%] mx-[5%] z-0 gradient-border max-w-[18rem]">
+        <GradientBorder class="mb-2 rounded-2xl w-[90%] mx-[5%] z-0 max-w-[18rem]">
             <div class="grid place-content-center py-2" v-if="!plans || !plans.length">
                 <div class="error" v-if="errors.splan">
                     <span>{{ errors.splan }}</span>
@@ -51,7 +51,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </GradientBorder>
         <p class="card-main-description" v-if="plans && plans.length">
             Ab {{ startAndEndDays[0] }}<span v-if="startAndEndDays[1] !== null"> bis {{ startAndEndDays[1] }}</span>
         </p>
@@ -225,7 +225,8 @@ export default defineComponent({
 #classes {
     @apply pl-3 mr-3 overflow-hidden;
     border-left: solid 1px;
-    border-image: linear-gradient(#00000000 0%, #ffffff 50%, #00000000 100%) 1;
+    --gradient-border-degrees: 0deg;
+    border-image: var(--white-gradient-border-image-zero);
     max-width: 70%;
     span:not(:first-child)::before {
         content: " | ";

@@ -61,8 +61,8 @@
                         <tr v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of selectedDay.vertretungen">
                             <td>{{ lessons.list.length > 1 ? lessons.from + " - " + lessons.to : lessons.from }}</td>
                             <td>{{ subject || subject_old || "-" }}</td>
-                            <td>{{ substitute || "-" }}</td>
-                            <td v-html="teacher || '-'"></td>
+                            <td>{{ replaceShortNameBySurname(substitute || "") || "-" }}</td>
+                            <td>{{ replaceShortNameBySurname((teacher || "").replace(/<\/?del>/gi, "")) }}</td>
                             <td>{{ room || "-" }}</td>
                             <td>{{ note || "-" }}</td>
                         </tr>
@@ -91,6 +91,7 @@ export default defineComponent({
         return {
             appErrors: useAppErrors(),
             plan: useState<Vertretungsplan>("vplan"),
+            lerngruppen: useLerngruppen(),
             days: ["Mo", "Di", "Mi", "Do", "Fr"],
             selected: 0
         };
@@ -105,6 +106,18 @@ export default defineComponent({
             if (isNaN(time.getTime())) return null;
             return `${addZeroToNumber(time.getDate())}.${addZeroToNumber(time.getMonth() + 1)}.${time.getFullYear()}
                 um ${addZeroToNumber(time.getHours())}:${addZeroToNumber(time.getMinutes())} Uhr`;
+        },
+        knownTeachers() {
+            const teachers = [];
+            for (const group of this.lerngruppen) {
+                const { name } = group.teacher;
+                const nameWithoutShort = name.replace(/\([^)]+\)/, "").trim();
+                const short = name.split("(")[1]?.replace(")", "").trim();
+                const surname = nameWithoutShort.split(", ")[0];
+                teachers.push({ short, surname });
+            }
+
+            return teachers;
         }
     },
     methods: {
@@ -153,6 +166,10 @@ export default defineComponent({
         },
         openNewsSheet() {
             useOpenSheet("vplan-news", true);
+        },
+        replaceShortNameBySurname(short: string) {
+            const teacher = this.knownTeachers.find((x) => x.short === short);
+            return teacher?.surname ?? short;
         }
     }
 });
