@@ -88,30 +88,6 @@ export enum APIFetchError {
     ServerError = 500
 }
 
-export interface StundenplanLesson {
-    lessons: number[];
-    classes: StudenplanClass[];
-}
-
-interface StudenplanClass {
-    teacher: string;
-    room: string;
-    name: string;
-}
-
-export interface Stundenplan {
-    days: StundenplanDay[];
-    start_date: string;
-    end_date: string | null;
-    lessons: number[][][];
-    current: boolean;
-}
-
-interface StundenplanDay {
-    name: "Montag" | "Dienstag" | "Mittwoch" | "Donnerstag" | "Freitag";
-    lessons: StundenplanLesson[];
-}
-
 interface AppErrorState {
     [app: string]: string | null;
 }
@@ -230,19 +206,6 @@ export const useVplan = async (): Promise<Vertretungsplan | string> => {
 
     const { error, ...plan } = data.value || {};
     return handleReponse(fetchError, data, plan);
-};
-
-export const useStundenplan = async (): Promise<Stundenplan[] | string> => {
-    const token = useToken().value;
-    if (!token) return "401: Unauthorized";
-
-    const { data, error: fetchError } = await useFetch<{ error: boolean; error_details?: any; plans: Stundenplan[] }>("/api/stundenplan", {
-        method: "GET",
-        headers: { Authorization: token },
-        retry: false
-    });
-
-    return handleReponse(fetchError, data, data.value?.plans);
 };
 
 export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {

@@ -102,7 +102,7 @@ onMounted(async () => {
     useOpenCards().value = JSON.parse(useLocalStorage("cards-open") || "[]");
     // All this can be loaded syncronously, as it all just requires
     // us to be logged into the SPH, not Moodle
-    loadSplan();
+    useStundenplanFetch();
     loadVplan();
     fetchOberstufenWahl();
     if (freshlyAuthenticated.value) {
@@ -138,12 +138,6 @@ async function moodleLogin() {
 }
 // Errors are most often represented as the error
 // details string which gets returned by the API
-async function loadSplan() {
-    const plan = await useStundenplan();
-    if (typeof plan === "string") return (errors.value.splan = plan);
-    if (plan.length > 1) useAppNews().value.splan = plan.length - 1;
-    useState("splan", () => plan);
-}
 async function loadVplan() {
     const plan = await useVplan();
     if (typeof plan === "string") return (errors.value.vplan = plan);

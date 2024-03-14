@@ -24,8 +24,8 @@
             >
         </div>
         <div class="grid place-content-center py-2" v-if="!plans || !plans.length">
-            <div class="error" v-if="appErrors.splan">
-                <span>{{ appErrors.splan }}</span>
+            <div class="error" v-if="errors.splan">
+                <span>{{ errors.splan }}</span>
             </div>
             <div class="spinner" style="--size: 2rem" v-else></div>
         </div>
@@ -65,78 +65,67 @@
     </div>
 </template>
 
-<script lang="ts">
-export default defineComponent({
-    name: "SPlanSheet",
-    emits: ["close"],
-    async mounted() {
-        await useWait(2000);
-        if (!this.plans || !this.plans.length) return;
-        const table = this.$el.querySelector("table");
-        //table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
-    },
-    data() {
-        return {
-            appErrors: useAppErrors(),
-            plans: useState<Stundenplan[]>("splan"),
-            months: ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-            selected: 0
-        };
-    },
-    computed: {
-        currentPlan() {
-            return this.plansMergedLessons[this.selected];
-        },
-        startAndEndDays() {
-            const start = new Date(this.currentPlan.start_date);
-            const end = new Date(this.currentPlan.end_date || "");
-            return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}. ${this.months[date.getMonth()]}`));
-        },
-        plansMergedLessons() {
-            const plans: Stundenplan[] = JSON.parse(JSON.stringify(this.plans));
-            return plans.map((plan) => {
-                return {
-                    ...plan,
-                    days: plan.days.map((day) => {
-                        const lessons: StundenplanLesson[] = [];
-                        for (let i = day.lessons.length - 1; i >= 0; i--) {
-                            const lesson = day.lessons[i];
-                            if (!lesson || i === 0) {
-                                lessons.push(lesson);
-                                continue;
-                            }
+<script setup lang="ts">
+const errors = useAppErrors();
+const plans = useStundenplan();
+const MONTHS = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+const selected = ref(0);
 
-                            const previous = day.lessons[i - 1];
-
-                            if (JSON.stringify(lesson.classes) !== JSON.stringify(previous.classes)) lessons.push(lesson);
-                            else day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
-                        }
-
-                        return { ...day, lessons: lessons.reverse() };
-                    })
-                };
-            });
-        }
-    },
-    methods: {
-        getSpanForLessonAndDay(day: number, lesson: number) {
-            return this.currentPlan.days[day].lessons.find((x) => x.lessons.includes(lesson));
-        },
-        startAndEndForDate(plan: Stundenplan) {
-            const start = new Date(plan.start_date);
-            const end = new Date(plan.end_date || "");
-
-            return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`));
-        },
-        updateSelectedPlan(event: Event) {
-            if (!(event.target instanceof HTMLSelectElement)) return;
-            this.selected = parseInt(event.target.value);
-
-            const table = this.$el.querySelector("table");
-            //table.style.height = `${Math.floor(window.innerHeight - table.getBoundingClientRect().top)}px`;
-        }
-    }
+const currentPlan = computed(() => {
+    return plansWithMergedLessons.value[selected.value];
 });
+const startAndEndDays = computed(() => {
+    const start = new Date(currentPlan.value.start_date);
+    const end = new Date(currentPlan.value.end_date || "");
+    return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}. ${MONTHS[date.getMonth()]}`));
+});
+const plansWithMergedLessons = computed(() => {
+    // If we do not make this deep copy, the splan useState hook
+    // would get overwritten with this data (which would break all
+    // other stuff and in case of a hot reload during development
+    // would cause lessons to be repeated (no no gud)
+    const clonedPlans: Stundenplan[] = JSON.parse(JSON.stringify(plans.value));
+    return clonedPlans.map((plan) => {
+        return {
+            ...plan,
+            days: plan.days.map((day) => {
+                const lessons: StundenplanLesson[] = [];
+                for (let i = day.lessons.length - 1; i >= 0; i--) {
+                    const lesson = day.lessons[i];
+                    if (!lesson || i === 0) {
+                        lessons.push(lesson);
+                        continue;
+                    }
+
+                    const previous = day.lessons[i - 1];
+
+                    if (JSON.stringify(lesson.classes) !== JSON.stringify(previous.classes)) lessons.push(lesson);
+                    else day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
+                }
+
+                // If the last merged lessons of the day are empty,
+                // we can remove them from the array to not show them anymore
+                if (!lessons[0].classes.length) lessons.splice(0, 1);
+
+                return { ...day, lessons: lessons.reverse() };
+            })
+        };
+    });
+});
+
+function getSpanForLessonAndDay(day: number, lesson: number) {
+    return currentPlan.value.days[day].lessons.find((x) => x.lessons.includes(lesson));
+}
+function startAndEndForDate(plan: Stundenplan) {
+    const start = new Date(plan.start_date);
+    const end = new Date(plan.end_date || "");
+
+    return [start, end].map((date) => (isNaN(date.getTime()) ? null : `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`));
+}
+function updateSelectedPlan(event: Event) {
+    if (!(event.target instanceof HTMLSelectElement)) return;
+    selected.value = parseInt(event.target.value);
+}
 </script>
 
 <style scoped>
