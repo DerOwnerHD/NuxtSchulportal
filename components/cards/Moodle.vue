@@ -93,8 +93,8 @@ export default defineComponent({
         proxyCourseImage(image?: string) {
             if (!image) return null;
             if (/$data:image/.test(image)) return image;
-            const path = image.split(".schule.hessen.de")[1];
-            if (!/\/pluginfile.php\/\d{1,10}\/.*/.test(path)) return image;
+            const path = image.split(".schulportal.hessen.de")[1];
+            if (!/^\/pluginfile.php\/\d{1,10}\/.{1,100}$/.test(path)) return image;
             return `/api/moodle/proxy?cookie=${this.moodleCredentials.cookie}&school=${this.credentials.school}&paula=${this.moodleCredentials.paula}&path=${path}`;
         },
         async fadeIn(type: "all" | "courses" | "events") {

@@ -8,7 +8,9 @@
                     </div>
                     <div v-else class="spinner" style="--size: 2rem"></div>
                 </div>
-                <ConversationPreview v-else type="all" :splice="3"></ConversationPreview>
+                <div v-else>
+                    <UtilsSelection :options="selectOptions" id="messages-card"> </UtilsSelection>
+                </div>
             </div>
         </GradientBorder>
         <p class="card-main-description" v-if="conversations && conversations.all.length">Insgesamt {{ conversations.all.length }} Chat(s)</p>
@@ -25,4 +27,8 @@
 const conversations = useState<{ [type: string]: MoodleConversation[] }>("moodle-conversations");
 const cards = useOpenCards();
 const errors = useAppErrors();
+const selectOptions = [
+    { value: "sph", name: "Schulportal" },
+    { value: "moodle", name: "Moodle" }
+];
 </script>
