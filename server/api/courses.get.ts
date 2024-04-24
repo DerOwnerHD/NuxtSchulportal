@@ -1,3 +1,4 @@
+import { hasInvalidSidRedirect } from "../failsafe";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     generateDefaultHeaders,
@@ -30,6 +31,7 @@ export default defineEventHandler(async (event) => {
             }
         });
 
+        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 

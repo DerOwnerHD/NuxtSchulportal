@@ -96,6 +96,7 @@ onServerPrefetch(async () => {
     freshlyAuthenticated.value = true;
 });
 onMounted(async () => {
+    document.addEventListener("load", () => (useState<boolean>("loaded").value = true));
     // It has not worked on the server side
     if (!loggedIn.value) return;
     // We store which cards are opened in the local storage
@@ -226,20 +227,13 @@ useState<AppErrorState>("app-errors", () => {
     return {};
 });
 const notificationMananger = useState<boolean>("notification-manager", () => false);
-if (process.client) document.addEventListener("load", () => (useState<boolean>("loaded").value = true));
-interface Credentials {
-    username: string;
-    password: string;
-    school: number;
-    token: string;
-}
 interface APIError {
     response: string;
     message: string;
     recoverable: boolean;
 }
 const criticalAPIError = useState<APIError | null>("api-error", () => null);
-const credentials = useCookie<Credentials>("credentials");
+const credentials = useCredentials();
 
 function getSchoolBG() {
     if (!credentials.value) return "background: url(https://start.schulportal.hessen.de/img/schulbg/default-lg.png)";

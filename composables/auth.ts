@@ -43,12 +43,12 @@ interface MoodleCredentials {
 
 import { callWithNuxt } from "nuxt/app";
 
-export const useCredentials = <T>() => useCookie<T | Credentials>("credentials");
+export const useCredentials = () => useCookie<Credentials>("credentials");
 export const useToken = () => useCookie<string>("token");
 export const useSession = () => useCookie<string>("session");
 export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-credentials");
 export const useSchool = () => {
-    const credentials = useCredentials<Credentials>();
+    const credentials = useCredentials();
     if (!credentials.value) return null;
     return credentials.value.school;
 };
@@ -88,7 +88,7 @@ export const useTokenCheck = async (token: string): Promise<boolean> => {
 
 export const useLogin = async (showError: boolean) => {
     const nuxt = useNuxtApp();
-    const credentials = useCredentials<Credentials>();
+    const credentials = useCredentials();
     try {
         const { data, error } = await useFetch("/api/login", {
             method: "POST",
@@ -120,13 +120,13 @@ export const useLogin = async (showError: boolean) => {
 
 export const useMoodleLogin = async (): Promise<boolean> => {
     // The session token is required to proceed to Moodle login
-    if (!useSession().value || !useCredentials<Credentials>().value.school) return false;
+    if (!useSession().value || !useCredentials().value.school) return false;
 
     const { data, error: fetchError } = await useFetch<MoodleLoginResponse>("/api/moodle/login", {
         method: "POST",
         body: {
             session: useSession().value,
-            school: useCredentials<Credentials>().value.school
+            school: useCredentials().value.school
         },
         retry: false
     });
@@ -135,17 +135,17 @@ export const useMoodleLogin = async (): Promise<boolean> => {
     if (fetchError.value !== null) {
         const { data, cause } = fetchError.value;
         const { error_details } = data;
-        useAppErrors().value.conversations = error_details || cause;
-        useAppErrors().value["moodle-notifications"] = error_details || cause;
-        useAppErrors().value["moodle-courses"] = error_details || cause;
-        useAppErrors().value["moodle-events"] = error_details || cause;
-        // On Windows, it often fails using the EBUSY error,
-        // so this would be very annoying to get every time we run
-        if (window.location.host === "localhost") return false;
         useState<APIError>("api-error").value = {
-            response: syntaxHighlight(fetchError.value?.data || "Serverfehler"),
+            response: syntaxHighlight(fetchError.value.data),
             message: "Konnte Moodledaten nicht überprüfen",
             recoverable: true
+        };
+        useAppErrors().value = {
+            ...useAppErrors().value,
+            conversations: error_details ?? "Serverfehler",
+            "moodle-courses": error_details ?? "Serverfehler",
+            "moodle-events": error_details ?? "Serverfehler",
+            "moodle-notifications": error_details ?? "Serverfehler"
         };
         return false;
     }
@@ -167,7 +167,7 @@ export const useMoodleCheck = async (): Promise<boolean> => {
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<null>().value?.school
+            school: useCredentials().value?.school
         },
         retry: false
     });

@@ -13,6 +13,7 @@ import {
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
 import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
+import { hasInvalidSidRedirect } from "~/server/failsafe";
 
 const schema = {
     query: {
@@ -46,6 +47,7 @@ export default defineEventHandler(async (event) => {
             method: "GET"
         });
 
+        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 

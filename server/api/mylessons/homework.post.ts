@@ -10,6 +10,7 @@ import {
     hasPasswordResetLocationSet,
     schoolFromRequest
 } from "../../utils";
+import { hasInvalidSidRedirect } from "~/server/failsafe";
 
 const schema = {
     body: {
@@ -49,6 +50,7 @@ export default defineEventHandler(async (event) => {
             method: "POST"
         });
 
+        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 

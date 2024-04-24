@@ -10,6 +10,7 @@ import {
 } from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
+import { hasInvalidSidRedirect } from "../failsafe";
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -34,6 +35,7 @@ export default defineEventHandler(async (event) => {
             }
         });
 
+        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
         if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
         if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
 

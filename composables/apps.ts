@@ -217,7 +217,7 @@ export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<Credentials>().value.school
+            school: useCredentials().value.school
         },
         retry: false
     });
@@ -233,7 +233,7 @@ export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<Credentials>().value.school
+            school: useCredentials().value.school
         },
         retry: false
     });
@@ -274,7 +274,7 @@ export const useMoodleNotifications = async (): Promise<MoodleNotification[] | s
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<Credentials>().value.school
+            school: useCredentials().value.school
         },
         retry: false
     });
@@ -298,7 +298,7 @@ export const useConversations = async (type?: "favorites" | "groups"): Promise<M
         method: "GET",
         query: {
             ...credentials,
-            school: useCredentials<Credentials>().value.school,
+            school: useCredentials().value.school,
             type
         },
         retry: false
