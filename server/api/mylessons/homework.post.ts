@@ -7,7 +7,8 @@ import {
     setErrorResponse,
     validateBody,
     hasInvalidAuthentication,
-    hasPasswordResetLocationSet
+    hasPasswordResetLocationSet,
+    schoolFromRequest
 } from "../../utils";
 
 const schema = {
@@ -38,7 +39,7 @@ export default defineEventHandler(async (event) => {
     try {
         const response = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-Requested-With": "XMLHttpRequest",
                 ...generateDefaultHeaders(address)

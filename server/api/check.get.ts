@@ -1,5 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { authHeaderOrQuery, generateDefaultHeaders, patterns, setErrorResponse } from "../utils";
+import { authHeaderOrQuery, generateDefaultHeaders, patterns, schoolFromRequest, setErrorResponse } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     try {
         const raw = await fetch("https://start.schulportal.hessen.de/startseite.php?a=ajax", {
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}, ${schoolFromRequest(event)}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",

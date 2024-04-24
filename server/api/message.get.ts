@@ -4,6 +4,7 @@ import {
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     patterns,
+    schoolFromRequest,
     setErrorResponse,
     transformEndpointSchema,
     validateQuery
@@ -38,7 +39,7 @@ export default defineEventHandler(async (event) => {
             redirect: "manual",
             headers: {
                 ...generateDefaultHeaders(address),
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 // if we do not provide this header, the SPH will kill our token quite literally
                 // (making it impossible to use for ANY other requests after this)

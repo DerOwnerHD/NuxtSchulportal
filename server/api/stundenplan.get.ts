@@ -5,7 +5,8 @@ import {
     authHeaderOrQuery,
     removeBreaks,
     setErrorResponse,
-    hasInvalidAuthentication
+    hasInvalidAuthentication,
+    schoolFromRequest
 } from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
@@ -20,13 +21,15 @@ export default defineEventHandler(async (event) => {
     const rateLimit = handleRateLimit("/api/stundenplan.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
 
+    const school = schoolFromRequest(event) as string;
+
     try {
-        // We don't want to follow redirects cause in case
-        // we aren't logged in and should get redirected, we
-        // want to prevent this unhandled behaviour
+        // Note: this redirects us to the currently active plan
+        // => its link would have the start date in it and we do not
+        // need to load its html inside the parse function
         const response = await fetch("https://start.schulportal.hessen.de/stundenplan.php", {
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${school}`,
                 ...generateDefaultHeaders(address)
             }
         });
@@ -48,6 +51,8 @@ export default defineEventHandler(async (event) => {
 
         const selection = document.querySelector("#dateSelect");
         if (selection !== null) {
+            // These are all the various plans NOT selected at the right now
+            // => future plans (not active yet)
             for (const option of selection.children) {
                 const start = option.getAttribute("value");
                 if (!start) continue;
@@ -67,10 +72,11 @@ export default defineEventHandler(async (event) => {
                     plan.end = transformed;
                 }
 
-                plans.push(await loadSplanForDate(plan, token, true, address));
+                plans.push(await loadSplanForDate(plan, token, true, address, "", school));
             }
         }
 
+        // The current plan we've been redirected to
         plans.push(await loadSplanForDate(initialPlan, token, false, address, html));
 
         return {
@@ -97,7 +103,14 @@ interface PlanOptions {
     current?: boolean;
 }
 
-async function loadSplanForDate(options: PlanOptions, auth: string, load: boolean, address?: string, html?: string): Promise<Stundenplan> {
+async function loadSplanForDate(
+    options: PlanOptions,
+    auth: string,
+    load: boolean,
+    address?: string,
+    html?: string,
+    school?: string
+): Promise<Stundenplan> {
     if (load) {
         const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + options.start, {
             method: "GET",

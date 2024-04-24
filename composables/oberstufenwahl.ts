@@ -3,7 +3,7 @@ export async function fetchOberstufenWahl() {
     if (!token.value) return console.error("Cannot fetch Oberstufenwahl w/o token");
     try {
         const { elections } = await $fetch<{ error: boolean; elections: Oberstufenwahl[] }>("/api/oberstufenwahl", {
-            params: { token: token.value }
+            query: { token: token.value, school: useSchool() }
         });
 
         if (!Array.isArray(elections)) return;

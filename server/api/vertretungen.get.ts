@@ -6,6 +6,7 @@ import {
     hasPasswordResetLocationSet,
     patterns,
     removeBreaks,
+    schoolFromRequest,
     setErrorResponse
 } from "../utils";
 import { JSDOM } from "jsdom";
@@ -27,7 +28,7 @@ export default defineEventHandler(async (event) => {
             redirect: "manual",
             headers: {
                 // There should be no need to URL-encode this, only alphanumerical values can be passed as a token
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 ...generateDefaultHeaders(address)
             }
         });

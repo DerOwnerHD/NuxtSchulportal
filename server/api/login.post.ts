@@ -14,7 +14,9 @@ const schema = {
     }
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<
+    Promise<{ error: boolean; error_details?: any; token: string; session: string; autologin: string; cooldown?: number }>
+>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 

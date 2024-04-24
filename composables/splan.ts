@@ -25,7 +25,7 @@ interface StundenplanDay {
 export const useStundenplan = () => useState<Stundenplan[]>("splan", () => []);
 export async function useStundenplanFetch() {
     const { plans } = await $fetch<{ plans: Stundenplan[] }>("/api/stundenplan", {
-        params: { token: useToken().value }
+        query: { token: useToken().value, school: useSchool() }
     }).catch((error) => (useAppErrors().value.splan = error?.data?.error_details ?? error));
 
     if (!Array.isArray(plans)) return;

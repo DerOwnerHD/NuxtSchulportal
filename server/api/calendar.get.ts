@@ -8,7 +8,8 @@ import {
     validateQuery,
     authHeaderOrQuery,
     hasInvalidAuthentication,
-    hasPasswordResetLocationSet
+    hasPasswordResetLocationSet,
+    schoolFromRequest
 } from "../utils";
 
 const schema = {
@@ -52,7 +53,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch("https://start.schulportal.hessen.de/kalender.php", {
             method: "POST",
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders()
             },

@@ -5,7 +5,8 @@ import {
     hasPasswordResetLocationSet,
     removeBreaks,
     setErrorResponse,
-    authHeaderOrQuery
+    authHeaderOrQuery,
+    schoolFromRequest
 } from "../utils";
 import { JSDOM } from "jsdom";
 
@@ -24,8 +25,8 @@ export default defineEventHandler(async (event) => {
             method: "GET",
             redirect: "manual",
             headers: {
-                ...generateDefaultHeaders(address),
-                Cookie: `sid=${token}`
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                ...generateDefaultHeaders(address)
             }
         });
 

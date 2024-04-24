@@ -1,4 +1,4 @@
-import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../utils";
+import { generateDefaultHeaders, patterns, schoolFromRequest, setErrorResponse, transformEndpointSchema, validateQuery } from "../utils";
 
 const schema = {
     query: {
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch(`https://start.schulportal.hessen.de/${path}`, {
             method: "GET",
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 ...generateDefaultHeaders(address)
             }
         });

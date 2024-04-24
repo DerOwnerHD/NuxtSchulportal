@@ -5,6 +5,7 @@ import {
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     removeBreaks,
+    schoolFromRequest,
     setErrorResponse
 } from "../utils";
 import { JSDOM } from "jsdom";
@@ -23,7 +24,7 @@ export default defineEventHandler(async (event) => {
         const response = await fetch("https://start.schulportal.hessen.de/oberstufenwahl.php", {
             redirect: "manual",
             headers: {
-                Cookie: `sid=${token}`,
+                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 ...generateDefaultHeaders(address)
             }
         });

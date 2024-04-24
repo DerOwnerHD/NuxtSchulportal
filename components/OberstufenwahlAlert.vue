@@ -1,6 +1,6 @@
 <template>
     <UtilsDialogBox id="oberstufenwahl">
-        <div v-if="elections.length">
+        <div v-if="elections?.length">
             <h1 class="text-xl">
                 🥳 {{ ENUMERATIONS[elections.length - 1] ?? elections.length }} Wahl{{ moreThanOneElection ? "en stehen" : " steht" }} an!
             </h1>

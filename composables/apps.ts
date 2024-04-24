@@ -200,6 +200,7 @@ export const useVplan = async (): Promise<Vertretungsplan | string> => {
 
     const { data, error: fetchError } = await useFetch<VertretungenResponse>("/api/vertretungen", {
         method: "GET",
+        query: { school: useSchool() },
         headers: { Authorization: token },
         retry: false
     });

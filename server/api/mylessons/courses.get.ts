@@ -6,6 +6,7 @@ import {
     hasPasswordResetLocationSet,
     patterns,
     removeBreaks,
+    schoolFromRequest,
     setErrorResponse,
     transformEndpointSchema,
     validateQuery
@@ -36,7 +37,7 @@ export default defineEventHandler(async (event) => {
     try {
         const response = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${token}; SPH-Session=${session}`,
+                Cookie: `sid=${token}; SPH-Session=${session}; ${schoolFromRequest(event)}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",

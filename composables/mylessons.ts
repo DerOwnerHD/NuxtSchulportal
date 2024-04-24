@@ -1,7 +1,7 @@
 export async function useLerngruppenFetch() {
     try {
         const { courses } = await $fetch<{ courses: Lerngruppe[] }>("/api/courses", {
-            query: { token: useToken().value }
+            query: { token: useToken().value, school: useSchool() }
         });
         useLerngruppen().value = courses;
     } catch (error) {
@@ -10,12 +10,13 @@ export async function useLerngruppenFetch() {
 }
 
 export async function useMyLessonsCoursesFetch() {
-    const key = await useAESKey();
+    const key = (await useAESKey()) ?? undefined;
     const token = useToken();
     const session = useSession();
 
     const { data, error } = await useFetch<MyLessonsResponse>("/api/mylessons/courses", {
         query: {
+            school: useSchool(),
             token: token.value,
             session: session.value,
             key

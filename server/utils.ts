@@ -265,6 +265,37 @@ export const authHeaderOrQuery = (event: any): string | null => {
     return token || authorization!;
 };
 
+export const MIN_ALLOWED_SCHOOL = 1;
+export const MAX_ALLOWED_SCHOOL = 9999;
+/**
+ * Loads the school ID from a request.
+ *
+ * This is not required by SPH by default but acts as a failsafe whenever they do not
+ * want to use our sid to parse what we belong to (At least it seems like that).
+ * If SPH does not wish to do that, they give us a 302 with an invalid sid inside Set-Cookie (FOR SOME REASON).
+ *
+ * **Only** when adding the school (i) cookie, this is (of current testing) prevented.
+ *
+ * Should this function return null, the request handler is expected to not send
+ * such a cookie whats-o-ever.
+ * If the request might then fail, there is another detection for that in place
+ * (302 with location to "/" and Set-Cookie with sid => detection from that)
+ * @param event The H3 event given by Nuxt
+ * @param body An optional body sent by, i.e. POST requests
+ * @param stringify Directly format it according to the needs of the Cookie header (i=school) or an completely empty string when null (Default is true)
+ * @returns The school ID, if in request and valid
+ */
+export const schoolFromRequest = (event: any, body?: any, stringify: boolean = true) => {
+    const { school } = getQuery<{ school: string }>(event);
+    // The school might also in POST requests be included inside the body.
+    // (/login has that but that does not use this routine)
+    const schoolInBody = typeof body === "object" && body != null ? body.school : null;
+    // The query takes priority, it is far less likely for a body to even exist
+    const parsed = parseInt(school ?? schoolInBody);
+    if (isNaN(parsed) || parsed > MAX_ALLOWED_SCHOOL || parsed < MIN_ALLOWED_SCHOOL) return stringify ? "" : null;
+    return stringify ? `i=${parsed}` : parsed;
+};
+
 /**
  * Transforms the schema of an endpoint so it can be sent as
  * valid JSON, so this function replaces the RegEx patterns

@@ -47,6 +47,11 @@ export const useCredentials = <T>() => useCookie<T | Credentials>("credentials")
 export const useToken = () => useCookie<string>("token");
 export const useSession = () => useCookie<string>("session");
 export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-credentials");
+export const useSchool = () => {
+    const credentials = useCredentials<Credentials>();
+    if (!credentials.value) return null;
+    return credentials.value.school;
+};
 
 /**
  * Validates the token stored in the credentials cookie
@@ -81,41 +86,36 @@ export const useTokenCheck = async (token: string): Promise<boolean> => {
     return validation.value?.valid || false;
 };
 
-export const useLogin = async (failOnError: boolean): Promise<boolean> => {
-    const nuxtApp = useNuxtApp();
-
-    const credentials = useCredentials();
-    if (!credentials.value) return false;
-
-    const { data: login, error } = await useFetch<LoginResponse>("/api/login", {
-        method: "POST",
-        body: toRaw(credentials.value),
-        retry: false
-    });
-
-    if (error.value !== null) {
-        // This prevents us getting thrown back to the login screen
-        if (failOnError)
-            // @ts-expect-error
-            (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
-                response: syntaxHighlight(error.value?.data),
-                message: "Anmeldung fehlgeschlagen",
-                recoverable: false
-            };
+export const useLogin = async (showError: boolean) => {
+    const nuxt = useNuxtApp();
+    const credentials = useCredentials<Credentials>();
+    try {
+        const { data, error } = await useFetch("/api/login", {
+            method: "POST",
+            body: credentials.value
+        });
+        if (error.value) throw error.value;
+        // @ts-ignore
+        const { session, token } = data.value;
+        nuxt.runWithContext(() => {
+            useSession().value = session;
+            useToken().value = token;
+        });
+        return true;
+    } catch (error) {
+        console.error(error);
+        if (showError)
+            nuxt.runWithContext(
+                () =>
+                    (useState<APIError>("api-error").value = {
+                        // @ts-ignore
+                        response: syntaxHighlight(error.data),
+                        message: "Anmeldung fehlgeschlagen",
+                        recoverable: false
+                    })
+            );
         return false;
     }
-
-    if (!login.value?.token || !login.value?.session) {
-        if (failOnError) (await callWithNuxt(nuxtApp, useCookie, ["credentials"])).value = null;
-        return false;
-    }
-    nuxtApp.runWithContext(() => {
-        // @ts-ignore
-        useToken().value = login.value?.token;
-        // @ts-ignore
-        useSession().value = login.value?.session;
-    });
-    return true;
 };
 
 export const useMoodleLogin = async (): Promise<boolean> => {
