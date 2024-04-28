@@ -16,6 +16,12 @@ const rateLimits: RouteRateLimit[] = [
         clients: []
     },
     {
+        route: "/api/apps.get",
+        interval: 5 * 1000,
+        allowedPerInterval: 2,
+        clients: []
+    },
+    {
         route: "/api/resetpassword.post",
         interval: 60 * 1000,
         allowedPerInterval: 1,

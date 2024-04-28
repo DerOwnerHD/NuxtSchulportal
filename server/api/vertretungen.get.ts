@@ -1,6 +1,7 @@
 import { hasInvalidSidRedirect } from "../failsafe";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
+    BasicResponse,
     authHeaderOrQuery,
     generateDefaultHeaders,
     hasInvalidAuthentication,
@@ -14,7 +15,7 @@ import { JSDOM } from "jsdom";
 // Starts on sunday cos Date#getDay does too
 const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<Promise<Vertretungsplan>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
@@ -41,7 +42,7 @@ export default defineEventHandler(async (event) => {
         const { window } = new JSDOM(removeBreaks(await response.text()));
         const days = window.document.querySelectorAll("#content .panel.panel-info:not(#menue_tag), #content .panel.panel-primary");
 
-        const data = [];
+        const data: VertretungsDay[] = [];
         for (const day of days) {
             const date = day.id.replace(/tag/i, "").split("_");
             // Something must be broken then, so we better just skip over this element
@@ -132,6 +133,21 @@ export default defineEventHandler(async (event) => {
         return setErrorResponse(res, 500);
     }
 });
+
+interface VertretungsDay {
+    date: string;
+    day: string;
+    day_of_week: string;
+    relative: string;
+    vertretungen: Vertretung[];
+    news: string[];
+}
+
+interface Vertretungsplan extends BasicResponse {
+    days: VertretungsDay[];
+    last_updated: string | null;
+    updating: boolean;
+}
 
 interface Vertretung {
     lessons: {

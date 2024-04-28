@@ -335,3 +335,8 @@ export class APIError extends Error {
         this.showToUser = showToUser || false;
     }
 }
+
+export interface BasicResponse {
+    error: boolean;
+    error_details?: any;
+}
