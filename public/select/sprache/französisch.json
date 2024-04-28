@@ -1,0 +1,873 @@
+{
+    "link": "franzoesisch/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_franzoesisch.png",
+    "text": "Französisch",
+    "content": {
+        "Methoden, Lerntipps und Wörterbücher": [
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/woerterbuecher/index.html",
+                "name": "Wörterbücher",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "DeepL Translate",
+                        "link": "https://www.deepl.com/de/translator",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-03-20-um-08.23.16.png\"><p>Der Online-Übersetzer DeepL ist eine gute Ergänzung zu den herkömmlichen Wörterbüchern.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Text-Übersetzer Deutsch-Französisch",
+                        "link": "https://linguatools.net/uebersetzer/deutsch-franzoesisch/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-03-20-um-08.18.49.png\"><p>Du suchst ein Wort auf Französisch und möchtest gleichzeitig wissen, in welchem sprachlichen Zusammenhang du es anwendest? Trage den Begriff in das Suchfeld oben ein. Du erhältst die Übersetzung und zahlreiche Beispiele für seinen Gebrauch.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Pons-Wörterbuch",
+                        "link": "http://de.pons.com/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-03-20-um-08.29.58.png\"><p>Schlage hier Wörter nach, die du wissen möchtest.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Larousse: Dictionnaire en ligne",
+                        "link": "http://www.larousse.fr/dictionnaires/francais",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-03-20-um-08.26.04.png\"><p>Bei Larousse kannst du die Bedeutung eines französischen Wortes auf Französisch nachschlagen.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Leo.org",
+                        "link": "https://www.leo.org/englisch-deutsch",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-03-20-um-08.27.33.png\"><p><a title=\"Leo\" href=\"http://www.leo.org/frde/index_de.html\">Leo</a>, das Sprachportal der Münchner Maximilian-Universität ist auch bei Schülerinnen und Schülern sehr beliebt - aber leider nicht immer ganz zutreffend. Sehr hilfreich können allerdings die Foren zu schwierigen Übersetzungsfragen sein.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/diagnose/index.html",
+                "name": "Diagnose",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "tester son niveau avec TV5MONDE",
+                        "link": "https://apprendre.tv5monde.com/fr/apprendre-francais/tester-son-niveau",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/bildschirmfoto-2023-08-29-um-17.40.39.png\"><p>TV5 Monde bietet einen Einstufungstest an, mit dem man herausfinden kann, welches Niveau man nach dem Gemeinsamen Europäischen Referenzrahmen (GER) im Französischen hat.</p> <p>Getestet wird das Hörverstehen.</p> <p>Quelle: https://apprendre.tv5monde.com<br>&nbsp;<br>&nbsp;<br>&nbsp;</p>",
+                        "age": "-5--5"
+                    }
+                ]
+            }
+        ],
+        "Sprache": [
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/hoeren/index.html",
+                "name": "Hören",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Dis-lui oui",
+                        "link": "http://platea.pntic.mec.es/~cvera/hotpot/dis_lui_oui.htm",
+                        "content": "<p>Höre Dir das lustige Lied an und finde die fehlenden Personalpronomen im Liedtext.</p>",
+                        "age": "7-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/sprechen/index.html",
+                "name": "Sprechen",
+                "count": 5,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/sprechen/aussprache/index.html",
+                            "name": "Aussprache",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "l'alphabet",
+                                    "link": "https://www.youtube.com/watch?v=YkFXGlHCn_o",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/bildschirmfoto-2023-01-30-um-09.30.08.png\"><p>Hier könnt ihr die Aussprache des französichen Alphabets anhören und mitsingen.</p>",
+                                    "age": "1-7"
+                                },
+                                {
+                                    "title": "Die Schule",
+                                    "link": "http://www.languageguide.org/french/vocabulary/school/",
+                                    "content": "<p>Hier könnt ihr die Aussprache von Gegenständen aus dem &nbsp;Klassenzimmer üben. Man muss nur mit dem Cursor über das Bild fahren und kann sich dann die Aussprache anhören.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Podcast français facile: les nombres",
+                                    "link": "https://www.podcastfrancaisfacile.com/nombre/chiffres_1_20.html",
+                                    "content": "<p>In dieser Übung kann die Aussprache der Zahlen von 0-20 geübt und in zwei kleinen Übungen das Hörverstehen getestet werden.</p> <p>Quelle: podcastfrançaisfacile.com</p>",
+                                    "age": "1-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/sprechen/se-debrouiller-en-francais/index.html",
+                            "name": "Se débrouiller en français",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Arbeitsblatt- se débrouiller en français",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/redemittel/se-debrouiller-en-francais/redemittel_-se-debrouiller-en-francais.docx",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/balloon-2557031_1280.jpg\"><p>Dieses Arbeitsblatt gibt den Lernenden verschiedenen Redemittel an die Hand, sich in Alltagssituationen zurecht zu finden, auch wenn man das richtige Wort nicht kennt bzw seinen Gegenüber nicht versteht.</p>",
+                                    "age": "5-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/Schreiben/index.html",
+                "name": "Schreiben",
+                "count": 3,
+                "children": {
+                    "Schreiben": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Schreiben/Textarbeit/index.html",
+                            "name": "Textarbeit",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "La présentation du texte - Vokabelhilfen (1)",
+                                    "link": "http://www.lern-online.net/franzoesisch/schreiben/redewendungen/redeabsicht3.php",
+                                    "content": "<p>Suchst du Redewendungen, um ein Diskussionsthema vorzustellen oder die Meinung des Autors wiederzugeben? Hier findest du sie.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "La présentation du texte - Vokabelhilfen (2)",
+                                    "link": "http://www.lern-online.net/franzoesisch/schreiben/redewendungen/redeabsicht4.php",
+                                    "content": "<p>Vokabelhilfen, um etwas zu begründen oder Schlussfolgerungen zu ziehen.</p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Schreiben/schreibuebung/index.html",
+                            "name": "Schreibübung",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Methodenblatt: comparer",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/schreiben/ausdruck_und_stil/comparer_dt.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Die Anleitung hilft dir, einen Vergleich in französischer Sprache zu formulieren.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/index.html",
+                "name": "Grammatik",
+                "count": 17,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Adjektive/index.html",
+                            "name": "Adjektive",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Adjektive",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/grammatik/adjectif/adjektive/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/bildschirmfoto-2023-03-06-um-11.51.19.png\"><ul> <li style=\"text-align: center;\"><span style=\"font-size: 24pt;\">Grand</span> + <span style=\"font-size: 8pt;\">petit</span> + <span style=\"color: rgb(53, 152, 219);\">bleu</span> + joli👩‍⚖️+ <span style=\"color: rgb(22, 145, 121);\">vert + <span style=\"color: rgb(0, 0, 0);\">content</span>😀</span></li> </ul> <p>In diesem Lernpfad geht es um die Frage, was bei <strong>Adjektiven</strong> zu beachten ist.</p>",
+                                    "age": "-5--5"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Pronomen/index.html",
+                            "name": "Pronomen",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Dis-lui oui",
+                                    "link": "http://platea.pntic.mec.es/~cvera/hotpot/dis_lui_oui.htm",
+                                    "content": "<p>Höre Dir das lustige Lied an und finde die fehlenden Personalpronomen im Liedtext.</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Länder und Präpositionen (wohin?woher?)",
+                                    "link": "https://www.youtube.com/watch?v=Rl416mPu-FY",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2022-12-19-um-11.47.58.png\"><p>In dem Video von BildungInteraktiv wird der Gebrauch der Präposition bei Ländernamen erläutert. Dabei geht das Video zum einen auf die Frage \"wohin?\" also auch \"woher?\" ein.</p> <p>Bei den Ländern wird eine kleine Auswahl getroffen. Auf Besonderheiten (Regionen, Inseln, Städte...) wird nicht eingegangen.</p> <p>Quelle: https://www.bildunginteraktiv.com</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Die Pronomen y und en",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/grammatik/pronoms/lernpfad/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/bildschirmfoto-2022-09-26-um-09.16.48.png\"><p>In dem folgenden Lernpfad erfährst Du, wie du die Pronomen y und en im Französischen verwendest</p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Zeiten_Modi/index.html",
+                            "name": "Zeiten und Modi",
+                            "count": 6,
+                            "children": {
+                                "Vergangenheit": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Zeiten_Modi/Imparfait/index.html",
+                                        "name": "Imparfait",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Imperfekt mit Prévert",
+                                                "link": "http://fr.ver-taal.com/poesie_barbara.htm",
+                                                "content": "<p>In dem Gedicht \"Barbara\" von Jacques Prévert geht es um die Bombardierung von Brest während des Zweiten Weltkriegs. Höre das Gedicht an und setze dann die Verben in Imperfektform in die Lücken ein.</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "Zukunft, Conditionnel und Subjonctif": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Zeiten_Modi/Subjonctif/index.html",
+                                        "name": "Subjonctif",
+                                        "count": 3,
+                                        "children": [
+                                            {
+                                                "title": "Übung: Subjonctif oder Indicatif? (1)",
+                                                "link": "http://w3.restena.lu/amifra/exos/gram/indsubj13.htm",
+                                                "content": "<p>In dem Lückentext müssen die vorgegeben Verben eingesetzt und angeglichen werden.</p> <p> </p>",
+                                                "age": "8-13"
+                                            },
+                                            {
+                                                "title": "Übung: Subjoncitf oder Indicatif? (2)",
+                                                "link": "http://w3.restena.lu/amifra/exos/gram/indsubj14.htm",
+                                                "content": "<p>In dem Lückentext müssen die vorgegeben Verben entweder im Subjonctif oder im Indicatif eingesetzt und angeglichen werden.</p>",
+                                                "age": "8-13"
+                                            },
+                                            {
+                                                "title": "Übung: Subjonctif oder Indicatif? (3)",
+                                                "link": "http://w3.restena.lu/amifra/exos/gram/indsubj15.htm",
+                                                "content": "<p>In dem Lückentext müssen die vorgegeben Verben entweder im Subjonctif oder im Indicatif eingesetzt und angeglichen werden.</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/Zeiten_Modi/futur/index.html",
+                                        "name": "Futur",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "Erklärfilm von Klett: das Futur composé",
+                                                "link": "https://e.video-cdn.net/video?video-id=1BjsJ-vSvRfPqv3Qa8q-mt&player-id=AJYEiFY7L5cvRC_oBy-WmW",
+                                                "content": "<p>Der Klett-Verlag bietet zu einigen grammatischen Themen gute Erklärvideos an. Hier: Das Futur composé.</p>",
+                                                "age": "-5--5"
+                                            },
+                                            {
+                                                "title": "Video: das Futur simple",
+                                                "link": "https://www.youtube.com/watch?v=laeU20mxuJQ",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/grammatik/temps_modes/bildschirmfoto-2021-11-09-um-09.24.57.png\"><p>In dem Video von BildungInteraktiv kann die Bildung (bis Minute 9.10) und Verwendung (ab Minute 9.10) des futur simple angeschaut werden.</p> <p>In dem Video wird auch auf die Besonderheit bei Verben mit abweichendem Präsensstamm eingegangen sowie auf einige unregelmäßige Verben.</p> <p>Hinweis: Werbung.</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Grammatik/verben/index.html",
+                            "name": "Verben",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Verbtrainer",
+                                    "link": "https://www.lepointdufle.net/ressources_fle/conjugaison_present.htm",
+                                    "content": "<p>Auf dieser Seite kannst Du die&nbsp; Konjugation von einigen wichtigen Verben im Präsens nachschauen und die Aussprache anhören.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "die Verben auf -er",
+                                    "link": "https://www.youtube.com/watch?v=Hh3vxPgMIyU&list=PLkIQixavsjws9e7rU-DlQPXl_3uOsCSAq&index=2",
+                                    "content": "<p>&nbsp;</p> <p><imgheight=\"138\" src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/grammatik/temps_modes/bildschirmfoto-2021-11-09-um-09.24.57.png\"></p> <p>In dem Video von BildungInteraktiv wird die Konjugation der Verben auf -er im Präsens sehr verständlich erklärt.</p> <p>Hinweis: Werbung.</p> <p>Quelle: BildungInteraktiv.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Video: Die Verben auf -dre (+prendre)",
+                                    "link": "https://www.youtube.com/watch?v=aDohGdo5pRU&list=PLDB9ACCAB9CBC01EE&index=7",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2022-12-19-um-11.47.58.png\"><p>In dem Video von BildungInteraktiv wird die Konjugation der Verben auf -dre erklärt.</p> <p>Achtung, in diesem Video werden ALLE Zeiten/Modi erklärt.</p> <p>Außerdem wird auf das unregelmäßige Verb \"prendre\" eingegangen.</p> <p>Quelle: BildungInteraktiv</p> <p>HInweis: Werbung.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Verben auf -ir und -dre",
+                                    "link": "https://www.youtube.com/watch?v=FG2w4Nij8ho",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2022-12-19-um-11.47.58.png\"><p>In dem Video von BildungInteraktiv wird die Konjugation der Verben auf -ir und -dre erklärt (nur Präsens).</p> <p>Verben auf -ir: ab 0:54 &nbsp;(kurzer und erweiteter Stamm)</p> <p>Verben auf -dre: ab 3:16</p> <p>Hinweis: Werbung.</p> <p>Quelle: BildungInteraktiv</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "reflexive Verben",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/grammatik/les_verbes/die-reflexiven-verben/lernpfad_reflexive-verben/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/bildersammlung/bildschirmfoto-2022-09-26-um-09.16.48.png\"><p>In dem Lernpfad erfährst du alles Wichtige über die reflexiven Verben.</p> <p>&nbsp;</p>",
+                                    "age": "6-11"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/index.html",
+                "name": "Wortschatz",
+                "count": 15,
+                "children": {
+                    "F-K": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/familie/index.html",
+                            "name": "Familie",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "La famille",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/familie/lernpfad/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/familie/lernpfad/bildschirmfoto-2023-03-06-um-11.51.19.png\"><p>In diesem Lernpfad können die Schüler und Schülerinnen Vokabeln zur Familie lernen und die Possessivbegleiter im Singular wiederholen.</p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/kleidung/index.html",
+                            "name": "Kleidung",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Herrenbekleidung",
+                                    "link": "http://www.languageguide.org/im/clothes_men/fr/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Damenbekleidung",
+                                    "link": "http://www.languageguide.org/french/vocabulary/women-clothing/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen.</p>",
+                                    "age": "6-13"
+                                }
+                            ]
+                        }
+                    ],
+                    "L-P": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/Pflanzen_Tiere/index.html",
+                            "name": "Pflanzen und Tiere",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Gesprochen und im Bild: Meerestiere",
+                                    "link": "http://www.languageguide.org/french/vocabulary/sea-animals/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Tiere aus Afrika",
+                                    "link": "http://www.languageguide.org/french/vocabulary/african-animals/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Säugetiere",
+                                    "link": "http://www.languageguide.org/french/vocabulary/mammals/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Vögel",
+                                    "link": "http://www.languageguide.org/french/vocabulary/birds/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Insekten",
+                                    "link": "http://www.languageguide.org/french/vocabulary/insects/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Haustiere",
+                                    "link": "http://www.languageguide.org/im/farm_anim/fr/index2.jsp",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesprochen und im Bild: Bauernhoftiere",
+                                    "link": "http://www.languageguide.org/french/vocabulary/farm-animals/",
+                                    "content": "<p>Wenn du mit der Maus auf das passende Bild fährst, kannst du das Wort hören und lesen. </p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ],
+                    "Q-T": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/schule/index.html",
+                            "name": "Schule",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Die Schule",
+                                    "link": "http://www.languageguide.org/french/vocabulary/school/",
+                                    "content": "<p>Hier könnt ihr die Aussprache von Gegenständen aus dem &nbsp;Klassenzimmer üben. Man muss nur mit dem Cursor über das Bild fahren und kann sich dann die Aussprache anhören.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ],
+                    "U-Z": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Wortschatz/Uhrzeit_Datum/index.html",
+                            "name": "Uhrzeit und Datum",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Übungsblatt: Uhrzeit angeben (Übungskönig)",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/uhrzeit_2a.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/bildschirmfoto-2023-03-27-um-10.33.47.png\"><p>Mit dem Arbeitsblatt (zum ausdrucken) kann man die Uhrzeit üben.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Uhrzeit Lösungen (Übungskönig)",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/uhrzeit_2loe.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/bildschirmfoto-2023-03-27-um-10.33.47.png\"><p>Hier befinden sich die Lösungen zu dem Arbeitsblatt.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Quelle heure est-il?",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/lernpfad/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/lernpfad/the-eleventh-hour-g8e74b9f0e_1920.jpg\"><p>In diesem Kurs lernst Du, wie man im Französischen die Uhrzeit angibt.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Quelle heure est-il?",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/quelle-heure-est.docx",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/Vokabular/themen/l_heure_les_dates/120px-Icon_Clock.svg.png\"><p>Auf diesem Arbeitsblatt befinden sich einige grundlegende Vokabeln, mit denen man die Uhrzeit ausdrücken kann.</p> <p>Niveau: A1</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Landeskunde": [
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/index.html",
+                "name": "Frankophonie",
+                "count": 12,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/frankophonie/index.html",
+                            "name": "Frankophonie",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Videos: Destination francophonie",
+                                    "link": "http://www.tv5.org/cms/chaine-francophone/Revoir-nos-emissions/Destination-Francophonie/p-23140-Accueil.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/franzoesisch/logos/bildschirmfoto-2023-06-05-um-17.47.04.png\"><p>Jede Woche wird eine neue Region oder ein neues Land vorgestellt, um Menschen kennen zu lernen, die die französische Sprache praktizieren und leben. Die Videos dauern ca. 3 Minuten.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/latein_am/index.html",
+                            "name": "Lateinamerika",
+                            "count": 4,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/latein_am/guyana/index.html",
+                                        "name": "Französisch Guyana",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Comité du Tourisme de la Guyane",
+                                                "link": "http://www.tourisme-guyane.com/",
+                                                "content": "<p>Abenteuer, Natur, Traditionen, Raumfahrt, die offizielle Tourismus-Internetseite der Guyane informiert über die Besonderheiten der Region.</p>",
+                                                "age": "7-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/latein_am/karibik/index.html",
+                                        "name": "Karibik",
+                                        "count": 3,
+                                        "children": {
+                                            "default": [
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/latein_am/karibik/guadeloupe/index.html",
+                                                    "name": "Guadeloupe",
+                                                    "count": 1,
+                                                    "children": [
+                                                        {
+                                                            "title": "Guadeloupe 1ère",
+                                                            "link": "https://la1ere.francetvinfo.fr/guadeloupe/",
+                                                            "content": "<p>Die staatliche Rundfunk- und Fernsehanstalt informiert über Neuigkeiten auf der Karibikinsel Guadeloupe.</p>",
+                                                            "age": "9-13"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/latein_am/karibik/martinique/index.html",
+                                                    "name": "Martinique",
+                                                    "count": 2,
+                                                    "children": [
+                                                        {
+                                                            "title": "Martinique 1ère",
+                                                            "link": "https://la1ere.francetvinfo.fr/martinique/",
+                                                            "content": "<p>Die staatliche Rundfunk- und Fernsehanstalt informiert über Neuigkeiten auf der Karibikinsel Martinique.</p>",
+                                                            "age": "9-13"
+                                                        },
+                                                        {
+                                                            "title": "Tourisme en Martinique",
+                                                            "link": "http://www.martinique.org/",
+                                                            "content": "<p>Hier lässt sich die Karibikinsel Martinique mit ihrer reichen Kultur, ihren zauberhaften Landschaften und ihrer spannenden Geschichte entdecken.</p>",
+                                                            "age": "6-13"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/polynesien/index.html",
+                            "name": "Polynesien",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/quebec/index.html",
+                            "name": "Québec (Canada)",
+                            "count": 2,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/quebec/fr_qc/index.html",
+                                        "name": "Französisch in Québec",
+                                        "count": null,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/quebec/land_leute/index.html",
+                                        "name": "Land und Leute",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "Carnaval de Québec",
+                                                "link": "https://carnaval.qc.ca/",
+                                                "content": "<p>Der größte Winterkarneval der Welt wird in Québec gefeiert. Auf der offiziellen Seite Carnaval de Québec erfährt man über seine Geschichte, Mission, seine Traditionen wie den Palais de glace, die Sculptures sur neige, die Défilés de nuit.&nbsp;</p>",
+                                                "age": "9-13"
+                                            },
+                                            {
+                                                "title": "Bonjour Québec (auf Deutsch und Französisch)",
+                                                "link": "http://www.bonjourquebec.com/",
+                                                "content": "<p>Die offizielle Tourismus-Webseite der Quebecer Regierung informiert über Land und Leute, Unterkünfte, Aktuelles u. v. m.</p> <p> </p>",
+                                                "age": "7-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/ch/index.html",
+                            "name": "Schweiz",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Suisse Tourisme",
+                                    "link": "http://www.myswitzerland.com/fr/accueil.html",
+                                    "content": "<p>15 typisch schweizer-französische Ausdrücke wie \"faire la potte\" oder \"avoir la gratte\" werden von tv5 erklärt und illustriert.</p>",
+                                    "age": "1-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/frankophonie/be/index.html",
+                            "name": "Wallonien (französischsprachiges Belgien)",
+                            "count": null,
+                            "children": {}
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/gesch/index.html",
+                "name": "Geschichte, Gesellschaft, Politik",
+                "count": 10,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/gesch/aktuell/index.html",
+                            "name": "Französischsprachige Zeitschriften und Zeitungen",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Libération (Tageszeitung) - für Profis",
+                                    "link": "http://www.liberation.fr/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>\"Libé\" ist eine linksorientierte französische Tageszeitung, die 1973 von dem Philosophen Jean-Paul Sartre mitgegründet wurde.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Le Monde (Tageszeitung) - für Profis",
+                                    "link": "http://www.lemonde.fr/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Seit 1944 erscheint die nationale, eher links des Zentrums zu verortende Tageszeitung Le Monde.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Le Figaro (Tageszeitung) - für Profis",
+                                    "link": "http://www.lefigaro.fr/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>„Ohne die Freiheit zum Kritisieren, gibt es kein schmeichelhaftes Lob“ (Beaumarchais, Le Mariage du Figaro) Die Tageszeitung Le Figaro wurde 1826 gegründet und vertritt eher konservative und wirtschaftsliberale Ansichten.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Le Nouvel Observateur (Wochenzeitschrift) - für Profis",
+                                    "link": "http://tempsreel.nouvelobs.com/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Die Wochenzeitschrift Le Nouvel Observateur wurde 1964 gegründet, wird vorrangig in der Pariser Region gelesen und lässt sich eher ins linke Politiksprektrum einordnen. Interessante Artikel befinden sich auch auf dem vom Nouvel Observateur aufgekauften Online-Portal <a title=\"Rue89\" href=\"http://rue89.nouvelobs.com/\">Rue89</a>.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/gesch/geschichte/index.html",
+                            "name": "Geschichte",
+                            "count": 2,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/gesch/geschichte/fr_gesch/index.html",
+                                        "name": "Französische Geschichte",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "La Constitution de la Ve République - für Profis",
+                                                "link": "http://www.conseil-constitutionnel.fr/conseil-constitutionnel/francais/la-constitution/la-constitution-du-4-octobre-1958/la-constitution-du-4-octobre-1958.5071.html",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Am 4. Oktober 1958 ist die Verfassung der Fünften Republik in Kraft getreten. Der Text sowie die dazugehörigen Vertragswerke können hier u. a. in französisch, deutsch und Englisch gelesen werden.</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Louis XIV - Text und Vokabular",
+                                                "link": "http://www.franzoesischlehrer.in/contentLD/FR/Do271Louis.pdf",
+                                                "content": "<p>In einem kurzen relativ einfachen Text wird der Sonnenkönig vorgestellt. Das benötigte Vokabular wird in einer Zusatzaufgabe erarbeitet. (ab dem 3. Lernjahr)</p> <p>Quelle:&nbsp;https://www.franzoesischlehrer.in</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/gesch/gesellschaft/index.html",
+                            "name": "Gesellschaft",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/gesch/politik/index.html",
+                            "name": "Politik",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "La Constitution de la Ve République - für Profis",
+                                    "link": "http://www.conseil-constitutionnel.fr/conseil-constitutionnel/francais/la-constitution/la-constitution-du-4-octobre-1958/la-constitution-du-4-octobre-1958.5071.html",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Am 4. Oktober 1958 ist die Verfassung der Fünften Republik in Kraft getreten. Der Text sowie die dazugehörigen Vertragswerke können hier u. a. in französisch, deutsch und Englisch gelesen werden.</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/gesch/wirtschaft/index.html",
+                            "name": "Wirtschaft",
+                            "count": 1,
+                            "children": {}
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/geografie/index.html",
+                "name": "Geografie",
+                "count": 1,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/geografie/frankreich/index.html",
+                            "name": "Frankreich",
+                            "count": 1,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/franzoesisch/geografie/frankreich/paris/index.html",
+                                        "name": "Paris",
+                                        "count": 1,
+                                        "children": {}
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/schule/index.html",
+                "name": "Schule in Frankreich",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Die Schule",
+                        "link": "http://www.languageguide.org/french/vocabulary/school/",
+                        "content": "<p>Hier könnt ihr die Aussprache von Gegenständen aus dem &nbsp;Klassenzimmer üben. Man muss nur mit dem Cursor über das Bild fahren und kann sich dann die Aussprache anhören.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Bildwortschatz - Schulmaterial",
+                        "link": "http://www.allgemeinbildung.ch/arb/arb=all/q_Bildwortschatz_Schulmaterial.pdf",
+                        "content": "<p>Französisch-deutsch-englisches Bilder-Arbeitsblatt mit Lösungen.</p>",
+                        "age": "5-7"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/feste_essen_und_trinken/index.html",
+                "name": "Feste und Bräuche",
+                "count": 2,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/feste_essen_und_trinken/weihnachten/index.html",
+                            "name": "Weihnachten und Advent",
+                            "count": 1,
+                            "children": {}
+                        }
+                    ]
+                }
+            }
+        ],
+        "Kultur": [
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/bd/index.html",
+                "name": "Comics und Bandes Dessinées",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Tintin im Netz",
+                        "link": "http://fr.tintin.com/essentiel",
+                        "content": "<p>Die offizielle Webpräsenz von Tintin bietet dir Präsentationen der einzelnen Alben und Personen sowie viele Hintergrundinformationen.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/Musik/index.html",
+                "name": "Musik",
+                "count": 4,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/Musik/lieder/index.html",
+                            "name": "Lieder",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Französische Kinderlieder bei You-Tube",
+                                    "link": "http://www.youtube.com/user/comptines?feature=watch",
+                                    "content": "<p>Bei diesen Clips werden auch die Texte eingeblendet. Unter anderem findest du hier: \"1, 2, 3, allons dans les bois\", \"Pomme de reinette et pomme d'api\", \"Une souris verte\", \"Meunier tu dors\", \"Sur le pont d'Avignon\".</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "Dis-lui oui",
+                                    "link": "http://platea.pntic.mec.es/~cvera/hotpot/dis_lui_oui.htm",
+                                    "content": "<p>Höre Dir das lustige Lied an und finde die fehlenden Personalpronomen im Liedtext.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/index.html",
+                "name": "Literatur",
+                "count": 8,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/ki_ju/index.html",
+                            "name": "Kinderbücher",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Online lesen und hören: Le Petit Nicolas",
+                                    "link": "http://roble.pntic.mec.es/apadilla/autourdufrancais/contenus/coursdefrancais/4ESO/Litterature/Le%20petit%20Nicolas/index.html",
+                                    "content": "<p>Lies oder höre die Abenteuer des Petit Nicolas online.&nbsp;</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/ionesco/index.html",
+                            "name": "Eugène Ionesco",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Eugène Ionesco - für Profis",
+                                    "link": "http://www.ionesco.de/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Diese deutsche Internetseite (auch auf französisch und englisch lesbar) stellt dir Eugène Ionesco, einen der Hauptautoren des Absurden Theaters, u. a. mit seiner Biographie, seinen Werken, einem Interview vor.</p> <p></p>",
+                                    "age": "11-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/moliere/index.html",
+                            "name": "Molière",
+                            "count": 2,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/prevert/index.html",
+                            "name": "Jacques Prévert",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Prévert: Étranges étrangers\" - für Profis",
+                                    "link": "http://www.dailymotion.com/video/x7om6q_etranges-etrangers-de-j-prevert_creation",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Das Gedicht \"Etranges étrangers\" von Jacques Prévert wird von ihm in einer Audiodatei vorgetragen und kann von dir mitgelesen werden.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Imperfekt mit Prévert",
+                                    "link": "http://fr.ver-taal.com/poesie_barbara.htm",
+                                    "content": "<p>In dem Gedicht \"Barbara\" von Jacques Prévert geht es um die Bombardierung von Brest während des Zweiten Weltkriegs. Höre das Gedicht an und setze dann die Verben in Imperfektform in die Lücken ein.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/st_exupery/index.html",
+                            "name": "Saint-Exupéry",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Saint Exupéry",
+                                    "link": "http://www.antoinedesaintexupery.com/",
+                                    "content": "<p>Wie hat der Autor des Petit Prince gelebt? <br>Was hat Saint Exupéry ansonsten noch geschrieben?</p>",
+                                    "age": "9-12"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/franzoesisch/schriftsteller/cauwelaert/index.html",
+                            "name": "Didier van Cauwelaert",
+                            "count": null,
+                            "children": {}
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

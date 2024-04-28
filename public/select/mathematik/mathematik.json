@@ -1,0 +1,1319 @@
+{
+    "link": "mathematik/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_mathe.png",
+    "text": "Mathematik",
+    "content": {
+        "Themen der Mittelstufe": [
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/zahlenber/index.html",
+                "name": "Zahlbereiche",
+                "count": 27,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/Zahlenmengen/index.html",
+                            "name": "Zahlenmengen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Lernpfad: Zahlenmengen und ihre Eigenschaften",
+                                    "link": "http://www.mathe-online.at/lernpfade/Lernpfad848/?kapitel=1",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>Was sind natürliche, ganze, rationale und reelle Zahlen? Was unterscheidet sie voneinander? Die Antwort auf diese Fragen erhälst du in diesem Lernpfad von mathe-online.at.</p>",
+                                    "age": "5-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/nat_zahl/index.html",
+                            "name": "Rechnen mit natürlichen Zahlen (Grundrechenarten)",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "GRIPS Mathe - Natürliche Zahlen",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/01-natuerliche-zahlen-deutsches-museum100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>In dieser Lektion erlernst du den Umgang mit großen und kleinen Zahlen. Du lernst z. B., wie man sehr große Zahlen ausspricht. Sehr wichtig sind auch die Infos über das Stellenwertsystem.</p>",
+                                    "age": "6-9"
+                                },
+                                {
+                                    "title": "Arbeitsblätter zum schriftlichen Dividieren (zum Downloaden)",
+                                    "link": "http://www.unterrichtsmaterial-schule.de/mathevorschau36.shtml",
+                                    "content": "<p>Bei diesen Aufgaben sind Hilfen mit eingebaut.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Grundrechenarten mit natürlichen Zahlen von 1 bis 20",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/arithmetik/natuerlich/rechnen_nat/uebung_zahlen.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Hier kannst du das Addieren, Subtrahieren, Multiplizieren und Dividieren mit natürlichen Zahlen im Zahlenraum von 1 bis 20 üben. Viel Erfolg!</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Ausdrücke mit Klammern",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/arithmetik/natuerlich/rechnen_nat/uebung_zahlen_klammern.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Bist du fit bei Klammern? Dann leg los!</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Mathe - Wortschatz",
+                                    "link": "http://mathewortschatz.schule.at/mathewortschatz.htm",
+                                    "content": "<p>Im Mathematikunterricht wirst du immer wieder bestimmte Begriffe benötigen. Damit du im Umgang mit diesen Fachausdrücken sicher bist, kannst du sie hier üben.</p>",
+                                    "age": "4-8"
+                                },
+                                {
+                                    "title": "Lernvideo zu den Grundrechenarten",
+                                    "link": "http://www.youtube.com/embed/sU6SCiybn8g?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo werden euch die Begriffe zu den vier Grundrechenarten erklärt. Außerdem wird euch gezeigt, wie man durch Zerlegen der Zahlen geschickter rechnen kann.</p>",
+                                    "age": "5-6"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/teiler/index.html",
+                            "name": "Teiler, Vielfaches",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Basistext und Übungen zum ggT und kgV",
+                                    "link": "https://www.mathe-in-smarties.de/unter-mittelstufe/kgv-ggt/",
+                                    "content": "<p>Auf dieser Seite von Mathe in Smarties kann man einen Basistext und Übungen zum ggT und kgV herunterladen.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Der größte gemeinsame Teiler (Lernvideo)",
+                                    "link": "http://www.youtube.com/embed/QQ-FzODIzig?feature=player_embedded",
+                                    "content": "<p>Der Begriff ggT (größter gemeinsamer Teiler) ist dir&nbsp;sicher schon mal begegnet. Doch was steckt dahinter und wozu braucht man das?</p> <p>Dieses Geheimnis löst das folgende Video von echteinfach.tv. Voraussetzung zum Verstehen ist, dass du weißt, was Primzahlen sind und wie man eine natürliche Zahl in ihre Primfaktoren zerlegt.</p> <p>Das Lernvideo beginnt mit der kurzen Vorstellung des ggT und des kgV. Danach wird nur noch der ggT beschrieben.</p>",
+                                    "age": "6-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/irrationale_Zahl/index.html",
+                            "name": "Die irrationalen Zahlen",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Die irrationalen Zahlen",
+                                    "link": "http://www.youtube.com/embed/evE13aFbJho?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von \"echteinfach.tv\" werden zunächst die Zahlbereiche kurz wiederholt, die du schon kennst. Dann erfährst du, dass √2 nicht rational ist, also sich nicht als Bruch darstellen lässt. Dabei lernst du die Widerspruchsbeweistechnik kennen. Schließlich erfährst du, was der Begriff \"reell\" bedeutet.&nbsp;&nbsp;</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Der Wurzelbegriff und die Wurzelgesetze",
+                                    "link": "http://www.youtube.com/embed/G5enyw6KBRs?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv wird dir erklärt, was sich hinter dem Begriff Wurzel versteckt. Anschließend werden zwei wichtige Wurzelgesetze vorgestellt, die du zum Lösen von Aufgaben benötigst.</p>",
+                                    "age": "8-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/roem_zahl/index.html",
+                            "name": "Römische Zahlen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Selbstlernkurs",
+                                    "link": "http://www.lehrerweb.at/materials/gs/mathe/mathe_aktiv/klasse4/allerlei/roemische_zahlen/f_roemz.htm",
+                                    "content": "<p>Diesen Online-Kurs kannst du selbständig durcharbeiten. Er ist spannend und abwechslungsreich.</p> <p>Du erfährst Vieles über die Römer und ihr System der Zahlen.</p>",
+                                    "age": "5-6"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/bruchre/index.html",
+                            "name": "Bruchrechnung",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "GRIPS Mathe - Bruchzahlen multiplizieren und dividieren",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/06-bruchzahlen-multiplizieren-dividieren-fitnessstudio100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Linda und Gutierry trainieren weiter im Fitnessstudio. Sie haben Schokolade und ein Fitnessgetränk dabei und möchten diese Vorräte gerecht untereinander aufteilen. Um herauszufinden, wie viel jeder von ihnen bekommt, müssen sie Brüche multiplizieren und dividieren.In dieser Lektion lernst du, wie du Brüche multiplizierst und dividierst. Außerdem zeigen wir dir die Kehrwertregel. Begleite Sebastian Wohlrab und seine Schüler ins Fitnessstudio.</p>",
+                                    "age": "6-8"
+                                },
+                                {
+                                    "title": "Was sind Brüche und wie erweitert und kürzt man sie?",
+                                    "link": "http://www.youtube.com/embed/jzy-0AzjVcs?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von \"echteinfach.tv\" erfährst du, was Brüche überhaupt sind. Du lernst, wie man aus der Division einen Bruch macht und wie man Brüche kürzt und erweitert.</p>",
+                                    "age": "6-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/dezimal_zahlen/index.html",
+                            "name": "Dezimalbrüche, Dezimalzahlen",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/zahlenber/ganzzahlen/index.html",
+                            "name": "Ganze Zahlen",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Positive und negative Zahlen addieren und subtrahieren",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmzz11.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>An einem Thermometer kannst du dir die Addition und Subtraktion von ganzen Zahlen veranschaulichen und üben.</p>",
+                                    "age": "7-7"
+                                },
+                                {
+                                    "title": "Rechnen mit ganzen Zahlen",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/zahl/zahlber/ganz",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Was sind ganze Zahlen? Wozu braucht man sie und wie kann man mit ihnen rechnen? Antworten darauf findest du auf der Seite des Landesbildungsservers Baden-Württemberg.</p>",
+                                    "age": "6-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/groessen/index.html",
+                "name": "Größen",
+                "count": 4,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/laengen/index.html",
+                            "name": "Längen, Entfernungen",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/flaechen/index.html",
+                            "name": "Flächen, Flächeninhalte",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/volumen/index.html",
+                            "name": "Volumen, Rauminhalt",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/zeit/index.html",
+                            "name": "Zeit, Zeitspanne",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/gewicht/index.html",
+                            "name": "Gewicht",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/groessen/geld/index.html",
+                            "name": "Geld",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Euromünzen und Euroscheine zum Drucken und Ausschneiden",
+                                    "link": "http://www.unterrichtsmaterial-schule.de/mathevorschau39.shtml",
+                                    "content": "<p>Falls du zum Rechnen Euroscheine brauchst, kannst du diese hier in sehr guter Qualität ausdrucken, zusammenfalten und kleben.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/zuord/index.html",
+                "name": "Zuordnungen, Dreisatz",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Proportionalität und Dreisatz",
+                        "link": "http://www.youtube.com/embed/H-qr53GQeWg?feature=player_embedded",
+                        "content": "<p>Hier lernst du, wie man Dreisatzaufgaben auf verschiedene Art und Weise lösen kann. Suche dir die für dich passende Methode heraus. Außerdem erfährst du, woher der Begriff \"Dreisatz\" kommt.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Zuordnungen in Tabellen und Graphen",
+                        "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/funktionsmaschine/graph_abfragen.html",
+                        "content": "<p>Online-Übungen zum Testen deines Wissens.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "In 3 Sprüngen zum Ergebnis",
+                        "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/funktionsmaschine/proportional1.htm",
+                        "content": "<p>Der Dreisatz bei proportionalen Zuordnungen</p>",
+                        "age": "7-9"
+                    },
+                    {
+                        "title": "Indirekte Proportionalität üben",
+                        "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/indirekt_proportional/kos_index.htm",
+                        "content": "<p>Eine Auswahl von Übungsaufgaben</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Indirekte Proportionalität",
+                        "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/indirekt_proportional/indirekt_proportional.htm",
+                        "content": "<p>Wende den Dreisatz bei indirekter Proportionalität an.</p>",
+                        "age": "7-8"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/prozent/index.html",
+                "name": "Prozent- und Zinsrechnung",
+                "count": 13,
+                "children": [
+                    {
+                        "title": "Der Prozentbegriff",
+                        "link": "http://www.youtube.com/embed/MeewL5ZASPU?feature=player_embedded",
+                        "content": "<p>In diesem Lernvideo von \"echteinfach.tv\" erfährst du zunächst, wie das Prozentzeichen historisch entstanden ist. Anschließend wird der Prozentbegriff anhand vieler Diagramm erklärt.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Einführung in die Zinsrechnung",
+                        "link": "http://www.youtube.com/embed/Q6pp9YgVB2w?feature=player_embedded",
+                        "content": "<p>In diesem Lernvideo von \"echteinfach.tv\" lernst du zunächst die Grundbegriffe der Zinsrechnung kennen. Anschließend wird dir erklärt, warum die Zinsrechnung ein Spezialgebiet der Prozentrechnung ist. Zum Schluß werden typische Aufgaben der Zinsrechnung durchgerechnet.&nbsp;</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Die Zinseszinsformel",
+                        "link": "http://www.youtube.com/embed/QSNXWUQ8wRA?feature=player_embedded",
+                        "content": "<p>Es ist recht mühsam, das Kapital nach mehreren Jahren zu berechnen. Viel einfacher ist die Benutzung der Zinseszinsformel. Sie wird dir in diesem Lernvideo von echteinfach.tv erklärt.</p>",
+                        "age": "7-9"
+                    },
+                    {
+                        "title": "Anleitungen und Übungen zur Prozentrechnung",
+                        "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/basis/prozent_basis/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>In Form von Powerpoint-Präsentation erhälts du Anleitungen in die wichtigsten Grundrechenarten der Prozentrechnung. Interaktive Exceldateien stehen dir zum Üben zur Verfügung.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Wie fit bist du? Zinsen",
+                        "link": "http://www.zum.de/dwu/depothp/hp-math/hpmpz21.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Berechne die Zinsen für unterschiedliche Zinssätze und Laufzeiten. Mit anschließender Kontrolle.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Wie fit bist du? Rabatt und Aufpreis",
+                        "link": "http://www.zum.de/dwu/depothp/hp-math/hpmpz03.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Kannst du mit prozentalen Veränderungen umgehen? Teste dich.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Wie fit bist du? Prozentsätze",
+                        "link": "http://www.zum.de/dwu/depothp/hp-math/hpmpz02.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Überprüfe dich selbst, ob du fit bist?</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Bist du fit? Prozentrechnung",
+                        "link": "http://www.zum.de/dwu/depothp/hp-math/hpmpz01.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Direkt am Bildschirm kannst du dich testen, Prozentwerte zu bestimmen.</p>",
+                        "age": "7-8"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/index.html",
+                "name": "Algebra / Funktionen",
+                "count": 86,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/termumformung/index.html",
+                            "name": "Termumformungen",
+                            "count": 6,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/binom/index.html",
+                            "name": "Binomische Formeln",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Rap über die Binomischen Formeln",
+                                    "link": "http://www.youtube.com/embed/EYbvhWEG6kE?feature=player_detailpage",
+                                    "content": "<p>In diesem Video werden für dich die Binomischen Formeln gerappt. Du kannst nachsingen und so die Formeln auswendig lernen.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/lin_fkt/index.html",
+                            "name": "Lineare Funktionen",
+                            "count": 9,
+                            "children": [
+                                {
+                                    "title": "Mathe-Song: lineare Funktionen",
+                                    "link": "http://www.youtube.com/embed/blY2qdFV4ag?feature=player_detailpage",
+                                    "content": "<p>In diesem Mathe-Song von DorFuchs werden alle Eigenschaften und Rechnungen bezüglich linearer Funktionen besungen. Du kannst mitsingen und dabei lernen für die nächste Mathearbeit.</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Lernpfad: Abhängigkeit zwischen zwei Größen - Funktionen",
+                                    "link": "http://rfdz.ph-noe.ac.at/fileadmin/lernpfade/lernpfad_schnittstelle89_funktionen/index.htm",
+                                    "content": "<p>Ein ganz wichtiger Begriff der Mathematik wird dir in diesem Lernpfad schrittweise erklärt.</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Ein Lernpfad zu den Lineare Funktion",
+                                    "link": "http://rfdz.ph-noe.ac.at/fileadmin/lernpfade/lernpfade_lineare_funktion/index.htm",
+                                    "content": "<p>Folge dem Lernpfad, um alles Wichtige zu den Linearen Funktionen zu erfahren.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Finde die richtige Funktion",
+                                    "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/lineare_funktionen/lineare_funktionen_I.html",
+                                    "content": "<p>Welcher Funktionsgraph gehört zu welcher Gleichung?</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Die Funktionsmaschine",
+                                    "link": "http://www.lehrer-online.de/funktionsmaschine.php?sid=43079646124404028728635183518450",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lehrer_online_logo_180.png\"><p>Es wird Euch anschaulich erklärt, was eine Funktion ist.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Den richtigen Graphen finden",
+                                    "link": "http://www.lehrer-online.de/lineare-funktionen.php?sid=80095826610203452528635203520450",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lehrer_online_logo_180.png\"><p>Ein Sachverhalt wird Euch vorgegeben. Ihr müsst entscheiden, welcher Graph den Sachverhalt beschreibt.&nbsp;</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Steigung einer Geraden",
+                                    "link": "http://www.lehrer-online.de/geradensteigung.php?sid=80095826610203452528635203520980",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lehrer_online_logo_180.png\"><p>Hier lernst du, wie man die Steigung einer linearen Funktion mittels GeoGebra bestimmt.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/lin_gleichung/index.html",
+                            "name": "Lineare Gleichungen und Ungleichungen",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "einfache Äquivalenzumformungen",
+                                    "link": "http://www.youtube.com/embed/OF2AZX9Dl08?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv lernst du, was einfache Äquivalenzumformungen sind und wie man sie zum Lösen von Gleichungen benutzt.</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Löse die Gleichung",
+                                    "link": "http://www.gigers.com/matthias/schule/einfache_Gleichungen.html",
+                                    "content": "<p>Finde die Lösung und überprüfe direkt am Bildschirm.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Finde die Lösungen",
+                                    "link": "http://www.gigers.com/matthias/schule/gleichungen2_korr.html",
+                                    "content": "<p>Löse diese Gleichungen und überprüfe dein Ergebnis direkt anschließend.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Einfache Textaufgaben",
+                                    "link": "http://www.gigers.com/matthias/schule/gleichungen_satzaufgaben01.html",
+                                    "content": "<p>Erstelle zunächst eine Gleichung und finde dann die Lösung.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Wie löst man Ungleichungen?",
+                                    "link": "http://www.mathe-online.at/mathint/ungl/i.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/gleich/allgemein/logo_mathe_online_at.gif\"><p>Was sind Ungleichungen und wie löst man sie? Die Antworten auf diese Fragen erhälst du, indem du die entsprechenden Seiten auf mathe-online.at durcharbeitest.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/verhaeltnisgleichung/index.html",
+                            "name": "Verhältnisgleichungen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Webquest: Der Goldene Schnitt",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/gleich/verh/webquest_goldener_schnitt/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/gleich/verh/webquest_goldener_schnitt/konstruktion_g_s_farbig_verbessert.png\"><p>Liebe Schülerin, lieber Schüler,</p> <ul> <li>du stehst zwischen zwei Noten und möchtest natürlich die bessere haben?</li> <li>du suchst ein Thema für ein Referat?</li> <li>du bist interessiert an Anwendungen der Mathematik in der Natur, in der Kunst oder in der Architektur?</li> </ul> <p>Wenn einer der oben genannten Punkte auf dich zutreffen sollte, dann bist du hier beim Webquest über den Goldenen Schnitt genau richtig.</p> <p>&nbsp;</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/quad_gl/index.html",
+                            "name": "Quadratische Gleichungen",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Arten von Quadratischen Gleichungen und wie löst man das",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/zahl/gleich/qugl/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf dieser Seite und den Unterseiten des Landesbildungsservers Baden-Württemberg werden dir alle Arten von Quadratischen Gleichungen vorgestellt plus den entsprechenden Lösungswegen. Anhand vieler Übungsaufgaben kannst du das Gelernte anwenden.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Bruch-, Wurzel- und biquadratische Gleichungen",
+                                    "link": "http://www.youtube.com/embed/4pB6aUb4D3Y?feature=player_detailpage",
+                                    "content": "<p>In diesem YouTube-Lernvideo wird dir ausführlich erklärt, wie Bruchgleichungen, Wurzelgleichungen und biquadratische Gleichungen gelöst werden.</p>",
+                                    "age": "8-12"
+                                },
+                                {
+                                    "title": "Aufgaben mit Lösungen zu Gleichungen höheren Grades",
+                                    "link": "http://sos-mathe.ch/g/g3/g32/aufg_g32.html",
+                                    "content": "<p>Auf dieser Seite von \"sos-mathe.ch\" findest du viele Lösungsbeispiele für Gleichungen höheren Grades.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Lernpfad: der Satz von Vieta",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/gleich/quad/satz_von_vieta/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Durch die Bearbeitung dieses Lernpfades kannst du den Satz von Vieta selbsttätig entdecken. Du erhältst Informationen über den Mathematiker Vieta und die Möglichkeit, einen Beweis zu führen oder nach zu vollziehen. Abschließend kannst du dich durch Anwendungen vom Nutzen des Satzes überzeugen.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Lösungen ohne Graphen",
+                                    "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/quadratische_gleichungen/index.htm",
+                                    "content": "<p>Löse die Quadratischen Gleichungen durch Rechnen.</p> <p>Nutze die p/q - Formel oder die abc - Formel.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Fit für die Klassenarbeit?",
+                                    "link": "http://tiburski.de/cybernautenshop/virtuelle_schule/dfu/quadratische_funktionen/parabeln_index.htm",
+                                    "content": "<p>Alles Wichtige für die Klassenarbeit üben und in Sachaufgaben anwenden.</p>",
+                                    "age": "8-11"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/wurzel_und_wurzelgesetz/index.html",
+                            "name": "Wurzeln und Wurzelgesetze",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Der Wurzelbegriff und die Wurzelgesetze",
+                                    "link": "http://www.youtube.com/embed/G5enyw6KBRs?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv wird dir erklärt, was sich hinter dem Begriff Wurzel versteckt. Anschließend werden zwei wichtige Wurzelgesetze vorgestellt, die du zum Lösen von Aufgaben benötigst.</p>",
+                                    "age": "8-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/potenz_expo/index.html",
+                            "name": "Potenzfunktion, Exponentialfunktion",
+                            "count": 10,
+                            "children": [
+                                {
+                                    "title": "Der Potenzbegriff und die Potenzgesetze",
+                                    "link": "http://www.youtube.com/embed/53r1DFziz_U?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von \"echteinfach.tv\" werden dir zunächst die wichtigen Begriffe \"Potenz\", \"Exponent\" und \"Basis\" erklärt. Anschließend erfährst du, wie die Potenzgesetze zustandekommen. So musst du sie nicht mehr auswendig lernen. &nbsp;</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "Keine Angst vor Logarithmen",
+                                    "link": "http://www.bescherer.de/webquests/webquests/logarithmus/index.html#quellen",
+                                    "content": "<p>Erkunde das Thema Logarithmen. Nimm dir etwas Zeit (ist für 10 Stunden angesetzt) und folge den Anweisungen des Webquests.</p> <p>&nbsp;</p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Entdecke die Eigenschaften (einfach)",
+                                    "link": "http://www.realmath.de/Neues/Klasse10/potenzfunktion/ggbxhochn.html",
+                                    "content": "<p><span>Welche der nachfolgenden Aussagen sind richtig? Bewege zur Lösungsfindung <strong>x<sub>P</sub></strong> auf der x-Achse und den Parameter <span style=\"color: #ee0000;\"><strong>n</strong></span>.</span></p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Entdecke die Eigenschaften (schon schwieriger)",
+                                    "link": "http://www.realmath.de/Neues/Klasse10/potenzfunktion/aggbxhochn.html",
+                                    "content": "<p><span>Welche der nachfolgenden Aussagen sind richtig? Bewege zur Lösungsfindung <strong>x<sub>P</sub></strong> auf der x-Achse und den Parameter <span style=\"color: #ee0000;\"><strong>n</strong></span>.</span></p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Entdecke die Eigenschaften",
+                                    "link": "http://www.realmath.de/Neues/Klasse10/potenzfunktion/ggbxhochnminus.html",
+                                    "content": "<p><span>Welche der nachfolgenden Aussagen sind richtig? Bewege zur Lösungsfindung <strong>x<sub>P</sub></strong> auf der x-Achse und den Parameter <span style=\"color: #ee0000;\"><strong>n</strong></span>.</span></p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Entdecke die Eigenschaften",
+                                    "link": "http://www.realmath.de/Neues/Klasse10/potenzfunktion/aggbxhochnminus.html",
+                                    "content": "<p><span>Welche der nachfolgenden Aussagen sind richtig? Bewege zur Lösungsfindung <strong>x<sub>P</sub></strong> auf der x-Achse und den Parameter <span style=\"color: #ee0000;\"><strong>n</strong></span>.</span></p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Finde die richtige Funktion",
+                                    "link": "http://www.realmath.de/Neues/Klasse10/potenzfunktion/defpotquiz.html",
+                                    "content": "<p>Welche Funtionsgleichung gehört zu dem vorgegebenen Graphen?</p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Alles über Exponentialfunktionen",
+                                    "link": "http://www.mathematik.net/exponenten/0-inhalt-1.htm",
+                                    "content": "<p>Alle wichtigen Informationen und interaktive Animationen warten auf dich.</p>",
+                                    "age": "10-11"
+                                },
+                                {
+                                    "title": "Exponentialfunktionen",
+                                    "link": "http://www.mathe-online.at/lernpfade/Lernpfad12/",
+                                    "content": "<p>Festigung und Vertiefung des Begriffs \"exponentieller Prozess\". Wiederholung wesentlicher Eigenschaften von Exponentialfunktionen. Erwerb und Übung von Fertigkeiten in der Darstellung. Auseinandersetzung mit Modellen.</p> <p>1. Exponentielle Vorgänge</p> <p>2. Exponentialfunktionen mit verschiedenen Basen</p> <p>3. Exponentielle Prozesse und Modellbildung</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Eigenschaften von Exponentialfunktionen",
+                                    "link": "http://www.mathe-online.at/tests/log/eigenschExp.html",
+                                    "content": "<p>Multiple Choice Test mit Mehrfachantworten</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/logarithmus_und_logarithmusgesetz/index.html",
+                            "name": "Logarithmen und Logarithmengesetze",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Der Logarithmus und die Logarithmengesetze",
+                                    "link": "http://www.youtube.com/embed/oDOXeO9fAg4?feature=player_embedded",
+                                    "content": "<p>Hast du Schwierigkeiten mit den Logarithmen? Wenn du dieses Lernvideo von echteinfach.tv anschaust, dann verstehst du, was der Logarithmus bedeutet und du weißt, wie man auf die ersten beiden Logarithmengesetze kommt.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/algebra_fkt/trigonometrische_funktion/index.html",
+                            "name": "Trigonometrische Funktionen",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "Trigonometrische Berechnungen in rechtwinkligen Dreiecken",
+                                    "link": "http://ne.lo-net2.de/selbstlernmaterial/m/s1ge/rd/rdindex.html",
+                                    "content": "<p>Auf dieser Seite von lo-net.de wird dir ausführlich erklärt, wie der Sinus, der Cosinus und der Tangens definiert sind. Du kannst dein neu erworbenes Wissen anhand zahlreicher Beispiele anschließend einüben.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Definition, Funktionswerte und Abhängigkeiten bei Sinus und Kosinus",
+                                    "link": "https://de.serlo.org/mathe/terme-gleichungen/gleichungen/trigonometrische-gleichungen/sinus-kosinus-tangens",
+                                    "content": "<p>Auf dieser Seite von serlo.org werden Definitionen, Abhängigkeiten, Eigenschaften und Beispielrechnungen für Sinus, Cosinus und Tangens ausführlich vorgestellt und erklärt.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Der Einfluss der Parameter auf trigonometrische Funktionen",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/funktionen/trigonometrie/parameter/parameter_trigonometrische_funktion/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Der Einfluss der Parameter auf das Aussehen des Graphen der Funktion y=a*sin(b*x+c)+d wird in diesem Lernpfad gezeigt und eingeübt.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/geometrie/index.html",
+                "name": "Geometrie",
+                "count": 70,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/geom_grundl/index.html",
+                            "name": "Geometrische Grundlagen",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "GRIPS Mathe - Eigenschaften von Dreiecken, Vierecken, Vielecken",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/30-dreiecke-vierecke-vielecke-fussballplatz100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Was sind die wesentlichen Eigenschaften von Dreiecken, Vierecken und Vielecken? Die Beantwortung dieser Frage und sogar die Konstruktion eines regelmäßigen Achtecks sind die Themen dieser Lektion.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Lernvideo Konstruktion der Winkelhalbierenden",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/geometrie/zirkel/aufg1.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf dieser Seite des Landesbildungsservers Baden-Württemberg wird anhand einer Geogebra-Animation die Konstruktion der Winkelhalbierenden erläutert.</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Grundlegende geometrische Objekte (Lernvideo)",
+                                    "link": "http://www.youtube.com/embed/72dgyXIQlEU?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv werden dir die grundlegenden geometrischen Objekte Punkt, Strecke, Strahl und Gerade sehr anschaulich erklärt.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "das gleichschenklige Trapez mit GeoGebra",
+                                    "link": "http://www.realmath.de/Neues/Klasse8/trapez/trapez.html",
+                                    "content": "Mit dieser Mathematiksoftware kannst du geometrische Konstruktionen durch einfaches Ziehen mit der Maus verändern.",
+                                    "age": "6-10"
+                                },
+                                {
+                                    "title": "Flächeninhalt eines Trapez  mit GeoGebra",
+                                    "link": "http://www.realmath.de/Neues/Klasse9/trapez/flaechetrapez.html",
+                                    "content": "<p>Mit dieser Mathematiksoftware kannst du geometrische Konstruktionen durch einfaches Ziehen mit der Maus verändern.</p>",
+                                    "age": "6-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/Koordinaten/index.html",
+                            "name": "Punkte im Koordinatensystem",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Lernvideo: Das kartesische Koordinatensystem",
+                                    "link": "http://www.youtube.com/embed/VCOukrXw9n8?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv lernst du, wie nützlich die Benutzung des kartesischen Koordinatensystems für die Orientierung ist.&nbsp;</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Punkte in einem Stadtplan bestimmen",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmky01.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Mit Hilfe von Koordinaten kannst du hier Punkte auf einem Stadtplan bestimmen.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Koordinaten können auch negativ sein",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmky02.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Zu vorgegebenen Punkten sollst du die Koordinaten bestimmen. Dabei kommen auch negative Anteile vor.</p>",
+                                    "age": "7-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/dreieck/index.html",
+                            "name": "Dreiecke",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Lernpfad: Dreieck",
+                                    "link": "http://www.mathe-online.at/lernpfade/Dreiecke2d/?kapitel=4",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>In diesem Lernpfad von mathe-online.at lernst du viel über Dreieckskonstruktionen, besondere Punkte im Dreieck und besondere Dreiecke.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Besondere Linien und Punkte im Dreieck",
+                                    "link": "https://de.serlo.org/mathe/geometrie/dreiecke-vierecke-kreise-andere-ebene-figuren/dreieck/besondere-linien-punkte-dreieck",
+                                    "content": "<p>Was sind besondere Linien im Dreieck? Wie konstruiert man beim Dreieck den Umkreis und wie den Inkreis? Die Antworten darauf mit vielen Übungen erhälst du auf dieser Seite von serlo.org.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Kongruenz und Kongruenzsätze",
+                                    "link": "https://de.serlo.org/entity/view/1925",
+                                    "content": "<p>Was bedeutet \"Kongruenz\"? Was sind \"Kongruenzsätze\"? Ausführliche Antworten darauf erhälst du auf dieser Seite von serlo.org.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Lernpfad: Kongruenzsätze in Dreiecken",
+                                    "link": "http://wikis.zum.de/zum/Mathematik-digital/Kongruenzs%C3%A4tze_in_Dreiecken",
+                                    "content": "<p>Was sind Kongruenzsätze im Dreieck und was kann man mit Ihnen anfangen? Die Antwort darau erhälst du beim Durcharbeiten dieses Lernpfads von wikis.zum.de.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Übung: Flächeninhalt des Dreiecks",
+                                    "link": "http://www.realmath.de/Neues/Klasse9/dreieck/dreieckuebung.html",
+                                    "content": "<p>Auf dieser Seite von realmath.de kannst du die Formel für die Flächeninhaltsberechnung beim Dreieck üben.</p>",
+                                    "age": "7-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/viereck/index.html",
+                            "name": "Vierecke",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Lernpfad: Viereckskonstruktion",
+                                    "link": "http://www.mathe-online.at/lernpfade/Viereckskonstruktion/?navig=l",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>Wie funktionieren die Viereckskonstruktionen? Die Antwort darauf und viele Übungen erhälst du auf dieser Seite von mathe-online.at.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Vierecksarten",
+                                    "link": "https://de.serlo.org/mathe/geometrie/dreiecke-vierecke-kreise-andere-ebene-figuren/viereck/rechteck-quadrat/viereck",
+                                    "content": "<p>Auf dieser Seite von serlo.org erfährst du sehr viel Nützliches über die verschiedenen Vierecke.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/pythagoras/index.html",
+                            "name": "Satz des Pythagoras",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "Die Quadratur des Rechtecks",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/dreieckskonstruktion/pythagoras/lernpfad_satzgruppe_pythagoras/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Wie konstruiert man ein flächengleiches Quadrat aus einem Rechteck nur mit Zirkel und Lineal?</p> <p>Diese Frage wird im Lernpfad beantwortet.&nbsp;</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Lernpfad: Pythagoras mit DGS (Geogebra)",
+                                    "link": "http://www.austromath.at/medienvielfalt/materialien/pythagoras3/lernpfad/index.htm",
+                                    "content": "<p>Hier erfährst du alles über Pythagoras und seine Bedeutung für die Mathematik.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Verschiedene interaktive Aufgaben",
+                                    "link": "http://www.zum.de/dwu/umamgs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Bearbeite die 9 Aufgaben&nbsp; hpmsp01 bis hpmsp09 im Absatz \"<span>Pythagoras-Satzgruppe\" der Webseite</span> online.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/strahlensatz/index.html",
+                            "name": "Ähnlichkeit / Strahlensätze",
+                            "count": 9,
+                            "children": [
+                                {
+                                    "title": "Arbeitsblatt zur zentrischen Streckung",
+                                    "link": "http://www.zum.de/dwu/mga501vs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Mit diesem Arbeitsblatt von zum.de kannst du die zentrische Streckung üben.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Konstruktion der zentrischen Streckung",
+                                    "link": "http://www.zum.de/dwu/mga502vs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Mit diesem Mediensatz von zum.de lernst du, bei einer zentrischen Streckung das Streckungszentrum aus Urbild- und Bildpunkten zu konstruieren und anschließend den Streckungsfaktor zu berechnen.&nbsp;</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Ähnlichkeit",
+                                    "link": "https://de.serlo.org/mathe/geometrie/strahlensatz-vierstreckensatz-aehnlichkeit/aehnlichkeit",
+                                    "content": "<p>Auf dieser Seite von serlo.org werden folgende Begriffe schülernah erklärt: Ähnlichkeit, Ähnlichkeitsabbildung, Ähnliche Dreiecke und Ähnlichkeitssätze.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Arbeitsblatt zu Ähnlichkeitssätzen",
+                                    "link": "http://www.zum.de/dwu/mas002vs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Wenn du das Arbeitsblatt richtig ausfüllst, dann hast du die Ähnlichkeitssätze verstanden.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Die Strahlensätze",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/geometrie/strahlensatz",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf dieser Seite des Landesbildungsservers Baden-Württemberg wird sehr anschaulich und sehr schülernah in die Strahlensätze eingeführt. Es folgen zahlreiche Übungen.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Arbeitsblatt zu Strahlensätzen",
+                                    "link": "http://www.zum.de/dwu/mss001vs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Viel Erfolg beim Ausfüllen des Arbeitsblatts zu den Strahlensätzen von zum.de!</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Übung zu den Strahlensätzen",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmss01.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Auf dieser Seite von zum.de kannst du die Strahlensätze üben.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Übung zu den Strahlensätzen bei Zentrum in der Mitte",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmss05.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Auf dieser Seite von zum.de kannst du die Strahlensätze bei einer \"überkreuzten\" Strahlensatzfigur einüben.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Strahlensätze einfach erklärt",
+                                    "link": "https://de.serlo.org/mathe/geometrie/strahlensatz-vierstreckensatz-aehnlichkeit/strahlensatz",
+                                    "content": "<p>Auf dieser Seite von serlo.org werden dir die Strahlensätze sehr gut erklärt.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/Flaechen/index.html",
+                            "name": "Flächen",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Übung zur Umfang- und Flächenberechnung bei Vierecken",
+                                    "link": "http://www.zum.de/dwu/depothp/hp-math/hpmvl11.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Auf dieser interaktiven Seite von zum.de kannst du den Umfang und den Flächeninhalt von Vierecken üben.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/Koerper/index.html",
+                            "name": "Körper",
+                            "count": 9,
+                            "children": [
+                                {
+                                    "title": "GRIPS Mathe - Geometrische Grundbegriffe",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/26-geometrische-grundbegriffe-muenchen100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Anhand einer Schnitzeljagd durch München erfährst du, was die wichtigen Eigenschaften typischer geometrischer Körper sind. So lernst du die wichtigsten geometrischen Grundbegriffe kennen.</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "GRIPS Mathe - Oberfläche Würfel und Körper",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/23-oberflaeche-wuerfel-koerper-kartonagenfabrik100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>In dieser Lektion lernst du anhand von Beispielen in einer Karton-Fabrik, wie man die Oberfläche von Würfeln, Quadern und Zylindern bestimmt.</p>",
+                                    "age": "6-9"
+                                },
+                                {
+                                    "title": "GRIPS Mathe - Volumen Prisma und Zylinder",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/22-volumen-prisma-zylinder-theater100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Was hat ein Schuhkarton mit einem Prisma zu tun? Und warum ist ein Fass ein Zylinder? In dieser Lektion erfährst du es. Heute dreht sich alles um Prismen, Kegel und Dreieckssäulen. Du lernst, wie diese geometrischen Körper aussehen und was ihre wichtigsten Eigenschaften sind. Außerdem zeigen wir dir, wie du das Volumen dieser Körper berechnest. </p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "GRIPS Mathe - Volumen Pyramide und Kegel",
+                                    "link": "http://www.br.de/grips/faecher/grips-mathe/24-volumen-pyramide-werkstatt102.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>In dieser Lektion zeigen wir dir, wie man das Volumen eines Kegels berechnet. Außerdem erfährst du, was gerade Pyramiden sind und wie man ihr Volumen ermittelt. Körper, die aus mehreren geometrischen Körpern bestehen, nennt man zusammengesetzte Körper. Auch von diesen Körpern sehen wir uns das Volumen näher an. Und schließlich zeigen wir dir noch, wie man die Masse eines Körpers berechnet.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Volumen des Quaders berechnen - Lernen in 3D",
+                                    "link": "http://www.youtube.com/embed/2yF-n9rvGII?feature=player_embedded",
+                                    "content": "<p>In diesem Lernvideo von echteinfach.tv lernt ihr, wie man das Volumen eines Quaders bestimmt. Es wird euch auch anschaulich anhand von 3-D-Grafiken erklärt, was ihr euch unter einem bestimmten Volumen, hier 24 m³, vorstellen könnt.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Schrägbilder",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/raum/prismen/schraegbild/schraegbild/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad lernt ihr, wie man Schrägbilder von Quadern und Pyramiden zeichnet.</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "Volumen von Quadern",
+                                    "link": "http://www.realmath.de/Neues/Klasse5/volumen/quadervolumen.html?mvy=360&wertung=",
+                                    "content": "<p>Probiere selbst aus, wieviele Würfel mit 1cm³ in einen Quader hinein passen</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Volumen von Würfeln",
+                                    "link": "http://www.realmath.de/Neues/Klasse5/volumen/wuerfelvolumen.html?mvy=729&wertung=",
+                                    "content": "<p>Entdecke selbst, wieviele cm³ in einen Würfel passen.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Würfel und Quader kombiniert",
+                                    "link": "http://www.realmath.de/Neues/Klasse5/volumen/quaderrest.html",
+                                    "content": "<p>Hier kannst du deine Kenntnisse über Quader und Würfel sinnvoll einsetzen.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/zusammengesetzter_koerper/index.html",
+                            "name": "Zusammengesetzte Körper",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Zusammengesetzte Körper mit ausführlicher Lösung I",
+                                    "link": "http://www.zum.de/dwu/depot/AuB-zgKoerper.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>In diesem pdf-Dokument von zum.de findest du sehr interessante Aufgaben zu zusammengesetzten Körpern.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Zusammengesetzte Körper mit ausführlicher Lösung II",
+                                    "link": "http://www.zum.de/dwu/depot/AuBL-zusgesKoerper.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Hier findet man die Lösungen zu \" Zusammengesetzte Körper mit ausführlicher Lösung I\".</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Serlo: Aufgaben zur Berechnung des Volumens zusammengesetzter Körper",
+                                    "link": "https://de.serlo.org/mathe/geometrie/raeumliche-figuren/volumen-massenberechnung/aufgaben-berechnung-volumens-zusammengesetzter-koerper",
+                                    "content": "<p>Du hast Schwierigkeiten mit der Berechnung des Volumens zusammengesetzter Körper? Dann bist du auf dieser Seite von serlo.org mit Aufgaben und aufklappbaren Lösungen zur Berechnung des Volumens zusammengesetzter Körper genau richtig.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/platonischer_koerper/index.html",
+                            "name": "Platonische Körper",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/koerpernetz/index.html",
+                            "name": "Körpernetze",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Serlo: Körpernetze",
+                                    "link": "https://de.serlo.org/mathe/geometrie/raeumliche-figuren/schraegbilder-koerpernetze/koerpernetze",
+                                    "content": "<p>Auf dieser Seite von serlo.org erfährst du viel Wichtiges über Körpernetze vor allem über Netze eines Würfels.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Mediensatz Volumen und Netz beim Quader",
+                                    "link": "http://www.zum.de/dwu/mkb003vs.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>Auf diesem Arbeitsblatt von zum.de kannst du das Volumen und das Netz eines Quaders einüben.</p>",
+                                    "age": "5-6"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/kugel/index.html",
+                            "name": "Kugel",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Lernpfad zur Kugel",
+                                    "link": "http://www.mathe-online.at/lernpfade/koerper/?kapitel=8",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>Dies ist ein Lernpfad zum Thema Kugel auf mathe-online.at.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Serlo: Kugel",
+                                    "link": "https://de.serlo.org/mathe/geometrie/raeumliche-figuren/volumen-massenberechnung/kugel",
+                                    "content": "<p>Auf dieser Seite von serlo.org werden die Eigenschaften von Kugeln, Formeln für den Oberflächeninhalt und das Volumen der Kugel mit zahlreichen Aufgaben mit Lösungen vorgestellt.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Klapptest: Kugel",
+                                    "link": "http://ne.lo-net2.de/selbstlernmaterial/m/s1ge/ku/ku_kt1.pdf",
+                                    "content": "<p>Mit diesem Klapptest von lo-net2.de kannst du ale wichtigen Formeln bezogen auf die Kugel üben.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/Trigonometrie/index.html",
+                            "name": "Trigonometrie",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "Winkelwerte im Bogenmaß",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/geometrie/trig/boma.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf dieser Seite des Landesbildungsservers Baden-Württemberg wird interaktiv in das Bogenmaß eingeführt.</p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Lernvideo: Sinussatz",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/tri/sinussatz_kosinussatz/edu_tube_1438069814.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Was ist der Sinussatz? Wie wendet man ihn an? Antworten darauf bekommst du in diesem Lernvideo von www.mathe-video.com.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Mathe-Song Sinussatz",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/tri/sinussatz_kosinussatz/edu_tube_1438073259.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Schreibst du bald eine Arbeit über den Sinussatz? Dann singe mehrmals mit und du kannst dir dank Dorfuchs sowohl den Satz als auch dessen Herleitung sehr gut einprägen.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Mathe-Song: Kosinussatz",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/tri/sinussatz_kosinussatz/edu_tube_1438077138.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Du musst für die kommende Klausur den Kosinussatz und dessen Herleitung auswendig wissen? Dann bist du hier genau richtig. Sing nach!</p>",
+                                    "age": "4-5"
+                                },
+                                {
+                                    "title": "Übungen: Berechnung von beliebigen Dreiecken",
+                                    "link": "http://ne.lo-net2.de/selbstlernmaterial/m/s1ge/tb/tbindex.html",
+                                    "content": "<p>Auf dieser lo-net-Seite findest du die verschiedensten Übungen zur Berechnung von beliebigen Dreiecken zum Selbstlernen.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "Sinussatz und Kosinussatz im allgemeinen Dreieck",
+                                    "link": "https://de.serlo.org/mathe/geometrie/sinus-cosinus-tangens/sinussatz-kosinussatz/sinussatz-kosinussatz-allgemeinen-dreieck",
+                                    "content": "<p>Auf dieser Seite von serlo.org wird der Sinus- und Kosinussatz auch unter Zuhilfename eines Lernvideos sehr gut erklärt.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/kreis/index.html",
+                            "name": "Kreise",
+                            "count": 8,
+                            "children": [
+                                {
+                                    "title": "Tangente an Kreis konstruieren",
+                                    "link": "https://de.serlo.org/mathe/geometrie/tangenten-sekanten-kreis/tangente-kreis-konstruieren",
+                                    "content": "<p>Wie konstruiert man die Kreistangente? Die Antwort auf diese Frage erhälst du auf dieser interaktiven Seite von serlo.org.</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Tangentenkonstruktionen am Kreis mit Zirkel und Lineal",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/geometrie/zirkel/tang",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Wie konstruiere ich die Tangenten am Kreis und welche Fälle sind zu unterscheiden? Die Antworten darauf erhälst du interaktiv auf dieser Seite des Landesbildungsservers Baden-Württemberg.</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Die Kreiszahl Pi",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/kreis/kreiszahl_pi/lernpfad_pi/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p><img style=\"margin: 10px;\" src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/geometrie/kreis/kreiszahl_pi/lernpfad_pi/pi_spirale.jpg\"height=\"99\"></p> <p>Die Kreiszahl&nbsp;π ist eine der faszinierendsten und wichtigsten Konstanten in der Mathematik. In diesem Lernpfad lernst du viele interessante Aspekte von π kennen und erhältst u. a. Antworten auf folgende Fragen:</p> <ul> <li>Wie ist&nbsp;π definiert?</li> <li>Ist π wie √2 irrational?</li> <li>In welchen Gleichungen taucht π auf?</li> <li>Wie kann man möglichst viele Stellen von&nbsp;π berechnen?</li> </ul>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Serlo: Berechnungen am Kreis",
+                                    "link": "https://de.serlo.org/mathe/geometrie/dreiecke-vierecke-kreise-andere-ebene-figuren/kreise-kreisteile/berechnungen-kreis",
+                                    "content": "<p>Auf dieser Seite von serlo.org werden die wichtigsten Berechnungsformeln für den Kreis wie Umfang, Kreisfläche, Kreisbogenlänge und Sektorfläche vorgestellt. Ein Video und viele Übungen mit Lösungen ergänzen das Gelernte.</p>",
+                                    "age": "8-9"
+                                },
+                                {
+                                    "title": "Beweis des Umfangswinkelsatzes",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/geometrie/uws/uws_beweis",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Was ist der Umfangswinkelsatz und wie kann man ihn beweisen? Die Antwort darauf mit zahlreichen vertiefenden Übungen erhältst du auf dieser Seite des Landesbildungsservers Baden-Württemberg.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Winkel am Kreis",
+                                    "link": "http://ne.lo-net2.de/selbstlernmaterial/m/s1ge/fk/fkindex.html",
+                                    "content": "<p>Auf dieser Seite von lo-net.de findest du zahlreiche Beweise und Übungen zum Umfangswinkelsatz und zum Satz des Thales.</p>",
+                                    "age": "7-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geometrie/geometrische_abbildung/index.html",
+                            "name": "geometrische Abbildungen",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Drehung und Drehsymmetrie",
+                                    "link": "http://ne.lo-net2.de/selbstlernmaterial/m/s1ge/dr/drindex.html",
+                                    "content": "<p>Du möchtest wissen, wie die Drehung funktioniert? Dann bist du auf dieser Seite von lo-net2.de genau richtig.</p>",
+                                    "age": "6-8"
+                                },
+                                {
+                                    "title": "Aufgabe zur Parallelverschiebung",
+                                    "link": "http://www.realmath.de/Neues/Klasse7/paralufg1a.html",
+                                    "content": "<p>Auf dieser Seite von realmath.de kannst du die Parallelverschiebung üben.</p>",
+                                    "age": "6-9"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/wahrscheinlichkeitsrechnung/index.html",
+                "name": "Wahrscheinlichkeitsrechnung",
+                "count": 12,
+                "children": {
+                    "GRIPS: Lernen mal anders": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/wahrscheinlichkeitsrechnung/wahrscheinlichkeit_ereignis/index.html",
+                            "name": "Wahrscheinlichkeit von Ereignissen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Wahrscheinlichkeiten beim Roulette",
+                                    "link": "http://www.realmath.de/Neues/Klasse7/stochastik/roulette01.html",
+                                    "content": "<p>Hier lernst du, wie man einfache Wahrscheinlichkeiten beim Roulette bestimmt. Außerdem lernst du auch das Roulette-Spiel an sich kennen.</p>",
+                                    "age": "7-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/wahrscheinlichkeitsrechnung/haeufigkeit/index.html",
+                            "name": "Häufigkeitsverteilungen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "ZUM-Lernpfad: Relative Häufigkeit und das Gesetz der großen Zahlen",
+                                    "link": "http://wikis.zum.de/zum/Mathematik-digital/Relative_H%C3%A4ufigkeit",
+                                    "content": "<p>Was ist die relative Häufigkeit? Was bedeutet das Gesetz der großen Zahlen? Antworten darauf erhälst du auf dieser Seite von zum.de.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/wahrscheinlichkeitsrechnung/mehrstufig_zufallsversuch/index.html",
+                            "name": "Mehrstufige Zufallsversuche",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Grundbegriffe zur Wahrscheinlichkeitsrechnung",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/mathematisch-naturwissenschaftliche-faecher/mathematik/unterrichtsmaterialien/sekundarstufe1/zufall/fortbildung",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Du willst dir einen Überblick über die Wahrscheinlichkeitsrechnung verschaffen. Dann bist du auf dieser Seite des Landesbildungsservers Baden-Württemberg genau richtig, auf der viele Grundbegriffe sehr gut erklärt werden.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Baumdiagramm",
+                                    "link": "https://de.serlo.org/mathe/artikel-und-videos-aus-serlo1/baumdiagramm",
+                                    "content": "<p>Wie wird ein Baumdiagramm erstellt? Die Antwort darauf erhälst du auf dieser Seite von serlo.org.</p>",
+                                    "age": "6-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/wahrscheinlichkeitsrechnung/statistik/index.html",
+                            "name": "Statistik",
+                            "count": 8,
+                            "children": [
+                                {
+                                    "title": "Videoclip zu wichtigen Begriffen",
+                                    "link": "http://www.mathe-online.at/clips/mwstdabw/index.html",
+                                    "content": "<p>Die Begriffe Mittelwert und Standardabweichung werden erklärt.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Lernpfad: Beschreibende Statistik",
+                                    "link": "http://www.mathe-online.at/lernpfade/statistik_pestalozzi/?kapitel=7",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>Wie sehen Statistiken aus? Wie erhebt man Daten und wie erstellt man Diagramme? Antworten darauf erhälst du beim Durcharbeiten dieses Lernpfads auf mathe-online.at.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Lernpfad: Untersuchung von Datenmengen",
+                                    "link": "http://www.mathe-online.at/lernpfade/Lernpfad796/?kapitel=2",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/mathematik/logos/logo_mathe_online_at.gif\"><p>We gehst du bei der Untersuchung von Datenmengen vor? Die Antwort darauf erhälst du in diesem Lernpfad von mathe-online.at.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Arithmetisches Mittel",
+                                    "link": "http://www.realmath.de/Neues/Klasse6/datenundzufall/arithmetischesmittel.html",
+                                    "content": "<p>Lass dir erklären, wie man das arithmetische Mittel bildet.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Was ist die Spannweite?",
+                                    "link": "http://www.realmath.de/Neues/Klasse6/datenundzufall/spannweite.html",
+                                    "content": "<p>Erklärung und Übungsmöglichkeiten.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Den Zentralwert berechnen",
+                                    "link": "http://www.realmath.de/Neues/Klasse6/datenundzufall/zentralwert.html",
+                                    "content": "<p>Erklärung und Online-Übungen.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Der Modalwert",
+                                    "link": "http://www.realmath.de/Neues/Klasse6/datenundzufall/modalwert.html",
+                                    "content": "<p>Erklärung und Übung.</p>",
+                                    "age": "6-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/Quiz-Spiele/index.html",
+                "name": "Quiz und Spiele",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Can you escape? - Digitaler Escape-Room Mathematik",
+                        "link": "https://icse.ph-freiburg.de/schule/escaperoom-mathematik-start/escape-room-hauptraum/",
+                        "content": "<img src=\"https://icse.ph-freiburg.de/wp-content/uploads/2018/Logos/ICSE_Logo_final.png\"><p>Du bist Detektiv*in aus Leidenschaft und liebst es knifflige Rätsel und spannende Aufgaben zu lösen? Dann bist du hier genau richtig!</p> <p>Löse verschiedene mathematische Rätsel, knacke so den Zahlencode für das Zahlenschloss des Escape-Rooms und dann nichts wie weg!</p>",
+                        "age": "5-9"
+                    },
+                    {
+                        "title": "Wer wird Millionär?",
+                        "link": "http://www.spiel.mathemind.de/",
+                        "content": "<p>Wer wird Mathe-Millionär? Wenn Ihr viel gewinnen wollt, müsst Ihr viel wissen.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Wer wird Millionär? Zur Bruchrechnung",
+                        "link": "http://www.bruchquiz.mathemind.de/",
+                        "content": "<p>Wie bei \"Wer wird Millionär?\" werden die Fragen des Quiz zunehmend schwerer. Es stehen 3 Joker zur Verfügung.</p> <p>Die Fragen beziehen sich ausschließlich auf die Bruchrechnung.</p>",
+                        "age": "6-9"
+                    }
+                ]
+            }
+        ],
+        "Weitere Informationen": [
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/pruefung/index.html",
+                "name": "Abschlussprüfungen",
+                "count": 6,
+                "children": [
+                    {
+                        "title": "Jahrgangsstufentest Klasse 8 von 2008",
+                        "link": "http://wiki.zum.de/Jahrgangsstufentest/BMT8_2008",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum.gif\"><p>Hier kannst du dein Mathewissen testen.</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Jahrgangsstufentest Klasse 8 von 2007",
+                        "link": "http://wiki.zum.de/Jahrgangsstufentest/BMT8_2007",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum.gif\"><p>Teste dein Mathewissen!</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Jahrgangsstufentest Klasse 10 von 2008",
+                        "link": "http://wiki.zum.de/Jahrgangsstufentest/BMT10_2008",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum.gif\"><p>Hier kannst du dein Mathewissen testen.</p>",
+                        "age": "9-10"
+                    },
+                    {
+                        "title": "Lernvideo: Matheprüfung 2014 Aufgabenblock 1",
+                        "link": "http://www.youtube.com/embed/813MXSs_EU8?feature=player_detailpage",
+                        "content": "<p>In diesem Lernvideo von echteinfach.tv werden dir Aufgaben vorgestellt, wie sie auch in der Matheprüfung vorkommen können. Idealerweise stoppst du das Lernvideo nach der Aufgabenstellung und probierst dann, die Aufgabe selbstständig zu lösen. Danach schaust du dir das Video einfach weiter an und überprüfst, ob deine Lösung korrekt ist oder ob du noch etwas Wichtiges lernen kannst.</p>",
+                        "age": "9-10"
+                    },
+                    {
+                        "title": "Lernvideo: Matheprüfung 2014 Aufgabenblock 2",
+                        "link": "http://www.youtube.com/embed/JAHObUt7pmQ",
+                        "content": "<p>In diesem Lernvideo von echteinfach.tv werden dir Aufgaben vorgestellt, wie sie auch in der Matheprüfung vorkommen können. Idealerweise stoppst du das Lernvideo nach der Aufgabenstellung und probierst dann, die Aufgabe selbstständig zu lösen. Danach schaust du dir das Video einfach weiter an und überprüfst, ob deine Lösung korrekt ist oder ob du noch etwas Wichtiges lernen kannst.</p>",
+                        "age": "9-10"
+                    },
+                    {
+                        "title": "Lernvideo: Matheprüfung 2014 Aufgabenblock 3",
+                        "link": "http://www.youtube.com/embed/ZNdHDIFzlMw",
+                        "content": "<p>In diesem Lernvideo von echteinfach.tv werden dir Aufgaben vorgestellt, wie sie auch in der Matheprüfung vorkommen können. Idealerweise stoppst du das Lernvideo nach der Aufgabenstellung und probierst dann, die Aufgabe selbstständig zu lösen. Danach schaust du dir das Video einfach weiter an und überprüfst, ob deine Lösung korrekt ist oder ob du noch etwas Wichtiges lernen kannst.</p>",
+                        "age": "9-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/index.html",
+                "name": "Geschichte der Mathematik",
+                "count": 6,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/mathematiker/index.html",
+                            "name": "Berühmte Mathematikerinnen und Mathematiker",
+                            "count": 6,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/mathematiker/allgemeines/index.html",
+                                        "name": "Allgemeine Informationen",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Informationen über Mathematiker",
+                                                "link": "http://mathematica.ludibunda.ch/mathematicians-de.html",
+                                                "content": "<p>Auf diesen Seiten findest du Informationen zu bedeutenden Mathematikerinnen und Mathematikern.</p>",
+                                                "age": "4-12"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/mathematiker/persoenlichkeiten/index.html",
+                                        "name": "Persönlichkeiten",
+                                        "count": 5,
+                                        "children": {
+                                            "default": [
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/mathematiker/persoenlichkeiten/gauss/index.html",
+                                                    "name": "Gauß, Carl Friedrich",
+                                                    "count": 4,
+                                                    "children": [
+                                                        {
+                                                            "title": "Wer war eigentlich C. Friedrich Gauß?",
+                                                            "link": "https://lernarchiv.bildung.hessen.de/grundschule/mathematik/geschichte/mathematiker/gauss/index.html",
+                                                            "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Erfahre in diesem Webquest Wissenswertes und Informatives über den Mathematiker Carl Friedrich Gauß.</p> <p>&nbsp;</p> <p></p>",
+                                                            "age": "4-5"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/mathematik/geschichte_mathe/mathematiker/persoenlichkeiten/moebius/index.html",
+                                                    "name": "Möbius, August Ferdinand",
+                                                    "count": 1,
+                                                    "children": [
+                                                        {
+                                                            "title": "Möbiusringe",
+                                                            "link": "https://www.labbe.de/search?search=moebiusringe",
+                                                            "content": "<p>Bastle Möbiusringe und verblüffe deine Freunde.</p>",
+                                                            "age": "4-6"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/wichtige_formel/index.html",
+                "name": "wichtige Matheformeln",
+                "count": null,
+                "children": {}
+            },
+            {
+                "link": "https://select.bildung.hessen.de/mathematik/mathematik_und_physik/index.html",
+                "name": "Mathematik und Physik",
+                "count": 1,
+                "children": {}
+            }
+        ]
+    }
+}

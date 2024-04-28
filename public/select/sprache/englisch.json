@@ -1,0 +1,1209 @@
+{
+    "link": "englisch/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_englisch.png",
+    "text": "Englisch",
+    "content": {
+        "Methoden, Skills und Lerntechniken": [
+            {
+                "link": "https://select.bildung.hessen.de/englisch/arbeitstechniken/index.html",
+                "name": "Wörterbücher, Lerntipps und Arbeitshilfen",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Lerntipps",
+                        "link": "http://www.ego4u.de/de/cram-up/learning",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>\"Kleine Lerntipps machen das Leben leichter. Wir zeigen dir, wie du mit mehr Spaß besser Englisch lernst.\"</p> <p>(Quelle: Anbieter / ego4u.de)</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Kontextwörterbuch",
+                        "link": "https://linguatools.com/deutsch-englisch/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/linguatools_logo_180.png\"><p>Du suchst ein Wort auf Englisch und möchtest gleichzeitig wissen, in welchem sprachlichen Zusammenhang du es anwendest? Trage den Begriff in das Suchfeld oben ein. Du erhältst die Übersetzung und zahlreiche Beispiele für seinen Gebrauch.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Gedächtnistechniken",
+                        "link": "http://www.pohlw.de/lernen/kurs/lern-08.htm",
+                        "content": "<p>Hier werden verschiedene Techniken vorgestellt, mit denen du dir Vokablen, Fakten usw. nachhaltiger einprägen kannst.</p>",
+                        "age": "5-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/skills/index.html",
+                "name": "Skills",
+                "count": 21,
+                "children": [
+                    {
+                        "title": "How to write a Summary (video)",
+                        "link": "https://www.youtube.com/watch?v=dsB73dRuGcE",
+                        "content": "<p>Du musst eine summary schreiben? Schau dir das Video an...</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "An Academic Writing Module: Paragraphs",
+                        "link": "https://www.wgtn.ac.nz/llc/llc_resources/academic-writing/",
+                        "content": "<p>Ein Lernmodul für Lernende mit Übungen zu 'Topic Sentences' und zu 'Paragraphs'.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Debating: Common Debating Phrases",
+                        "link": "https://esldebates.com/common-debating-phrases-2/",
+                        "content": "<p>\"Using the right language at the appropriate time is essential for any debate worth its salt. Use these phrases to help shore up your debating tone and style.\"</p> <p>Download Worksheets- PDF formatted:</p> <p>Debate phrases and debating structure PDF<br>Informal-phrases-and-structure PDF<br>Formal phrases and structure PDF</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "discussion phrases",
+                        "link": "https://www.youtube.com/watch?v=FOf9S4davN8",
+                        "content": "<p>Sich auf Englisch in eine Diskussion einzubringen ist nicht einfach - schließlich solltest Du präsentieren, nachfragen, einordnen und vieles mehr.</p> <p>Hier findest Du gute discussion phrases, die Dir helfen können Dich besser in Diskussionen einzubringen.&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "How to do a written discussion",
+                        "link": "https://www.youtube.com/watch?v=pYBVOy7TmWY",
+                        "content": "<p>deutschsprachiges Video (5 min) zum Verfassen einer schriftlichen Erörterung im Englischunterricht mit vielen englischen Beispielen.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "How to write an essay",
+                        "link": "http://www.howtowriteanessay.com/index.html",
+                        "content": "<p>Es ist manchmal nicht einfach, ein Essay zu schreiben. Diese Seite hilft dir dabei mit wichtigen Tipps: Ideensammlung, Struktur, Formulierungen etc. </p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "How to Choose a Winning Topic for Essay Writing: Guide for Students",
+                        "link": "https://essaysheaven.com/blog/essay-topics",
+                        "content": "<p>\"Essay writing is always something special for students. Most of us do not like those tasks with no certain topic. While it is clear how to write and edit your essay, students not always know how to choose the right theme.\"</p> <p>Quelle: Anbieter, 2022</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "How to structure a good PowerPoint Presentation",
+                        "link": "https://slidelizard.com/en/blog/good-presentation-structure",
+                        "content": "<p>Ein kompakter Überblick über die unterschiedlichen Phasen von der Planung über die Struktrierung bis hin zu grundsätzlich unterschiedlichen Arten von Präsentationen (Short Presentation, Problem Solving Presentation, Tell a Story etc.).</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "How to make a great presentation - TED Talk videos",
+                        "link": "https://www.ted.com/playlists/574/how_to_make_a_great_presentation",
+                        "content": "<p>\"Stressed about an upcoming presentation? These talks are full of helpful tips on how to get up in front of an audience and make a lasting impression.\"</p> <p>(Quelle: Anbieter / TED.com, 2022)</p> <p>Die Plattform der berühmten TED Talks hat hier eine Playliste von Videos zusammengestellt, die sich mit den folgenden Themen befassen:</p> <p>The secret structure of great talks</p> <p>The beauty of data visualization</p> <p>TED's secret to great public speaking</p> <p>How to speak so that people want to listen</p> <p>How great leaders inspire actions</p> <p>&nbsp;</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Good Presentation VS Bad Presentation",
+                        "link": "https://www.youtube.com/watch?v=V8eLdbKXGzk",
+                        "content": "<p>Was ist der Unterschied zwischen einer guten und einer nicht so guten Präsentation?</p> <p>Was kann ich besser machen? Worauf kommt es an?</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Präsentation Englisch",
+                        "link": "https://www.studysmarter.de/schule/englisch/englische-texte-schreiben/praesentation-englisch/",
+                        "content": "<p>hilfreiche Tipps (Vorbereitung, Aufbau, englische Phrasen...) für Präsentationen in englischer Sprache</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Präsentationen auf Englisch halten: Einleitung, Gliederung, Schluss &amp; Phrasen",
+                        "link": "https://slidelizard.com/de/blog/presentation-in-english",
+                        "content": "<p>Hier findest Du Tips und hilfreiche Informationen, die Dir beim Halten einer englischen Präsentation helfen werden.&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Handreichung für die mündliche Kommunikationsprüfung in den modernen Fremdsprach ...",
+                        "link": "https://kultusministerium.hessen.de/infomaterial/Handreichung-fuer-die-muendliche-Kommunikationspruefung-in-den-modernen-Fremdsprachen-der",
+                        "content": "<p>Die Handreichung stellt eine Orientierungshilfe für Prüferinnen und Prüfer zur Erstellung von mündlichen Kommunikationsprüfungen dar und bietet exemplarische Modellprüfungen. Dabei können die hier vorgelegten Modellprüfungen für die Fächer Englisch und Französisch als Leitlinie zur Erstellung von Prüfungen in anderen modernen Fremdsprachen dienen.</p> <p><strong>Auflage:&nbsp;</strong>2. Auflage, Januar 2020</p> <p><strong>Umfang:&nbsp;</strong>25 Seiten DIN A4 (Broschüre)</p> <p><a href=\"https://kultusministerium.hessen.de/sites/kultusministerium.hessen.de/files/2021-08/handreichung_muendliche_kommunikationsp._moderne_fremdsprachen.pdf\">Direkter PDF-Download.</a></p>",
+                        "age": "12-13"
+                    },
+                    {
+                        "title": "Kommunikationsprüfung Englisch (Bob Blume)",
+                        "link": "https://bobblume.de/2017/05/02/kommunikationspruefung-englisch/",
+                        "content": "<p>Umfangreiche Sammlung von Informationen und praktischen Tipps rund um die Kommunikationsprüfung von Bildungs-Blogger Bob Blume.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "How to Write a Movie Review",
+                        "link": "https://www.masterclass.com/articles/how-to-write-a-movie-review#5-tips-for-writing-a-movie-review",
+                        "content": "<p>\"Whether it’s for pleasure or a job assignment, writing a good movie review can be a useful exercise that allows you to explore your personal connection to a film. If you’ve recently watched a film and want to share your opinions about it, there are a few best practices that can help you compose a balanced, thoughtful, and entertaining movie review.\"</p> <p>Quelle: Anbieter (masterclass.com / 2022)</p> <p>Diese kompakte Ressource ist in folgende Abschnitte aufgeteilt:</p> <p>What Is a Movie Review?<br>How to Write a Movie Review<br>5 Tips for Writing a Movie Review</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "How to Write a Film Review",
+                        "link": "https://jochenlueders.de/?p=7161",
+                        "content": "<p>&nbsp;Was ist beim Verfassen eines Film Reviews zu beachten?</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "difference \"comment on\" and \"discuss\"",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/englisch/skills/discuss/commenton-discuss-difference.pdf",
+                        "content": "<p>Was ist der Unterschied?</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Creative Writing Prompts For Middle School students",
+                        "link": "https://www.immerse.education/study-tips/creative-writing/middle-school-prompts/",
+                        "content": "<p>Bist Du auf der Suche nach guten Ideen, worüber Du in dein Journal schreiben könntest.&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Creative Writing five top tips",
+                        "link": "https://www.youtube.com/watch?v=LeYM8TKGEyc",
+                        "content": "<p>How to improve my writing skills?&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "How to write a Summary - 3 Steps",
+                        "link": "https://www.youtube.com/watch?v=4hbMrU4UWPM",
+                        "content": "<p>Wie schreibe ich eine Summary?</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Everything You Need To Know About Writing a Summary",
+                        "link": "https://languagetool.org/insights/post/how-to-write-a-summary/",
+                        "content": "<p></p><ul> <li>What is a Summary?</li> <li>How To Write a Summary in Five Easy Steps</li> <li>Example of a Summary</li> <li>Tips on Writing a Good Summary</li> </ul><p></p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/hoeren/index.html",
+                "name": "Hören",
+                "count": 6,
+                "children": [
+                    {
+                        "title": "A Cup of English",
+                        "link": "http://acupofenglish.libsyn.com/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/acupofenglishpodcast.jpg\"><p>Ein Podcast mit einfachen Texten zu den unterschiedlichsten Themen.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Randall's ESL Cyber Listening Lab",
+                        "link": "http://www.esl-lab.com/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/esl-cyber-listening-lab.png\"><p>Hier findest du Tonaufnahmen mit englischen Muttersprachlern. Zu jeder Aufnahme gibt es ein interaktives Quiz. Damit kannst du dein Hörverstehen trainieren. </p>",
+                        "age": "7-11"
+                    },
+                    {
+                        "title": "10 of the Best Songs for Learning English",
+                        "link": "https://www.bsceducation.com/blog/best-songs-for-learning-english/",
+                        "content": "<p>Sometimes it can be difficult to stay inside and study English in the traditional ways. That’s why we’ve made a list of some of our favourite songs for learning English, so that you can practise your language skills wherever you are!</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Podcasts zum Englischlernen auf unterschiedlichem Niveau",
+                        "link": "https://learnenglish.britishcouncil.org/general-english/audio-series/podcasts/podcasts-series-1/episode-02",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/british-council-logo.jpg\"><p>Niveau von A1 bis B1. Jeder Podcast enthält ein Transkript zum Nachlesen.&nbsp;</p> <p>&nbsp;</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Learn with Lyrics",
+                        "link": "https://www.learningenglishmatters.com/category/learn-with-lyrics/",
+                        "content": "<p>Songs anhören, um Dein Englisch zu verbessern...</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Englische Podcasts",
+                        "link": "https://www.bbc.co.uk/learningenglish/podcasts",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/bbc_onlylogo.png\"><p>Viele Podcasts zu unterschiedlichen Themen zum kostenlosen Download von BBC.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/lesen/index.html",
+                "name": "Lesen",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "100 short stories",
+                        "link": "http://rong-chang.com/qa2/index.html",
+                        "content": "<p>Kostenlose englische Kurzgeschichten als Text und Audioaufnahmen, mit Übungen, Vokabular etc. </p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Short stories",
+                        "link": "http://www.world-english.org/stories.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/worldenglish.png\"><p>Einer der besten Wege um Englisch zu lernen ist das Lesen von Short stories. Hier findest du eine Sammlung klassischer Kurzgeschichten von so berühmten Schriftsteller:innen wie Jospeh Conrad, Charles Dickens, Sir Arthur Conan Doyle, Jack London, Edgar Allen Poe, Virginia Wolff und vielen anderen.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Poetry Out Loud",
+                        "link": "https://www.poetryoutloud.org/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/poetryoutloud.png\"><p>Hier findest du eine umfangreiche Sammlung von englischsprachigen Gedichten, nach Themen sortiert.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Lesetexte",
+                        "link": "https://www.englischlehrer.in/index.php?actualid=20&which_set=19",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/msve_180.png\"><p>Hier kannst du das Lesen von kurzen Texten üben. Es findet sich eine Angebot zu einer weiten Themenvielfalt mit Vokabelangaben und Fragen zum Textverständnis.</p>",
+                        "age": "6-10"
+                    },
+                    {
+                        "title": "The Online Books Page - Free Online Books",
+                        "link": "http://digital.library.upenn.edu/books/",
+                        "content": "<p>Dir macht das Lesen englischer Bücher Spaß, doch du hast kein Buch zur Hand? Hier kannst du in Tausenden von Büchern online stöbern.</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Nasredddin-Stories mit Übungen",
+                        "link": "https://continuingstudies.uvic.ca/elc/studyzone/330/reading/index",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/universityofvictoria.png\"><p>Du willst englische Texte besser verstehen lernen? Die kurzen Texte und Übungen helfen dir dabei.</p>",
+                        "age": "6-10"
+                    },
+                    {
+                        "title": "I am reading!",
+                        "link": "http://www.starfall.com/n/level-c/index/load.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/imreading.png\"><p>Hier findest du neben einfache Texte zum Lesen und Aufführen.</p>",
+                        "age": "4-7"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/sprechen/index.html",
+                "name": "Sprechen",
+                "count": 6,
+                "children": [
+                    {
+                        "title": "General Conversation",
+                        "link": "https://unterrichten.zum.de/wiki/General_Conversation",
+                        "content": "<p>Was kann ich tun, um mich für die Kommunikationsprüfung vorzubereiten?&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Easy Conversations",
+                        "link": "http://www.eslfast.com/easydialogs/dailylife.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/eslfast.png\"><p>Höre einfache Dialoge und spreche sie mit.</p>",
+                        "age": "6-8"
+                    },
+                    {
+                        "title": "Dialoge üben",
+                        "link": "http://www.englishdaily626.com/conversation.php",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-daily_180.png\"><p>Hier findest du kleine Dialoge, die du nachspielen kannst.</p>",
+                        "age": "6-8"
+                    },
+                    {
+                        "title": "Aussprache-Trainer",
+                        "link": "https://howjsay.com/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/howjsay_180.png\"><p>Diese Seite unterstützt dich dabei, deine Aussprache eigenständig zu verbessern: Suche nach englischen Begriffen und höre dir deren Aussprache an.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Videos: Aussprache-Workshop",
+                        "link": "https://www.bbc.co.uk/learningenglish/english/features/pronunciation",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/bbc.png\"><p>In diesen humorvollen Videos werden besondere Eigenheiten der englischen Aussprache behandelt, wie etwa die Verkürzung von \"have\" zu \"'ve\" oder der Klang des Wortes \"you\" an unterschiedlichen Positionen im Satz.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Flirt English - für Profis",
+                        "link": "https://www.planet-schule.de/sf/php/sendungen.php?sendung=7042",
+                        "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Can und Alex lernen die Engländerinnen Julie und Nina kennen. Aber die Mädels sprechen kein Deutsch. Bei \"Flirt English - The Game\" kannst du spielerisch dein Englisch verbessern. Schau dir an, wie es zwischen Julie und Can funkt. Hilf Can und Alex die richtigen Worte zu finden.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/schreiben/index.html",
+                "name": "Schreiben",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "GRIPS Englisch - Tipps zum Schreiben von Mails und Briefen",
+                        "link": "http://www.br.de/grips/faecher/grips-englisch/03-brief-nachlesen100.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Hast du schon mal versucht, eine persönliche Nachricht auf Englisch zu schreiben - vielleicht als E-Mail oder Brief? Ohne Hilfe ist das nicht einfach, mit unseren Tipps schon. Schau sie dir an.</p>",
+                        "age": "7-11"
+                    },
+                    {
+                        "title": "Sätze richtig schreiben",
+                        "link": "http://www.eslfast.com/writing/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/eslfast.png\"><p>Interaktive Übungen zum Satzbau: Formuliere Sätze und lass sie von der Webseite direkt überprüfen.</p>",
+                        "age": "6-10"
+                    },
+                    {
+                        "title": "Schreibschule",
+                        "link": "http://www.ego4u.de/de/cram-up/writing",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Diese Seite gibt dir viele Anregungen zum Schreiben englischer Texte wie zum Beispiel eines Essays.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Kreatives Schreiben",
+                        "link": "http://bogglesworldesl.com/creativewriting.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/lanternfish.gif\"><p>Hier findest du Schreibanlässe für eigene Texte sowie Tipps zum Schreiben.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Schreibideen",
+                        "link": "http://www.creativewritingprompts.com/#",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/creativewritingprompts.gif\"><p>Lust zum Schreiben, aber dir fällt nichts ein? Mehr als 300 Schreibanlässe regen dich hier zum Schreiben an. Fahre einfach mit deiner Maus über die Zahlen und lass dich inspirieren.</p>",
+                        "age": "8-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/grammatik/index.html",
+                "name": "Grammatik",
+                "count": 53,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/Zeiten/index.html",
+                            "name": "Simple Present",
+                            "count": 8,
+                            "children": [
+                                {
+                                    "title": "Simple present - Erläuterungen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/simple-present",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Wenn du mehr über den Gebrauch des Simple present erfahren möchtest, dann schaue hier nach.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Simple Present",
+                                    "link": "http://www.english-4u.de/present_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Hier kannst du die Verben im Simple Present üben.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Simple Present - Verneinte Sätze mit interaktiven Übungen",
+                                    "link": "http://www.english-4u.de/pres_neg_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Diese Seite bietet Übungen zur Verneinung des Simple Present.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Fragen im Simple Present - Interaktive Übungen",
+                                    "link": "http://www.english-4u.de/present_ques_ex2.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Hier kannst du üben, wie man im Simple Present Fragen stellt.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Simple Present oder Present Progressive?",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/sprachen-und-literatur/englisch/unterrichtsmaterialien-nach-kompetenzen/grammatik/tenses/prescontrast",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Eine grafische Gegenüberstellung der beiden Zeitformen.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Grammatik Englisch - Erläuterungen &amp; Übungen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Kostenlose interaktive Online-Übungen und Erläuterungen zur englischen Grammatik.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "am - is - are: Interaktive Übungen",
+                                    "link": "http://www.english-4u.de/am_is_are_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Hier kannst du die verschiedenen Formen von <em>to be</em> üben.</p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/prog/index.html",
+                            "name": "Present Progressive",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Present progressive",
+                                    "link": "http://www.english-4u.de/pres_prog_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Interaktive Übungen zur Bildung des Present Progressive.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "Simple Present oder Present Progressive?",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/sprachen-und-literatur/englisch/unterrichtsmaterialien-nach-kompetenzen/grammatik/tenses/prescontrast",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Eine grafische Gegenüberstellung der beiden Zeitformen.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/perfect/index.html",
+                            "name": "Present Perfect",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Present perfect",
+                                    "link": "http://www.english-4u.de/pres_perf_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Hier kannst du das Present perfect online üben.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Present perfect - Übung 2",
+                                    "link": "http://www.english-4u.de/pres_perf_ex2.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Hier kannst du das Present perfect mit unregelmäßigen Verben üben</p>",
+                                    "age": "7-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/past/index.html",
+                            "name": "Simple Past",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Simple past",
+                                    "link": "http://www.english-4u.de/past_tense_ex2.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Mit dieser Online Aufgabe kannst du das Simple past üben.</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Simple Past - Interaktive Übungen",
+                                    "link": "https://www.ego4u.de/de/cram-up/grammar/simple-past/exercises",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Teste dein Können zum Simple Past online!</p>",
+                                    "age": "6-7"
+                                },
+                                {
+                                    "title": "Simple past - Erläuterungen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/simple-past",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Du weißt nicht, wie das Simple past gebildet oder wozu es gebraucht wird? Hier erfährst du es.</p>",
+                                    "age": "6-10"
+                                },
+                                {
+                                    "title": "Unregelmäßige Verben",
+                                    "link": "https://www.englisch-hilfen.de/grammar/unreg_verben1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/englisch-hilfen.png\"><p>Hier findest du die unregelmäßigen Verben als Tabelle. Ganz unten auf der Seite kannst du die Verben als Listen im PDF-Format herunterladen, geordnet nach den Klassenstufen 6, 7, 8 und 12.</p>",
+                                    "age": "6-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/pastperfect/index.html",
+                            "name": "Past Perfect",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Past perfect",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/past-perfect-simple/exercises",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Hier kannst du das Past perfect einsetzen: had gone.....</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/will/index.html",
+                            "name": "will-Future",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "will-Future - Erläuterungen und interaktive Übungen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/future-1-will",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Hier findest du Informationen zum Gebrauch des will-Future sowie interaktive Übungen dazu.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Übung zum will-Future",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/future-1-will/exercises",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Interaktive Übungen zum <em>will-Future</em>.</p>",
+                                    "age": "6-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/Ad/index.html",
+                            "name": "Adjektive und Adverbien",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Adjektiv oder Adverb?",
+                                    "link": "http://www.english-4u.de/adj_adv_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Eine Online-Übung!</p>",
+                                    "age": "6-10"
+                                },
+                                {
+                                    "title": "Übungsblatt zur Steigerung der Adjektive",
+                                    "link": "http://www.usingenglish.com/handouts/242.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/using-english_180.jpg\"><p>Quiz und Handout zur Steigerung der Adjektive.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Adjektiv oder Adverb?",
+                                    "link": "http://www.usingenglish.com/handouts/33.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/using-english_180.jpg\"><p>Quiz und Arbeitsblatt zu den Wortarten Adjektiv und Adverb. Lerne, wie man diese Wortarten unterscheidet und unterschiedlich einsetzt.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Stellung der Adverbien",
+                                    "link": "https://www.englisch-hilfen.de/uebungen/adjektive_adverbien/adverbien_stellung.htm",
+                                    "content": "<p>An welcher Position stehen die Adverbien? front-/mid-/end- position?</p> <p>Auf dieser&nbsp;Website&nbsp;<em>englisch-hilfen.de</em>&nbsp;kannst Du einüben, an welcher Postion die unterschiedlichen Adverbien plaziert werden.&nbsp;</p>",
+                                    "age": "6-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/pronomen/index.html",
+                            "name": "Pronomen",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "GRIPS Englisch - Reflexivpronomen",
+                                    "link": "http://www.br.de/grips/faecher/grips-englisch/10-reflexivpronomen-fabrikmuseum100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Immer wenn es um jemanden \"selbst\" oder um etwas \"selbst\" geht, braucht man ein Reflexivpronomen.</p><p>Um solche rückbezüglichen Fürwörter zu verstehen, geht das Lernteam in das Fabrikmuseum in Roth, wo man vieles selber machen kann.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "GRIPS Englisch - So verwendest du Pronomen richtig",
+                                    "link": "http://www.br.de/grips/faecher/grips-englisch/18-pronomen-nachlesen100.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p><em>Me</em>, <em>him</em> und <em>her</em> gehören zu den Fürwörtern. Mit ihnen kannst du ziemlich kluge Sätze bilden. Auch zum Übersetzen wirst du sie oft brauchen. Wir erklären dir, wie du sie richtig verwendest. </p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Who or which? - Interaktive Aufgaben",
+                                    "link": "http://www.ego4u.de/de/cram-up/vocabulary/who-which",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Hier kannst du den Gebrauch von <em>who</em> und <em>which</em> üben.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Reflexivpronomen: myself, yourself.....",
+                                    "link": "http://www.english-4u.de/refl_pronouns_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Interaktive Aufgaben zu den Reflexivpronomen.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Possessive Pronouns: my, your,....",
+                                    "link": "http://www.english-4u.de/poss_pronouns_ex1.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Interaktive Aufgaben zu den Possessivpronomen.</p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/relativsaetze/index.html",
+                            "name": "Relativsätze",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Bildung von Relativsätzen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/relative-clauses",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Informationen und interaktive Übungen zur Bildung von Relativsätzen mit <em>who, which, that</em> ... etc.</p>",
+                                    "age": "6-9"
+                                },
+                                {
+                                    "title": "Relative clauses",
+                                    "link": "https://www.ego4u.de/de/cram-up/tests/relative-clauses-2",
+                                    "content": "<p>Übungen zu Relativsätzen (auch Contact clauses).</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Relative clause ohne who, which, that verstehen",
+                                    "link": "https://onlineuebung.de/englisch/relative-clause-contact-clause-ohne-who-which-that/",
+                                    "content": "<p>Was sind contact clauses?</p> <p>Was versteht man unter non-defining clauses?</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "who, which, that - Relativsätze einfach erklärt",
+                                    "link": "https://www.youtube.com/watch?v=0eHiD2IOkhQ&t=0s",
+                                    "content": "<p>kurzes Video (3:08 min) zu Relativsätzen</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "contact clauses - einfach erklärt",
+                                    "link": "https://www.youtube.com/watch?v=DUSa2YcxR-E",
+                                    "content": "<p>kurzes Video (3:59 min), das Contact clauses erklärt</p>",
+                                    "age": "6-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/if/index.html",
+                            "name": "if-Sätze",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "If-Clauses: Tandemübungen",
+                                    "link": "http://www.schule-bw.de/faecher-und-schularten/sprachen-und-literatur/englisch/unterrichtsmaterialien-nach-kompetenzen/grammatik/conditionalclauses",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Hier finden sich Arbeitsblätter zu if-clauses, die sich zur Übung in Einzel- oder Partnerarbeit eignen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "if-Sätze: Erläuterungen und Übungen",
+                                    "link": "http://www.ego4u.de/de/cram-up/grammar/conditional-sentences",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Auf dieser Seite werden die if-Sätze erklärt. Außerdem findest du hier passende Übungen dazu.</p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/rede/index.html",
+                            "name": "Indirekte Rede",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Reported Speech - Regeln und Übungen",
+                                    "link": "http://www.english-4u.de/reported_speech.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Auf dieser Seite findest du Erläuterungen zur <em>reported speech. </em>Weiter unten beim Abschnitt \"Exercises\" findest du Links zu interaktiven Übungen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "What did you say?!? Ein Lernpfad zur Reported Speech",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/englisch/sprache/grammatik/indirekterede/speech/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Hier kannst du Schritt für Schritt lernen, wie man die wörtliche Rede in die indirekte Rede umwandelt. Du solltest dich bereits mit den Zeiten und den Pronomen auskennen, dann wirst du erkennen, dass dies gar nicht so schwer ist.</p>",
+                                    "age": "7-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/many/index.html",
+                            "name": "Mixed: much/many, Fragewörter etc.",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Question Words",
+                                    "link": "http://www.english-4u.de/question_words_ex6.htm",
+                                    "content": "<p>Eine interaktive Aufgabe zu den Fragewörtern <em>who, what, how, how much, how many, when</em> &amp;<em> where</em>.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "\"a\" or \"an\"?",
+                                    "link": "http://www.english-4u.de/a_an_ex2.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/english-4u_180.jpg\"><p>Onlineaufgabe zur Unterscheidung der Formen des unbestimmten Artikels <em>a</em> <em>/ an.</em></p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/englisch/grammatik/tests/index.html",
+                            "name": "Tests",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Teste dein Wissen!",
+                                    "link": "http://homepage.bnv-bamberg.de/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/dbs180.png\"><p>Auf den Seiten Deutsch oder Englisch interaktiv findest du eine Vielzahl von Übungen zur Selbstkontrolle!</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/vokabeln/index.html",
+                "name": "Wortschatz",
+                "count": 10,
+                "children": [
+                    {
+                        "title": "Umgang mit Vokabeln",
+                        "link": "http://www.pohlw.de/lernen/kurs/lern-05.htm",
+                        "content": "<p>Auf dieser Seite werden unterschiedliche Techniken und Tipps zum Lernen von Vokabeln vorgestellt.</p> <p>Jede(r) lernt unterschiedlich - und bestimmt ist hier auch etwas für dich dabei!</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Interaktive Vokabel-Übungen",
+                        "link": "http://www.englisch-hilfen.de/exercises_list/alle_words.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/englisch-hilfen.png\"><p>Interaktive Vokabel-Übungen mit automatischer Überprüfung.</p> <p>Der Inhalt ist thematisch geordnet:</p> <ul style=\"list-style-type: circle;\"> <li>Arbeit und Beruf</li> <li>Aussprache</li> <li>Englisch als Weltsprache</li> <li>Essen und Trinken</li> <li>Freizeit und Sport</li> <li>Haus und Wohnung</li> <li>Knifflige Wörter</li> <li>Landeskunde allgemein</li> <li>u.a.</li> </ul>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "English Vocabulary Quizzes",
+                        "link": "http://a4esl.org/q/h/vc-school-lb.html",
+                        "content": "<p>Trainiere dein Englisch. Die Lösungen werden angezeigt.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Liste mit  wichtigen Arbeitsanweisungen",
+                        "link": "https://www.englisch-hilfen.de/words/anweisungen.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/englisch-hilfen.png\"><p>Eine Liste mit häufigen englischen Arbeitsanweisungen im Unterricht. Sie steht online und als pdf-Download zur Verfügung.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Sport - Wortschatz und Übungen",
+                        "link": "https://eslflow.com/sport-phrases-worksheet.html",
+                        "content": "<p>Suchst du Übungen zum Thema \"Sport\"?</p> <p>Hier findest Du Arbeitsblätter und Übungen zum Thema.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "False Friends",
+                        "link": "https://www.youtube.com/watch?v=VcyxpGn5TfQ",
+                        "content": "<p><em>Mr V</em> zeigt in seinem Video 'false friends' und 'true friends', die vor allem in der Oberstufe gehäuft vorkommen.</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "False Friends",
+                        "link": "https://www.youtube.com/watch?v=0MKoWAKhqMI",
+                        "content": "<p>6 Minute Vocab - eine Zusammenstellung von false friends</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Online vocabulary exercises",
+                        "link": "http://web2.uvcs.uvic.ca/elc/studyzone/200/vocab/index.htm",
+                        "content": "<p>Einfache Übungen, Bilder unterstützen den Lernprozess.</p>",
+                        "age": "5-7"
+                    },
+                    {
+                        "title": "Interaktive Übungen zu Idioms",
+                        "link": "http://a4esl.org/q/h/idioms.html",
+                        "content": "<p>Wenn du englische Redewendungen beherrschst, bist du sicher in der Sprache. Hier kannst du sie trainieren.</p>",
+                        "age": "7-12"
+                    }
+                ]
+            }
+        ],
+        "Oberstufe": [
+            {
+                "link": "https://select.bildung.hessen.de/englisch/e-phase/index.html",
+                "name": "E-Phase",
+                "count": 9,
+                "children": [
+                    {
+                        "title": "Song \"Slipping Through my Fingers\" by ABBA",
+                        "link": "https://abbasite.com/tracks/10-slipping-through-my-fingers-me-and-i-live/",
+                        "content": "<p>A beautiful and very sentimental song about a parent and how they feel when they realise their kid is growing up and they are losing their connection.</p> <p>The song offers the opportunity to talk about</p> <p>- growing up, child-parent relationships</p> <p>- the narrative perspective</p> <p>- how the music transports emotions</p> <p>- or rewrite the song from the kid's perspective</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Human Rights Stories - Reading / Listening comprehension",
+                        "link": "https://web2.uvcs.uvic.ca/courses/elc/studyzone/410/reading/index.htm",
+                        "content": "<p>Eine Auswahl von Kurzgeschichten als Text sowie als Audioaufnahme mit Multiple-Choice-Tests.</p> <p>Weitere Themen auf der Seite: \"Brain Stories\" und \"Scary Urban Legends\".</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "The Majestic Plastic Bag - A mockumentary",
+                        "link": "https://youtu.be/GLgh9h2ePYw",
+                        "content": "<p>\"<span dir=\"auto\">Narrated by Academy Awards winner Jeremy Irons, <em>Heal the Bay's</em> 'mockumentary' video shows the stark reality of California's plastic bag pollution situation. Heal the Bay, alongside a coalition of environmental and public health experts, pushed the State of California to pass a ban on single-use plastic bags: Prop 67 passed on Nov 8, 2017. But this plastic waste reduction legislation is only the beginning. Heal the Bay is on a mission to ban all single-use plastic.\"</span></p> <p>More <span dir=\"auto\">coverage on plastic pollution:&nbsp;</span><a href=\"https://healthebay.org/category/plastic-pollution/\">https://healthebay.org/category/plastic-pollution/</a></p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "The Climate Detectives Campaign",
+                        "link": "http://www.umweltschulen.de/klima/climatedetectives.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/klimadetektive.jpg\"><p>The Climate Detectives campaign aims to provide as many secondary schools as possible the support regarding climate protection.</p> <p>You are invited to use the materials of the campaign as well as our service and project ranges. Start protecting the climate at your school now. Train climate detectives, improve your CO<sub>2</sub> footprint and explore the effects of climate change.</p> <p>The average global temperature has been increasing since industrialisation. Although man has been identified as the cause and although we know that a further rise in temperatures represents an existential threat to human civilisation, the necessary reorientation has not come about yet. But this does not make climate protection a topic which is exhaustively discussed with reports on catastrophes. Quite the contrary: Here we can experience a sustainable approach to our planet as an attractive and exciting task, which involves everybody and from which (nearly) everybody can ultimately benefit.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Vocabulary \"Environment\"",
+                        "link": "https://www.englisch-hilfen.de/words/umwelt.htm",
+                        "content": "<p>Vokabelliste Deutsch-Englisch mit Beispielsätzen.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Centre for Alternative Technology (Wales) - Webseite",
+                        "link": "https://www.cat.org.uk/",
+                        "content": "<p>Das Centre for Alternative Technology im walisischen Machynlleth stellt sich vor.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "The Habitable Planet: A Systems Approach to Environmental Science (Unterrichtsei ...",
+                        "link": "https://www.learner.org/series/the-habitable-planet-a-systems-approach-to-environmental-science/",
+                        "content": "<p><span style=\"font-weight: 400;\">Zielgruppe dieses Materials sind englischsprachige Nawi-Lehrkräfte, die Inhalte sind entsprechend anspruchsvoll. Dennoch findet sich hier für Interessierte eine umfangreiche und vielfältige Sammlung von Material.<br></span></p> <p><em><span style=\"font-weight: 400;\">\"The Habitable Planet: A Systems Approach to Environmental Science</span></em><span style=\"font-weight: 400;\"> is a course for high school teachers and undergraduate students in environmental science. The content course will help teachers of biology, chemistry, and Earth science to provide more content in their classes. The course components include 13 half-hour video programs, a coordinated website which includes the streamed video programs, the course text online, five interactive simulations, background on the scientists who created the content and those whose research is documented, a professional development guide, and additional resources.\"</span></p> <p><span style=\"font-weight: 400;\">Quelle: Anbieter (2021)</span></p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Top 8 British Youth Subcultures",
+                        "link": "https://www.arts.ac.uk/study-at-ual/short-courses/stories/top-8-british-youth-subcultures",
+                        "content": "<p>\"Youth rebellion and music has long been linked with Britain's sartorial history; from ostentatious radicals embracing new levels of swank vulgarity, to the DIY garbs of punk and the brazenly bold colours of the 1980s new wave, the inception of subcultures has provided an outlet for expressive fashion and a space for communities to flourish.<br><br>In their Introduction to British Youth Subcultures webinar, UAL tutors Dr Ray Kinsella and Kevin Quinn explore the residual power and value of British subcultures on life and fashion today. But with the growing argument that today's subcultures are less to do with collective youth insurgency and more to do with fashion trends and individuality, as debated in the Subcultures Today and Subcultures Tomorrow webinar, we look back at some of the most discernible tribes of post-war Britain and the top subcultures of recent history.\"</p> <p>Quelle: Anbieter / University of the Arts London</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Video \"Between two worlds\"",
+                        "link": "https://learnenglishteens.britishcouncil.org/study-break/video-zone/between-two-worlds",
+                        "content": "<p>\"What's it like growing up in a mixed-race family? Watch 15-year-old Tillie talking about her experiences.\"</p> <p>Quelle: Anbieter (British Council), 2022</p> <p>Tillie's parents are from Britain and Ghana.</p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/q1/index.html",
+                "name": "Q1 Ideals and realities",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Factmonster United States",
+                        "link": "http://www.factmonster.com/us.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/factmonster.png\"><p>Links und Informationen zu Geschichte, Politik, Geographie, Bildung, Recht, Staaten, ethnische Gruppen etc.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "The American Dream - Lesson Plan",
+                        "link": "http://www.loc.gov/teachers/classroommaterials/lessons/american-dream/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/libraryofcongress.png\"><p>\"This lesson invites students to search and sift through rare print documents, early motion pictures, photographs, and recorded sounds from the Library of Congress. Students experience the depth and breadth of the digital resources of the Library, tell the story of a decade, and help define the American Dream.\"</p> <p>Quelle: Anbieter (Library of Congress)</p>",
+                        "age": "5-8"
+                    },
+                    {
+                        "title": "Bewaffnete Bürger - Anlass zu interkulturellem Lernen",
+                        "link": "http://www.schule-bw.de/faecher-und-schularten/sprachen-und-literatur/englisch/unterrichtsmaterialien-nach-kompetenzen/interkulturelle-kommunikative-kompetenz/guns",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Resourcen zu Themen wie:</p> <p>\"Should Adults Have the Right to Carry a Concealed Handgun?\"<br>\"This House would arm teachers.\"<br>\"Is the gun lobby invincible?\"<br>\"What the fight over guns is really about.\"<br>\"Should the 2nd Amendment be repealed?\"</p>",
+                        "age": "10-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/q2/index.html",
+                "name": "Q2 The encounter of cultures",
+                "count": 11,
+                "children": [
+                    {
+                        "title": "Life in the UK - Quizze und Übungen",
+                        "link": "http://www.esolcourses.com/content/topicsmenu/life-in-the-uk.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/esol_180.png\"><p>Quizze und Übungen zu Themen wie <em>Green London, Typical British Food and Drink, British vs. American English</em> and many more.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Großbritannien (House of Commons) Wahlsystem",
+                        "link": "http://www.wahlrecht.de/ausland/grossbritannien-parlament.html",
+                        "content": "<p>Deutschsprachige Beschreibung des britischen Wahlsystems.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "'The gift that keeps on giving': How Boris Johnson keeps political cartoonists i ...",
+                        "link": "https://www.euronews.com/culture/2022/01/27/the-gift-that-keeps-on-giving-how-boris-johnson-keeps-political-cartoonists-in-work",
+                        "content": "<p>\"With his unkempt blonde hair and clown-like antics, British Prime Minister Boris Johnson has often been a target for political cartoonists.\"</p> <p>Artikel und Video über Cartoonisten, die sich mit Boris Johnson befassen.</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Brexit: A Nationalist Project without a Nation",
+                        "link": "https://www.zeit.de/politik/ausland/2020-01/boris-johnson-great-britain-brexit-nationalism/komplettansicht",
+                        "content": "\"Boris Johnson wants Brexit to be \"the great project of European liberalism\". In fact, however, it is both a symptom and a cause of the fracturing of the United Kingdom.<div data-ct-row=\"author\">Ein Essay von Fintan O'Toole.\"",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "History Learning Site - British Politics",
+                        "link": "https://www.historylearningsite.co.uk/british-politics/",
+                        "content": "<p>A collection of articles and media on a large variety of topics, such as:</p> <p>Political Ideas<br>Democracy<br>Direct Democracy<br>Representative Democracy<br>Liberal Democracy<br>British Citizenship<br>Legitimacy and Power<br>Citizenship<br>Civil Liberties<br>Party Systems<br>Political Parties<br>The British Constitution<br>First Past the Post<br>British General Elections<br>Proportional Representation<br>Scotland and Devolution<br>Key dates for the SNP<br>Scottish Parliament Election 2007<br>Wales and Devolution<br>Key Dates for Plaid Cymru<br>Northern Ireland Assembly election 2003</p> <p>... and many more.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Being an ally to your students from black, South Asian and mixed heritage backgr ...",
+                        "link": "https://www.bbc.co.uk/teach/teacher-support/how-to-be-a-better-ally-to-your-students/zkxfp4j",
+                        "content": "<p><span data-reactid=\".23hi34q4hoi.3.$blocks-article-row-1.1:$zwh3f82-1=10.1.1.$1.0.0\">\"A series of short films for anyone working within schools or educational settings exploring the experiences of racism and discrimination faced by many black, South Asian and mixed heritage pupils.\"</span></p> <p><span data-reactid=\".23hi34q4hoi.3.$blocks-article-row-1.1:$zwh3f82-1=10.1.1.$1.0.0\">Quelle: Anbieter (BBC), 2022</span></p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Top 10 Ways to Teach Culture",
+                        "link": "https://busyteacher.org/7080-top-10-ways-to-teach-culture.html",
+                        "content": "<p>\"It has been said that culture is like an iceberg, that only ten percent of it is visible and the other ninety percent is hidden below the surface. For this reason, ESL teachers must make intentional efforts to teach cultural understanding and tolerance to their students.\"</p> <p>Quelle: Anbieter (busyteacher.org), 2022</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Films for intercultural learning",
+                        "link": "http://www.heliweb.de/telic/filmsurvey4.htm",
+                        "content": "<p>Short articles that cover the following films:</p> <p>1. My Beautiful Laundrette (1986)<br>2. Do the Right Thing (1989)<br>3. The Crying Game (1992)<br>4. East is East (1999)<br>5. Monsoon Wedding (2001)<br>6. Red Dust (2004)<br>7. Crash (2004)</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "\"Mother to Mother\" - Study Guide",
+                        "link": "https://www.gradesaver.com/mother-to-mother",
+                        "content": "<p>A comprehensive guide with summaries, literary analysis, quizzes and more.</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "\"Mother to Mother – plausible readings\" by Mabasa Alen Zimunya",
+                        "link": "https://www.teachenglishtoday.org/wp-content/uploads/2018/07/Mother-to-Mother.pdf",
+                        "content": "<p>\"This paper seeks to proffer different ways of reading Sindiwe Magona’s Mother to Mother. It is intended to be a treatise on possible approaches that may be taken in trying to unpack the novel. In this regard, it is prudent to hastily add that this paper does not seek to be a commentary on the novel. The paper does not aim at being a study guide. It does not try to masquerade as a pedagogical tool for handling the text. This paper merely aims at suggesting ways by which the reading of Mother to Mother may be more fulfilling.\"</p> <p>Quelle: Anbieter, 2022</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "Africa Timeline (on South African History Online)",
+                        "link": "https://www.sahistory.org.za/article/africa-timeline",
+                        "content": "<p>A comprehensive timeline that starts with:</p> <p>\"100 000 BC: Humans begin to migrate from Africa to other parts of the world\"</p>",
+                        "age": "11-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/q3/index.html",
+                "name": "Q3 Challenges of our time",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "J. M. Barrie – The Twelve-Pound Look (One-Act Play)",
+                        "link": "https://classic-literature.co.uk/j-m-barrie-the-twelve-pound-look-play/#1",
+                        "content": "<p>Großartiges Kurztheaterstück vom Autor von <em>\"Peter Pan\"</em> zum Thema <strong>Gleichberechtigung</strong> aus dem Jahr 1914.</p> <p>\"While Barrie is not a devotee of the well-made play, his <em>The Twelve-Pound Look</em> is one of the most nearly perfect one-act plays of contemporary drama. His interest in human personalities is not more manifest in any of his plays than in Lady Sims and “Sir” Harry Sims in this play.\"</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Article \"Save the Fairy Tale, Ditch the Sexism\"",
+                        "link": "https://www.newyorkminutemag.com/save-the-fairy-tale-ditch-the-sexism/",
+                        "content": "<p>In this article, the author takes a look at modern adaptations of fairy tales as stories of female empowerment, including \"Angela Carter’s post-modern fairy tale collection, entitled <em>The Bloody Chamber</em>, in which she reimagines many beloved tales with an erotic and feminist twist.\" (Quelle: Anbieter)</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Wo steht Europa?",
+                        "link": "http://www.politikundunterricht.de/1_12/europa.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/lpb_180.png\"><p>Wo steht Europa?<br>Die Europäische Union nach Lissabon (Heft-Download als PDF)</p>",
+                        "age": "9-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/q4/index.html",
+                "name": "Q4 New perspectives",
+                "count": 12,
+                "children": [
+                    {
+                        "title": "How to Write a Resume",
+                        "link": "http://jobsearch.about.com/od/resumes/a/reswork1.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/careers.png\"><p>\"Do you need to write a resume? While it's only a page or two in length, a resume is one of the most important parts of a job application. Your resume is your most powerful tool to tell the story of your professional history to potential employers.</p> <p>A well-written resume that highlights your most relevant qualifications for the job will help you get selected for an interview. Often, interviewers will consult your resume during the interview, too. Above all, your resume needs to be consistent, concise, and easy to read.\"</p> <p>Quelle: Anbieter</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Vocabulary Quiz: Writing a letter of application",
+                        "link": "http://quizlet.com/14940362/writing-texts-a-letter-of-application-flash-cards/",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/quizlet_180.png\"><p id=\"\">Interaktives Quiz.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Applying For Jobs - Spelling Job Related Words",
+                        "link": "http://www.esolcourses.com/content/englishforwork/jobvocab/spellingtest.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/esol_180.png\"><p>Interaktives Quiz.</p> <p>\"This quiz is designed to help English students who are looking for work improve their written English.\"</p> <p>Quelle: Anbieter</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Can You Guess Which Photo Is Real And Which Is Fake?",
+                        "link": "https://www.playbuzz.com/shachafz10/can-you-guess-which-photo-is-real-and-which-is-fake",
+                        "content": "<p>Interactive slide show quiz with real and faked photos.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Real or fake - Photo game",
+                        "link": "http://www.fakeaphoto.com/real-or-fake-photo-game/",
+                        "content": "<p>Interactive slide show quiz with real and faked photos.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Why are Dystopian Films on the Rise Again?",
+                        "link": "https://daily.jstor.org/why-are-dystopian-films-on-the-rise-again",
+                        "content": "<p>\"The recent uptick in dystopian films and post-apocalpytic scenarios seems more urgent and more extreme than it has in the past.\"</p> <p>A 2014 article on contemporary dystopian films.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "\"There Will Come Soft Rains\" by Ray Bradbury - BBC radio adaptation",
+                        "link": "https://archive.org/details/there-will-come-soft-rains",
+                        "content": "<p>A BBC Radio dramatization by Nesta Pain of the Ray Bradbury short story from 1962.</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Book Burning",
+                        "link": "https://encyclopedia.ushmm.org/content/en/article/book-burning",
+                        "content": "<p>This article in the \"Holocaust Encyclopedia\" deals with the burning of books in Nazi Germany.</p> <p>It provides useful background information for studying Bradbury's \"Fahrenheit 451\".</p> <p>\"Beginning on May 10, 1933, Nazi-dominated student groups carried out public burnings of books they claimed were “un-German.” The book burnings took place in 34 university towns and cities. Works of prominent Jewish, liberal, and leftist writers ended up in the bonfires. The book burnings stood as a powerful symbol of Nazi intolerance and censorship.\" (Quelle: Anbieter, 2022)</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "\"The Lake Isle of Innisfree\" - A Utopian poem by W.B. Yeats",
+                        "link": "https://poets.org/poem/lake-isle-innisfree",
+                        "content": "<p>\"The poem expresses the speaker's longing for the peace and tranquility of Innisfree while residing in an urban setting. He can escape the noise of the city and be lulled by the 'lake water lapping with low sounds by the shore.' On this small island, he can return to nature by growing beans and having bee hives, by enjoying the 'purple glow' of heather at noon, the sounds of birds' wings, and, of course, the bees. He can even build a cabin and stay on the island much as Thoreau, the American Transcendentalist, lived at Walden Pond.\"</p> <p>Quelle: <a href=\"https://en.wikipedia.org/wiki/The_Lake_Isle_of_Innisfree\">https://en.wikipedia.org/wiki/The_Lake_Isle_of_Innisfree</a> (abgerufen am 18.01.2022)</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "English as a Global Language",
+                        "link": "https://www.thoughtco.com/english-as-a-global-language-1692652",
+                        "content": "<p>A short article that deals with the following issues: <br><br>Global English, World English, and the Rise of English as a Lingua Franca<br>From How Many Other Languages Has English Borrowed Words?<br>How Many People in the World Today Speak English?<br>In How Many Countries Is English Taught as a Foreign Language?<br>What Is the Most Widely Used English Word?<br>How Many Countries in the World Have English as Their First Language?</p> <p>&nbsp;</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Top 500 famous poems (All Poetry)",
+                        "link": "https://allpoetry.com/classics/famous_poems",
+                        "content": "<p>Poems by Charles Bukowski, Dylan Thomas, William Shakespeare, Denise Levertov, Robert Frost, John Masefield, Edna St. Vincent Millay and many more.</p>",
+                        "age": "9-13"
+                    }
+                ]
+            }
+        ],
+        "Landeskunde": [
+            {
+                "link": "https://select.bildung.hessen.de/englisch/London/index.html",
+                "name": "Großbritannien und Nordirland",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Großbritannien und Nordirland",
+                        "link": "http://www.ego4u.de/de/read-on/countries/uk",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/ego4u_180.png\"><p>Die Ausdrücke <span>„</span>Vereinigtes Königreich<span>“</span>, <span>„</span>Großbritannien<span>“</span> und <span>„</span>England<span>“ </span>verwirren manchmal. Großbritannien umfasst England, Wales und Schottland. Zum Vereinigten Königreich gehört auch Nordirland. Hier kannst du dich über das Vereinigte Königreich informieren und das Lesen englischer Texte üben.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "London",
+                        "link": "http://www.bastrimbos.com/WebQuests/WebQuestLondon/index.htm",
+                        "content": "<p>Warst du schon jemals in London? Lerne London bei einem Internetabenteuer kennen.</p>",
+                        "age": "6-10"
+                    },
+                    {
+                        "title": "A visit to London",
+                        "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=8406",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Hier kannst du dich in einem kurzen Film (engl.) über den Alltag in London informieren!</p>",
+                        "age": "5-7"
+                    },
+                    {
+                        "title": "WebQuest Irleland",
+                        "link": "https://unterrichten.zum.de/wiki/Ireland",
+                        "content": "<p>A WebQuest to learn facts about Ireland (reading, writing, grammar and interactive exercises).</p> <ul> <li>Fact File</li> <li>Geography</li> <li>History</li> <li>Traditions (typical customs and holidays)</li> <li>Irish Humour</li> <li>Limericks</li> <li>Planning a holiday</li> </ul>",
+                        "age": "8-12"
+                    },
+                    {
+                        "title": "WebQuest Scotland",
+                        "link": "https://unterrichten.zum.de/wiki/Scotland",
+                        "content": "<p>&nbsp;A WebQuest to learn facts about Scotland (reading, writing, grammar and interactive exercises).</p> <ul> <li>Fact File</li> <li>Geography</li> <li>Weather</li> <li>Highland Games</li> <li>Loch Ness</li> <li>Scottish Treats</li> <li>Planning a Holiday</li> </ul>",
+                        "age": "7-12"
+                    },
+                    {
+                        "title": "David and Red in England - Videos zu landeskundlichen Situationen",
+                        "link": "http://www.planet-schule.de/sf/php/02_sen01.php?reihe=1095",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Hast du Lust auf weitere Abenteuer mit David und Red in London? Klicke einfach auf die Kamera neben dem Film, der dich interessiert!</p>",
+                        "age": "5-6"
+                    },
+                    {
+                        "title": "Story of England",
+                        "link": "https://www.english-heritage.org.uk/learn/story-of-england",
+                        "content": "<p>Du suchst Informationen zu den Zeitabschnitten der Geschichte Englands?&nbsp;</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/USA/index.html",
+                "name": "USA",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Factmonster United States",
+                        "link": "http://www.factmonster.com/us.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/factmonster.png\"><p>Links und Informationen zu Geschichte, Politik, Geographie, Bildung, Recht, Staaten, ethnische Gruppen etc.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Der lange Weg nach Amerika",
+                        "link": "http://www.englischstunde.de/webquest/EllisQuest/",
+                        "content": "<p>In diesem Webquest lernst du spielerisch etwas über die Einwanderung nach Amerika am Beginn des 20. Jahrhunderts.</p>",
+                        "age": "8-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/australien/index.html",
+                "name": "Australien",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Landeskunde Australien",
+                        "link": "http://www.schule-bw.de/faecher-und-schularten/sprachen-und-literatur/englisch/unterrichtsmaterialien-nach-kompetenzen/interkulturelle-kommunikative-kompetenz/australia",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Hier findest du interaktive Übungen, Kreuzworträtsel und weiterführende Links.</p>",
+                        "age": "8-12"
+                    },
+                    {
+                        "title": "WebQuest Australia",
+                        "link": "https://unterrichten.zum.de/wiki/Australia",
+                        "content": "<p>A WebQuest to learn facts about Australia (reading, writing, grammar and interactive exercises).</p> <ul> <li>Fact File</li> <li>Dangerous Animals</li> <li>Exploring the Outback</li> <li>Dream Time</li> <li>Convicts</li> <li>Strain</li> <li>Work and Travel</li> <li>Planning a Holiday</li> </ul>",
+                        "age": "7-11"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/southafr/index.html",
+                "name": "andere englischsprachige Länder: Südafrika und Indien",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "WebQuest: Long Journey To Freedom - Nelson Mandela",
+                        "link": "http://www.zunal.com/process.php?w=55595",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/zunal_180.png\"><p>\"Use the following recommended websites to answer the questions about Nelson Mandela (...) and use the answers to your questions, any other notes you took, the websites above, and&nbsp; your pictures to write a series of journal entries from the point of view of Nelson Mandela.\"</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Video Listening Exercises on Nelson Mandela",
+                        "link": "http://www.esolcourses.com/content/topics/famouspeople/nelson-mandela/nelson-mandela-video-quiz.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/englisch/logos/esol_180.png\"><p>Kennst du dich gut mit Nelson Mandela aus? Hier kannst du dein Wissen testen.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Indien",
+                        "link": "https://www.natgeokids.com/nz/discover/geography/countries/country-fact-file-india/",
+                        "content": "<p>Was man über Indien wissen sollte!</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/Zeitungen/index.html",
+                "name": "Englischsprachige TV- und Radiosender, Zeitungen",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "The Times",
+                        "link": "http://www.timesonline.co.uk/tol/news/",
+                        "content": "<p>Hier kannst du in der berühmten britischen Tageszeitung The Times stöbern.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Newsweek",
+                        "link": "http://www.newsweek.com/",
+                        "content": "<p>Newsweek ist ein wöchentlich erscheinendes <span>amerikanisches</span> Nachrichtenmagazin mit Hauptsitz in New York City.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Time Magazine",
+                        "link": "http://www.time.com/time/",
+                        "content": "<p>Das Time Magazine ist ein amerikanisches Nachrichtenmagazin. Hier kannst du Originalnachrichten zu Politik und Wirtschaft in englischer Sprache lesen.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Spotlight",
+                        "link": "http://www.spotlight-online.de/",
+                        "content": "<p>Spotlight ist eine Jugendzeitschrift in englischer Sprache. Hier findest du allerei interessante News und Klatsch aus der Popszene und Informatione zu den englischsprachigen Ländern.</p>",
+                        "age": "7-10"
+                    }
+                ]
+            }
+        ],
+        "Weitere Themen": [
+            {
+                "link": "https://select.bildung.hessen.de/englisch/email/index.html",
+                "name": "Freunde, Penpals, Emails",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Postcrossing - Per Postkarten mit Menschen weltweit in Kontakt treten",
+                        "link": "https://www.postcrossing.com/",
+                        "content": "<p>Wenn du mal etwas Neues ausprobieren möchtest, dann versuche doch Postcrossing und bekomme Postkarten aus der ganzen Welt.</p>",
+                        "age": "6-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/fun-with-english/index.html",
+                "name": "Fun with English",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "The Beaverton - Satirische Nachrichtenseite aus Kanada",
+                        "link": "https://thebeaverton.com/",
+                        "content": "<p>Eine satirische Online-Zeitung mit einem Video-Angebot, das sich im Fake News-Format mit aktuellen Nachrichten aus Kanada und der Welt auf humorvolle Weise auseinandersetzt.</p> <p><em>\"The Beaverton</em> is a weekly satirical news show airing Wednesdays at 10 pm on Comedy, just before <em>Full Frontal with Sam Bee</em>. A televised adaptation of the immensely popular website&nbsp;TheBeaverton.com, it files fictional stories of the utmost importance, informed by real events, the cultural zeitgeist, and national news media. Using a “fake news” platform <em>The Beaverton</em> offers devastating insight and biting commentary on Canadian life, politics, and the world around us.\"</p> <p>(Quelle: Anbieter, 2022)</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/englisch/penpals/index.html",
+                "name": "Auslandsjahr, Sprachreisen,  Austausch und mehr",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Auslandspraktikum-Ratgeber",
+                        "link": "https://auslandspraktikum-ratgeber.com/",
+                        "content": "<p>Informationen in den Rubriken Auslandspraktikum, Freiwilligenarbeit, Work and Travel, Sprachreise und Versicherung sowie Erfahrungsberichte.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "MyStudychoice - kostenloses Infoportal",
+                        "link": "https://www.mystudychoice.de/",
+                        "content": "<p>ein kostenloses Infoportal zum selbstorganisierten Auslandsjahr</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "ICES International cultural exchange services",
+                        "link": "https://www.icesusa.org/",
+                        "content": "<p>ICES hilft Dir bei der Organisation eines Auslandsjahr (auch kürzere Zeit) nach USA, Irland oder UK.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "AIFS Foundation - Schüleraustausch USA",
+                        "link": "https://www.aifs.de/schueleraustausch/usa/classic-oeffentliche-schulen.html",
+                        "content": "<p>Schüleraustausch USA - Diese Foundation stellt kostenpflichtige Beratung für Deinen Auslandsaufenthalt zur Verfügung und kümmert sich um Deine Betreuung auch vor Ort.&nbsp;</p> <p>Vorraussetzungen: mindestens 3 Jahre Englisch als Schulfach.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Sprachreisen-Vergleich.de",
+                        "link": "http://www.sprachreisen-vergleich.de/",
+                        "content": "<p>Informationsportal zum Thema Sprachreisen</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Ausgetauscht.de",
+                        "link": "https://www.ausgetauscht.de/",
+                        "content": "<p>Ehemalige Austauschschülerinnen und Austauschschüler, die über den Schüleraustausch informieren und über ihre Erfahrungen berichten.</p>",
+                        "age": "8-13"
+                    }
+                ]
+            }
+        ]
+    }
+}

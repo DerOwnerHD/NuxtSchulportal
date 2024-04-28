@@ -1,0 +1,1148 @@
+{
+    "link": "physik/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_physik.png",
+    "text": "Physik",
+    "content": {
+        "Themen der Mittel- und Oberstufe": [
+            {
+                "link": "https://select.bildung.hessen.de/physik/akustik/index.html",
+                "name": "Akustik",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Arbeitsweise eines Lautsprechers",
+                        "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/e_lehre_1/induktion/lautsprecher2.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Kleine Lernvideos zeigen, wie Lautsprecher aufgebaut sind und wie sie funktionieren.</p>",
+                        "age": "7-9"
+                    },
+                    {
+                        "title": "Lärmhölle Ozean",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2007/008d874f_07_107.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Erdölfirmen schießen mit Schallkanonen unvorstellbar laut in den Meeresgrund, um neue Lagerstätten zu finden. Seestreitkräfte spüren mit Sonaren feindliche U-Boote auf. Über 90 000 Handelsschiffe verlärmen mit ihren Motoren und Propellern die Ozeane. Die einstige Welt der Stille ist zur Lärmhölle geworden.&nbsp;</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Resonanz",
+                        "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/akustik/ueberlagerung/resonanz.htm",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Du erfährst, wie es zu einer Resonanz kommt. Drei kurze Filme zeigen, dass Resonanz durchaus drastische Auswirkungen haben kann!</p>",
+                        "age": "7-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/waerme/index.html",
+                "name": "Wärmelehre",
+                "count": 10,
+                "children": {
+                    "Mittelstufe": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/waerme/aggregat/index.html",
+                            "name": "Aggregatzustände",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Auch Löschen will gelernt sein. Physik bei der Feuerwehr",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2006/006d2c1a_06_083.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Körper sind entweder fest, flüssig oder gasförmig, das lernt man schon früh in der Schule. Es gibt noch einen vierten Aggregatzustand der Materie, zum Beispiel in einer Kerzenflamme oder im Blitz. Physiker nennen ihn \"Plasma\", der Rest der Welt einfach nur \"Feuer\".</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/waerme/maschinen/index.html",
+                            "name": "Maschinen, die Wärmeenergie umwandeln",
+                            "count": 1,
+                            "children": {}
+                        }
+                    ],
+                    "Oberstufe": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/waerme/brown/index.html",
+                            "name": "Brownsche Molekularbewegung",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Brownsche Molekularbewegung",
+                                    "link": "http://www.frustfrei-lernen.de/thermodynamik/brownsche-molekularbewegung.html",
+                                    "content": "<p>Hast du dich schon gefragt, wie man das Teilchenmodell, von dem du schon oft im Physikunterricht gehört hast, nachweisen kann. Denn die Teilchen sind so klein, dass man keine Chance hat, sie zu sehen. Aber sie verraten sich durch die Brownsche Molekularbewegung. Auf der Webseite von <a href=\"http://www.frustfrei-lernen.de\">www.frustfrei-lernen.de</a> lernst du mittels eines Videos und erklärender Texte, was die Brownsche Molekularbewegung ist, und wie man mit ihr den Teilchencharakter der Materie nachweisen kann.</p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/optik/index.html",
+                "name": "Optik",
+                "count": 17,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/optik/licht/index.html",
+                            "name": "Lichtstrahlen und Schatten",
+                            "count": 8,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/optik/licht/auge/index.html",
+                                        "name": "Auge",
+                                        "count": null,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/optik/licht/einfuehrung/index.html",
+                                        "name": "Einführung",
+                                        "count": 6,
+                                        "children": [
+                                            {
+                                                "title": "Optische Täuschungen - interaktiv",
+                                                "link": "http://www.planet-wissen.de/wissen_interaktiv/optische_taeuschung.jsp",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>In mehreren Online-Experimenten erlebst du, wie dein Auge - Zusammenspiel mit deinem Gehirn -&nbsp; getäuscht werden kann.</p>",
+                                                "age": "5-8"
+                                            },
+                                            {
+                                                "title": "Physik für Kids",
+                                                "link": "https://www.physikfuerkids.de/labor/licht/",
+                                                "content": "<img src=\"https://physikforkids.de/typo3conf/ext/pfk/Resources/Public/Images/pfklogo.gif\"><p>In der Laborecke findest du Versuche, die eine Lichtquelle benötigen oder mit Licht zu tun haben. Das kann Sonnenlicht sein oder auch eine Taschenlampe.</p>",
+                                                "age": "5-7"
+                                            },
+                                            {
+                                                "title": "Aufgaben zu Sammellinsen",
+                                                "link": "http://www.unterrichtsmaterial-schule.de/physikvorschau6.shtml",
+                                                "content": "<p>Hier findest du einfache Aufgaben zur Optik.</p>",
+                                                "age": "7-8"
+                                            },
+                                            {
+                                                "title": "Hell und schnell: Das Licht",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2005/005fedcb_05_1107.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Nichts kann sich so schnell bewegen wie das Licht. Mit ca. 300.000 Kilometern pro Sekunde rast es durch das Weltall. Weil die Sonne so weit entfernt ist, braucht ihr Licht dennoch ungefähr neun Minuten, bis es bei uns auf der Erde ankommt. Hier macht es alles farbig und hell.</p>",
+                                                "age": "5-8"
+                                            },
+                                            {
+                                                "title": "Optische Täuschungen",
+                                                "link": "https://michaelbach.de/ot/index-de.html",
+                                                "content": "<p>Können wir unserem Auge wirklich trauen? Das Gehirn bringt manchmal Einiges durcheinander ...</p>",
+                                                "age": "5-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/optik/licht/lochkamera/index.html",
+                                        "name": "Lochkamera",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "www.die-lochkamera.de",
+                                                "link": "http://www.die-lochkamera.de/",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Hier erfährst du nahezu alles zum Thema Lochkamera.</p>",
+                                                "age": "7-8"
+                                            },
+                                            {
+                                                "title": "Panorama-Lochkamera mit \"Wechsel-Objektiv\" - für Profis",
+                                                "link": "http://www.jochen-reincke.de/lochkam/slbstbau.htm",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Mit einer Lochkamera zu fotografieren ist eine Sache. Doch eine Lochkamera in Eigenarbeit zu konstruieren, macht mehr Spaß. Hier eine Anleitung für \"Profis\".</p>",
+                                                "age": "8-8"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/optik/reflexion/index.html",
+                            "name": "Reflexion",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "optische Abbildungen und die Abbildungsgleichung",
+                                    "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/optik/vergleich_abbildungen/index.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Was haben der Spiegel, die Lochkamera und der Schatten gemeinsam? Die Antwort erfährst du hier auf der Webseite des Landesbildungsservers Baden-Württemberg.</p>",
+                                    "age": "6-9"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/optik/brechung/index.html",
+                            "name": "Lichtbrechung",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Atmosphärische Erscheinungen",
+                                    "link": "http://www.meteoros.de/indexatmo.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/dbs180.png\"><p>Es werden Fotos zu Regen-, Tau- und Nebelbögen, Luftspiegelungen usw. angezeigt. Die Erklärungen sind teilweise durchaus anspruchsvoll.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/optik/farbe/index.html",
+                            "name": "Farben",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Farben",
+                                    "link": "http://www.leifiphysik.de/optik/farben",
+                                    "content": "<p>Hier wird das optische Phänomen der Farben eingeführt: Kann man Licht zerlegen und wieder zusammensetzen? Wie entstehen die Farben beim Fernseher und wie beim Malen mit Farben? Theoretische Hintergründe, Versuche, Animationen und Aufgaben komplettieren die verschiedenen Fragestellungen.</p>",
+                                    "age": "6-10"
+                                },
+                                {
+                                    "title": "Buntes rund um die Farben",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2006/006874f6_06_0327_Beitrag1.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Unsere Welt ist bunt von Farben. Seit wann Farben verwendet werden, aus welchen Naturstoffen früher Farben gemacht wurden und was es heute mit den synthetischen Farbstoffen auf sich hat, das erklärt dieser Beitrag ebenso wie die Wirkung, die Farben beim Menschen erzielen.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/optik/optisches_geraet/index.html",
+                            "name": "optische Geräte",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Der Blick in die Ferne: Fernrohre und Spiegelteleskope",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/physik/astronomie/geraete/optische_werkzeuge/lernpfad_fernrohr/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Liebe Schülerinnen und Schüler,</p> <p>in diesem Lernpfad werden unter anderem folgende Fragen beantwortet:</p> <p>Wie funktionieren Fernrohre und Teleskope?</p> <p>Welche Fernrohr- und Teleskoparten gibt es?</p> <p>Wie lange gibt es schon Fernrohre und wer hat sie erfunden?</p>",
+                                    "age": "7-12"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/elektrizitaet/index.html",
+                "name": "Elektrizitätslehre",
+                "count": 24,
+                "children": {
+                    "Mittelstufe": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/elektrizitaet/stromkreis/index.html",
+                            "name": "Elektrischer Stromkreis",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/elektrizitaet/messen/index.html",
+                            "name": "Messen",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Strom- und Spannungsmessung",
+                                    "link": "http://www.virtphys.uni-bayreuth.de/elek/source/t_multi.swf",
+                                    "content": "<img src=\"http://www.sodis.de/elixier_contake.gif\"><p>Mit diesem Trainingsprogramm kannst du üben, wie man verschiedene elektrische Werte wie Spannung oder Stromstärke messen kann.</p>",
+                                    "age": "8-11"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/elektrizitaet/technische_anwendungen/index.html",
+                            "name": "Technische Anwendungen",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Der Elektromotor - einfach erklärt",
+                                    "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/e_lehre_1/elektromotor/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Verschiedene Animationen zeigen, wie ein Elektromotor funktioniert.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Warum brennen Glühbirnen durch?",
+                                    "link": "http://www.planet-schule.de/warum/gluehlampe/themenseiten/t_index/s1.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Hier kannst du selbstständig dein Wissen über Glühbirnen erweitern. Mit einem Versuch kannst du verschiedene Materialien als Glühdraht testen. Du lernst den Entdecker der Glühbirnen kennen ...</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/mechanik/index.html",
+                "name": "Mechanik",
+                "count": 26,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/zeit/index.html",
+                            "name": "Zeit",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Wie die Zeit an den Sonnenlauf angepasst wird",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/0096e107_08_033.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Bis die Sonne im Jahreslauf wieder denselben Punkt am Himmel erreicht, dauert es 365 Tage und knapp sechs Stunden. Ein Kalender, der ein Jahr mit nur 365 Tagen ansetzt, greift also zu kurz. Schon die Römer schoben deswegen alle vier Jahre einen Schalttag ein, aber auch dann ist ein Jahr im Durchschnitt noch immer elf Minuten zu lang.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/bewegung/index.html",
+                            "name": "Bewegung",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Physikquiz zur beschleunigten Bewegung",
+                                    "link": "http://physikquiz.de/mechanik2_w.php",
+                                    "content": "<p>Wie gut weißt du über die beschleunigte Bewegung Bescheid? In diesem Quiz von physikquiz.de kannst du dein Wissen testen. Am Ende des Quizes erhälst du eine Auswertung deiner Antworten.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/aerodynamik/index.html",
+                            "name": "Aerodynamik",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Otto-Lilienthal-Archiv",
+                                    "link": "http://www.lilienthal-museum.de",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/dbs180.png\"><p>Auf der Homepage des Museums in Lilienthals Geburtsstadt Anklam in Mecklenburg-Vorpommern findest du zahlreiche Informationen zu Lilienthal, seinen Flugapparaten und zur Geschichte Fliegen.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Über die militärischen Ursprünge des Fliegens",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2003/002d3b8a_Wissenswert_03_288.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Beinahe wäre das Flugzeug eine Erfindung des Militärs geworden. Das französische Militär gab jedoch 1897 auf. Die US-amerikanische Maschine stürzte sofort nach ihrem Start ab. Das war im Oktober 1903. So konnte den Brüdern Wright zwei Monate später der erste motorgetriebene Flug der Geschichte gelingen.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/auftrieb/index.html",
+                            "name": "Auftrieb",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Warum schwimmen Schiffe?",
+                                    "link": "http://www.planet-schule.de/warum/schiffe/themenseiten/t_index/s1.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Riesige Schiffe aus Stahl schwimmen auf dem Wasser, leichte Sandkörner sinken zu Boden. Das kann doch eigentlich nicht sein?</span></p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/erdanziehung/index.html",
+                            "name": "Erdanziehung",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Parabelflüge: Schwerelos durch die Wolken",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091114_mxUser522_00c973ce_09_143.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Um Schwerelosigkeit zu erleben, muss man nicht unbedingt auf einer Raumstation arbeiten. Schwerelosigkeit lässt sich auch an Bord eines Flugzeugs erzeugen - etwa 22 Sekunden lang schwebt dann alles an Bord, was nicht mit Gurten oder Handgriffen fixiert wurde.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/mechanik/maschine/index.html",
+                            "name": "Maschinen",
+                            "count": 2,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/mechanik/maschine/alltag/index.html",
+                                        "name": "Maschinen im Alltag",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "Physik rund ums Auto",
+                                                "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=8218",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><ul> <li>Können Autofahrer einen Frontalaufprall mit 100 km/h überleben?</li> <li>Ist bei doppelter Geschwindigkeit auch der Bremsweg doppelt so lang?</li> <li>Ist Anfahren mit quietschenden Reifen schneller als ein konventioneller Start?</li> </ul> <p>Das sind einige Fragen, die in diesem Film untersucht werden.</p>",
+                                                "age": "8-11"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/energie/index.html",
+                "name": "Energie",
+                "count": 26,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/energie/einfuehrung/index.html",
+                            "name": "Einführung",
+                            "count": 12,
+                            "children": [
+                                {
+                                    "title": "Was ist Energie? - 1. Ursprung Sonne",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2007/007db16a_07_018.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Sie ist hundert Mal größer als der Erdball und strahlt in einer Sekunde millionenfach mehr Energie ab, als die Menschheit im Jahr verbraucht: Die Sonne ist ein Leben spendendes Energiemonstrum. Ohne sie gäbe es auf der Erde weder Mikroben noch Pflanzen oder Tiere. Sie ist die Lebensenergie für unseren Stoffwechsel. Doch was bringt die Sonne zum Scheinen?</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Was ist Energie? - 2. Wandlung",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2007/007db16e_07_019.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Energie kann nicht verbraucht werden, sie wird nur umgewandelt. Ein Schokoriegel liefert Energie, um eine halbe Stunde lang Fahrrad zu fahren. Diese Wandlungsfähigkeit macht Energie für Wissenschaftler so attraktiv, die damit die unterschiedlichsten Phänomene aus Elektrizität, Mechanik, Chemie, Wärmelehre oder Kernphysik auf einen Begriff bringen.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Was ist Energie? -  3. Speicherung",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2007/007db17c_07_021.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Die Menschen waren schon immer erfindungsreich, wenn es darum ging, Energievorräte anzulegen. Aber auch Pflanzen und Tiere betreiben Vorratshaltung und speichern Energie wie Stärke, Öl oder Fett. Denn für alle Lebewesen gilt: Magere Zeiten können nur überstanden werden, wenn man genügend Energie gespeichert hat.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Was ist Energie? - 4. Lebensenergie",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2007/007db185_07_020.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Mit dem großen Schub der Naturwissenschaften Ende des 19. Jahrhunderts fand der Begriff der Energie auch Eingang in psychologisches Denken. Freud unterschied in der Psychoanalyse zwischen “gebundener” und “freier” Energie. Heute orientiert sich die Psychologie eher an der Sprache der Informationstechnologie, und damit ging der Begriff der Energie verloren.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Was ist Energie? - 5. Ressourcen",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2007/007db195_07_022.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Das Erdöl wird in den nächsten Jahren knapp, und angesichts des Klimawandels ist die Kohle einfach zu schmutzig. Die Kernenergie scheint eine saubere, wenn auch teure Lösung ?? falls man die technischen Risiken und die Endlagerung in den Griff bekommt. Bislang sieht es nicht danach aus. Bleiben die Erneuerbaren Energien? Seit der Verabschiedung des Erneuerbare-Energien-Gesetzes durch den Bundestag boomen sie. Der Sonnenstaat ist keine Utopie.</p>",
+                                    "age": "8-11"
+                                },
+                                {
+                                    "title": "Die Elongationsenergie",
+                                    "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/wellen/mechschwing/elongationsenergie/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf diesen Seiten des Landesbildungsservers Baden-Württemberg wird der Begriff der Elongationsenergie eingeführt, an verschiedenen Beispielen aufgezeigt und in Übungen vertieft.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Was ist Energie? - Der physikalische Energiebegriff",
+                                    "link": "https://unterrichten.zum.de/wiki/Lernpfad_Energie",
+                                    "content": "<p>Mit Hilfe dieses Lernpfades kannst du den physikalischen Begriff Energie kennenlernen. Energie kann in unterschiedlichen Formen vorliegen. Energie kann aber auch zwischen verschiedenen Energieformen umgewandelt werden. Passende Beispiele helfen dir dabei eine Orientierung zu finden, mit Aufgaben kannst du dein Wissen vertiefen.</p> <p>&nbsp;</p>&nbsp;",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/energie/sparen/index.html",
+                            "name": "Energiesparen",
+                            "count": 8,
+                            "children": [
+                                {
+                                    "title": "Energie intelligent nutzen - (1)",
+                                    "link": "https://mp3.bildung.hessen.de/hr2/2010/20100116_mxUser522_00d04caa_10_001.mp3",
+                                    "content": "<p>Gebäude sind wahre Energiefresser. Sie sind für 40 Prozent der bundesdeutschen CO2-Emissionen verantwortlich. Das ist auch der Politik zu viel, weshalb die EU vor kurzem einen drastischen Entschluss gefasst hat: Ab 2021 muss jeder Neubau ein \"Nahe-Null-Energiegebäude\" sein.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Computer und Energie",
+                                    "link": "http://www.zukunft-der-energie.de/fileadmin/docs/pdf/100415Medienpaket_Kinder_II_final.PDF",
+                                    "content": "<p>Die ??? geben Tipps zum Stromsparen bei der Computernutzung, berichten von Tieren, die Strom erzeugen oder erklären Experimentieranleitungen zu Zitronenbatterien. </p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Energie intelligent nutzen (2)",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100116_mxUser522_00d04cb4_10_002.mp3",
+                                    "content": "<p>Es ist bekanntlich der Deutschen liebstes Kind - das Auto. Das Problem: Aus dem Auspuff der Karossen qualmen Unmengen an Treibhausgas CO2. Doch bei der Entwicklung klimafreundlicher Gefährte tun sich die Konzerne ziemlich schwer.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Sonne und Energie",
+                                    "link": "http://www.zukunft-der-energie.de/fileadmin/docs/pdf/100504_Kinder_3_Sonne_pdf.PDF",
+                                    "content": "<p>Die Sonne ist ein gewaltiges Energiekraftwerk. Ohne Sonne gäbe es kein Leben auf der Erde. Das Wissen für Schlauberger und ein Energie-Experiment von den ??? solltest du dir anschauen.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Energie intelligent nutzen (3)",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100116_mxUser522_00d04cbc_10_004.mp3",
+                                    "content": "<p>Riesige Windparks in Nord- und Ostsee, große Solarfarmen in der Sahara, Kraftwerke, die mit Pflanzenresten und Holzabfällen befeuert werden. Ein Mix aus regenerativer Energie, der in ein paar Jahrzehnten unseren gesamten Strombedarf decken könnte. Doch wie realistisch ist dieses Szenario?</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Verkehr und Energie",
+                                    "link": "http://www.zukunft-der-energie.de/fileadmin/docs/pdf/100520_Kinder_4_Verkehr.PDF",
+                                    "content": "<p>Neue Autos braucht die Welt: Elektro-Auto, Wasserstoff-Auto, Hybrid-Auto. Wer macht in Zukunft das Rennen? Mach dich schlau!</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Energie intelligent nutzen (4)",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100116_mxUser522_00d04cc1_10_005.mp3",
+                                    "content": "<p>Solarzellen, Windparks, Blockheizkraftwerke - sie gelten als zukunftsweisende, weil klimafreundliche Stromerzeuger. Doch um konsequent auf eine regenerative Energiewirtschaft umzusteigen, braucht es deutlich mehr als nur neue Kraftwerkstypen: Das Stromnetz muss grundlegend modernisiert werden.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/energie/vertiefung/index.html",
+                            "name": "Vertiefung",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Entropie",
+                                    "link": "http://www.schule-bw.de/unterricht/faecher/physik/online_material/entropie",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/lbs_bw_logo_180.png\"><p>Auf dieser Seite des Landesbildungsservers Baden-Württemberg wird dir der Entropiebegriff anschaulich durch ein Video mit ergänzenden Texten erklärt.</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/energie/wind_wasser/index.html",
+                            "name": "Wind/Wasserenergie",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Strom aus Strömung",
+                                    "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=6554",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Wasser- und Windkraft zählen zwar zu den ältesten Energiequellen, aber sie haben nach wie vor Zukunft. In Europa liefern sie knapp ein Fünftel des benötigten elektrischen Stroms. Dieser Firm zeigt am Beispiel Österreichs, wie aus Stauseen und Flüssen Elektrizität gewonnen wird.</p> <p>Mit dem Icon \"Wissenpool\" findest du noch mehr Informationen.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Kombikraftwerk",
+                                    "link": "http://www.kombikraftwerk.de/",
+                                    "content": "<p>In einem kurzen Filmbeitrag wird gezeigt, dass auch mit erneuerbaren Energien eine sichere Energieversorgung möglich ist - sofern man die verschiedenen Möglichkeiten geschickt kombiniert.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/astronomie/index.html",
+                "name": "Astronomie",
+                "count": 41,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/index.html",
+                            "name": "Sonnensystem",
+                            "count": 22,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/meteorit/index.html",
+                                        "name": "Meteoriten",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Weltraumstaub – ein Fenster zur Vergangenheit",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2010/20100526_mxUser522_00db35a7_10_057.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wenn ein Meteorit auf die Erde fällt, dann ist das für Forscher mehr als ein Klumpen Gestein: Es ist ein Fenster in die Vergangenheit des Alls. Denn Meteoriten enthalten Staubkörner, die vor Milliarden Jahren aus den Resten explodierter Sterne entstanden sind.</p>",
+                                                "age": "7-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/komet/index.html",
+                                        "name": "Kometen",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Planet Wissen: Kometen",
+                                                "link": "http://www.planet-wissen.de/natur/weltall/kometen/",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>Auf dieser Seite von Planet Wissen wird sehr anschaulich über Kometen berichtet.</p>",
+                                                "age": "5-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/mond/index.html",
+                                        "name": "Mond",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Planet-Wissen: der Mond",
+                                                "link": "http://www.planet-wissen.de/natur/weltall/mond/index.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>Auf dieser Seite von Planet Wissen gibt es viele interessante und gut erklärte Informationen über den Mond.</p>",
+                                                "age": "5-9"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/index.html",
+                                        "name": "Planeten",
+                                        "count": 14,
+                                        "children": {
+                                            "default": [
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/planetensystem/index.html",
+                                                    "name": "Planetensystem",
+                                                    "count": 4,
+                                                    "children": [
+                                                        {
+                                                            "title": "NASA Kids - für Profis",
+                                                            "link": "http://www.nasa.gov/audience/forkids/home/index.html",
+                                                            "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Die englischsprachigen (!) Kinderseiten der National Aeronautics and Space Administration (NASA) bieten Informationen, kurze Video-Sequenzen und Online-Spiele rund um Weltall und Raumfahrt. Abgerundet wird das Angebot durch die Bastelanleitungen in der Rubrik \"Activities\" und die Kinderbeiträge in der Rubrik \"Arts &amp; Stories\".</p>",
+                                                            "age": "8-10"
+                                                        },
+                                                        {
+                                                            "title": "Wie die Zeit an den Sonnenlauf angepasst wird",
+                                                            "link": "http://mp3.bildung.hessen.de/hr2/2008/0096e107_08_033.mp3",
+                                                            "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Bis die Sonne im Jahreslauf wieder denselben Punkt am Himmel erreicht, dauert es 365 Tage und knapp sechs Stunden. Ein Kalender, der ein Jahr mit nur 365 Tagen ansetzt, greift also zu kurz. Schon die Römer schoben deswegen alle vier Jahre einen Schalttag ein, aber auch dann ist ein Jahr im Durchschnitt noch immer elf Minuten zu lang.</p>",
+                                                            "age": "8-13"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/merkur/index.html",
+                                                    "name": "Merkur",
+                                                    "count": 2,
+                                                    "children": [
+                                                        {
+                                                            "title": "Merkur - der innerste Planet",
+                                                            "link": "http://www.br-online.de/wissen-bildung/spacenight/sterngucker/planeten/merkur.html",
+                                                            "content": "<p>Merkur ist mit 4.880 Kilometern Durchmesser nach <a title=\"Wird in einem eigenen Fenster geöffnet ...\" href=\"http://www.br-online.de/wissen-bildung/spacenight/sterngucker/planeten/pluto.html\" target=\"_extern\">Pluto</a> der zweitkleinste Planet im <a title=\"Wird in einem eigenen Fenster geöffnet ...\" href=\"http://www.br-online.de/wissen-bildung/spacenight/sterngucker/planeten/sonnensystem.html\" target=\"_extern\">Sonnensystem</a>. Bei seiner geringsten Entfernung ist er etwa 75 Millionen Kilometer von der Erde weg - deutlich weiter als <a title=\"Wird in einem eigenen Fenster geöffnet ...\" href=\"http://www.br-online.de/wissen-bildung/spacenight/sterngucker/planeten/venus.html\" target=\"_extern\">Venus</a> und <a title=\"Wird in einem eigenen Fenster geöffnet ...\" href=\"http://www.br-online.de/wissen-bildung/spacenight/sterngucker/planeten/mars.html\" target=\"_extern\">Mars</a></p>",
+                                                            "age": "5-9"
+                                                        },
+                                                        {
+                                                            "title": "Der Merkur",
+                                                            "link": "http://www.kindernetz.de/infonetz/tiereundnatur/planeten/merkur/-/id=27594/nid=27594/did=28186/zau837/",
+                                                            "content": "<p>Auf dieser Seite von <a href=\"http://www.kindernetz.de\">www.kindernetz.de</a> werden viele Eigenschaften des Merkur sehr gut erklärt.</p>",
+                                                            "age": "5-9"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/venus/index.html",
+                                                    "name": "Venus",
+                                                    "count": 1,
+                                                    "children": [
+                                                        {
+                                                            "title": "Der Höllenplanet Venus",
+                                                            "link": "https://lernarchiv.bildung.hessen.de/sek/physik/astronomie/astrophysik/sonnensystem/planet/venus/lernpfad_venus/index.html",
+                                                            "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Liebe Schülerinnen und Schüler,</p> <p>in diesem Lernpfad über den Planeten Venus werden u. a. folgende Fragen beantwortet:</p> <p>-Warum wird die Venus unser Zwillingsplanet genannt?</p> <p>-Gab und gibt es Leben auf der Venus?</p> <p>-Welche Venusmissionen sind geplant?&nbsp;</p>",
+                                                            "age": "7-13"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/mars/index.html",
+                                                    "name": "Mars",
+                                                    "count": 1,
+                                                    "children": [
+                                                        {
+                                                            "title": "Der Mars ist eine harte Nuss",
+                                                            "link": "https://lernarchiv.bildung.hessen.de/sek/physik/astronomie/astrophysik/sonnensystem/planet/mars/lernpfad_mars/index.html",
+                                                            "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Liebe Schülerinnen und Schüler,</p> <p>in diesem Lernpfad geht es um unseren nächsten Nachbarn, dem \"Roten Planeten\" Mars.</p> <p>Folgende Fragen stehen im Mittelpunkt:</p> <p>Gab und gibt es flüssiges Wasser auf dem Mars?</p> <p>Gab und gibt es Leben auf dem Mars?</p> <p>Werden Astronauten auf dem Mars landen können?</p> <p>Wird es in Zukunft eine Marskolonie geben?</p>",
+                                                            "age": "7-13"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/jupiter/index.html",
+                                                    "name": "Jupiter",
+                                                    "count": 2,
+                                                    "children": [
+                                                        {
+                                                            "title": "WIS: Jupiter - der Gasriese",
+                                                            "link": "https://www.spektrum.de/alias/material/jupiter-der-gasriese/1069420",
+                                                            "content": "<p>Auf dieser Seite von wissenschaft-schulen.de erfährst du viel Wissenswertes über den Jupiter.</p>",
+                                                            "age": "5-10"
+                                                        },
+                                                        {
+                                                            "title": "Der Riese Jupiter",
+                                                            "link": "https://lernarchiv.bildung.hessen.de/sek/physik/astronomie/astrophysik/sonnensystem/planet/jupiter/lernpfad_jupiter/index.html",
+                                                            "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Kurs über den Riesen Jupiter werden folgende Themen behandelt: Daten und Fakten zum Jupiter, Wetter auf dem Jupiter, Magnetfeld des Jupiter, Jupitermonde, Einfluss des Jupiter auf die Erde, aktuelle Jupitermissionen.</p>",
+                                                            "age": "8-13"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/saturn/index.html",
+                                                    "name": "Saturn",
+                                                    "count": 2,
+                                                    "children": [
+                                                        {
+                                                            "title": "Die acht Planeten: der Saturn",
+                                                            "link": "https://www.kindernetz.de/wissen/acht-planeten-der-saturn-102.html",
+                                                            "content": "<p>Auf dieser Seite von kindernetz.de erfahrt ihr viel Interessantes über den Saturn.</p>",
+                                                            "age": "5-9"
+                                                        },
+                                                        {
+                                                            "title": "Der Planet Saturn",
+                                                            "link": "http://lexikon.astronomie.info/saturn/",
+                                                            "content": "<p>Auf dieser Seite von lexikon.astronomie.info werden die wichtigsten Informationen zum Saturn zusammengefasst.</p>",
+                                                            "age": "5-9"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/uranus/index.html",
+                                                    "name": "Uranus",
+                                                    "count": 2,
+                                                    "children": [
+                                                        {
+                                                            "title": "Die acht Planeten: der Uranus",
+                                                            "link": "http://www.kindernetz.de/infonetz/tiereundnatur/planeten/uranus/-/id=27594/nid=27594/did=28206/1eeecrm/index.htm",
+                                                            "content": "<p>Auf dieser Seite von kindernetz.de werden die wichtigsten Informationen zum Planeten Uranus zusammengefasst.</p>",
+                                                            "age": "5-9"
+                                                        },
+                                                        {
+                                                            "title": "Steckbrief: Uranus - der rollende Planet",
+                                                            "link": "http://www.spektrum.de/wissen/steckbrief-uranus-der-rollende-planet/1203877",
+                                                            "content": "<p>Auf dieser Seite von <a href=\"http://www.spektrum.de\">www.spektrum.de</a> wurde ein sehr informativer Steckbrief über den Uranus erstellt.</p>",
+                                                            "age": "5-9"
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/neptun/index.html",
+                                                    "name": "Neptun",
+                                                    "count": null,
+                                                    "children": {}
+                                                },
+                                                {
+                                                    "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/planet/pluto/index.html",
+                                                    "name": "Pluto",
+                                                    "count": null,
+                                                    "children": {}
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/physik/astronomie/sonnensystem/sonne/index.html",
+                                        "name": "Sonne",
+                                        "count": 4,
+                                        "children": [
+                                            {
+                                                "title": "Beobachtungen an der Sonne",
+                                                "link": "http://www.heise.de/tp/r4/artikel/23/23563/1.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/telepolis180.gif\"><p>Der Artikel beschreibt recht verständlich, wie die Sonne beobachtet wird und mit welchen Schwierigkeiten die Wissenschaftler zu kämpfen haben.</p>",
+                                                "age": "8-8"
+                                            },
+                                            {
+                                                "title": "Faszinierende Bilder von Sonneneruptionen",
+                                                "link": "http://www.heise.de/tp/r4/artikel/24/24916/1.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/telepolis180.gif\"><p>Das Magnetfeld der Sonne ist turbulenter, als bislang angenommen. Die Bilder vermitteln einen Eindruck, wie heftig es dabei zugeht.</p>",
+                                                "age": "8-8"
+                                            },
+                                            {
+                                                "title": "Lernpfad: Die Sonne",
+                                                "link": "https://lernarchiv.bildung.hessen.de/sek/physik/astronomie/astrophysik/sonnensystem/sonne/allgemein/lernpfad_sonne/index.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Die Sonne ist das größte Gebilde im Sonnensystem. Ohne sie wäre das Leben auf der Erde nicht entstanden. In diesem Lernpfad lernst du viele physikalische Aspekte der Sonne kennen. &nbsp;</p>",
+                                                "age": "6-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/astronomie/stern/index.html",
+                            "name": "Sterne",
+                            "count": 2,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/astronomie/weltall/index.html",
+                            "name": "Weltall",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "... über die Entstehung von Raum, Zeit und Materie",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/0091fcad_08_010.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wie kommt es, dass es unsere Welt gibt?</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "... über die ersten drei Minuten des Universums",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/0091fcb8_08_011.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Professor Harald Lesch erzählt auf äußerst unterhaltsame Weise, wie in den ersten 180 Sekunden des Universums das Gesetzbuch der Natur entstand und eine „gewaltige Schlacht der Materie mit der Antimaterie“ stattgefand.</p>",
+                                    "age": "9-10"
+                                },
+                                {
+                                    "title": "... über Strahlung und die Dunkle Seite des Universums",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/0091fcc1_08_012.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wir bestehen zu 92% aus Sternenstaub. Sterne und Galaxien aber konnten nur entstehen, weil es auch die Dunkle Seite des Universums gibt, die Dunkle Materie.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/astronomie/raumfahrt/index.html",
+                            "name": "Raumfahrt",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Den Globus im Visier",
+                                    "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=80",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Das Zeitalter der Raumfahrt hat uns Menschen neue Perspektiven eröffnet. Erstmals können wir unseren blauen Planeten in seiner Gesamtheit betrachten. Mittlerweile überwachen zahlreiche Satelliten das Geschehen auf der Erde: Truppenbewegungen ebenso wie Wetter- und Klimaphänomene oder geologische Veränderungen. - Über das Icon \"Wissenspool\" gibt es noch mehr Hintergrundinformationen!</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Satelliten weisen den Weg (14:10min)",
+                                    "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=6557",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Eventuell hast du auch schon einmal erlebt, wie sich deine Eltern in fremder Umgebung verfranst haben. Mit einem GPS-Systen (Global Positioning System) passeirt dies deutlich selterner. Dieser Film zeigt dir, dass den himmlischen Lotsen im All die Zukunft gehört.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Auf dem Weg zum Mars? 50 Jahre NASA",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/00a17608_08_122.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Es begann mit dem Sputnik-Schock. Ein Jahr nachdem die Sowjets den ersten Satelliten ins All geschossen hatten, bündelten die US-Amerikaner ihre Raumfahrtaktivitäten in der mächtigen NASA. Keine elf Jahre nach ihrer Gründung hatte die NASA erstmals Menschen zum Mond gebracht.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "NASA Kids - für Profis",
+                                    "link": "http://www.nasa.gov/audience/forkids/home/index.html",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Die englischsprachigen (!) Kinderseiten der National Aeronautics and Space Administration (NASA) bieten Informationen, kurze Video-Sequenzen und Online-Spiele rund um Weltall und Raumfahrt. Abgerundet wird das Angebot durch die Bastelanleitungen in der Rubrik \"Activities\" und die Kinderbeiträge in der Rubrik \"Arts &amp; Stories\".</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Parabelflüge: Schwerelos durch die Wolken",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091114_mxUser522_00c973ce_09_143.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Um Schwerelosigkeit zu erleben, muss man nicht unbedingt auf einer Raumstation arbeiten. Schwerelosigkeit lässt sich auch an Bord eines Flugzeugs erzeugen - etwa 22 Sekunden lang schwebt dann alles an Bord, was nicht mit Gurten oder Handgriffen fixiert wurde.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/astronomie/leben/index.html",
+                            "name": "Leben im Weltall?",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Allein im Universum? (1) Science Fiction - Wissenschaft",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009ba496_08_069.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Der Münchner Astrophysiker und Fernsehmoderator Professor Harald Lesch erzählt in sechs Folgen von einem der faszinierendsten Projekte der Astrophysik, von der Suche nach&nbsp; Leben auf anderen Planeten. Früher waren es nur die Hirngespinste einiger Autoren, da war von Ufos und ET die Rede. Die Fiktion hat sich zu Forschung gewandelt.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Allein im Universum? (2) Das Leben der Sterne",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009ba49a_08_070.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Ohne die Sterne ginge gar nichts. Es gäbe nur Wasserstoff und Helium. Jedes Lebewesen besteht aus Sternenstaub. Wenn wir wissen wollen, was wir über Außerirdische wissen können, müssen wir uns mit dem Leben und Sterben von Sternen auseinandersetzen.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Allein im Universum? (3) Planeten und Monde",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009ba4a1_08_071.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Leben gibt es nur auf festen Oberflächen, also gibt es Leben nur auf Planeten, sagt Harald Lesch. Die dürfen aber ihrem Stern weder zu nahe kommen, noch ihn zu weit entfernt umkreisen. In dieser Folge fragt der Münchner Astrophysiker und Fernsehmoderator: Was ist nötig, damit es auf einem Planeten oder einem seiner Monde lebt?</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Allein im Universum? (4) Der kosmische Normalfall",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009ba4a6_08_072.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Vielleicht ist alles ja auch ganz anders? Womöglich sind die Außerirdischen viel schneller entstanden als das Leben auf der Erde? Vielleicht sind sie auch noch gar nicht entstanden? Wir Erdenbewohner leben im galaktischen Hinterhof und brauchen kosmische Langeweile, sagt der Münchner Astrophysiker und Geschichtenerzähler Harald Lesch.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Allein im Universum? (5) Andere Welten",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009bc741_08_075.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Es war vor über zehn Jahren eine Sensation: Planeten um andere Sterne entdeckt. Heute kennt man schon über 200 Planetensysteme. Die meisten sind ganz anders als das Sonnensystem, einige scheinen aber besonders interessant zu sein. Von der Suche nach „Erde 2“ erzählt der Astrophysiker Professor Harald Lesch.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Allein im Universum? (6) Der kosmische  Grüngürtel",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/009bc749_08_076.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Die Milchstraße ist unsere weitere kosmische Heimat. Auch in ihr müssen die Bedingungen lebensfreundlich sein, damit es zu Planeten und dann auch zu Leben kommen kann. Unser Sonnensystem liegt in diesem kosmischen Grüngürtel.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Planetschule: Das 1*1 des Universums",
+                                    "link": "http://www.planet-schule.de/sf/filme-online.php?film=9185&reihe=1217",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Wie fing alles an? Woraus besteht das Universum? Wie findet man Planeten außerhalb des Sonnensystems? Gut erklärte Antworten auf diese und viele andere Fragen erhälst du auf dieser Seite von www.planet-schule.de.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Themen der Oberstufe": [
+            {
+                "link": "https://select.bildung.hessen.de/physik/atomphysik/index.html",
+                "name": "Atomphysik",
+                "count": 29,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/atomphysik/einfuehrung/index.html",
+                            "name": "Einführung",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Atomaufbau",
+                                    "link": "http://www.abi-physik.de/buch/kernphysik/atomaufbau/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Atome sind Grundbausteine der Materie, jeder Körper besteht aus Atomen bzw. Molekülen.<br>Der innere Aufbau der Atome wird beschrieben und mit Skizzen verständlich dargestellt.</p>",
+                                    "age": "13-13"
+                                },
+                                {
+                                    "title": "Millikan Versuch",
+                                    "link": "http://www.abi-physik.de/buch/das-elektrische-feld/millikan-versuch/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Der Millikan-Versuch ist ein physikalisches Experiment, welches eine relativ präzise Bestimmung der Elementarladung e ermöglicht. Der Versuch wurde im Jahre 1910 von dem amerikanischen Physiker Robert Andrews Millikan entwickelt und durchgeführt.<br>Der Aufbau und die Durchführung des Millikan Versuches wird beschrieben und mit Animationen verständlich gemacht.</p>",
+                                    "age": "12-12"
+                                },
+                                {
+                                    "title": "Die Reise zu den Atomen",
+                                    "link": "http://www.atom4kids.net/atom00_dt.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/dbs180.png\"><p>Hier werden die Themen Atomenergie, Radioaktivität und Strahlenschutz in leicht verständlicher Form behandelt.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Das Bohrsche Atommodell",
+                                    "link": "http://physikunterricht-online.de/jahrgang-12/das-bohrsche-atommodell/",
+                                    "content": "<p>Du stehst kurz vor der nächsten Physikklausur und hast nicht richtig mitgeschrieben beim Bohrschen Atommodell. Keine Panik! Auf dieser Seite von physikunterricht-online.de wird dir jeder Rechenschritt ausführlich erklärt.</p>",
+                                    "age": "11-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/atomphysik/materie/index.html",
+                            "name": "Materie",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Massenspektrometer",
+                                    "link": "http://www.abi-physik.de/buch/das-magnetfeld/massenspektrometer/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Mit Massenspektrometern kann man die Masse von elektrisch geladenen Teilchen bestimmen. Dabei werden die Teilchen durch ein homogenes Magnetfeld geschickt und dadurch auf eine Kreisbahn gelenkt. Anschließend wird der Radius dieser Kreisbahn gemessen.<br>Der Aufbau und die Funktionsweise eines Massenspektrometers wird erläutert und mit Animationen verständlich gemacht.</p>",
+                                    "age": "12-12"
+                                },
+                                {
+                                    "title": "Was ist Materie? -  (1)  Harald Lesch",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100320_mxUser522_00d5c674_10_035.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Im Alltag gehen wir ganz selbstverständlich mit ihr um - oder kämpfen gegen ihre Tücken. Materie ist für uns die fassbare Grundsubstanz aller Dinge und allen Lebens. Und der Unterschied&nbsp; zwischen Materie und Geist ist immer noch ein Thema, über das wir erregt streiten können. Was aber genau ist Materie wirklich?</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Was ist Materie? (2) - Harald Lesch",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100320_mxUser522_00d5c676_10_036.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Alles, was ist,&nbsp; besteht aus unteilbaren Teilchen&nbsp; - und aus dem Nichts. Davon waren die griechischen Philosophen Leukipp und Demokrit&nbsp; überzeugt, die&nbsp; ersten Atomisten. Aber was ist das Nichts? Um uns herum ist doch immer etwas.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Was ist Materie? - (3)  Harald Lesch",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100320_mxUser522_00d5c679_10_037.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Nach Galilei ist die Materie schwer und träge, aber sie ist auch hart&nbsp; und farbig. Diese kurze Inventur der beginnenden Neuzeit belegt ein großes Dilemma, sagt der vielfach ausgezeichnete Münchner Astrophysiker und Moderator Harald Lesch: „Man konnte noch nicht in die Materie hineinschauen.\"</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Was ist Materie? - (4)  Harald Lesch",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100320_mxUser522_00d5c67b_10_038.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Dank Max Planck und Albert Einstein begann um 1900 die große Revolution der Physik. Es entstand das vielleicht wichtigste Konzept&nbsp; der Physik, die Quantenmechanik. Sie lässt die Eigenschaften der Materie in ganz neuem Licht erscheinen.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/atomphysik/quanten/index.html",
+                            "name": "Quantenphysik",
+                            "count": 11,
+                            "children": [
+                                {
+                                    "title": "Photoeffekt",
+                                    "link": "http://www.abi-physik.de/buch/quantenmechanik/photoeffekt/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Der Photoeffekt beschreibt das Herauslösen von Elektronen aus einem Metall durch Photonen, also durch Bestrahlung mit Licht. <br>Die Vorgänge werden ausführlich beschrieben und mit Animationen verständlich gemacht.</p>",
+                                    "age": "13-13"
+                                },
+                                {
+                                    "title": "Phil's Physics: Quantenphysik einfach erklärt! Atom, Orbital, Spektrum, Elektron ...",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/physik/quantentheorie/materiewelle/elektronen_beugung/edu_tube_1523795911_14.html",
+                                    "content": "<p>In diesem Video erklärt Philipp Häuser, wie ein Atom aufgebaut ist, was man unter Orbitalen versteht und wie man sich Elektronen als Wellen vorstellen kann.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Der Franck-Hertz-Versuch",
+                                    "link": "http://www.ulfkonrad.de/physik/ph-13-fhv.htm",
+                                    "content": "<p>Auf dieser Seite von ulfkonrad.de wird sehr anschaulich der Franck-Hertz-Versuch erklärt. Dabei wird besonders der üblicherweise in der Schule verwendete Versuchsaufbau beschrieben.</p>",
+                                    "age": "11-13"
+                                },
+                                {
+                                    "title": "Quantencomputer, Spin, Qubits, Stern-Gerlach-Versuch Phil's Physics",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/physik/quantentheorie/technik/qbit/edu_tube_1523797468_3.html",
+                                    "content": "<p>In diesem Video erklärt Philipp Häuser, wie ein Quantencomputer mithilfe von Qubits funktioniert.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Phil's Physics Kann man Menschen teleportieren?",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/physik/quantentheorie/technik/allgemein/edu_tube_1523799211_27.html",
+                                    "content": "<p>Kann man Menschen teleportieren? Die Antwort darauf gibt Philipp Häuser in diesem Video. Er erklärt, dass mit Teleportation eigentlich die \"Quantenverschränkung\" gemeint ist.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "DPG Quantenwelten",
+                                    "link": "https://www.dpg-physik.de/veroeffentlichung/themenhefte/highlights-2014.pdf",
+                                    "content": "<p>In diesem Themenheft der DPG erfahrt ihr viel Grundlegendfes über die Quanten. Ein Schwerpunkt liegt auf den technischen Anwendungen.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Wie Max Planck unser Denken verändert hat",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2008/0098a8dc_08_050.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Erhitzt man ein Stück Eisen lange genug, glüht es rot und später sogar weiß. Um dieses Verhalten zu erklären, erfand der deutsche Physiker und spätere Nobelpreisträger Max Planck anno 1900 das \"Plancksche Strahlungsgesetz\". In dieser Formel führte Planck - wenn auch wider Willen - erstmals den Begriff \"Quant\" ein.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/atomphysik/anwendungen/index.html",
+                            "name": "Anwendungen",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Die Entdeckung der Röntgenstrahlen",
+                                    "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=6552",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Am 22. Dezember 1895 wurde eine fotografische Aufnahme gemacht, die einen Meilenstein in der Geschichte der Physik setzte. Es war die erste Röntgenaufnahme der Welt, die Hand von Wilhelm Conrad Röntgens Ehefrau Anna. Unmittelbar danach setzte eine stürmische Entwicklung von Apparaten zur Durchleuchtung ein.</p> <p>Mit dem Icon \"Wissenspool\" gibt es noch mehr Informationen ...</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Bragg-Gleichung",
+                                    "link": "http://www.abi-physik.de/buch/quantenmechanik/bragg-gleichung/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Röntgenstrahlung ist wie sichtbares Licht elektromagnetische Strahlung und zeigt Interferenzeffekte, welche bei der Beugung an Kristallgittern auftreten. <br>Die Entstehung der Interferenzeffekt und ihre Berechnung durch die Bragg-Gleichung werden ausführlich beschrieben und mit Animationen verständlich gemacht.</p>",
+                                    "age": "13-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/atomphysik/unschaerferelation/index.html",
+                            "name": "Unschärferelation",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Leifi: Unschärferelation",
+                                    "link": "http://www.leifiphysik.de/themenbereiche/quantenobjekt-elektron/unscharferelation",
+                                    "content": "<p>Was ist die Heisenbergsche Unschärferelation? Wie kann man sie herleiten? Wie sieht eine typische Abi-Aufgabe dazu aus? Antworten darauf erhälst du auf der folgenden Seite von leifiphysik.de.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Max Planck, die Quantenphysik und die Unschärfe",
+                                    "link": "https://www.planet-schule.de/wissenspool/meilensteine-der-naturwissenschaft-und-technik/inhalt/hintergrund/physik/max-planck-und-die-quantenphysik.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Auf dieser Seite von planet-schule.de werden grundlegende Aspekte der Quantenphysik u. a. auch die Heisenbergsche Unschärferelation thematisiert.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "alpha-Centauri Unschärferelation",
+                                    "link": "http://www.br.de/fernsehen/ard-alpha/sendungen/alpha-centauri/alpha-centauri-unschaerferelation-2002_x102.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>In diesem Video von alpha-Centauri erklärt Professor Harald Lesch sehr anschaulich die Heisenbergsche Unschärferelation und welche wichtigen Folgerungen daraus gezogen werden können.</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/physik/kernphysik/index.html",
+                "name": "Kernphysik",
+                "count": 13,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/kernphysik/anwendung_kernphysik/index.html",
+                            "name": "Anwendungen der Kernphysik",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Kennst du Nachweismethoden in der Kernphysik?",
+                                    "link": "https://www.lernhelfer.de/schuelerlexikon/physik-abitur/artikel/nachweismethoden-fuer-radioaktive-strahlung#",
+                                    "content": "<p>Hier erfährst du viel Tolles über Kernphysik.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Kernkraft? - \"Nein, danke\" oder \"Ja, bitte\"",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/physik/kernphysik/technik/kernkraftwerk/lernpfad_kernkraftwerk/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Kernkraftwerke (auch Atomkraftwerke genannt) galten lange Zeit als Auslaufmodelle. Aufgrund der immer noch sehr hohen Emission von Kohlendioxid und der Gaskrise bedingt durch den Krieg in der Ukraine findet ein Umdenken statt. Kernkraft ist wieder attraktiver geworden, so dass es sich lohnt, sich mit der Kernkraft wieder intensiver zu beschäftigen. Dieser Lernpfad soll das Basiswissen für die eigene Positionierung liefern, um \"mitreden\" zu können. Es werden u. a. folgende Fragen beantwortet:</p> <ul> <li>Wie funktioniert die Kernspaltung?</li> <li>Wo und wie wird Uran abgebaut?</li> <li>Wie muss man Uran aufbereiten?</li> <li>Wie funktonieren die meist genutzten Reaktortypen?</li> <li>Welche Sicherheitsbarrieren hat ein typisches Kernkraftwerk?</li> <li>Wie wird der Atommüll entsorgt?</li> <li>Was ist in Tschernobyl und in Fukushima passiert?</li> </ul>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/kernphysik/aufbau_des_kerns/index.html",
+                            "name": "Aufbau der Kerne",
+                            "count": 1,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/kernphysik/radioaktivitaet_kernumwandlung/index.html",
+                            "name": "Radioaktivität, Kernumwandlungen",
+                            "count": 7,
+                            "children": [
+                                {
+                                    "title": "Gammastrahlung",
+                                    "link": "http://www.abi-physik.de/buch/kernphysik/gammastrahlung/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Gammastrahlung oder γ-Strahlung ist im engeren Sinne eine besonders durchdringende elektromagnetische Strahlung. Sie entsteht beim Zerfall der Atomkerne vieler natürlich vorkommender oder künstlich erzeugter radioaktiver Nuklide. <br>Die Eigenschaften der Strahlung werden erläutert und mit Animationen verständlich gemacht.</p>",
+                                    "age": "13-13"
+                                },
+                                {
+                                    "title": "Betastrahlung",
+                                    "link": "http://www.abi-physik.de/buch/kernphysik/betastrahlung/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Betastrahlung oder β-Strahlung ist eine ionisierende Strahlung, die bei dem Betazerfall, einem radioaktiven Zerfall, auftritt. <br>Die Eigenschaften der Strahlung werden erläutert und Beta+ - und Beta--Zerfall werden mit Animationen verständlich gemacht.</p>",
+                                    "age": "13-13"
+                                },
+                                {
+                                    "title": "Alphastrahlung",
+                                    "link": "http://www.abi-physik.de/buch/kernphysik/alphastrahlung/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Alphastrahlung oder α-Strahlung ist eine Art von ionisierender Strahlung, die beim Alphazerfall, einem radioaktiven Zerfall, auftritt. Es handelt sich dabei um eine Teilchenstrahlung bestehend aus Helium-4-Atomkernen, welche aus zwei Protonen und zwei Neutronen bestehen.<br>Die Eigenschaften der Strahlung werden erläutert und der Alpha-Zerfall wird mit Animationen verständlich gemacht.</p>",
+                                    "age": "13-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/physik/kernphysik/gefahren_kernphysik/index.html",
+                            "name": "Gefahren der Kernphysik",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Ionisierende Strahlung",
+                                    "link": "http://www.abi-physik.de/buch/kernphysik/ionisierende-strahlung/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/abi_physik.png\"><p>Als Ionisierende Strahlung bezeichnet man Teilchen- oder elektromagnetische Strahlung, welche so energiereich ist, dass sie aus Atomen oder Molekülen Elektronen entfernen kann. Durch diesen Vorgang werden die Atome zu reaktiven Ionen, welche in lebendem Gewebe großen Schaden anrichten können.<br>Es werden Abschirmungs- und Schutzmöglichkeiten gegenüber Strahlung erläutert und wichtige Formeln zum Strahlenschutz beschrieben.</p>",
+                                    "age": "13-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Übergreifendes": [
+            { "link": "https://select.bildung.hessen.de/physik/allgemein/index.html", "name": "Allgemeines", "count": 4, "children": {} },
+            {
+                "link": "https://select.bildung.hessen.de/physik/geschichte/index.html",
+                "name": "Geschichte",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Große Physikerinnen: Lise Meitner",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2008/00a920e0_08_154.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Lise Meitner wurde vor 130 Jahren in Wien geboren, sie starb vor 40 Jahren in England. Vor 70 Jahren -&nbsp; 1938 - erarbeitete sie gemeinsam mit Otto Hahn in Berlin die Grundlagen für eines der folgenreichsten physikalischen Experimente der Wissenschaftsgeschichte: die Kernspaltung.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Wie Max Planck unser Denken verändert hat",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2008/0098a8dc_08_050.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Erhitzt man ein Stück Eisen lange genug, glüht es rot und später sogar weiß. Um dieses Verhalten zu erklären, erfand der deutsche Physiker und spätere Nobelpreisträger Max Planck anno 1900 das \"Plancksche Strahlungsgesetz\". In dieser Formel führte Planck - wenn auch wider Willen - erstmals den Begriff \"Quant\" ein.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Mademoiselle Curie: Ein Leben für die Atomforschung",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2006/00677675_06_038.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Gleich drei Nobelpreise in einer Familie - das ist einzigartig. Den Namen Curie hat Marie Curie bekannt gemacht, die Pionierin auf dem Gebiet der Radioaktivität, mit gleich zwei Nobelpreisen. Aber da gibt es auch noch ihre Tochter Irène Joliot-Curie. Sie erhielt 1935 den Chemie-Nobelpreis für die Entdeckung der künstlichen Radioaktivität.</p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            { "link": "https://select.bildung.hessen.de/physik/uebergreifend/index.html", "name": "Lexika", "count": null, "children": {} },
+            {
+                "link": "https://select.bildung.hessen.de/physik/weltbild/index.html",
+                "name": "Weltbilder der Physik",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Grenzen des Wissens - (1) über das Allerkleinste",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2009/20090520_mxUser522_00bb00a7_09_033.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Der Münchner Astrophysiker und Fernsehmoderator Professor Harald Lesch lotet die Grenzen unseres Wissens und die Grenzen der Wissenschaft aus. Heute stellt er die Frage nach dem Allerkleinsten. Woraus besteht die Welt? „Am untersten Ende der Welt schwankt Energie und kristallisiert sich in Teilchen“, erzählt er.</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Grenzen des Wissens - (2) über Einmaligkeit",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2009/20090520_mxUser522_00bb0096_09_034.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Kann man richtige Modelle über die wichtigsten historischen Abläufe der Natur machen? Nein, denn niemand war dabei, sagt der Münchner Astrophysiker und Fernsehmoderator Professor Harald Lesch. Aber man kann den Beginn des Universums, die Entstehung der Erde und den Ursprung des Lebens anhand von Indizien rekonstruieren.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Grenzen des Wissens - (3) über Wahrheit",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2009/20090520_mxUser522_00bb0087_09_035.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Naturwissenschaften versuchen, die&nbsp; Sprache der Natur in die Sprache des Menschen zu übersetzen. Wenn die Natur ein Text ist, dann ist Physik die Überprüfung der grammatikalischen Struktur - meint der Münchner Astrophysiker und Fernsehmoderator Professor Harald Lesch. Mit Wahrheit aber, sagt er, haben die Naturwissenschaften nichts zu tun.</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Grenzen des Wissens - (4) Ursache und Wirkung",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2009/20090520_mxUser522_00bb0080_09_036.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wissenschaft zerlegt die Natur in ihre Einzelteile, sie reduziert sie auf möglichst einfache Bestandteile. Natürliche Systeme sind aber oft so kompliziert, dass durch die Zerlegung die wichtigsten Eigenschaften verschwinden. Das Ganze besteht zwar aus Teilen, ist aber viel mehr als die Summe seiner Teile.</p>",
+                        "age": "9-13"
+                    }
+                ]
+            }
+        ]
+    }
+}

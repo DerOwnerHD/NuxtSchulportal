@@ -1,0 +1,436 @@
+{
+    "link": "informatik/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_informatik.png",
+    "text": "Informatik",
+    "content": {
+        "default": [
+            {
+                "link": "https://select.bildung.hessen.de/informatik/alg/index.html",
+                "name": "Algorithmen und Datenstrukturen",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Bubble Sort Aktivität",
+                        "link": "https://teachinglondoncomputing.org/the-bubblesort-activity/",
+                        "content": "<p>Musst Du vielleicht eine Präsentation zum Bubble Sort erarbeiten?</p> <p>Dann kannst Du sie gut durch die hier verlinkte Aktivität auflockern, indem Du die anderen Lernenden einbindest.</p> <p>Du findest Anleitungsvideos, Nummernkarten zum Ausdrucken sowie ein Booklet, in dem der Algorthmus erläutert wird.</p> <p>Voraussetzung: Du verstehst gut genug Englisch.</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Datenstrukturen",
+                        "link": "https://hpi.de/friedrich/teaching/units/arrays-listen-stacks-und-queues.html",
+                        "content": "<p>Die Datenstrukturen werden in einer kurzen Übersicht dargestellt.</p> <p>Am Ende wird eine Aufgabe gestellt, die selbständig gelöst werden soll.</p> <p>Anschließend wird die Aufgabe in einem Video besprochen.</p> <p>&nbsp;</p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/betriebssystem/index.html",
+                "name": "Betriebssysteme",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Ubuntu - ein  Betriebssystem macht Karriere",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2007/008d8754_07_108.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Ubuntu - das ist ein Begriff aus der südafrikanischen Sprache Zulu und er bedeutet Offenheit Anderen gegenüber, Mitgefühl und Wir-Gefühl. Ubuntu heißt aber auch ein Betriebssystem für Heimcomputer. Nicht zufällig hat eine südafrikanische Firma dieses System auf den Markt gebracht.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            { "link": "https://select.bildung.hessen.de/informatik/bildbearb/index.html", "name": "Bildbearbeitung", "count": null, "children": {} },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/geschichte/index.html",
+                "name": "Geschichte der \"Denkmaschinen\"",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Wie Konrad Zuse den Computer erfand (1)",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2010/20100626_mxUser522_00defeb1_10_076.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Die ersten Computer erfüllten nicht nur Rechenaufgaben, sondern einen schon etwas älteren Menschheitstraum: die „Denkmaschine“. Inzwischen können Computer sehr gut Schach spielen, aber kaum an einer alltäglichen Unterhaltung teilnehmen.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Wie Konrad Zuse den Computer erfand (2)",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2010/20100626_mxUser522_00defeb4_10_077.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>„Ich war zu faul zum Rechnen“, pflegte Konrad Zuse auf die Frage zu antworten, warum er den Computer erfunden hatte. So entstand 1941 - mitten im Weltkrieg - der erste funktionsfähige programmierbare Computer der Welt.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Wie Konrad Zuse den Computer erfand (3)",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2010/20100626_mxUser522_00defeb6_10_078.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Computer treffen spezialisierte Entscheidungen besser als ein erwachsener Experte, Roboter bewegen sich aber ungeschickter als ein Kleinkind. Vom großen Traum, den Computer-Übermenschen zu schaffen, haben sich die meisten verabschiedet - offenbar unterscheiden sich menschliche und maschinelle „Intelligenz“ doch sehr voneinander.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Ada Lovelace und die Geburt der Informatik",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2005/005f9268_05_144.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Ada Lovelace (1815-1852) wollte sich nicht mit der Rolle, die einer Frau im England der Romantik vorgegeben war, zufrieden geben und fand Trost in der Mathematik. Sie freundete sich mit Charles Babbage an, der gerade den ersten frei programmierbaren Computer der Weltgeschichte zusammenbaute. Für diesen (mechanischen) Computer hat Ada Lovelace das erste Programm der Weltgeschichte geschrieben.</p>",
+                        "age": "9-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/internet/index.html",
+                "name": "Internet",
+                "count": 14,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/informatik/internet/email/index.html",
+                            "name": "E-Mails",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/informatik/internet/hyper_text_markup/index.html",
+                            "name": "HTML - die Sprache des Web",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "HTML lernen",
+                                    "link": "https://www.w3schools.com/html/default.asp",
+                                    "content": "<p>Wolltest Du schon immer einmal wissen, wie eine Website programmiert wird? Dann bietet Dir dieser kostenlose Kurs eine gute Möglichkeit in HTML einzusteigen.</p> <p>Du kannst den Kurs durchführen, ohne Dich auf der Plattform zu registrieren.</p> <p>&nbsp;</p> <p>&nbsp;</p>",
+                                    "age": "-5--5"
+                                },
+                                {
+                                    "title": "Online CSS lernen",
+                                    "link": "https://www.w3schools.com/css/default.asp",
+                                    "content": "<p>HTML-seiten können mittels CSS einheitlich formatiert und strukturiert werden.&nbsp; Wenn Du bereits HTML gelernt hast, dann kannst Du Deine Kenntnisse in diesem Kurs perfektionieren. Du musst Dich nicht registrieren, um das Tutorial durchzuführen. Der Code kann direkt im Browser ausprobiert werden.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Teste Deine HTML-Kenntnisse",
+                                    "link": "https://www.w3schools.com/html/html_quiz.asp",
+                                    "content": "<p>Mit diesem Quiz kannst Du Deine HTML-Kenntnisse kostenlos und ohne Login testen und Lücken ggf. im <a title=\"HTML-Tutorial\" href=\"https://www.w3schools.com/html/html_intro.asp\" target=\"_blank\" rel=\"noopener\">zugehörigen Kurs</a> schließen.&nbsp; Sofern Du den Lernfortschritt nicht speichern möchtest, ist kein Login erforderlich.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Teste Deine CSS-Kenntnisse",
+                                    "link": "https://www.w3schools.com",
+                                    "content": "<p>Hast Du Dich schon einmal mit CSS beschäftigt? Dann kannst Du hier Deine Kenntnisse kostenlos und ohne Anmeldung testen. Solltest Du Lücken schließen wollen, kannst Du dazu direkt das zugehörige <a title=\"CSS-Tutorial\" href=\"https://www.w3schools.com/css/default.asp\" target=\"_blank\" rel=\"noopener\">Tutorial </a>nutzen (ebenfalls kostenlos und ohne Login).</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Erstellen von Webseiten",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/informatik/internet-html/modul_e4_webseiten_it2school.pdf",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Mit dem Material von IT2School kannst Du Dich in überschaubarer Zeit selbständig in die Erstellung von Webseiten einarbeiten und erste Programmierkenntnisse erlangen.</p> <p>Das Material ist geeignet, wenn Du keine Vorkenntnisse hast.</p>",
+                                    "age": "6-12"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/informatik/internet/sicherheit/index.html",
+                            "name": "Sicherheit",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/informatik/internet/soziale_netze/index.html",
+                            "name": "Soziale Netzwerke",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Ab ins Netz: (1) Digital Natives",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091024_mxUser522_00c7c819_09_129.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Kannst du dir ein Leben ohne Internet und Handy vorstellen? Wohl kaum, da du ins digitale Zeitalter hineingeboren wurdest, mit PC, Playstation und Handy aufgewachsen bist. Es handelt sich um einen epochalen Umbruch, der euch prägt wie kaum ein anderer Aspekt.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Ab ins Netz: (2) Twittern und Bloggen",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091024_mxUser522_00c7c81c_09_130.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Während der letzten zehn Jahre hat sich der Journalismus gewandelt. Heute übernehmen immer mehr Menschen eine aktive Rolle im Berichten, Analysieren und Verbreiten von Nachrichten und Informationen. Auch du kannst einen Blog betreiben und damit die neuen Möglichkeiten des Internets aktiv nutzen.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Ab ins Netz: (3) Facebook oder StudiVZ?",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091024_mxUser522_00c7c81d_09_131.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wer ist ein Streber? Schüler im Jahr 2009 beantworteten das so: Streber, das sind die, die nicht bei SchülerVZ sind, nicht einmal bei Facebook. Wie funktionieren die Sozialen Netzwerke? Warum geben junge Menschen dort fast alles über sich preis? Du auch?</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Ab ins Netz:  (4) Überall online – iPhones und Co",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091024_mxUser522_00c7c820_09_132.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Heutige Mobiltelefone sind wahre Multimedia-Künstler und vereinen Terminplaner, MP3- und Videoplayer sowie Internet-Funktionen in einem Gerät und auf kleinstem Platz. Aber diese neuen Möglichkeiten haben (leider) ihre Tücken.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Ab ins Netz: (5) Verlinktes Wissen",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20091024_mxUser522_00c7c823_09_133.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Beim Suchen im Internet werden wir von Google oder Yahoo \"verwöhnt\". Du kannst scheinbar auf alles Wissen der Welt mit wenigen Klicks zugreifen. Schaut man aber genauer hin, so befindet sich das computergestützte Wissensmanagement noch in den Kinderschuhen.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/informatik/internet/allgemeines/index.html",
+                            "name": "Allgemeines",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Möchtest Du in die digitale Welt einsteigen?",
+                                    "link": "https://www.vhs-lernportal.de/wws/9.php#/wws/kursangebot.php",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/informatik/dw/vhs_lernportal_ver_pos_rgb.png\"><p>Was steckt hinter den Begriffen Informationen und Daten? Wie funktionieren Kommunikation und Zusammenarbeit in der digitalen Welt? Wie kann ich digitale Inhalte erstellen? Wie ist das mit dem Datenschutz?</p> <p>Erste Antworten auf diese Fragen findest Du in einem kostenlosen Online-Kurs der VHS (Volkshochschule) zur Einführung in die digitale Welt an. Du kannst als Gast teilnehmen oder Dich registrieren und Deinen Lernfortschritt verfolgen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Planet Schule: Warum können einem Cookies auf den Keks gehen?",
+                                    "link": "https://www.planet-schule.de/frage-trifft-antwort/video/detail/warum-koennen-einem-cookies-auf-den-keks-gehen.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Weißt Du was Cookies im Internet sind? Mit diesem Film und einem kleinen Quiz kannst Du Dir einen ersten Überblick verschaffen.</p>",
+                                    "age": "4-13"
+                                },
+                                {
+                                    "title": "Wie funktioniert das Internet?",
+                                    "link": "https://www.youtube.com/watch?v=fpqhjEtznVk",
+                                    "content": "<p>Obwohl das Video sehr alt ist und die Verbindung ins Internet mit einem piepsenden Modem erfolgt, wird die Funktionsweise des Internets sehr anschaulich erklärt und ist natürlich noch immer aktuell.</p>",
+                                    "age": "4-4"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/roboter/index.html",
+                "name": "Roboter",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Roboter und Computer",
+                        "link": "http://www.planet-wissen.de/technik/computer_und_roboter/pwtkcomputerundroboter100.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>Waren Roboter vor einigen Jahrzehnten noch bloße <span wslangen=\"wsLangEn\">Science-Fiction</span>, sind sie aus dem Leben heute kaum mehr wegzudenken. Das gilt auch für Computer.</p> <p>Planet Wissen liefert umfangreiche Informationen dazu mit Literatur- und Linktipps.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/excel/index.html",
+                "name": "Tabellenkalkulation (Excel)",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Aufgaben und Lösungen zum Einstieg in die Tabellenkalkulation mit Excel",
+                        "link": "https://www.it-realschule.de/tabellenkalkulation-excel/",
+                        "content": "<p>Der Lehrer für Informationstechnologie, Pedro May, hat Aufgaben und Lösungen für den Einstieg in Excel zum Download bereitgestellt. Folgende Themen werden behandelt:</p> <ul> <li>Relative und absolute Zellbezüge</li> <li>Grundrechenarten</li> <li>Prozentrechnen, Kalkulation</li> <li>Einfache Funktionen: Anzahl, Werte zählen, Min-, Max-, Mittelwert</li> <li>Wenn-Funktion und logische Funktionen</li> <li>Listen- und Auswahlfelder</li> <li>Einbetten von OLE-Objekten</li> <li>Regelmäßige Zahlung</li> </ul> <p>Die Seite richtet sich an Lehrende und an Lernende.</p>",
+                        "age": "-5--5"
+                    },
+                    {
+                        "title": "Excel Konzepte überprüfen",
+                        "link": "https://www.w3schools.com/excel/exercise.php",
+                        "content": "<p>Wenn Du Excel lernst, dann kannst Du mit den Übungen in diesem Kurs von w3schools sehr schön überprüfen, ob Du die Konzepte der Tabellenkalkulation verstanden hast.</p> <p>Es sind keine Registrierung und kein Login erforderlich.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/db/index.html",
+                "name": "Datenbankentwicklung",
+                "count": 8,
+                "children": [
+                    {
+                        "title": "Learningsnack: ERM",
+                        "link": "https://www.learningsnacks.de/share/303703/",
+                        "content": "<p>&nbsp;</p> <p>Fragen und Antworten zum Grundverständnis des Entity-Relationship-Modells (ERM)</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Learningsnack: Setzen von Primär- und Fremdschlüssel",
+                        "link": "https://www.learningsnacks.de/share/306624/6b8fd6fa64ab75d4314fb2d8c584a0ecc774b0b7",
+                        "content": "<p>Überprüfe mit diesem Snack, ob Du verstanden hast, nach welchen Kriterien man Primär- und Fremdschlüssel in Datenbanktabellen setzt.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Learningsnack: Vom ERM zum Relationalen Modell",
+                        "link": "https://www.learningsnacks.de/share/330100/36c2fe86a9c65be380d8e02afda557c0d65d0e4a",
+                        "content": "<p>Prüfe, ob Du verstanden hast, nach welchen Kriterien Du ein ERM in ein Relationales Modell überführst.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "SQL-Befehle ausprobieren",
+                        "link": "https://db-book.com/university-lab-dir/sqljs.html",
+                        "content": "<p>Diese Lernressource bietet Dir die Möglichkeit, SQL-Befehle direkt im Browser auszuprobieren.</p> <p>&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "SQL-Online-Tutorial",
+                        "link": "https://www.w3schools.com/sql/default.asp",
+                        "content": "<p>Mit SQL formulierst Du Abfragen auf Datenbanken. Wenn Du SQL lernen möchtest oder musst, dann kann Dich das kostenlose Online-Tutorial von w3schools dabei unterstützen.</p> <p>Du musst Dich nicht registrieren, um den Kurs durchzuführen und die Befehle können direkt im Browser ausprobiert werden.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Teste Deine SQL-Kenntnisse",
+                        "link": "https://www.w3schools.com/quiztest/quiztest.asp?qtest=SQL",
+                        "content": "<p>Mit diesem Quiz kannst Du Deine SQL-Kenntnisse ohne Login testen. Solltest Du ggf. auftretende Lücken schließen wollen, kannst Du dazu das zugehörige <a title=\"SQL-Tutorial\" href=\"https://www.w3schools.com/sql/default.asp\" target=\"_blank\" rel=\"noopener\">Tutorial </a>nutzen. Dies ist ebenfalls ohne Login möglich, wenn Du Deinen Lernfortschritt nicht speichern möchtest.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "SQL online üben",
+                        "link": "https://www.w3schools.com/sql/exercise.asp",
+                        "content": "<p>Hier kannst Du in 52 Übungen testen, wie gut Du SQL beherrschst. Du bekommst eine direkte Rückmeldung und kannst die richtigen Lösungen auch einsehen. Ein Login ist nicht erforderlich. Die Übungen sind auf Englisch verfasst.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Datenmodelllierung mit dem ERM",
+                        "link": "https://www.luo-darmstadt.de/wiki2/doku.php?id=db:modellierung",
+                        "content": "<p>Möchtest Du Dich zu dem Thema auf eine Klausur vorbereiten? Oder hast Du Unterrichtsstoff in der Schule verpasst?</p> <p>Dann schau doch einmal in das Wiki zum Thema Datenmodellierung mit dem ERM.</p>",
+                        "age": "11-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/ki/index.html",
+                "name": "Künstliche Intelligenz",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Künstliche Intelligenz und maschinelles Lernen für Einsteiger",
+                        "link": "https://open.hpi.de/courses/kieinstieg2020",
+                        "content": "<p>Interessierst Du Dich für Künstliche Intelligenz und möchtest gerne mehr darüber wissen, z. B. wie Maschinen eigentlich lernen.</p> <p>Dann bietet Dir der kostenlose Kurs eine gute Möglichkeit in das Thema einzusteigen. Du brauchst dazu keine Vorkenntnisse.</p> <p>Wenn Du möchtest, kannst Du den Kurs mit einem Leistungsnachweis abschließen.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "So lernt die KI",
+                        "link": "https://vimeo.com/433734930/64aefa505e",
+                        "content": "<p>Am Beispiel des NIM-Spiels kannst Du erfahren, wie eine KI trainiert wird.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Selbstlerneinheiten zur Künstlichen Intelligenz",
+                        "link": "https://ki-campus.org/overview",
+                        "content": "<p>Wenn Du an weiterführenden Inhalten zur KI interessiert bist und gut über Online-Angebote lernen kannst, dann findest Du hier ein vielfältiges und kostenloses Angebot, um Deine Kenntnisse zu KI und Big Data zu vertiefen.</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "KI erleben",
+                        "link": "https://imaginary.github.io/ai-to-touch-prototypes/applauncher2/index.html?cfg=ai-to-touch#",
+                        "content": "<p>Anhand von Spielen werden Strategien maschinellen Lernens veranschaulicht und erfahrbar:</p> <ul> <li>Erkunden vs. Ausnutzen</li> <li>Unüberwachtes Lernen</li> <li>Gradientenverfahren</li> </ul> <p>&nbsp;</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Programmiere Deine eigene KI",
+                        "link": "https://ki-kurs.org",
+                        "content": "<p>Interessierst Du Dich für Künstliche Intelligenz? Hast Du Interesse an Programmierung?</p> <p>Dann findest Du hier einen kostenlosen Kurs, der Dich in die Grundlagen der KI einführt, in die Programmierung und auch die kritische Diskussion im Umgang mit KI zum Thema hat.</p> <p>Wenn Du noch keine 18 Jahre alt bist, benötigst Du die Zustimmung Deiner Eltern.</p> <p>&nbsp;</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "KI und Du",
+                        "link": "https://schokofakes.ai/",
+                        "content": "<p>Auf Grundlage einer Befragung von Schülerinnen und Schüler, haben Mitarbeiter des Tübingen AI Center einen Comic entwickelt, der sich mit Hoffnungen und Ängsten zu KI beschäftigt. Die Beiträge der Schülerinnen und Schüler ist durch Grundlagen-Informationen ergänzt. Damit eignet sich der Comic gut für einen Einstieg in das Thema KI.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Teachable Machine",
+                        "link": "https://teachablemachine.withgoogle.com/",
+                        "content": "<p>Mit der Teachable Machine von Google kannst du deine eigene KI ganz ohne Programmierukenntnisse trainieren und du verstehst ganz nebenbei das Prinzip des Machine Learnings.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/datenschutz/index.html",
+                "name": "Datenschutz und Sicherheit",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Schütze Deine Privatsphäre und bewege Dich sicher im Internet",
+                        "link": "https://www.baden-wuerttemberg.datenschutz.de/datenschutz-leicht-erklaert/",
+                        "content": "<p>Das Internet ist kein rechtsfreier Raum. Sowohl Du als auch die anderen Nutzerinnen und Nutzer haben das Recht auf informationelle Selbstbestimmung.</p> <p>Wie Du Dich selbst schützen kannst und auch die Rechte der anderen nicht verletzt, kannst Du Dir in kurzen Videos zum Thema ansehen.</p> <p>&nbsp;</p> <p>&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Digitale Selbstverteidigung",
+                        "link": "https://www.youngdata.de/",
+                        "content": "<p>Informiere Dich u. a. darüber, wie Du Dich gegen Datenkraken wehren kannst.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "8 wichtige Fragen ...",
+                        "link": "https://difue.de/news/kommunikation/urheberrecht-im-internet-was-ist-erlaubt-was-nicht/",
+                        "content": "<p>In diesem übersichtlichen Beitrag werden die Fragen, was Urheberrecht eigentlich ist, und was bei der Nutzung digitaler Medien für verschiedene Anwendungszwecke zu beachten ist. Der Artikel richtet sich an Schülerinnen und Schüler und Berufstätige und geht auch konkret auf die geltende Rechtslage für die Verwendung von digitalen Medien im Unterricht ein. Die kurzen Beiträge sind mit weiterführenden Links hinterlegt.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/tast/index.html",
+                "name": "Tastaturschulung",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Shortcuts für Windows 10",
+                        "link": "https://difue.de/news/tastenkombinationen-windows-10/",
+                        "content": "<p>Im beruflichen Umfeld sind noch immer Tastatur und Maus die gängigsten Eingabegeräte. Der Wechsel zwischen Tastatur und Maus ist oft lästig und umständlich. Daher ist es hilfreich, Tastatur-Shortcuts zu kennen, die Mausklicks ersetzen.</p> <p>In dieser Ressource findet man die wichtigsten Shortcuts für Windows und die Office-Programme.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "10-Finger-Schreiben",
+                        "link": "https://www.tipp10.com/de/characteristics/",
+                        "content": "<p>Die Stiftung Warentest hat den Kurs 2011 als Testsieger aus 10 Kursen ausgelobt. Für die Online-Version ist ein Login erforderlich. Es müssen eine E-Mail-Adresse und ein Passwort angegeben werden. Die Angabe eines Geburtsdatums ist freiwillig.</p> <p>Neben der Online-Version kann man auch Software auf dem eigenen Rechner installieren. Sie steht für verschiedene Betriebssysteme zum Download zur Verfügung. Hierfür ist keine Registrierung erforderlich.</p> <p>Eine dem Unterricht angepasste Schulversion (gezielte Zuweisung von Aufgaben, Überwachung, Auswertung) ist kostenpflichtig.</p> <p>&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Schneller schreiben lernen",
+                        "link": "https://10fastfingers.com/typing-test/german",
+                        "content": "<p>Das 10-Finger-Schreiben will geübt sein, um die Schreibgeschwindigkeit bei gleichzeitiger Korrektheit zu erhöhen. Das Tool zum Onlinetraining ermöglicht die Übung ohne Login.</p> <p>Durch die Möglichkeit, die Sprache zu wechseln, kann man auch gut seine Fertigkeiten in anderen Sprachen trainieren.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "10-Finger-Tastschreiben",
+                        "link": "https://www.typingclub.com/tipptrainer",
+                        "content": "<p>Nach wie vor wird im Berufsleben mit der Tastatur als Eingabegerät gearbeitet. Gerade im Bereich Datenverarbeitung ist es wichtig, dass man schnell und exakt die Informationen eingeben kann.</p> <p>Mit typingclub kannst Du lernen mit 10 Fingern und schnell auf der Tastatur zu schreiben. Du brauchst Dich dazu nicht einmal einzuloggen. Du kannst Deinen Lernfortschritt selbst notieren und jederzeit bei der jeweiligen Lektion fortsetzen.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/dw/index.html",
+                "name": "Digitale Welt",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Möchtest Du in die digitale Welt einsteigen?",
+                        "link": "https://www.vhs-lernportal.de/wws/9.php#/wws/kursangebot.php",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek/informatik/dw/vhs_lernportal_ver_pos_rgb.png\"><p>Was steckt hinter den Begriffen Informationen und Daten? Wie funktionieren Kommunikation und Zusammenarbeit in der digitalen Welt? Wie kann ich digitale Inhalte erstellen? Wie ist das mit dem Datenschutz?</p> <p>Erste Antworten auf diese Fragen findest Du in einem kostenlosen Online-Kurs der VHS (Volkshochschule) zur Einführung in die digitale Welt an. Du kannst als Gast teilnehmen oder Dich registrieren und Deinen Lernfortschritt verfolgen.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Möchtest Du mehr über den Einfluss der Digitalisierung auf unser Leben erfahren?",
+                        "link": "https://www.vhs-lernportal.de/wws/app-stadt-land-datenfluss.php?sid=64837313138876373762915356528545339195044023140570183170003430347520S6c1d8c5f",
+                        "content": "<p>Dann bietet Dir die App Stadt|Land|Datenfluss der VHS-Lerncloud eine gute Möglichkeit dazu.</p> <p>Sofern Du bereit bist, auch Texte zu lesen, findest Du dort Themen wie Digtalisierung und Mobilität, Nachhaltigkeit, Gesundheit und Grundlagen von Daten und Informationen kleinschrittig und unterhaltsam aufbereitet.</p> <p>Die App ist kostenlos und Du kannst Dich in \"kleinen Häppchen\" über große Themen informieren.</p> <p>&nbsp;Den <a title=\"Link zum QR Code\" href=\"https://www.vhs-lernportal.de/wws/app-stadt-land-datenfluss.php?sid=64837313138876373762915356528545339195044023140570183170003430347520S6c1d8c5f\" target=\"_blank\" rel=\"noopener\">QR-Code zur App findest Du hier.</a></p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/krypto/index.html",
+                "name": "Codierung und Kryptologie",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Interessierst Du Dich für Codierung und Kryptologie?",
+                        "link": "https://krypto-im-advent.de/",
+                        "content": "<p>Dann findest Du hier einen Einstieg und Überblick über Verschlüsselungsvefahren, sowie Aufgaben zum Knobeln.</p> <p>In der Vorweihnachtszeit gibt es einen Adventskalender mit 24 Knobeleien im Bereich der Kryptographie.</p>",
+                        "age": "3-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/informatik/infoallg/index.html",
+                "name": "Informatik allgemein",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Informatikbücher kostenlos online lesen",
+                        "link": "https://www.rheinwerk-verlag.de/openbook/",
+                        "content": "<p>Du findest hier Bücher in älteren Auflagen, auf die Du online kostenlos zugreifen kannst. Das lohnt sich, wenn Du z. B. Grundlagen zu einem Informatik-Thema erlernen willst. Da bist Du mit älteren Auflagen gut bedient.</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "Computing Without Computers:",
+                        "link": "https://teachinglondoncomputing.files.wordpress.com/2014/02/booklet-cwc-feb2014.pdf",
+                        "content": "<p>Paul Curzon hat die Einführung für Programmier-Anfängerinnen und -Anfänger geschrieben und er erläutert informatische Konzepte anhand von Denkspielen und Analogien und ganz ohne Programmiersprache.</p> <p><a href=\"https://teachinglondoncomputing.org/resources/\">https://teachinglondoncomputing.org/resources/</a> stellt das Buch für den kostenlosen Download zur Verfügung.</p>",
+                        "age": "10-13"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -1,0 +1,228 @@
+{
+    "link": "chemie/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_chemie.png",
+    "text": "Chemie",
+    "content": {
+        "Themen": [
+            {
+                "link": "https://select.bildung.hessen.de/chemie/allgemeine_chemie/index.html",
+                "name": "Allgemeine Chemie",
+                "count": 3,
+                "children": {
+                    "Übergreifendes": [
+                        {
+                            "link": "https://select.bildung.hessen.de/chemie/allgemeine_chemie/Formulieren_und_berechnen/index.html",
+                            "name": "Formulieren und Berechnen",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Formeln - Wertigkeit - Gleichungen",
+                                    "link": "http://www.chemiekiste.de/Chemiebox/Formeln/Formeln_1.htm",
+                                    "content": "<p>Wie ist das mit der Wertigkeit?</p> <p>Wie stelle ich eine Formel auf?</p> <p>Wie stelle ich eine Gleichung auf?</p> <p>Die 'Chemie-Kiste' erklärt und hilft mit kleinen Übungen!</p> <p>&nbsp;</p> <p>&nbsp;</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Gleichungen aufstellen",
+                                    "link": "http://www.ltam.lu/chimie/Gleichungen.html",
+                                    "content": "<p>Wie erstelle ich eine chemische Gleichung?</p> <p>Ein toll animiertes Online-Lernprogramm (LTAM) mit vielen Übungsaufgaben!</p>",
+                                    "age": "7-11"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/chemie/anorgchemie/index.html",
+                "name": "Anorganische Chemie",
+                "count": 44,
+                "children": {
+                    "Anfangsunterricht": [
+                        {
+                            "link": "https://select.bildung.hessen.de/chemie/anorgchemie/anfang/index.html",
+                            "name": "Anfangsunterricht",
+                            "count": 11,
+                            "children": [
+                                {
+                                    "title": "Warum entstehen Eisblumen?",
+                                    "link": "http://www.medienwerkstatt-online.de/lws_wissen/vorlagen/showcard.php?id=5037",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>PlanetSchule geht dieser Frage auf den Grund. Und zwar sehr ordentlich: Ein Video, ein Versuch und ganz viele toll gemachte Infos!</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "123Chemie - Chemielernen im Unterricht und Zuhause",
+                                    "link": "http://www.123chemie.de/demo.html",
+                                    "content": "<p>Mit diesem brandaktuellen Lernprogramm lassen sich Inhalte multimedial nachbearbeiten. <strong>Aggregatzustände, Symbole, pH-Wert, Elemente, Destillation</strong> und viele weitere Themen werden interaktiv an Lernstationen vermittelt.<br>Die genannten Themen laufen als kostenlose, voll funktionsfähige Demos!</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Die Gefahrensymbole",
+                                    "link": "http://www.ltam.lu/chimie/Gefahrensymbole.html",
+                                    "content": "<p>Ordne die 'Gefahren' den entsprechenden Symbolen zu!</p> <p>Ein toll animiertes Online-Lernprogramm (LTAM)!</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Stoffe - keine Stoffe",
+                                    "link": "http://www.ltam.lu/chimie/Stoffe.html",
+                                    "content": "<p>Bestimme, ob die folgenden Dinge Stoffe sind oder nicht!</p> <p>Ein toll animiertes Lernprogramm (LTAM).</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Einteilung der Stoffe",
+                                    "link": "http://www.ltam.lu/chimie/EinteilungStoffeCD.html",
+                                    "content": "<p>Handelt es sich um einen Reinstoff oder um ein Gemenge?</p> <p>Toll animiertes Lernprogramm (LTAM)</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Reinstoffe, Elemente, Verbindungen",
+                                    "link": "http://www.ltam.lu/chimie/ElementeVerbindungen.html",
+                                    "content": "<p>Ein toll animiertes Online-Lernprogramm (LTAM)!</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Aggregatzustände (Übergänge)",
+                                    "link": "http://www.ltam.lu/chimie/AggregatCD.html",
+                                    "content": "<p>Wie heißen die Aggregatszustände und ihre Übergänge?</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Destillation",
+                                    "link": "http://www.ltam.lu/chimie/DestillationCD.html",
+                                    "content": "<p>Ein toll animiertes Online-Lernprogramm (LTAM)!</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Die Schmelz- und Siedepunkte",
+                                    "link": "http://www.ltam.lu/chimie/Schmelzpunkt.html",
+                                    "content": "<p>Versuche für die folgenden Stoffe herauszufinden, in welchem Aggregatzustand sie sich bei der jeweiligen Temperatur befinden!</p> <p>Ein toll animiertes Online-Lernprogramm (LTAM)!</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Elektrolyse von Wasser",
+                                    "link": "http://www.ltam.lu/chimie/ElektrolyseCD.html",
+                                    "content": "<p>Woraus besteht Wasser?</p> <p>Mit dem interaktive Hofmann'schen Apparat findest du die Lösung!</p> <p>Ein toll animiertes Online-Lernprogramm (LTAM) mit Übungen.</p> <p>&nbsp;</p>",
+                                    "age": "7-8"
+                                },
+                                {
+                                    "title": "Hangman",
+                                    "link": "https://learningapps.org/1209093",
+                                    "content": "<p>Ein toll animiertes Online-'Lernprogramm' (LTAM) ;-)</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Übergreifendes": [
+            {
+                "link": "https://select.bildung.hessen.de/chemie/Internet-Portale/index.html",
+                "name": "Internet-Portale",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Prof. Stuhlpfarrers Chemie-Seiten",
+                        "link": "http://www.chemienet.info/",
+                        "content": "<p>Hier findest du lehrbuchartige Zusammenfassungen und Übungsbeispiele zum Chemieunterricht. Sehr umfangreich!</p>",
+                        "age": "7-11"
+                    },
+                    {
+                        "title": "www.restena.lu",
+                        "link": "https://www.uni-frankfurt.de/91184625/Experimente_f%C3%BCr_zuhause",
+                        "content": "<p>Auch wenn das Design der Startseite recht unscheinbar aussieht, dahinter verbirgt sich eine Fülle von erstklassigen, sehr schön illustrierten Informationen zu wichtigen Themenbereichen der Sek. I. Du findest hier auch jede Menge Versuche mit Auswertungen für den Anfangsunterricht!</p>",
+                        "age": "7-9"
+                    },
+                    {
+                        "title": "Ulrich Helmichs Chemieseiten",
+                        "link": "http://www.u-helmich.de/che/index.html",
+                        "content": "<p>Auf der Homepage des Kollegen Helmich finden sich viele Unterrichtsskripte, Materialien und Animationen für den Chemieunterricht.</p><p>Mit Hilfe dieses elekronischen Lehrbuchs von&nbsp;<strong>U. Helmig</strong>&nbsp;kannst du dich umfassend informieren. Die anschaulichen und gut bebilderten Materialien eignen sich besonders zum Eigenstudium und zur Vorbereitung einer Arbeit / Präsentation.</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/chemie/Spiel_Quiz/index.html",
+                "name": "Spiel, Quiz, Fragen",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Wer wird Chemi-€-Millionär?",
+                        "link": "http://www.chemikus.de/chemillionaer/index.htm",
+                        "content": "<p>Mit jeweils 15 Fragen zu insgesamt 11 Themenbereichen kannst du die Million holen ;-)</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Hangman",
+                        "link": "https://learningapps.org/1209093",
+                        "content": "<p>Ein toll animiertes Online-'Lernprogramm' (LTAM) ;-)</p>",
+                        "age": "7-10"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/chemie/chember/index.html",
+                "name": "Chemische Berufe",
+                "count": 6,
+                "children": [
+                    {
+                        "title": "Biologielaborant/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_laborant_biologie/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad wird der duale Ausbildungsberuf des Biologielaboranten / der Biologielaborantin vorgestellt. Im Gegensatz zu den anderen üblichen Darstellungen der Ausbildung und des Berufsbildes erfolgt dies hier aus Sicht des / der Auszubildenden in Form von fiktiven Geschichten.<br><br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?</p> <p><br>Am Schluss gibt es ein paar kleine Aufgaben.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Chemielaborant/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_laborant_chemie/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In einem&nbsp;toll gemachten Lernpfad wird der duale Ausbildungsberuf des Chemielaboranten / der Chemielaborantin vorgestellt, . . . in Form von fiktiven Geschichten!<br><br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?</p> <p><br>Am Schluss gibt es ein paar kleine Aufgaben.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Physiklaborant/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_laborant_physik/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad wird der duale Ausbildungsberuf des Physiklaboranten / der Physiklaborantin vorgestellt. Im Gegensatz zu den anderen üblichen Darstellungen der Ausbildung und des Berufsbildes erfolgt dies hier aus Sicht des / der Auszubildenden in Form von fiktiven Geschichten.<br><br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?</p> <p><br>Am Schluss gibt es ein paar kleine Aufgaben.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Biologisch-technische/-r Assistent/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_laborant_biologie_technik/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad wird der Ausbildungsberuf des Biologisch-technischen Assistenten / der Biologisch-technischen Assistentin vorgestellt. Im Gegensatz zu den anderen üblichen Darstellungen der Ausbildung und des Berufsbildes erfolgt dies hier aus Sicht des / der Auszubildenden in Form von fiktiven Geschichten.<br><br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?<br><br><br>Am Schluss gibt es ein paar kleine Aufgaben.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Chemisch-technische/-r Assistent/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_laborant_chemie_technik/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad wird der Ausbildungsberuf des Chemisch-technischen Assistenten / der Chemisch-technischen Assistentin vorgestellt. Im Gegensatz zu den anderen üblichen Darstellungen der Ausbildung und des Berufsbildes erfolgt dies hier aus Sicht des / der Auszubildenden in Form von fiktiven Geschichten.<br><br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?</p> <p><br>Am Schluss gibt es ein paar kleine Aufgaben.<br><br></p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Chemikant/-in",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/chemie/berufe/lernpfad_chemikant/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad wird der duale Ausbildungsberuf des Chemikanten / der Chemiekantin<br>vorgestellt. Im Gegensatz zu den anderen üblichen Darstellungen der Ausbildung und des Berufsbildes erfolgt dies hier aus Sicht des / der Auszubildenden in Form von fiktiven Geschichten.<br><br>In diesem Lernpfad werden behandelt:<br>- Was macht man im Beruf?<br>- Welche Vorkenntnisse werden erwartet?<br>- Welcher Schulabschluss wird benötigt?<br>- Wie läuft die Ausbildung ab?<br>- Wo gibt es weitere Informationen?<br><br>Am Schluss gibt es ein paar kleine Aufgaben.</p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/chemie/chemiekontext/index.html",
+                "name": "Chemie Projekte",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Thomas Seilnachts Farbenprojekt",
+                        "link": "http://www.seilnacht.tuttlingen.com/Lexikon/FProjekt.htm",
+                        "content": "<table align=\"center\" bgcolor=\"#ffffff\" border=\"0\" cellpadding=\"7\" cellspacing=\"9\"> <tbody> <tr> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><a href=\"https://www.seilnacht.com/Lexikon/FProj2.htm\">Höhlenmalerei und Kreide</a></strong></td> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj8.htm\">Nachwachsender Rohstoff Leinöl</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj3.htm\">Caseinfarben - Die Farben Afrikas</a></span></strong></td> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj9.htm\">Larven und Masken</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj4.htm\">Caseinfarben - Das Projekt Blau</a></span></strong></td> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj10.htm\">Schminken</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj5.htm\">Wände bemalen</a></span></strong></td> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj11.htm\">Herstellen eines Farblacks</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj6.htm\">Pigmente herstellen</a></span></strong></td> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj12.htm\">Färben mit Beizenfarbstoffen</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj7.htm\">Aquarellfarben und Ölfarben</a></span></strong></td> <td align=\"center\" bgcolor=\"#C0C0C0\"><strong><span style=\"color: #cccccc;\"><a href=\"https://www.seilnacht.com/Lexikon/FProj13.htm\">Färben mit Küpenfarbstoffen</a></span></strong></td> </tr> <tr> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><a href=\"https://www.seilnacht.com/Lexikon/fproj15.html\">Tinte herstellen</a></strong></td> <td align=\"center\" bgcolor=\"#CCCCCC\"><strong><a href=\"https://www.seilnacht.com/Lexikon/fproj16.html\">Ostereier färben</a></strong></td> </tr> </tbody> </table>",
+                        "age": "-5--5"
+                    },
+                    {
+                        "title": "Chemie und Kunst: Pigmente",
+                        "link": "https://www.swisseduc.ch/chemie/pigmente/",
+                        "content": "<p>Erforschung der stofflichen Grundlagen der Malerei steht im Mittelpunkt dieser fächerübergreifenden Unterrichtseinheit. Die Lernatmosphäre sollte durch das Spannungsfeld der Gegensätze, der Berührungspunkte und Wechselwirkungen zwischen der Chemie als einer exakten Wissenschaft und der Kunst geprägt sein. Die Beschäftigung mit den modernen Informationstechnologien sollte nicht nur die Fähigkeiten und Fertigkeiten der Lernenden in diesem Bereich schulen, sondern auch die völlig neuartigen Möglichkeiten der Informationsbeschaffung und vor allem ihrer Aufarbeitung aufzeigen. Die Erforschung der Grenzen der neuesten Technologien dürfte wohl nicht eine minder wichtige Rolle in der Bildung der jungen Menschen spielen.</p>",
+                        "age": "-5--5"
+                    }
+                ]
+            },
+            { "link": "https://select.bildung.hessen.de/chemie/alltagschemie/index.html", "name": "Chemie im Alltag", "count": 6, "children": {} }
+        ]
+    }
+}

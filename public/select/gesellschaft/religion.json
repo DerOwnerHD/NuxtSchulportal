@@ -1,0 +1,337 @@
+{
+    "link": "religion/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_religion.png",
+    "text": "Religion",
+    "content": {
+        "default": [
+            {
+                "link": "https://select.bildung.hessen.de/religion/religion_ev/index.html",
+                "name": "Schulfach: Evangelische Religion",
+                "count": 10,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_ev/interaktiv/index.html",
+                            "name": "Religion interaktiv",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Was glaubst du denn? - Kinderfunkkolleg",
+                                    "link": "http://www.kinderfunkkolleg-trialog.de/",
+                                    "content": "<p>Wer ist Jesus? Wie sieht eine Moschee von innen aus? Was ist Weihnukka? Diese Fragen und noch mehr zu dem Thema Religion beantwortet das Funkkolleg. Überzeuge dich selbst.</p>",
+                                    "age": "4-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_ev/bibel/index.html",
+                            "name": "Die Bibel",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Fragen zur evangelischen Kirche?",
+                                    "link": "http://www.ekd.de/glauben/abc/index.html",
+                                    "content": "<p>Das Glaubens-ABC informiert über grundlegende Fragen zur Bibel, zu Festen, den 10 Geboten und den 95 Thesen u.v.a.</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "Die Bibel - interaktiv",
+                                    "link": "http://www.ekd.de/spiele/44280.html",
+                                    "content": "<p>Hier gibt es verschiedene interaktive Spiele, um das Alte und Neue Testament besser kennen zu lernen.</p>",
+                                    "age": "5-8"
+                                },
+                                {
+                                    "title": "Von Abendmahl und Taufe",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2004/00480089_04_0906.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Ungefähr zwei Jahrtausende ist das nun her, dass der Jude Jesus geboren wurde; mit und durch ihn entstand eine neue Religion - das Christentum. In dieser Hördatei geht es um Taufe und Abendmahl.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Wer wird Biblionär?",
+                                    "link": "http://www.biblionaer.de/",
+                                    "content": "<p>Ein Bibel-Quiz im Stil der bekannten Quiz-Show \"Wer wird Millionär?\" mit immer schwieriger werdenen Fragen und den bekannten Jokern.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_ev/bauten/index.html",
+                            "name": "Sakralbauten",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Virtueller Rundgang: Frauenkirche Dresden",
+                                    "link": "http://www.frauenkirche-dresden.de/panorama/",
+                                    "content": "<p>Das ist ein virtueller Rundgang durch die Frauenkirche, der einzigartige Einblicke in den Kirchraum gewährt, in deutscher und englischer Sprache.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "Virtueller Rundgang: Dom St. Marien in Freiberg",
+                                    "link": "https://www.freiberger-dom.de/dombesuch/die-schaetze-des-domes-virtueller-rundgang.html",
+                                    "content": "<p><span>Sechs Glocken hängen im Glockenturm des Freiberger <em>Doms</em> - das ist einmalig in Sachsen.</span> Noch vieles mehr erfährst du in dem virtuellen Rundgang.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "Video: Elisabethkirche in Marburg",
+                                    "link": "http://www.elisabethkirche.de/",
+                                    "content": "<p>Die Elisabethkirche ist die älteste gotische Hallenkirche Deutschlands. Sie ist nach der Heiligen Elisabeth (1207-1231) benannt, die sich hier in Marburg leidenschaftlich für Arme und Kranke einsetzte. Das 20-minütige Video, weiter unten auf der Seite, gibt einen guten Einblick in die Kirche.</p>",
+                                    "age": "5-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_ev/portale/index.html",
+                            "name": "Portalseiten",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Was glaubst du denn? - Kinderfunkkolleg",
+                                    "link": "http://www.kinderfunkkolleg-trialog.de/",
+                                    "content": "<p>Wer ist Jesus? Wie sieht eine Moschee von innen aus? Was ist Weihnukka? Diese Fragen und noch mehr zu dem Thema Religion beantwortet das Funkkolleg. Überzeuge dich selbst.</p>",
+                                    "age": "4-7"
+                                },
+                                {
+                                    "title": "EKD",
+                                    "link": "http://www.ekd.de/",
+                                    "content": "<p>Webseite der Evangelischen Kirche in Deutschland</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/religion/religion_kath/index.html",
+                "name": "Schulfach: Katholische Religion",
+                "count": 11,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_kath/interaktiv/index.html",
+                            "name": "Religion interaktiv",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Abenteuerliche Reise nach Anderland",
+                                    "link": "https://dms-portal.bildung.hessen.de/elc/fortbildung/religion/anderland/index.html",
+                                    "content": "<p>Fünf Freunde machen sich auf eine abenteuerliche Reise in ein unbekanntes Land. Hier findet Ihr das Bilderbuch \"Anderland\". Ihr könnt mit Maus und Tastatur in diesem Buch \"blättern\" und selbst über den Leseweg entscheiden. Vielleicht hilft Euch auch eure Lehrerin oder euer Lehrer dabei und gibt Hinweise für bestimmte Seiten oder Aufgaben.</p> <p>&nbsp;</p> <p>Ein Abenteuer, bei dem du den Leseweg entscheiden kannst!</p>",
+                                    "age": "3-7"
+                                },
+                                {
+                                    "title": "Was glaubst du denn? - Kinderfunkkolleg",
+                                    "link": "http://www.kinderfunkkolleg-trialog.de/",
+                                    "content": "<p>Wer ist Jesus? Wie sieht eine Moschee von innen aus? Was ist Weihnukka? Diese Fragen und noch mehr zu dem Thema Religion beantwortet das Funkkolleg. Überzeuge dich selbst.</p>",
+                                    "age": "4-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_kath/tod_trauer/index.html",
+                            "name": "Tod und Trauer",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Lernpfad: So lecker schmeckt der Tod",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/religion/existenz/tod/diadelosmuertos/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In Mexiko gehen die Menschen ganz anders mit dem Thema 'Tod und Sterben' um, als wir es kennen. Einmal im Jahr feiern sie den 'Tag der Toten', den 'Dia de los muertos', und zwar auf dem Friedhof.</p> <p>Was fühlen sie, wenn sie um die Gräber tanzen? Warum essen sie Totenköpfe aus Zuckerguss?</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_kath/bibel/index.html",
+                            "name": "Die Bibel",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Wer wird Biblionär?",
+                                    "link": "http://www.biblionaer.de/",
+                                    "content": "<p>Ein Bibel-Quiz im Stil der bekannten Quiz-Show \"Wer wird Millionär?\" mit immer schwieriger werdenen Fragen und den bekannten Jokern.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_kath/bauten/index.html",
+                            "name": "Sakralbauten",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Petersdom - Ansichten",
+                                    "link": "http://www.vatican.va/various/basiliche/san_pietro/vr_tour/index-en.html",
+                                    "content": "<p>Ein virtueller Rundgang durch den Petersdom in englischer und italienischer Sprache.</p>",
+                                    "age": "5-13"
+                                },
+                                {
+                                    "title": "St. Paulus-Dom in Münster",
+                                    "link": "https://www.paulusdom.de/gotteshaus/rundgaenge",
+                                    "content": "<p>Der St.-Paulus-Dom in Münster, eine markante Kathedrale und ein kulturhistorisch bedeutsames Gebäude ist Anziehungspunkt zugleich für Gläubige wie Touristen. Ein virtueller Rundgang sowie ein Video geben Einblick.</p>",
+                                    "age": "5-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/religion_kath/portalseiten_kath_religion/index.html",
+                            "name": "Portalseiten im Internet",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Was glaubst du denn? - Kinderfunkkolleg",
+                                    "link": "http://www.kinderfunkkolleg-trialog.de/",
+                                    "content": "<p>Wer ist Jesus? Wie sieht eine Moschee von innen aus? Was ist Weihnukka? Diese Fragen und noch mehr zu dem Thema Religion beantwortet das Funkkolleg. Überzeuge dich selbst.</p>",
+                                    "age": "4-7"
+                                },
+                                {
+                                    "title": "Weltenretter - Bund der Deutschen katholischen Jugend",
+                                    "link": "http://www.weltenretter.org/",
+                                    "content": "<p>Wir sind die Jugendinitiative von MISEREOR und dem BDKJ (Bund der Deutschen katholischen Jugend). Wir wollen nicht länger tatenlos zusehen, wie wir Menschen mit der Welt umgehen, denn unsere Welt ist einmalig!</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Webseite der Katholischen Kirche in Deutschland",
+                                    "link": "http://www.katholische-kirche.de/",
+                                    "content": "<p>Auf dieser Seite findest du auch Unterseiten für Kinder und Jugendliche</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/religion/weltreligionen/index.html",
+                "name": "Informationsseiten: Weltreligionen",
+                "count": 39,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/weltreligionen/index.html",
+                            "name": "Weltreligionen",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Weltreligionen entdecken bei Planet Schule",
+                                    "link": "http://www.planet-schule.de/sf/04_mul_detail_04.php?projekt=weltreligionen",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>Wer arbeitet in einer Moschee? Welche Feste feiern Juden und wieso hat eine Kirche meistens einen Turm? Jasmin, eine angehende Archäologin, begleitet die Kinder bei ihrer Entdeckungsreise in die Welt des Christentums, des Judentums und des Islams.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Weltreligionen (Wikipedia)",
+                                    "link": "http://de.wikipedia.org/wiki/Weltreligionen",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia.png\"><p>Hier findest du Informationen zu Weltreligionen mit zahlreichen Verweisen.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Den Religionen auf der Spur",
+                                    "link": "http://www.br.de/mediathek/video/video/index.html?query=Religionen+auf+der+Spur",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Überall auf der Welt gibt es Gegenstände, von denen es geheimnisvolle Geschichten gibt. In diesen etwa viertelstündigen Videos begibst du dich auf eine spannende Reise durch fremde Kulturen und Religionen.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/prowe/index.html",
+                            "name": "Projekt Weltethos",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/buddhismus/index.html",
+                            "name": "Buddhismus",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Engagierter Buddhismus",
+                                    "link": "http://www.buddhanetz.de/",
+                                    "content": "<p>\"Auf mich selbst achtend, achte ich auf den anderen. Auf den anderen achtend, achte ich auf mich selbst\" (Buddha)<br>Dieses Internet-Angebot informiert über den humanitär, sozial und ökologisch engagierten Buddhismus.</p> <p>&nbsp;</p> <p>&nbsp;</p> <p><strong><strong>&nbsp;</strong></strong></p> <p><span style=\"font-family: arial; font-size: x-small;\"><strong>&nbsp;</strong></span></p> <p><span style=\"font-family: arial; font-size: x-small;\"><strong> </strong></span></p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Deutsche Buddhistische Union (DBU)",
+                                    "link": "http://www.buddhismus-deutschland.de",
+                                    "content": "<p>Das Onlinenetzwerk der Buddhisten in Deutschland mit vielfältigen Informationen.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Buddhismus in Deutschland",
+                                    "link": "http://www.buddhismus.de/",
+                                    "content": "<p>buddhismus.de informiert über die vielfältigen Möglichkeiten, den Buddhismus heute kennenzulernen und zu praktizieren.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/christ/index.html",
+                            "name": "Christentum",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Moses",
+                                    "link": "http://www.kreativerunterricht.de/html/mose-von_der_geburt_bis_40_jah.html",
+                                    "content": "<p>Kreative Arbeitsblätter zu dem Leben Mose von der Geburt bis zu den vierzig Jahren in der Wüste aus christlicher Sicht.</p>",
+                                    "age": "5-6"
+                                },
+                                {
+                                    "title": "Evangelische Kirche in Deutschland",
+                                    "link": "http://www.ekd.de",
+                                    "content": "<p>Die Homepage der Evangelischen Kirche.</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Webseite der Katholischen Kirche in Deutschland",
+                                    "link": "http://www.katholische-kirche.de/",
+                                    "content": "<p>Auf dieser Seite findest du auch Unterseiten für Kinder und Jugendliche</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Webquest: Auf den Spuren von Jesus Christus",
+                                    "link": "https://lernarchiv.bildung.hessen.de/grundschule/religion/weltreligionen/christentum/jesus/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Hallo liebe Schülerinnen und Schüler,</p> <p>ihr begebt euch in diesem Webquest auf die Reise nach Israel vor mehr als 2000 Jahren, um den Spuren Jesu Christi zu folgen und ihn so besser kennenzulernen.</p>",
+                                    "age": "3-5"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/hinduismus/index.html",
+                            "name": "Hinduismus",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Hindus feiern Navaratri",
+                                    "link": "http://religionen-entdecken.de/lexikon/n/navaratri",
+                                    "content": "<p>Mit Navaratri ehren Hindus ihre Göttinnen. Wie es gefeiert wird, erfährst du bei religionen-entdecken.de.</p>",
+                                    "age": "3-8"
+                                },
+                                {
+                                    "title": "Diwali bei Wikipedia - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Diwali",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Ausführliche Informationen zu dem indischen Lichterfest.</p>",
+                                    "age": "6-13"
+                                },
+                                {
+                                    "title": "Diwali - das indische Lichterfest",
+                                    "link": "http://www.kidsweb.de/religionen_spezial/hinduismus/feste_im_hinduismus.html",
+                                    "content": "<p><span>Übersetzt bedeutet „Diwali“ so viel wie „Lichterschwarm“.</span> Im Spätherbst wird es bis zu fünf Tage lang gefeiert.</p>",
+                                    "age": "5-6"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/islam/index.html",
+                            "name": "Islam",
+                            "count": 12,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/religion/weltreligionen/judentum/index.html",
+                            "name": "Judentum",
+                            "count": 12,
+                            "children": {}
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

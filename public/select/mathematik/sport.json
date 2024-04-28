@@ -1,0 +1,998 @@
+{
+    "link": "sport/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_sport.png",
+    "text": "Sport",
+    "content": {
+        "Praxis": [
+            {
+                "link": "https://select.bildung.hessen.de/sport/Spieleuebergreifend/index.html",
+                "name": "Allgemeines",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Entdeckungsreise: Spiele der Welt",
+                        "link": "http://www.spielederwelt.de/",
+                        "content": "<p>Die Welt des Spiels hat viel zu bieten!<br>Wir laden euch ein zu einer Entdeckungsreise rund um den Globus.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "SchulsportApp BW",
+                        "link": "https://sportapp-entwicklung.de/schulsportapp-bw",
+                        "content": "<p>Suchst Du Videos, die die exakte Bewegungsausführung unterschiedlicher Sportarten darstellen?&nbsp;&nbsp;</p>",
+                        "age": "9-13"
+                    },
+                    {
+                        "title": "Spannende Fakten rund um das Thema Sport in Deutschland",
+                        "link": "https://www.markt.de/ratgeber/sport/sport-in-deutschland/",
+                        "content": "<p>Für welche Sportarten interessieren sich die Deutschen am meisten?</p> <p>Wo und wann treiben Menschen in Deutschland Sport?</p> <p>Interessante Sportarten und vieles mehr...</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Mythen im Sport",
+                        "link": "https://www.sportunterricht.ch/Theorie/mythen.php",
+                        "content": "<p>Richtig oder Falsch, im Sport gibt es viele Mythen, viele treffen nicht zu!</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Was ist eigentlich Training?",
+                        "link": "https://www.zum.de/GrundschulWebQuest/index.php?module=webquest&id=335",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>ein WebQuest, das grundlegende Informationen zur Trainingslehre behandelt</p> <p>Zielgruppe: 7.-8. Jahrgangstufe</p>",
+                        "age": "7-8"
+                    },
+                    {
+                        "title": "Herz-Kreislauf-System",
+                        "link": "https://www.zum.de/GrundschulWebQuest/index.php?module=webquest&id=383",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum-banner-180.png\"><p>ein WebQuest zum Thema \"Herz-Kreislauf-System\" von <em>Tom Mittelbach</em></p> <p>Zielgruppe: 8.-9. Jahrgangsstufe</p>",
+                        "age": "8-9"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/akrobatik/index.html",
+                "name": "Akrobatik",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Stationskarten",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/akrobatik/akrob-stationen.pdf",
+                        "content": "<p>Stationskarten für 3er- Akrobatikübungen; Niveau leicht bis mittel</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Pyramiden einfach",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/akrobatik/pyramiden_2_5_d.pdf",
+                        "content": "<p>Bilder mit 2er-, 3er- und einer 5er-Pyramide im Anfängerbereich, die als Demonstrationskarten im Unterricht benutzt werden können.&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Partnerübungen",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/akrobatik/partneruebungen_einfach.pdf",
+                        "content": "<p>eine Übersicht mit einfachen Figuren der Duo-Akrobatik. (2er-Übungen)</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            { "link": "https://select.bildung.hessen.de/sport/Trendsportarten/index.html", "name": "Andere Sportarten", "count": 1, "children": {} },
+            {
+                "link": "https://select.bildung.hessen.de/sport/aufwaermspiele/index.html",
+                "name": "Aufwärmspiele / kleine Spiele",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Aufwärmspiele im Sportunterricht",
+                        "link": "http://www.sportunterricht.de/aufwaermen/aufspiele2.html",
+                        "content": "<p>Hier findest Du eine Vielzahl an Aufwärmspielen für den Sportunterricht:</p> <ul> <li>Laufspiele</li> <li>Fangspiele</li> <li>Ballspiele</li> <li>Aufwärmspiele mit Musik</li> <li>Sportartspezifische Aufwärmspiele</li> </ul> <p>und <a href=\"http://www.sportunterricht.de/aufwaermen/spieleinternet.html\">Links </a>zu weiteren Spielesammlungen</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Sportspiele von A-Z",
+                        "link": "https://sportspass.wordpress.com/sportspiele-von-a-z/",
+                        "content": "<p>Hier findest Du viele Spiele zum Aufwärmen in alphabetischer Reihenfolge.&nbsp;&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Spielesammlung unterteilt in Kategorien",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/aufwaermen-allgemein/spielesammlung-1.pdf",
+                        "content": "<p>Du sollst ein Aufwärmspiel erklären und durchführen?&nbsp;</p> <p>Soll es ein Staffelspiel oder eher ein Ausdauerspiel sein? Hier ist bestimmt etwas dabei für Dich.&nbsp;&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Spielesammlung zum Kennenlernen und Aufwärmen",
+                        "link": "https://julei-app.de/spiele/",
+                        "content": "<p>Über 100 Spiele zum Kennenlernen, für Drinnen oder Draußen.</p> <p>Gut geeignet für Wandertage, Winterfreizeiten, Klassenfahrten oder einfach mal so zwischendurch...</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Kleine Spiele - Sammlung",
+                        "link": "http://www.sportzentrum.uni-passau.de/fileadmin/dokumente/sportzentrum/Dokumente/Kleine_Spiele_Sammlung.pdf",
+                        "content": "<p>Ein Skript zum Thema \"Kleine Spiele\" mit vielen Spielideen</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Spielideen - Arbeitsblätter",
+                        "link": "https://www.aduis.de/bewegung-sport-spiele-ab48165",
+                        "content": "<p>Auf der Suche nach einem schönen Sportspiel für Deine Klasse? Hier findest Du viele Arbeitsblätter mit unterschiedlichen Spielideen.</p>",
+                        "age": "5-8"
+                    },
+                    {
+                        "title": "6 WARM-UP Übungen",
+                        "link": "https://www.youtube.com/watch?v=_Y8HaA1b5pU",
+                        "content": "<p>6-minütiges Video zum Aufwärmen vor dem Training (Seitliche Ausfallschritte, Dynamische Ausfallschritte, Ausfallschritt mit Oberkörperrotation, Hip Swing, Handgelenke aufwärmen im Vierfüßlerstand, Dynamic Push-Up)</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/badminton/index.html",
+                "name": "Badminton",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Aufschlag - Vorhand (lang)",
+                        "link": "https://www.youtube.com/watch?v=i3LRbnbxiLQ",
+                        "content": "<p>Wie funktioniert der Vorhandaufschlag?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Aufschlag - Rückhand (kurz)",
+                        "link": "https://www.youtube.com/watch?v=wugnhVmKdKs",
+                        "content": "<p>Wie funktioniert der Rückhandaufschlag?&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Badminton Geschichte",
+                        "link": "https://www.bdfg-chemnitz.de/badminton-geschichte/",
+                        "content": "<p>Wie Badminton zu seinem Namen kam und wichtige internationale Eckdaten des Sports.</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Spielregeln - Erklärvideo",
+                        "link": "https://www.youtube.com/watch?v=DS7PU6af3xQ",
+                        "content": "<p>Was ist wichtig beim Badminton? Wie sieht das Spielfeld aus?&nbsp;</p> <p>Kurzes Video zu den wichtigsten Regeln (Punkteregel, Aufschlag und Seitenwechsel).</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/baseball/index.html",
+                "name": "Baseball",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Baseball in der Schule - Werfen und Fangen",
+                        "link": "http://www.sportunterricht.de/baseball/schule.html",
+                        "content": "<p>Übungsformen zum Werfen und Fangen</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Baseball - Regeln",
+                        "link": "http://www.mobilesport.ch/wp-content/uploads/2011/02/DL_Hilfsmittel_pb_31_Baseball_15_d_1.pdf",
+                        "content": "<p>Auf den Punkt gebracht. Die Regeln im Baseball.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Wie funktioniert Baseball eigentlich?",
+                        "link": "https://www.youtube.com/watch?v=ra4ydZHShe4",
+                        "content": "<p>Chrissy erklärt in sechs Minuten die wichtigsten Baseball-Grundregeln.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/Basketball/index.html",
+                "name": "Basketball",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Was macht ein Zebra auf dem Basketballfeld?",
+                        "link": "http://www.bbcoach.de/bb_lexikon.htm",
+                        "content": "<p>Basketball - Fachchinesisch leicht gemacht!</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Schiedsrichterzeichen",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/sportspiel/basketball/04-schirizeichen-antworten.pdf",
+                        "content": "<p>die wichtigsten Schiedsrichterzeichen im Basketball, die man kennen sollte</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Basketballregeln",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/sportspiel/basketball/vereinfachte-basketballregeln.pdf",
+                        "content": "<p>vereinfachte Basketballregeln für Schule und Verein vom <em>Deutschen Basketball Bund e.V. (DBB)</em></p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Grundtechniken im Basketball",
+                        "link": "https://www.mobilesport.ch/basketball/basketball-in-der-schule-grundtechniken/",
+                        "content": "<p>Dribbling, Pass, Wurf, Verteidigung</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "8 Basketball Dribbling-Übungen",
+                        "link": "https://www.owayo.de/magazin/basketball-dribbling-de.htm",
+                        "content": "<p>Die besten Dribble-Tipps im Basketball für Anfänger &amp; Fortgeschrittene</p>",
+                        "age": "6-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/devilsticks/index.html",
+                "name": "Devilsticks",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Devil Stick lernen",
+                        "link": "https://www.youtube.com/watch?v=ZPY8dVtU9SY",
+                        "content": "<p>Video (3:44) zum Lernen einiger Tricks mit den Devilsticks.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Devilsticks Spielen",
+                        "link": "https://www.youtube.com/watch?v=m7H3sQoxuQU",
+                        "content": "<p>Wie spielt man einen Devilstick?</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/diabolo/index.html",
+                "name": "Diabolo",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Diabolo Tricks für Anfänger",
+                        "link": "https://www.jonglierbaelle.ch/diabolo-tricks-f%C3%BCr-anf%C3%A4nger/",
+                        "content": "<p>Hier findest Du eine Anleitung zum Erlernen von Tricks mit dem Diabolo.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Diabolo spielen - Anleitung",
+                        "link": "https://www.jonglierbaelle.ch/diabolo-anleitung/",
+                        "content": "<p>Wie treibe ich das Diabolo an?</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/fitness/index.html",
+                "name": "Fitness",
+                "count": 11,
+                "children": [
+                    {
+                        "title": "Krafttraining Einführung",
+                        "link": "https://www.sportunterricht.ch/Theorie/kraft.php",
+                        "content": "<p>alles Wesentliche zum Krafttraining</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Krafttraining in der Schule",
+                        "link": "http://www.sportpaedagogik-online.de/kraft1.html",
+                        "content": "<p>Linksammlung zum Thema Krafttraining</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Zirkeltraining - Kraft",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/fitness/krafttraining/kraftcircuit.pdf",
+                        "content": "<p>Kraftzirkel mit unterschiedlichen Stationen</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Fünf Fitness Irrtümer im Check",
+                        "link": "http://www.spiegel.de/gesundheit/ernaehrung/abnehmen-durch-laufen-fuenf-fitness-irrtuemer-a-951872.html",
+                        "content": "<p>Spiegel online:</p> <p>Verbrennt man mehr Fett, wenn man auf nüchternen Magen läuft? Und sollte man dafür am besten nur lange und langsame Läufe absolvieren?<em> achim-achilles.de</em> klärt auf.<strong> <br></strong></p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "Circuittraining",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/fitness/fitness-workout-mit-geraeten/circuit-boden-2.pdf",
+                        "content": "<p><strong>Stationskarten</strong> mit Übungen zur Kräftigung der Muskulatur vor allem Stütz- und Haltekraft&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rope Skipping - Grundsprung",
+                        "link": "https://www.las.bayern.de/schulsport/virtuelle_turnhalle/downloads/1_grundsprung.mp4",
+                        "content": "<p>Wie sieht der Grundsprung beim Rope-Skipping aus?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rope Skipping - Side Straddle",
+                        "link": "https://www.las.bayern.de/schulsport/virtuelle_turnhalle/downloads/4_side_straddle.mp4",
+                        "content": "<p>Wie sieht der Side Straddle aus?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rope Skipping - Knee Lift",
+                        "link": "https://www.las.bayern.de/schulsport/virtuelle_turnhalle/downloads/5_knee_lift.mp4",
+                        "content": "<p>Wie sieht der Knee-Lift aus?&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rope Skipping - Knee Crossover",
+                        "link": "https://www.las.bayern.de/schulsport/virtuelle_turnhalle/downloads/7_knee_crossover.mp4",
+                        "content": "<p>Wie sieht der Knee Crossover aus?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rope Skipping - Heel Tap seitlich",
+                        "link": "https://www.las.bayern.de/schulsport/virtuelle_turnhalle/downloads/10_heel_tap_seitlich.mp4",
+                        "content": "<p>noch anspruchsvoller?&nbsp;</p> <p>Dann probiers mal mit dem Heel Tap seitlich...</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/fussball/index.html",
+                "name": "Fußball",
+                "count": 8,
+                "children": [
+                    {
+                        "title": "Fußballregeln",
+                        "link": "https://www.owayo.de/magazin/fussball-regeln-de.htm",
+                        "content": "<p>Die wichtigsten Fußballregeln in Kürze erklärt</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Spiel-und Übungsmöglichkeiten im Fußball",
+                        "link": "http://www.sportunterricht.de/fussball/spielform.html",
+                        "content": "<p>Du suchst nach Spiel- und Übungsformen?</p> <p>Hier findest Du auch den Link zur Technik (Passen und Stoppen, Dribbeln, Fintieren, Täuschen, Kopfball...)</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Doppelstunde zum Passen",
+                        "link": "https://www.dfb.de/lehrer/weiterfuehrende-schule/artikel/doppelstunde-zum-passen-1202/",
+                        "content": "<p>Ideen wie man das Passen im Fußball trainieren kann</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Übungen zum Eigentraining",
+                        "link": "https://www.dfb.de/spieler/u-12-bis-u-15-spielerin/trainieren-wie-stuetzpunktspieler/",
+                        "content": "<p>Hier findest du eine ganze Reihe an Übungen, mit denen du deine technischen Fertigkeiten maßgeblich verbessern kannst!&nbsp;</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Werde ein Ballzauberer",
+                        "link": "http://www.dfb.de/spieler/bis-u-11-spielerin/ballschuleballzauber/",
+                        "content": "<p>Verblüffe deine Gegenspieler mit diesen Tricks und Finten.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "10 Spiele für Fußball in der Schule",
+                        "link": "https://www.kuebler-sport.de/blog/10-spiele-fuer-fussball-in-der-schule/",
+                        "content": "<p>10 Fußball-Spielideen&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Deutscher Fußball Bund - Online Portal",
+                        "link": "http://www.dfb.de/",
+                        "content": "<p>Offizielle Seite des DFB</p>",
+                        "age": "5-13"
+                    },
+                    { "title": "Onlineportal der FIFA", "link": "http://de.fifa.com/", "content": "<p>Offizielle Seite der FIFA</p>", "age": "5-13" }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/tanz/index.html",
+                "name": "Gymnastik/ Tanz",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Band: Lehrvideo - Technikvermittlung",
+                        "link": "https://www.youtube.com/watch?v=ruQmWFSxx3g",
+                        "content": "<p>Video: Techniken mit dem Handgerät Band</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Reifen: Lehrvideo - Technikvermittlung",
+                        "link": "https://www.youtube.com/watch?v=SYl9N_KEFvM",
+                        "content": "<p>Video: Techniken mit dem Handgerät Reifen</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "POI Tutorial für Einsteiger",
+                        "link": "https://www.youtube.com/watch?v=qDIGfO4iFdI",
+                        "content": "<p>Video: Poi für Einsteiger</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Seil: Lehrvideo - Technikvermittlung",
+                        "link": "https://www.youtube.com/watch?v=LnDDjFQ4i-I",
+                        "content": "<p>Video: Techniken mit den Handgerät Seil</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/handball/index.html",
+                "name": "Handball",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Deutscher Handball Bund - Online Portal",
+                        "link": "http://dhb.de/startseite.html",
+                        "content": "<p>Offizielle Seite DHB</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Handballregeln und Schiedsrichterzeichen",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/sportspiel/handball/die_wichtigsten_handballregeln_fuer_die_schule.pdf",
+                        "content": "<p>Die wichtigsten Handballregeln, Schiedsrichterzeichen und Spielfeldmaße&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Handballregeln in Kurzfassung",
+                        "link": "https://www.owayo.de/magazin/handballregeln-einfach-erklaert-de.htm",
+                        "content": "<p>1. Mannschaft<br>2. Spielzeit<br>3. Spielfeld<br>4. Ball<br>5. Schritte<br>6. Angriff<br>7. Foul<br>8. Anwurf<br>9. Freiwurf<br>10. Einwurf<br>11. Torabwurf<br>12. 7m-Wurf</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Handball Regeln schnell und einfach erklärt: Spielfeld, Strafen, Spieler",
+                        "link": "https://www.youtube.com/watch?v=xDn4fO80GSc",
+                        "content": "<p>Video, das einfach und schnell die wichtigsten Regeln im Handball erklärt</p> <p>&nbsp; &nbsp; &nbsp;Wie ist das Spielfeld aufgebaut?</p> <p>&nbsp; &nbsp; &nbsp;Wann gibt es Freiwurf?</p> <p>&nbsp; &nbsp; &nbsp;Was bedeutet passives Spiel und was steckt hinter dem Begriff Team-Time-Out?</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Stangentorball",
+                        "link": "https://www.youtube.com/watch?v=Gc4CpofMxNc",
+                        "content": "<p>Du sollst das Aufwärmen im Sportunterricht übernehmen?&nbsp;</p> <p>Schau dir das Video an - Vielleicht ist das folgende Spiel geeignet?</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Aufwärmspiele Handball",
+                        "link": "https://www.youtube.com/watch?v=0uy-Pgc3uQE",
+                        "content": "<p>Video: weitere Ideen zum Aufwärmen im Handball</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Handball Regeln einfach erklärt",
+                        "link": "https://www.youtube.com/watch?v=w5K1MoUth3E",
+                        "content": "<p>In diesem Video geht es um um die allgemeinen Handballregeln, passend zur Handball WM 2023! Wir behandeln hier alles über Strafen, Spielfeld, Spielablauf, Rote Karten usw.</p>",
+                        "age": "6-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/hockey/index.html",
+                "name": "Hockey",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Hockey in der Schule",
+                        "link": "http://www.sportunterricht.de/aufwaermen/hockey.html",
+                        "content": "<p>Sammlung an Links zu Spiel- und Übungsformen im Hockey</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/Inline/index.html",
+                "name": "Inline Skaten",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Ab auf die Rollen!",
+                        "link": "http://www.kassel-inline.de/aboutinline/easyinline/index.php",
+                        "content": "<p>Tipps für Einsteiger: Wie skate ich richtig?</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/jonglieren/index.html",
+                "name": "Jonglieren",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Jonglieren lernen",
+                        "link": "https://www.bing.com/videos/riverview/relatedvideo?q=jonglieren%20lernen%20anleitung%20pdf&mid=A1BA3ADA39DF1A814AC5A1BA3ADA39DF1A814AC5&ajaxhist=0",
+                        "content": "<p>Was muss ich tun, um Jonglieren zu lernen?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Jonglieren mit 3 Tüchern",
+                        "link": "https://www.youtube.com/watch?v=QdT4mCfFmA4",
+                        "content": "<p>Vorübung zum Jonglieren mit Bällen</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Jonglieren mit 3 Keulen",
+                        "link": "https://www.youtube.com/watch?v=FqG9_DghXlM",
+                        "content": "<p>Wie lerne ich das Jonglieren mit Keulen?</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/kanu-rudern/index.html",
+                "name": "Kanusport",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Kanu Arten erklärt",
+                        "link": "https://www.ekue-sport.de/blog/2019/12/16/kanu-arten-erklart/",
+                        "content": "<p>Artikel auf<em> ekue-sport.de</em>, 2019</p> <ul> <li>Kanu vs. Kajak: Der Unterschied</li> <li>Welche Kanu Arten gibt es?&nbsp;</li> </ul>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Kajakfahren - Basics",
+                        "link": "https://www.beyondsurfing.com/kajakfahren/#die_richtige_ausruestung",
+                        "content": "<ul> <li>Das erste Mal Kajakfahren</li> <li>Die richtige Ausrüstung</li> <li>Das richtige Kajak</li> <li>Die richtige Vorbereitung</li> <li>Die richtige Technik</li> </ul>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/leichtathletik/index.html",
+                "name": "Leichtathletik",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Übungssammlung zu einzelnen Disziplinen",
+                        "link": "https://www.leichtathletik.de/jugend/praxis-fuer-schule-verein/laufen-springen-werfen",
+                        "content": "<p>Du suchst ein passendes Spiel zu einer Disziplin?&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Vielseitiges Werfen - Gerader Wurf",
+                        "link": "http://www.sportpaedagogik-online.de/leicht/werfenindex.html",
+                        "content": "<p>animierte Übungsreihe zum Schlagwurf, Ideen zur Verbesserung der Wurftechnik und weitere Übungen und Spiele auf s<em>portpaedagogik-online.de</em></p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Schlagwurf",
+                        "link": "http://www.sportpaedagogik-online.de/leicht/schlagana.html",
+                        "content": "<p>Schlagwurf - Wie sieht der genau aus?&nbsp;</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/parcour/index.html",
+                "name": "Parcour",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Parkour - 5 Stationen zum Einstieg",
+                        "link": "https://www.youtube.com/watch?v=NKLO9qj3OvM",
+                        "content": "<p>3-minütiges Video, in dem fünf einfache Aufbaumöglichkeiten (Stationen und Übungen) zur Einführung in die Sportart Parkour erklärt werden</p>",
+                        "age": "6-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/roundnet/index.html",
+                "name": "Roundnet / Spikeball",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Regeln, Übungen und Spielideen zu Roundnet",
+                        "link": "https://www.roundnet-deutschland.de/wissen/schulsport/",
+                        "content": "<p>Sammlung von Spielideen zur Trendsportart mit Übungen für Anfänger und Fortgeschrittene, Grundlagen und Wissensdatenbank auf <em>roundnet-deutschland.de</em></p> <p>&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Spikeball: Spaß für alle Altersgruppen",
+                        "link": "https://nischensport.de/spikeball-spass-fuer-alle-altersgruppen/",
+                        "content": "<p>Artikel mit Regeln, Tipps und Tricks zur Trendsportart Roundnet / Spikeball auf <em>nischensport.de, </em>2024</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Roundnet / Spikeball Tutorial",
+                        "link": "https://www.youtube.com/watch?v=PSuR2OTfjNA",
+                        "content": "<p>5-minütiges Videotutorial mit 3 Übungen für Schulen und Kinder</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Roundnet / Spikeball Tutorial ohne Netz",
+                        "link": "https://www.youtube.com/watch?v=pabDq4IOKLY",
+                        "content": "<p>4-minütiges Tutorial mit 3 Übungen für Schulen und Kinder ohne Netz</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Roundnet in der Schule - Teil 1",
+                        "link": "https://www.youtube.com/watch?v=yto5dY8rcKA",
+                        "content": "<p>Videoreihe basierend auf drei Leitprinzipien: Vermitteln der Spielidee, lange Ballwechsel, Fairness</p> <p>weitere Videos aus der Reihe:</p> <p><a href=\"https://www.youtube.com/watch?v=1lloLRUCagU\">Teil 2: So nutzt ihr das Roundnet Material richtig</a></p> <p><a href=\"https://www.youtube.com/watch?v=sH1G60PhQBs\">Teil 3: Diese Regeln helfen euch in der Schule</a></p> <p><a href=\"https://www.youtube.com/watch?v=V2d4GGTDByI\">Teil 4: Mit diesen Tipps zur besseren Ballkontrolle</a></p> <p><a href=\"https://www.youtube.com/watch?v=EFPPhHr5CpY\">T</a><a href=\"https://www.youtube.com/watch?v=EFPPhHr5CpY\">eil 5: Angriffstaktik</a></p> <p><a href=\"https://www.youtube.com/watch?v=QsEECZR2vyA\">Teil 6: Fangen, werfen, schlagen</a></p> <p><a href=\"https://www.youtube.com/watch?v=EGAf5_-hk_0\">Teil 7: Drei Themenvorschläge - so könnt ihr in der Schule unterrichten!</a></p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/rudersport/index.html",
+                "name": "Rudersport",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Ruderbefehle",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/wassersport/rudersport/ruderbefehle.pdf",
+                        "content": "<p>Ausflistung der Befehle (Ankündigungen / Ausführungen) beim Rudern.&nbsp;</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Rudern lernen mit Marcel",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/wassersport/rudersport/rudern-lernen-mit-marcel.pdf",
+                        "content": "<p>Wie sieht die Technik beim Rudern aus?</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/schwimmen/index.html",
+                "name": "Schwimmen",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Baderegeln",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/wassersport/allgemeines/baderegeln_schwimmkursregeln.pdf",
+                        "content": "<p>Welche Baderegeln gibt es überhaupt?</p>",
+                        "age": "5-6"
+                    },
+                    {
+                        "title": "Brustschwimmen lernen",
+                        "link": "https://www.youtube.com/watch?v=ItRtk_eP5EQ",
+                        "content": "<p>Was muss ich tun, um das Brustschwimmen zu lernen?&nbsp;</p> <p>(kurzes Video)</p>",
+                        "age": "5-6"
+                    },
+                    {
+                        "title": "Brustschwimmen richtig lernen: der korrekte Armzug und Beinschlag",
+                        "link": "https://de.beatyesterday.org/active/fitness/brustschwimmen-richtig-lernen-der-korrekte-armzug-und-beinschlag/",
+                        "content": "<p>Ist deine Technik beim Brustschwimmen korrekt?&nbsp;</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Kraulschwimmen lernen",
+                        "link": "https://www.youtube.com/watch?v=HSC8gSacVjQ",
+                        "content": "<p>Wie funktioniert das Kraulschwimmen?&nbsp;</p> <p>(kurzes Video)</p>",
+                        "age": "5-6"
+                    },
+                    {
+                        "title": "Kraulschwimmen lernen wie die Profis",
+                        "link": "http://kraulenlernen.net/",
+                        "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Auf dieser Webseite findest du Techniken, Übungen, Tipps &amp; Tricks sowie praktische Informationen, die du im Schwimmbecken anwenden kannst, um deine Kraultechnik zu verbessern.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Rückenschwimmen lernen",
+                        "link": "https://www.youtube.com/watch?v=REBs0V5ePuk",
+                        "content": "<p>Was muss ich tun, um das Rückenschwimmen zu lernen?&nbsp;</p> <p>kurzes Video, das Dir die wesentichen Schritte zeigt für die 5. Jgst</p>",
+                        "age": "5-6"
+                    },
+                    {
+                        "title": "Workshop: Delfin-Schwimmer in 10 Schritten",
+                        "link": "https://docswim.de/index.php/2017/10/05/workshop-delfin-schwimmer-in-10-schritten-teil-12/",
+                        "content": "<p>Möchtest Du nicht auch einmal elegant und schnell von einer Beckenwand zur anderen gelangen und dabei die Blicke der Schwimmbadbesucher oder die ihrer Schwimmerkollegen auf sich ziehen?</p> <p>10-Wochen-Workshop: Werde selbst zum Delfin!</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/slackline/index.html",
+                "name": "Slackline",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Slackline",
+                        "link": "http://www.slackline-tools.de/know-how/erste-schritte/",
+                        "content": "<p>Von ersten Schritten bis zu einfachen Tricks.</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Balancieren auf der Slackline",
+                        "link": "http://www.slackline.at/j/index.php/slacklinen/balancieren",
+                        "content": "<p>Erste Schritte auf der Slackline.</p>",
+                        "age": "6-10"
+                    },
+                    {
+                        "title": "Elli Schulte ist die Königin der Slackline",
+                        "link": "https://www.n-tv.de/mediathek/videos/sport/Elli-Schulte-ist-die-Koenigin-der-Slackline-article12838366.html",
+                        "content": "<p>Motivationsvideo ideal zum Einstieg in die Trendsportart auf <em>n-tv.de</em></p> <p>Elli Schulte ist in der Slackline-Szene eine Ausnahmeerscheinung. Die 25-jährige Sportstudentin ist die beste Deutsche in diesem Sport und Nummer zwei in der Frauenweltrangliste.&nbsp;</p> <p>Quelle: Anbieter</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Slackline - Tutorial: Laufen",
+                        "link": "https://www.youtube.com/watch?v=jTnPM9xP7YQ",
+                        "content": "<p>Du willst Slacklinen lernen? Hier findest du Tutorials zu unterschiedlichen Elementen von Elli Schulte.</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/sup/index.html",
+                "name": "SUP",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "VDWS Sicherheit beim Stand Up Paddeln - Video",
+                        "link": "https://www.youtube.com/watch?v=tDpsZluN6WY&list=PLMvskfCVsBKE8f1sXo6-8iBHLzWtfwmHo&index=3",
+                        "content": "<p>Worauf ist beim Stand Up Paddeln zu achten?</p> <p>Warum kann auch dieser Sport gefährlich sein?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Bogenschlag und Stoppschlag",
+                        "link": "https://www.youtube.com/watch?v=MAdcl_yU6bY",
+                        "content": "<p>Wie kann man das SUP schnell wenden und bremsen?</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "J-Schlag",
+                        "link": "https://www.youtube.com/watch?v=EttfyKNf9BU&list=PLMvskfCVsBKE8f1sXo6-8iBHLzWtfwmHo&index=1",
+                        "content": "<p>Warum ist der J-Schlag so wichtig?&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Wie funktioniert der C-Schlag?",
+                        "link": "https://www.youtube.com/watch?v=kWNPq8kJs5c&list=PLMvskfCVsBKE8f1sXo6-8iBHLzWtfwmHo&index=5",
+                        "content": "<p>Wie funktioniert der C-Schlag und wofür ist dieser sinnvoll?</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Crossbow-Turn",
+                        "link": "https://www.google.com/search?q=Crossbow+Turn+SUP&oq=Crossbow+Turn+SUP&aqs=edge..69i57j69i61.4640j0j4&sourceid=chrome&ie=UTF-8#fpstate=ive&vld=cid:8cc812d7,vid:-Y_w0E8A5sk",
+                        "content": "<p>Suchst Du eine Herausforderung fürs Stand-Up Paddle Board?&nbsp;</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/Turnen/index.html",
+                "name": "Turnen",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Bodenturnen - Rolle vorwärts und Rolle rückwärts",
+                        "link": "https://www.youtube.com/watch?v=4jRwbR80bxI",
+                        "content": "<p>Wie turnt man die Rolle vw und Rolle rw richtig?&nbsp;&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "18 einfache Bodenübungen für Anfänger",
+                        "link": "https://www.google.com/search?q=bodenturnen+%C3%BCbungen&tbm=vid&sa=X&ved=2ahUKEwj14ujy04aAAxWvUaQEHb4XBScQ0pQJegQIDhAB&biw=806&bih=686&dpr=1.25#fpstate=ive&vld=cid:7717378d,vid:rMwlT5w1JxM",
+                        "content": "<p>ein Video (3:17min) zu unterschiedlichen Übungen im Bodenturnen</p> <p>Anmerkung: \"einfach\" sind die Übungen am Anfang des Videos, alle weiteren Übungen benötigen viel Übung und turnerische Voraussetzungen</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Barren?",
+                        "link": "https://www.youtube.com/watch?v=-w7jk8z91Wk",
+                        "content": "<p>Welche Übungen gibt es am Barren?&nbsp;</p>",
+                        "age": "6-13"
+                    },
+                    {
+                        "title": "Barren",
+                        "link": "http://www.sportunterricht.de/turnen/bjspiele/barren1.html",
+                        "content": "<p>Bewegungsskizzen und animierte Übungsreihen zu den folgenden Übungen am Barren:</p> <ul> <li>Sprung in den Stütz</li> <li>Schwingen im Stütz</li> <li>Abgang - Hohe Wende&nbsp;</li> </ul> <p>&nbsp;</p>",
+                        "age": "5-7"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/ultimate-frisbee/index.html",
+                "name": "Ultimate Frisbee",
+                "count": 3,
+                "children": [
+                    {
+                        "title": "Ultimate Frisbee",
+                        "link": "http://www.sportpaedagogik-online.de/ultimate1.html",
+                        "content": "<p><imgheight=\"36\" src=\"https://lernarchiv.bildung.hessen.de/sek/sport/bildersammlung/sportuntericht.de.gif\" title=\"sportunterricht.de Bild\"></p> <p>Materialien und weitere Links&nbsp;</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Ultimate Frisbee: Die Goldenen Regeln",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/art/sportspiel/Frisbee/ultimate-frisbee-mobile-sport-ch.pdf",
+                        "content": "<p><imgheight=\"35\" src=\"https://lernarchiv.bildung.hessen.de/sek/sport/bildersammlung/mobile-sport-schweiz.png\" style=\"float left; margin-bottom: 5px; margin: 5px;\"></p> <p>10 wesentliche Regeln für Ultimate Frisbee</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "What is Ultimate?",
+                        "link": "http://www.whatisultimate.com/",
+                        "content": "<p>Wissenswertes zur Geschichte von Ultimate Frisbee und der Verbreitung auf internationaler Ebene&nbsp;</p> <p>Website in englischer Sprache</p>",
+                        "age": "5-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/volleyball/index.html",
+                "name": "Volleyball",
+                "count": 4,
+                "children": [
+                    {
+                        "title": "Volleyballregeln",
+                        "link": "https://www.youtube.com/watch?v=r3esdsB6OqI",
+                        "content": "<p>Hier findest Du die Volleyballregeln in einem Video erklärt.</p>",
+                        "age": "8-13"
+                    },
+                    {
+                        "title": "Volleyball - Material für den Schulsport",
+                        "link": "https://www.volleyball.nrw/schulsportportal/",
+                        "content": "<p>Du sollst im Sportunterrichrt eine Technik im Volleyball erklären?&nbsp;</p> <p>Hier gibt es das Material dazu...</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Volleyball Aufschlag erklärt",
+                        "link": "https://www.google.com/search?q=Volleyball+tEchnik&tbm=vid&sa=X&ved=2ahUKEwiMnMGKyYuAAxXWTaQEHeA1ApoQ0pQJegQICRAB&biw=744&bih=706&dpr=1.25#fpstate=ive&vld=cid:9e383863,vid:-3ZSJTj-yPM",
+                        "content": "<p>Wie klappt der Aufschlag von unten und von oben?&nbsp;</p>",
+                        "age": "7-13"
+                    },
+                    {
+                        "title": "Volleyball Baggern lernen",
+                        "link": "https://www.google.com/search?q=Volleyball+tEchnik&tbm=vid&sa=X&ved=2ahUKEwiMnMGKyYuAAxXWTaQEHeA1ApoQ0pQJegQICRAB&biw=744&bih=706&dpr=1.25#fpstate=ive&vld=cid:b227aaa2,vid:3LtOWYRbUhA",
+                        "content": "<p>Baggern, was ist zu tun?</p>",
+                        "age": "7-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/wassersport/index.html",
+                "name": "weitere Wassersportarten",
+                "count": null,
+                "children": {}
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/wintersport/index.html",
+                "name": "Wintersport",
+                "count": 15,
+                "children": [
+                    {
+                        "title": "FIS-Regeln",
+                        "link": "https://skilehrerverband.de/fis-regeln/",
+                        "content": "<p>FIS Regeln, Verhaltensregeln für alle Gleitsportarten des Internationalen Skiverbandes (FIS) vom <em>DSLV</em> (Deutscher Skilehrerverband).</p> <p>Diese gelten weltweit und nicht nur auf Skipisten.</p>",
+                        "age": "6-13"
+                    }
+                ]
+            }
+        ],
+        "Sporttheorie": [
+            {
+                "link": "https://select.bildung.hessen.de/sport/bewegungslehre/index.html",
+                "name": "Bewegungslehre",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Bewegungsanalyse - Modelle von Meinel und Göhner im Vergleich",
+                        "link": "https://www.youtube.com/watch?v=W3l6OPhmg4A",
+                        "content": "<p>Um Bewegungen zu vermitteln, teilt man diese bei der Beschreibung oft in einzelne <strong>Phasen</strong> ein. Meinel und Göhner haben jeweils gut bekannte Modelle entwickelt, die eine theoriegestützte Einteilung ermöglichen.</p> <p>In diesem Video werden die beiden Modelle kurz und knapp dar.</p>",
+                        "age": "12-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/Doping/index.html",
+                "name": "Doping",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Gefahren des Dopings mit Hormonen ...",
+                        "link": "https://www.sportintegrity.ch/anti-doping/praevention/ausbildung/mobile-lesson",
+                        "content": "<p>Die E-Lesson zeigt die Wirkungen und Nebenwirkungen von verbotenen Substanzen (häufig Hormonen wie EPO, Anabolika ...) und Methoden im menschlichen Körper.</p>",
+                        "age": "11-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/sportmedizin/index.html",
+                "name": "Sportbiologie/ Sportmedizin",
+                "count": 2,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/sport/sportmedizin/ernaehrung/index.html",
+                            "name": "Ernährung",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Training und Ernährung",
+                                    "link": "http://www.sportunterricht.de/lksport/ernae3.html",
+                                    "content": "<p>Was macht eine ausgewogene Ernährung bei gleichzeitigem Training aus?&nbsp;</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/sportsoziologie/index.html",
+                "name": "Sportsoziologie",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Fairplay-Charta",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/einfuehrungsphase/e2-kooperation-und-konkurrenz-im-sportspiel/ted_carta_del_fair_play-1.pdf",
+                        "content": "<p>10 Regeln zum Fairplay im Sport von <em>Panathlon International</em> (internat. Sportverband)</p>",
+                        "age": "8-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/sport-und-gesundheit/index.html",
+                "name": "Sport und Gesundheit",
+                "count": 2,
+                "children": [
+                    {
+                        "title": "Salutogenese-Modell",
+                        "link": "https://www.academyofsports.de/de/lexikon/salutogenese-modell/",
+                        "content": "<p>Wie kommt es, dass einige Menschen die objektiv gleiche Belastung gut vertragen, während andere an ihr krank werden?&nbsp;</p>",
+                        "age": "12-13"
+                    },
+                    {
+                        "title": "Risikofaktorenmodell - Gesundheitsmodell",
+                        "link": "https://www.youtube.com/watch?v=C8sv4FW-UWE",
+                        "content": "<p>Das Risikofaktorenmodell ist das wichtigste und am meisten angewandte Gesundheitsmodell. Es geht vor allem der Frage nach, welche Faktoren einen Menschen krank machen können.&nbsp;</p> <ul> <li>Perspektive des Risikofaktorenmodells</li> <li>Risikofaktoren - Definition und Bereiche</li> <li>Beispiel für einen Risikofaktor</li> <li>Schutzfaktoren</li> <li>Anwendung - wer nutzt das Modell?</li> <li>Vorgehensweise</li> <li>Kritik am Modell</li> </ul>",
+                        "age": "12-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/trainingslehre/index.html",
+                "name": "Trainingslehre",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Koordination",
+                        "link": "https://www.mobilesport.ch/assets/lbwp-cdn/mobilesport/files/2013/09/praxis_2008_38_koordination_d.pdf",
+                        "content": "<p>Übungssammlung</p>",
+                        "age": "12-13"
+                    },
+                    {
+                        "title": "Krafttraining und Trainingsmethoden",
+                        "link": "http://www.sportunterricht.de/lksport/muauf3.html",
+                        "content": "<p>Was versteht man unterMaximalkrafttraining?</p>",
+                        "age": "12-13"
+                    },
+                    {
+                        "title": "Was ist Kondition?",
+                        "link": "http://www.sportunterricht.de/lksport/ueberkond.html",
+                        "content": "<p>Was ist Kondition?&nbsp;</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "Ausdauer - Grundbegriffe und Konzepte - ein Überblick",
+                        "link": "https://www.youtube.com/watch?v=SRhbjzHbpW0",
+                        "content": "<p>Das Video gibt euch einen Überblick über das Thema <strong>Ausdauer im Sport.</strong></p>",
+                        "age": "12-13"
+                    },
+                    {
+                        "title": "Ausdauer - die Trainingsmethodik - ein Überblick",
+                        "link": "https://www.youtube.com/watch?v=M5n1k4CcD3s",
+                        "content": "<p>Was sind Grundmethoden der Ausdauer und welche Belastungskomponenten gibt es?&nbsp;</p>",
+                        "age": "12-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/sport/unterschiedliches/index.html",
+                "name": "Unterschiedliches",
+                "count": 5,
+                "children": [
+                    {
+                        "title": "Wissenstest zu außergewöhnlichen Sportarten",
+                        "link": "http://www.geo.de/GEOlino/wissenstests/58698.html",
+                        "content": "<p>Unglaublich, was es alles gibt!</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Deutscher Fußball Bund - Online Portal",
+                        "link": "http://www.dfb.de/",
+                        "content": "<p>Offizielle Seite des DFB</p>",
+                        "age": "5-13"
+                    },
+                    {
+                        "title": "Kooperation und Konkurrenz im Sportspiel",
+                        "link": "https://prezi.com/p/v_09vwiixdvx/kooperation-und-konkurrenz-im-sportspiel/",
+                        "content": "<p>eine Präsentation zu \"Konzepte zur Vermittlung von Sportspielen\", \"Organisation von Sportspielen\", \"Rollen und Positionen\"</p>",
+                        "age": "11-13"
+                    },
+                    {
+                        "title": "Anpassung durch sportliches Training",
+                        "link": "https://lernarchiv.bildung.hessen.de/sek/sport/einfuehrungsphase/e3-grundlagen-des-sportlichen-trainings/bbs_2014_07_schaubild_wirkung_von_sport_und_bewegung.pdf",
+                        "content": "<p>Was passiert durch Sport in meinem Köper?&nbsp;</p>",
+                        "age": "10-13"
+                    },
+                    {
+                        "title": "konditionelle Fähigkeiten",
+                        "link": "http://sport-leistungskurs.de/konditionelle-faehigkeiten/",
+                        "content": "<p>Hier findest du alles, was du zur Vorbereitung auf deine Abiturprüfung brauchst. Von Erklärungen der Inhalte über Herangehensweisen in der Klausur bis hin zu Übungsmaterial und kostenfreien Lernzetteln.</p>",
+                        "age": "12-13"
+                    }
+                ]
+            }
+        ]
+    }
+}

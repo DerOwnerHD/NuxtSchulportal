@@ -1,0 +1,786 @@
+{
+    "link": "kunst/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_kunst.png",
+    "text": "Kunst",
+    "content": {
+        "Darstellung": [
+            {
+                "link": "https://select.bildung.hessen.de/kunst/koerper/index.html",
+                "name": "Der (menschliche) Körper und seine Ausdrucksformen",
+                "count": 9,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/koerper/gesichter/index.html",
+                            "name": "Gesichter / Portrait",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Zeichnen von Augen",
+                                    "link": "https://www.drawspace.com/lessons#topic-19",
+                                    "content": "<p>Informiere dich hier über das&nbsp; Zeichnen von Augen. Zeichne die gezeigten Augenskizzen auf Papier nach. Vergleiche und überlege bei großen Abweichungen woran das evtl. liegt.&nbsp; Ausführlichere Informationen und Anleitungen bekommst du über \"View-Online\" bzw. \"Download\". Du benötigst Englischkenntnisse für diese Seite!</p> <p>&nbsp;</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Kopf und Gesicht",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/kopf-gesicht-zeichnen.php",
+                                    "content": "<p>Lies dir die Seite durch und übe. Zeichne immer wieder Köpfe und Gesichter etc. Nimm dir viel Zeit und hab Geduld mit dir.&nbsp; Schau dir auch die Videos an.</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Gesichtsausdruck",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/mimik-gesichtsausdruecke-zeichnen.php",
+                                    "content": "<p>Hier findest du erste Erklärungen und Abbildung. Zeichne nach, zeichne an einem Tag nur freundliche, lachende Gesichter und an einem anderen Tag traurige, ärgerliche Gesichter. Verändere mal nur einen Strich.&nbsp;</p> <p>Auch diese Übungen solltest du immer wieder machen. Du kannst überall und auf allen Papierunterlagen zeichnen.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Gesichter / Portrait zeichnen lernen",
+                                    "link": "http://www.kunstkurs-online.de/Seiten/portrait-zeichnen/portrait-zeichnen.php",
+                                    "content": "<p>Übe das Zeichnen von Gesichtern. Es ist nicht leicht, aber ohne Üben geht es nicht. Beachte die Proportionen.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/koerper/handundfuss/index.html",
+                            "name": "Hände und Füße",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Wie zeichne ich Hände?",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/haende-zeichnen-lernen.php",
+                                    "content": "<p>Lies dir die kurze Anleitung durch und zeichne immer wieder Hände. Nimme deine Hand oder Bilder von Händen als Vorlage.</p>",
+                                    "age": "7-11"
+                                },
+                                {
+                                    "title": "Wie zeichne ich Füße?",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/fuesse-zeichnen-lernen.php",
+                                    "content": "<p>Im Allgemeinen ist das Zeichnen von <strong>Füßen</strong> nicht ganz so schwer, wie das von Händen. Aber geübt werden muß es genauso. Mach dich mit den Proportionen vertraut und zeichne Füße mit und ohne Schuhe.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/koerper/koerper/index.html",
+                            "name": "Körper, menschliche Figur",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Menschen",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/maenner-frauen-kinder.php",
+                                    "content": "<p>Eine gute Hilfe sind anatomische Kentnisse, aber auch gute Beobachtungsgabe. Man muss aber kein Mediziner sein, um zu wissen welche Proportionen einen Menschen ausmachen. Auf diesen Seiten werden die Proportionen der menschlichen Figur erklärt.</p> <p>Übe dich immer wieder im Beobachten und Zeichnen der menschlichen Figur, auch in unterschiedlichen Haltungen. Mit der Zeit machst du Fortschritte</p>",
+                                    "age": "7-10"
+                                },
+                                {
+                                    "title": "Mädchen zeichnen",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/kunst/grundlagen/grafisch/figuren/edu_tube_1450182421.html",
+                                    "content": "<p>Wie zeichnet man eine weibliche Figur in kurzer Zeit? Dieses Video zeigt es.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Jungen zeichnen",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/kunst/grundlagen/grafisch/figuren/edu_tube_1450182784.html",
+                                    "content": "<p>Du willst einen Jungen zeichnen? Schau dir dieses Video an, dann weißt du, wie!</p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/raum/index.html",
+                "name": "Räumliche Darstellung",
+                "count": 5,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/raum/fluchtperspektive/index.html",
+                            "name": "Perspektive",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Perspektivisches Zeichnen",
+                                    "link": "https://www.drawspace.com/lessons#module-4",
+                                    "content": "<p>Informiere dich hier ( <a href=\"http://www.drawspace.com/lessons/e04/one-point-perspective\">One Point Perspective</a> ) über das räumliche Zeichnen mittels Perspektive und zeichne die gezeigten Gegenstände auf Papier nach.&nbsp; Vergleiche und überlege bei großen Aweichungen woran das evtl. liegt.&nbsp; Ausführlichere Informationen und Anleitungen bekommst du über \"View-Online\" bzw. \"Download\". Du benötigst Englischkenntnisse für die Seite!</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Perspektive mit einem Fluchtpunkt",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/w_Tafelbilder_Perspektive-Fluchtpunkt.htm",
+                                    "content": "<p>Zeichne diese Bild mit Lineal nach. Du darfst auch abweichen. Zeichne aber auch auf schwarzem Papier. Lies dir auch den Text unterhalb des Bildes durch.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Perspektive mit zwei Fluchtpunkten",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/w_Tafelbilder_Perspektive-Fluchtpunkte.htm",
+                                    "content": "<p>Zeichen mit Lineal solche und andere Häuser. Versuch das auch mal ohne Lineal also freihändig zu zeichnen. Von Übung zu Übung wirst du besser.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Perspektiven: eine Übersicht",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/perspektivisches-zeichnen.php",
+                                    "content": "<p>Du hast keine Ahnung, wie du perspektivisch zeichnen kannst? Schau auf diese Seite und übe mit Hilfe der Tipps, dann wirken deine Bilder realistischer.</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/raum/grundlagen/index.html",
+                            "name": "Grundlagen für das räumliche Zeichnen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Schattieren, Schraffur",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/licht-schatten-schattieren.php",
+                                    "content": "<p>Dass ein Bild räumlich wirkt, hat viele Gründe. Hier erfährst du welche und wie man sie einsetzt.<br><br>Zeichne die Beispiele auf dieser Seite nach. Es kommt dabei nicht darauf an, dass der Apfel haargenau nachgezeichnet wird, sondern auf das Schraffieren und das Modulieren mit Schraffuren. Diese Übungen sind immer und überall möglich und vor allem immer wieder.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Gattungen": [
+            {
+                "link": "https://select.bildung.hessen.de/kunst/architektur/index.html",
+                "name": "Architektur",
+                "count": 3,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/architektur/aufgaben/index.html",
+                            "name": "Aufgaben zur Architektur",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Bogenformen (1)",
+                                    "link": "http://www.allgemeinbildung.ch/fach=kun/Bogenformen_01a.htm",
+                                    "content": "<p>Wähle jeweils den richtigen Begriff aus.</p>",
+                                    "age": "9-11"
+                                },
+                                {
+                                    "title": "Bogenformen (2)",
+                                    "link": "http://www.allgemeinbildung.ch/fach=kun/Bogenformen_02a.htm",
+                                    "content": "<p>Wähle jeweils den richtigen Begriff aus.</p>",
+                                    "age": "9-11"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/architektur/stile/index.html",
+                            "name": "Stilrichtungen in der Architektur",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Joseph Maria Olbrich – Architekt des Jugendstils",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2010/20100216_mxUser522_00d2bb89_10_019.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Für seine Vision der Weltgestaltung hatte Joseph Maria Olbrich ein 10.000 Quadratmeter großes Experimentierfeld zur Verfügung. Auf der Darmstädter Mathildenhöhe schuf er ein Gesamtkunstwerk: ein großbürgerliches Wohnensemble, das mit seinen Jugendstilhäusern und dem Hochzeitsturm bis heute die Stadt prägt.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/design/index.html",
+                "name": "Design und Alltagskultur",
+                "count": 1,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/design/design/index.html",
+                            "name": "Design",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Fussballtrikot",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/q_Zeichnenunterricht_Fussballtrikot.htm",
+                                    "content": "<p>Du darfst ein neues Fussballtrikot entwerfen. Wenn du mit Fußball nichts anfangen kannst, dann wähle eine andere Sportart.</p>",
+                                    "age": "7-8"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/malen/index.html",
+                "name": "Malerisches Gestalten",
+                "count": 10,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/aquarell/index.html",
+                            "name": "Aquarellmalerei",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Übungen zur Aquarellmalerei",
+                                    "link": "http://www.easy-aquarell.de/",
+                                    "content": "<p>Die Technik des Malens mit wasserlöslichen Farben ist eine der ältesten Mal-Techniken, die es gibt. Die Aquarellmalerei, wie wir sie heute kennen, hat sich erst im Mittelalter entwickelt, wo wasserlösliche Farben zur Kolorierung von Büchern und Holzdrucken verwendet wurden. Auf diesen Seiten werden verschiedene Aquarell-Techniken mit Text und Bild erläutert. Du kannst sie alle nach und nach ausprobieren und dich daran üben.</p> <p><a href=\"http://www.easy-aquarell.de/techniken/lavieren.htm\">Lavieren</a>&nbsp; <a href=\"http://www.easy-aquarell.de/techniken/lasieren.htm\">Lasieren</a>&nbsp; <a href=\"http://www.easy-aquarell.de/techniken/nass_in_nass.htm\">Nass in Nass - </a><a href=\"http://www.easy-aquarell.de/techniken/farben_mischen.htm\">Farben aufhellen -&nbsp; Farben mischen -&nbsp; </a><a href=\"http://www.easy-aquarell.de/techniken/farben_aufhellen.htm\">Farben aufhellen - </a><a href=\"http://www.easy-aquarell.de/techniken/auswaschtechnik.htm\">Auswaschtechnik - </a><a href=\"http://www.easy-aquarell.de/techniken/spritztechnik.htm\">Spritztechnik - </a><a href=\"http://www.easy-aquarell.de/techniken/auskratztechnik.htm\">Auskratztechnik - </a><a href=\"http://www.easy-aquarell.de/techniken/schabtechnik.htm\">Schabtechnik</a><a href=\"http://www.easy-aquarell.de/techniken/farben_mischen.htm\"> - u.a.<br> </a></p> <p>&nbsp;</p>",
+                                    "age": "6-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/buntstifte/index.html",
+                            "name": "Buntstifte",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Mit Buntstiften malen",
+                                    "link": "https://zeichnen-lernen.net/bilder-kolorieren-ausmalen/kolorieren-mit-buntstift-799.html",
+                                    "content": "<p>Lies dir die Seite durch und folge den Übungen.</p> <p>Informiere dich bitte auch über das richtige Ausmalen mit Buntstiften im Teil \"Richtig mit Buntstiften ausmalen\". Auch wenn du es vielleicht nicht glauben möchtest, auch das Ausmalen mit Buntstiften muss man üben. Trainiere dich durch regelmäßiges&nbsp; Ausmalen verschiedener Bilder.</p> <p>Schau dir auch die zwei Videos an.</p> <p>Video: Richtig mit Buntstiften ausmalen<br> Video: Wie man NICHT mit Buntstiften ausmalen sollte</p>",
+                                    "age": "4-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/farbkreis/index.html",
+                            "name": "Farbkreis",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Farbenlehre",
+                                    "link": "https://zeichnen-lernen.net/zeichnen-malen/grundlagen-des-zeichnens-und-malens/farbenlehre-farbkontraste-107.html",
+                                    "content": "<p>Lies dir die Seite durch und erstelle verschiedene Farbmischungen und Farbkontraste. Benutze dazu nicht nur die Wasserfarben, sondern auch Buntstifte, Filzstife, Aquarellfarben etc.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Farbfelder",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/q_Zeichnenunterricht_Farbfelder.pdf",
+                                    "content": "<p>Erstelle ähnliche Farbfelder wie in der Vorlage.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Farbkreis",
+                                    "link": "http://www.lernumgebung.ch/Mittelstufe34/34uebungen/v34versch/Farbenkreis/Farbkrtp.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek_i/kunst/themen/Malen/Farbkr2_2.jpg\"><p>Setze den Farbkreis wieder richtig zusammen.</p>",
+                                    "age": "5-7"
+                                },
+                                {
+                                    "title": "Das Blaue vom Himmel - Die Geschichte einer Farbe",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2005/004ee0a8_05_003.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Warum trägt die Madonna einen blauen Mantel? Blau war nicht nur die Farbe des Himmels, sondern nach Gold auch die zweitteuerste Farbe, die im Mittelalter erhältlich war. In ihrem Wissenswert-Beitrag geht Ruth Fühner der Karriere der blauen Farbe nach.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/fasermaler/index.html",
+                            "name": "Fasermaler",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Malen mit Faserstiften",
+                                    "link": "http://www.kunstkurs-online.de/Seiten/comics-manga-zeichnen/fasermaler-malen-blatt.php",
+                                    "content": "<p>Male das Blatt mit den Fasermalern entsprechend der Schritt-für-Schritt-Anleitung mit. Dadurch übst du dich im malerischen Umgang mit den Fasermalern.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/oelmalerei/index.html",
+                            "name": "Ölmalerei",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Malen mit Olfarben",
+                                    "link": "http://www.kunstkurs-online.de/Seiten/oel-und-acryl/malen-mit-oelfarbe-01.php",
+                                    "content": "<p>Auf diesen Seiten findest du eine kleine Anleitung, in der du das Malen mit Ölfarben lernen kannst - online und kostenlos. Zunächst erfährst du alles was man braucht, um richtig loslegen zu können wie z.B. Pinsel, Farbe, Lösemittel usw. Danach folgt eine Schritt für Schritt Anleitung, in der die Entstehung eines kompletten Ölgemäldes beschreiben wird.</p> <p>Du kannst das selbst mit- und nacharbeiten.</p> <p>Viel Spaß</p>",
+                                    "age": "8-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/malen/pastellkreide/index.html",
+                            "name": "Malen mit Pastellkreide",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Malen mit Pastellkreide",
+                                    "link": "http://www.kunstkurs-online.de/Seiten/pastell/pastellmalerei-01.php",
+                                    "content": "<p>Mache die Schritt-für-Schritt-Anleitung mit. Dadurch sammelst du Übungpraxis und Erfahrungen. Danach kannst du dir ein anderes Thema stellen und es mit Pastellkreide umsetzen.</p>",
+                                    "age": "6-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/zeichnen/index.html",
+                "name": "Zeichnerisches Gestalten",
+                "count": 12,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/landschaft/index.html",
+                            "name": "Landschaften",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Landschaften",
+                                    "link": "https://zeichnen-lernen.net/zeichnen-malen/verschiedene-motive/landschaften-zeichnen-naturbilder-283.html",
+                                    "content": "<p>Lies dir diese Seite durch und versuche dich im Zeichnen von Landschaften.</p> <p>Die Grundlagen zum räumlichen Zeichnen findet ihr auf <a href=\"http://online-zeichenkurs.de/pages/zeichnen-grundlagen/raeumlich-zeichnen.php\" target=\"_self\">dieser Seite</a>.<br>Die Entstehung der Landschaftszeichnung kannst du unter \"<a href=\"http://online-zeichenkurs.de/pages/videos/landschaften.php\" target=\"_blank\">Videos</a>\" betrachten.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/schraffur/index.html",
+                            "name": "Schraffieren",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Schraffuren",
+                                    "link": "http://de.wikipedia.org/wiki/Zeichnung_%28Kunst%29#Schraffur",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia.png\"><p>Informiere dich über das Schraffieren mit Bleistift. Es gibt verschiedene Schraffuren.<br>Zeichne dann eine oder alle drei Zeichnungen, die unter der Rubrik Technik abgebildet sind, nach.</p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/tiere/index.html",
+                            "name": "Tiere zeichnen",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Wie zeichne ich Tiere?",
+                                    "link": "http://www.zeichnen-lernen.net/druck/tiere-zeichnen.html",
+                                    "content": "<p>Diese Aufgabe ist komplex. Vermutlich hast du ein bis drei Lieblingstiere. Vielleicht ist es auf diesen Seiten dabei, dann hast du eine kleine Hilfe. Ansonsten suche dir Abbildungen und Fotos. Studiere diese Bilder gut und gründlich und zeichne sie&nbsp; mehrmals nach.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/tusche/index.html",
+                            "name": "Zeichnen mit Tusche",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Zeichnen mit Tusche",
+                                    "link": "http://de.wikibooks.org/wiki/Praxisorientiertes_Handbuch_der_Mal-_und_Zeichentechniken/_Tuschmalen",
+                                    "content": "<p>Informiere dich über die Technik des Tuschezeichnens.<br>Du kannst auch mit dem Ende eines Streichholzes zeichnen, wenn du es zuvor in Tusche getunkt hast.<br>Zeichne mit Tusche eine alte verfallene Holzhütte.</p>",
+                                    "age": "5-8"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/zeichenaufgaben/index.html",
+                            "name": "Zeichenaufgaben",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Menschenauflauf",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/q_Zeichnenunterricht_Menschenauflauf.htm",
+                                    "content": "<p>Schau dir die drei Zeichnungen zum Thema \"Menschenauflauf\" an. Nimm ein Bild als Anregung. Zeichne dann nach deiner Vorstellung auch so ein Bild. Lege die Vorlagen aber zuvor weg. Du kannst das auf deine eigene Weise.</p>",
+                                    "age": "7-9"
+                                },
+                                {
+                                    "title": "Gliederfüssler",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/q_Zeichnenunterricht_Gliederfuessler.htm",
+                                    "content": "<p>Schau dir die drei Bilder an. Du kanst auch Insektenbücher mit Zeichnungen, Bilder aus dem Internet wählen. Zeichne nach deiner Art \"Gliederfüssler\". Hier kommt es auf die Übung an, nicht auf das exakte Abbilden.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/zeichnen/zeichenkurs/index.html",
+                            "name": "Zeichenkurs",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Schattieren, Schraffur",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/licht-schatten-schattieren.php",
+                                    "content": "<p>Dass ein Bild räumlich wirkt, hat viele Gründe. Hier erfährst du welche und wie man sie einsetzt.<br><br>Zeichne die Beispiele auf dieser Seite nach. Es kommt dabei nicht darauf an, dass der Apfel haargenau nachgezeichnet wird, sondern auf das Schraffieren und das Modulieren mit Schraffuren. Diese Übungen sind immer und überall möglich und vor allem immer wieder.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Grundübungen für das Zeichnen",
+                                    "link": "http://www.zeichnen-lernen.net/kunstkurse/grundlagen.php",
+                                    "content": "<p>Diese Übungen dienen dazu, um ersteinmal ein Gespür für das Zeichenmaterial zu bekommen und um die Hand zu lockern. Verzichte bitte auf ein Radiergummi und Lineal, auch wenn es schwer fällt. <br>Nimm für jede Übung ein Blatt Papier - das kan auch ein einseitig bedrucktes Papier sein. Nimm Dir für jeden Schritt Zeit und Geduld und übe immer wieder.</p> <p>Der Sinn der Übung ist nämlich ein ruhiges Händchen und einige Erfahrungen im gezielten Zeichnen zu bekommen.</p>",
+                                    "age": "5-10"
+                                },
+                                {
+                                    "title": "Eine Arbeitsvorlage zu Strukturmuster",
+                                    "link": "http://www.allgemeinbildung.ch/arb/arb=kun/q_Zeichnenunterricht_Strukturmuster.pdf",
+                                    "content": "<p>Diese Strukturemuster kannst du leicht selbst zeichnen. Erfinde darüberhinaus auch eigene.</p>",
+                                    "age": "5-9"
+                                },
+                                {
+                                    "title": "Online-Zeichenkurs",
+                                    "link": "http://www.zeichenclub.de/start.html",
+                                    "content": "<p>In diesem Kurs werden dir online Übungen und Tipps zum Zeichnen angeboten. Schau dir zuerst die Übungen im \"Grundkurs\" an und versuche sie auf dem Papier selbstständig zu machen. Wiederhole das immer wieder.</p> <p>Im \"Bleistift-Kurs\" folgen dann weitere - zum Teil anspruchsvollere - Aufgaben und Übungen.</p> <p>Werfe möglichst keine Zeichnung weg. Heb sie auf und vergleiche sie abundan. Du wirst merken, dass du Fortschritte machst. Auch beim Zeichnen gilt üben, üben, üben ....</p> <p>Viel Spaß</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ],
+        "Kunstgeschichte": [
+            {
+                "link": "https://select.bildung.hessen.de/kunst/museum/index.html",
+                "name": "Künstler/innen, Museum,  Galerie, Ausstellungen",
+                "count": 27,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/museum/museum/index.html",
+                            "name": "Museum",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Online ins Museum gehen",
+                                    "link": "http://www.googleartproject.com/",
+                                    "content": "<p>Besuche doch mal wieder ein Museum!</p> <p>Hier kannst du 17 verschiedene Museen der Welt besuchen. Dabei kannst du dich wie bei Google-Streetview&nbsp; bewegen. Du kannst dir auch einzelne Bilder anschauen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Das Hessische Landesmuseum Darmstadt - Universell von der Urzeit bis heute -",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2003/002c14e9_Wissenswert_02_118.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Der Sammelleidenschaft der Landgrafen von Hessen-Darmstadt seit dem 17. Jahrhundert ist es zu verdanken, dass \"ihr\" Museum für die verschiedensten Interessen Augen- und Wissensfutter bietet. Wer durch dieses Haus streift, ist auch vor moderner Kunst nicht sicher: Bürgerschreck und Provokateur Joseph Beuys hat selbst Hand angelegt, als sein weltweit größter Werkkomplex, der \"Block Beuys\" dort installiert wurde.</p>",
+                                    "age": "-5--5"
+                                },
+                                {
+                                    "title": "Der Louvre am Central Park - Das Metropolitan Museum of Art in New York",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2004/0043e607_04_101.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Am erstaunlichen Vielflügelmuseum kommt kein Tourist vorbei, das Metropolitan Museum ist Pflicht, nicht nur wegen der Antikensammlung oder den Impressionisten, die außer amerikanischen Kunstliebhabern einst keiner kaufte und sammelte. Es ist eine Schatztruhe für alles Sammelnswerte dieser Welt, bietet eine Kulturweltreise unter einem Dach.</p>",
+                                    "age": "8-10"
+                                },
+                                {
+                                    "title": "Der Nabel der Welt - Das British Museum in London",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2004/0043e609_04_102.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>London im Jahre 1753. Die bevölkerungsreichste und die reichste Stadt in Europa, das größte Finanzzentrum der Welt. Es ist auch das London, wo das erste Nationalmuseum der Welt gegründet wurde. Das British Museum&nbsp; und mit ihm die Gründung einer neuen Idee. Die Sammlung des Museums wurde vom Parlament gekauft und gehörte weder dem König, noch dem Staat, sondern vielmehr jedem Bürger im Lande.</p>",
+                                    "age": "6-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/index.html",
+                            "name": "Künstler und Künstlerinnen",
+                            "count": 23,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/boticelli/index.html",
+                                        "name": "Botticelli",
+                                        "count": 1,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/cranach/index.html",
+                                        "name": "Cranach, Lucas",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Lucas Cranach dem Älteren",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2007/008f1bee_07_118.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Wie Martin Luther aussah, wissen wir dank Lucas Cranach dem Älteren Die beiden Männer waren Freunde und Geschäftspartner, was aber den Künstler keineswegs davon abhielt, auch für Gegner des Reformators zu arbeiten. Seine Werkstatt in Wittenberg war eines der erfolgreichsten Unternehmen der Kunstgeschichte.</p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/emil_nolde/index.html",
+                                        "name": "Emil Nolde",
+                                        "count": 9,
+                                        "children": [
+                                            {
+                                                "title": "Hessenschau: Neuer Blick auf Emil Nolde",
+                                                "link": "http://www.hr-online.de/website/static/flashplayer/mediaplayer-5.2-mod-2.swf?file=http%3A%2F%2Fwww.hr.gl-systemhaus.de%2Fvideo%2Ffs%2Fhessenschau%2F2014_03%2F140304195948_blick_24516.mp4&width=384&hei",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Die Hessenschau vom 4. März 2014 berichtet über den berühmten Maler, der in einer Ausstellung im Frankfurter Städel zu sehen ist.</p>",
+                                                "age": "5-13"
+                                            },
+                                            {
+                                                "title": "Emil Nolde (Digitale Sammlung, Städel-Museum)",
+                                                "link": "https://sammlung.staedelmuseum.de/en/person/nolde-emil",
+                                                "content": "<p>Im Rahmen seiner Ausstellung zu Emil Nolde informiert das Städel Museum in Frankfurt über das Leben des Malers.</p>",
+                                                "age": "7-13"
+                                            },
+                                            {
+                                                "title": "Webquest: Emil Nolde - Avantgardmaler und Nazi-Anhänger",
+                                                "link": "https://lernarchiv.bildung.hessen.de/sek/kunst/kunstgeschichte/biographien/nolde/nolde_und_nationalsozialismus/index.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Der Maler Emil Nolde wurde im Nachkriegsdeutschland gefeiert und geehrt, obwohl er während der Nazizeit glühender Hitleranhänger war. Gleichzeitig wurde er aber aufgrund seines Malstils besonders von Adolf Hitler selbst abgelehnt. Mehr als 1000 seiner Bilder wurden beschlagnahmt und mehr als 40 Nolde-Werke in der Ausstellung <a href=\"http://de.wikipedia.org/wiki/Entartete_Kunst_%28Ausstellung%29\" target=\"_extern\" data-inline=\"True\">\"Entartete Kunst\"</a> 1937 an den Pranger gestellt. Dieser Webquest möchte Sie anleiten, sich mit den Widersprüchen des Künstlers Emil Nolde auseinanderzusetzen.</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Lernpfad: Emil Nolde - Aquarelle",
+                                                "link": "https://lernarchiv.bildung.hessen.de/sek/kunst/kunstgeschichte/biographien/nolde/enolde/index.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>In diesem Lernpfad findest du viele Informationen, wie du mit Aquarellfarben malen kannst. Du findest auch viele Aufgaben oder Übungen mit Malanlässen zum eigenständigen Malen. Dabei kannst du Übungen überspringen und jederzeit auch wiederholen. Ganz wichtig - wenn dir mal etwas nicht gefällt, dann wirf es nicht weg. Schau es dir ein paar Tage später an, oft bekommst du Ideen zum Weitergestalten. Du kannst den Lernpfad auch in vier Stunden durcharbeiten. Wenn du Gefallen findest, wirst du dir zum Malen auch mehr Zeit nehmen.</p>",
+                                                "age": "5-8"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/hundertwasser/index.html",
+                                        "name": "Hundertwasser, Friedensreich",
+                                        "count": null,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/vangogh/index.html",
+                                        "name": "van Gogh, Vincent",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Video über das Werk von van Gogh",
+                                                "link": "http://www.vangoghgallery.com/misc/quotes.html",
+                                                "content": "<p>Schau dir das Video an.</p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/friedrich/index.html",
+                                        "name": "Friedrich, Caspar David",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Der Landschaftsmaler Caspar David Friedrich",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2005/0057bcdf_05_088.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>\"Ein Bild soll nicht erfunden, sondern empfunden sein\" - nach diesem Grundsatz schuf Caspar David Friedrich ein Bild erst dann, wenn es 'lebendig' vor seiner Seele stand. Nach anfänglich großem Erfolg erfuhr Friedrichs Kunst im Laufe der Jahre immer weniger Beachtung bei seinen Zeitgenossen. Manche kritisierten ihn als Maler konstruierter Landschaften, andere bezeichneten ihn einfach als verrückt. Caspar David Friedrich starb schließlich verarmt und fast vergessen. Heute gilt er als einer der größten Maler der Romantik.</p>",
+                                                "age": "5-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/kirchner/index.html",
+                                        "name": "Kirchner, Ernst Ludwig",
+                                        "count": 1,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/dachau/index.html",
+                                        "name": "Künstlerkolonie Dachau",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Künstlerkolonien von Dachau",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2005/005cda33_05_122.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Als den Münchener Landschaftsmalern Ende des 19. Jahrhunderts die Atelierräume zu eng wurden, hatten sie es einfach: Gleich vor ihrer Haustür, im nahen Dachauer Moos, fanden sie die ursprünglichen Motive, die sie suchten: Bäuerliche Trachten, Äcker und Moor. Wie in den meisten Künstlerkolonien endete die Ära der Künstler auch in Dachau bereits mit dem Ersten Weltkrieg.</p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/worpswede/index.html",
+                                        "name": "Künstlerkolonie Worpswede",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Künstlerkolonien von Worpswede",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2005/005cda26_05_120.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Am Anfang stand ein Besuch des späteren Jugendstilmalers Fritz Mackensen bei einer Worpsweder Kaufmannsfamlie. Das war 1884. Fünf Jahre später verbrachte er zusammen mit einigen anderen Malern , darunter Otto Modersohn und Hans am Ende, einen ganzen Winter in dem Dorf im Teufelsmoor bei Bremen . Das war die Geburtsstunde der Künstlerkolonie Worpswede. Die Landschaft hat dem Ort das Besondere gegeben. Auch wenn die historischen Stätten dieser Künstlergeneration und zahlreiche Galerien jährlich unzählige Besucher anziehen, wird in Worpswede nicht nur Vergangenheit gepflegt. Als Stipendiaten leben und arbeiten hier auch heute zeitgenössische Künstlerinnen und Künstler.</p>",
+                                                "age": "5-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/liebermann/index.html",
+                                        "name": "Liebermann",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Liebermanns Garten - Ein Besuch in der Wannsee-Idylle des Impressionisten",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2005/0056dded_05_072.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Man schrieb das Jahr 1909, als Max Liebermann sich am Wannsee \"eine Villa bauen\" ließ, \"was jetzt auch in Berlin Mode\" wurde. Und drumherum jenen Garten, den er um 1915 als Sujet für seine Malerei entdeckte und fortan zu allen Jahreszeiten liebevoll auf Leinwand verewigte. Die Max-Liebermann-Gesellschaft begann vor geraumer Zeit damit, das \"Schlößchen am See\" zu restaurieren und Liebermanns Garten zu rekonstruieren.</p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/picasso/index.html",
+                                        "name": "Picasso, Pablo",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "Picassos frühe Jahre - Eine spanische Kindheit und ihre Spuren im Werk",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2006/0074d995_06-120.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Pablo Picasso, einer der einflußreichsten Künstler des 20. Jahrhunderts, war produktiv bis ins hohe Alter.1881 kam er als Pablo Ruiz in der südspanischen Hafenstadt Málaga als Sohn eines Malers und Lehrers der Kunstgewerbeschule zur Welt. Der Vater lehrte ihn Maltechniken: Naturstudien und Nachzeichnen von Gipsfiguren. Als sich der junge Maler endgültig in Paris niederließ, begann er seine Werke mit dem Mädchennamen seiner Mutter zu signieren: PICASSO.</p>",
+                                                "age": "5-10"
+                                            },
+                                            {
+                                                "title": "Pablo Picasso:  Guernica  (ein Bild und seine Geschichte)",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2007/007fbdbd_07_031.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Hol dir das Bild Guernica auf den Bildschirm ( <a href=\"http://www.artchive.com/artchive/p/picasso/guernica.jpg\" target=\"_blank\">http://www.artchive.com/artchive/p/picasso/guernica.jpg</a>), damit du es beim Zuhören betrachten kannst.</p> <p>Pablo Picasso malte 1937 \"Guernica\" für die Pariser Weltausstellung unter dem Eindruck der vollständigen Zerstörung der baskischen Stadt gleichen Namens während des Spanischen Bürgerkriegs durch Hitlers Legion Condor. Guernica gilt bis heute als Auftakt für den Zweiten Weltkrieg und die erste planmäßige Zerstörung einer Stadt und die Ermordung ihrer Einwohner aus der Luft.</p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/rembrandt/index.html",
+                                        "name": "Rembrandt",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Rembrandt, Ein Porträt zu seinem 400. Geburtstag",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2006/006b679d_06_069.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Er hat soviele Selbstporträts gemalt, gezeichnet und radiert wie kein anderer Künstler. Sie zeigen Rembrandts Drang zur unaufhörlichen Selbstinszenierung, die auch uns heute noch fragen läßt: Wer war dieser Sohn eines Müllers und einer Bäckerstochter, der sich wie Michelangelo oder Leonardo mit dem Vornamen in die Kunstgeschichte einschrieb? Eine Figur zwischen Dichtung und Wahrheit, zwischen Selbstinszenierung und nachhaltiger Wirkung für die Kunstgeschichte.</p>",
+                                                "age": "5-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/richter/index.html",
+                                        "name": "Richter, Gerhard",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Stilbruch auf Leinwand: Gerhard Richter",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2007/0083c5bb_07_057.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Ob sie aussehen wie verwischte Fotos oder wie monochrome graue Flächen, ob die pure Farbe auf ihnen explodiert oder Menschen und Gegenstände abgebildet sind - eigentlich sei auf seinen Bildern immer dasselbe, nämlich Öl auf Leinwand, sagt Gerhard Richter. Wider Erwarten ist er damit auf dem Kunstmarkt mehr als erfolgreich.</p> <p>Bilder von Gerhard Richter im Internet:&nbsp; <a href=\"http://www.gerhard-richter.com/art/paintings/\">http://www.gerhard-richter.com/art/paintings/</a></p>",
+                                                "age": "7-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/schlingensief/index.html",
+                                        "name": "Schlingensief, Christoph",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Kunst in Aktion: Christoph Schlingensief",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2007/0083c59f_07_054.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Der Künstler, Theater- und Filmemacher Christoph Schlingensief ist angetreten, um die Grenzen zwischen Kunst und Politik aufzuheben. Wie kein anderer agiert der 1960 geborene Schlingensief bei seinen Kunstaktionen und Theaterstücken politisch und wie kein anderer produziert er Spektakel.</p>",
+                                                "age": "8-10"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/kunst/museum/kuenstler/zille/index.html",
+                                        "name": "Zille, Heinrich",
+                                        "count": 1,
+                                        "children": [
+                                            {
+                                                "title": "Heinrich Zille",
+                                                "link": "http://mp3.bildung.hessen.de/hr2/2008/0092952a_08_015.mp3",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Hör dir diese Aufnahme an. Am besten besorgst du dir zuvor aus der Bibliothek ein Buch mit den Zeichnungen und Fotografien von Heinrich Zille.</p>",
+                                                "age": "8-10"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/kunststil/index.html",
+                "name": "Kunststile",
+                "count": 7,
+                "children": [
+                    {
+                        "title": "Joseph Maria Olbrich – Architekt des Jugendstils",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2010/20100216_mxUser522_00d2bb89_10_019.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>Für seine Vision der Weltgestaltung hatte Joseph Maria Olbrich ein 10.000 Quadratmeter großes Experimentierfeld zur Verfügung. Auf der Darmstädter Mathildenhöhe schuf er ein Gesamtkunstwerk: ein großbürgerliches Wohnensemble, das mit seinen Jugendstilhäusern und dem Hochzeitsturm bis heute die Stadt prägt.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Die Epochen der Kunst",
+                        "link": "https://www.br.de/fernsehen/ard-alpha/sendungen/stil-epochen/stil-epochen102.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p>Eine sehr schöne und gut gemachte Website. Hier kannst du dich gut informieren. Zu jeder Epoche gibt es auch ein Video.</p>",
+                        "age": "8-12"
+                    },
+                    {
+                        "title": "Kunstepochen",
+                        "link": "http://www.allgemeinbildung.ch/fach=kun/Kunstepochen_01s.htm",
+                        "content": "<p>Ordne die Kunstepochen durch Verschieben.</p>",
+                        "age": "7-10"
+                    },
+                    {
+                        "title": "Bauhausmanifest",
+                        "link": "http://mp3.bildung.hessen.de/hr2/2010/20100216_mxUser522_00d2bb8a_10_020.mp3",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/hr_logo_180.png\"><p>„Wollen, erdenken, erschaffen wir gemeinsam den neuen Bau der Zukunft, der alles in einer Gestalt sein wird: &nbsp; Architektur und Plastik und Malerei, der aus Millionen Händen der Handwerker einst gen Himmel steigen wird als kristallenes Sinnbild eines neuen kommenden Glaubens.“ Heißt es im berühmten „Bauhausmanifest“ des Vaters aller Bauhäusler: Walter Gropius.</p>",
+                        "age": "5-10"
+                    },
+                    {
+                        "title": "Antike Gefässe",
+                        "link": "http://www.allgemeinbildung.ch/fach=kun/Antike_Gefaesse_01a.htm",
+                        "content": "<p>Wähle jeweils den richtigen Begriff aus.</p>",
+                        "age": "8-10"
+                    },
+                    {
+                        "title": "Antike Gefässe (2)",
+                        "link": "http://www.allgemeinbildung.ch/fach=kun/Antike_Gefaesse_02e.htm",
+                        "content": "<p>Trage in die Lücken die richtigen Begriffe ein.</p>",
+                        "age": "9-10"
+                    },
+                    {
+                        "title": "Webquest: Höhlenmalerei",
+                        "link": "https://lernarchiv.bildung.hessen.de/grundschule/kunst/kunsttechniken/hoehlenmalerei/hoehlen/index.html",
+                        "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Höhlenmalerei ist die älteste Malerei, die bis heute erhalten ist. Schon vor über 30.000 Jahren haben sich die Menschen damit Nachrichten übermittelt. Hier begibst du dich auf die Spuren unserer frühen Vorfahren und lernst etwas über ihre Kunst kennen.</p>",
+                        "age": "3-7"
+                    }
+                ]
+            }
+        ],
+        "Techniken": [
+            { "link": "https://select.bildung.hessen.de/kunst/collage/index.html", "name": "Collage", "count": null, "children": {} },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/fotovideo/index.html",
+                "name": "Foto / Video",
+                "count": 2,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/fotovideo/fotografie/index.html",
+                            "name": "Fotografie",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Geschichte der Fotografie",
+                                    "link": "http://www.planet-wissen.de/kultur_medien/fotografie/geschichte_der_fotografie/index.jsp",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>Hier findest du interessante Informationen zur Geschichte der Fotografie. Ein Video ist auch enthalten.</p>",
+                                    "age": "5-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/fotovideo/film_video/index.html",
+                            "name": "Film / Video",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Filme zur Kunst",
+                                    "link": "https://www.youtube.com/user/hackerklub/videos",
+                                    "content": "<p>Hier findest du einige ungewöhnliche Filme vom Jugendclub des Wilhelm-Hack-Museums zum Thema Kunst.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/kunst/kunstcomputer/index.html",
+                "name": "Kunst und Computer",
+                "count": 1,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/kunst/kunstcomputer/farbe/index.html",
+                            "name": "Farbe",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Farbkreis",
+                                    "link": "http://www.lernumgebung.ch/Mittelstufe34/34uebungen/v34versch/Farbenkreis/Farbkrtp.htm",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/sek_i/kunst/themen/Malen/Farbkr2_2.jpg\"><p>Setze den Farbkreis wieder richtig zusammen.</p>",
+                                    "age": "5-7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            { "link": "https://select.bildung.hessen.de/kunst/fridakahlo/index.html", "name": "Frida Kahlo", "count": null, "children": {} }
+        ]
+    }
+}

@@ -1,0 +1,165 @@
+{
+    "link": "philosophie/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_philosophie.png",
+    "text": "Philosophie",
+    "content": {
+        "default": [
+            {
+                "link": "https://select.bildung.hessen.de/philosophie/phiosoph/index.html",
+                "name": "Philosophinnen und Philosophen",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Originaltexte von Philosophen?",
+                        "link": "http://www.zeno.org/Philosophie/W/Inhaltsverzeichnis",
+                        "content": "<p>Du suchst den Text eines Philosophen? Vielleicht findest du ihn hier.</p>",
+                        "age": "9-13"
+                    }
+                ]
+            },
+            {
+                "link": "https://select.bildung.hessen.de/philosophie/themen/index.html",
+                "name": "Philosophiethemen",
+                "count": 21,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/philosophie/themen/zukunft/index.html",
+                            "name": "Zukunft - Utopie",
+                            "count": 17,
+                            "children": [
+                                {
+                                    "title": "Denkanregungen zur philosophischen Entwürfen",
+                                    "link": "http://www.philosophie-lernen.de/13-denkanregungenutopien.html",
+                                    "content": "<p>Hier gibt es Anregungen zum SELBST - WEITERDENKEN von philosophischen Utopien</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Lexikon Karl Marx",
+                                    "link": "http://de.wikipedia.org/wiki/Karl_Marx",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia_82x82.png\"><p>Karl Marx hat im 19. Jahrhundert ganz eigene Gedanken zur Zukunft der Gesellschaft entwickelt. Hier gibt es Informationen über sein Leben, seine Philosophie und seine Bedeutung.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Thomas Morus",
+                                    "link": "http://de.wikipedia.org/wiki/Thomas_Morus",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia_82x82.png\"><p>Thomas Morus hat mit seinem Werk \"Utopia\" den Begriff \"Utopie\" weit verbreitet. Dieser Lexikonartikel informiert über Leben und Werk</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Thomas Morus: UTOPIA",
+                                    "link": "http://de.wikipedia.org/wiki/Utopia_%28Roman%29",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia_82x82.png\"><p>\"Utopie\" und \"utopisch\" gehören heute zum allgemeinen Wortschaft. Der Roman von Thomas Morus hat diese Begriffe weit verbreitet.&nbsp; Mit diesem Link bekommst du einführende Informationen und eine Übersicht zu Thomas Morus' Roman \"UTOPIA\".</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Thomas Morus: Utopia -  der vollständige Text - für Profis",
+                                    "link": "http://www.zeno.org/Philosophie/M/Morus,+Thomas/Utopia",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Thomas Morus: Utopia - hier ist die vollständige Fassunng in deutscher Sprache.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Utopie - was ist das? (Lexikonartikel - Hanisauland)",
+                                    "link": "http://www.hanisauland.de/lexikon/u/utopie.html",
+                                    "content": "<p>Was verbirgt sich hinter dem Begriff \"Utopie\"?</p> <p>&nbsp;\"...Wenn man in der <span>Politik</span> von einer „Utopie“ spricht, stellt man sich meistens dabei einen <span>Staat</span> oder eine Gemeinschaft vor, in der ein besseres menschliches Zusammenleben möglich ist.\" -</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Utopie - Lexikonartikel (Duden)",
+                                    "link": "http://www.duden.de/rechtschreibung/Utopie",
+                                    "content": "<p>Auch der Duden hat eine Erklärung für den Begriff \"Utopie\". Findest du Unterschiede zu anderen Erklärungen?</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Ernst Bloch - Lexikon (wissen.de)",
+                                    "link": "http://www.wissen.de/lexikon/bloch-ernst",
+                                    "content": "<p>Du suchst kurz und knapp Informationen zu \"Ernst Bloch\"? Hier findest du sie.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Das kommunistische Manifest - für Profis",
+                                    "link": "http://www.zeno.org/Philosophie/M/Marx,+Karl/Manifest+der+kommunistischen+Partei",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Das kommunistische Manifest -&nbsp; der Originaltext. Hier haben Karl Marx und Friedrich Engels (auch) ihre Erwartungen für eine gute Zukunft (Utopie) aufgeschrieben - besonders in diesem Abschnitt: <a href=\"http://www.zeno.org/Philosophie/M/Marx,+Karl/Manifest+der+kommunistischen+Partei/Manifest+der+kommunistischen+Partei/II.+Proletarier+und+Kommunisten\" target=\"_blank\">http://www.zeno.org/Philosophie/M/Marx,+Karl/Manifest+der+kommunistischen+Partei/Manifest+der+kommunistischen+Partei/II.+Proletarier+und+Kommunisten </a>.&nbsp; Besonders wichtig: Der letzte Teil des Textes.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Ernst Bloch im Originalton zum \"Prinzip Hoffnung\"",
+                                    "link": "https://www.youtube.com/watch?v=9lIg9JBTuVg",
+                                    "content": "<p>Ernst Bloch hält einen Vortrag&nbsp; zum Prinzip Hoffnung.</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Was wäre wenn? - Utopia",
+                                    "link": "https://www.youtube.com/watch?v=sZVBqb7hcSo",
+                                    "content": "<p>4,5 Minuten Trailer von 3 sat mit kompakten Informationen - auch zum Diskutieren</p>",
+                                    "age": "10-13"
+                                },
+                                {
+                                    "title": "Thomas Morus: UTOPIA",
+                                    "link": "https://www.youtube.com/watch?v=Ekilb6amV0s",
+                                    "content": "<p>\"Utopia\" - 5 Minuten vorgelesen!</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "George Orwell (Lexikon)",
+                                    "link": "https://de.wikipedia.org/wiki/George_Orwell",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia_82x82.png\"><p>Wer war George Orwell? - Wikipedia informiert</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Originaltexte von Philosophen?",
+                                    "link": "http://www.zeno.org/Philosophie/W/Inhaltsverzeichnis",
+                                    "content": "<p>Du suchst den Text eines Philosophen? Vielleicht findest du ihn hier.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Ernst Bloch - Lexikon",
+                                    "link": "http://de.wikipedia.org/wiki/Ernst_Bloch",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia.png\"><p>Ernst Bloch - deutscher Philosoph, 20. Jahrhundert, hat vom \"Prinzip Hoffnung\" gesprochen. Für ihn ist \"Utopie\" von großer Bedeutung. Hier gibt es Informationen zum Leben und zum Werk des Philosophen.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Utopie - Lexikonartikel (Wikipedia)",
+                                    "link": "http://de.wikipedia.org/wiki/Utopie",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/wikipedia.png\"><p>Wie bei Wikipedia üblich, ist der Artikel sehr ausführlich und spricht viele unterschiedliche Aspekte an. Prüfe, was für dich wichtig sein könnte.</p>",
+                                    "age": "11-13"
+                                },
+                                {
+                                    "title": "Webquest zum Begriff \"Utopie\"",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/philosophie/staat/utopie/utopie-begriff/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Das Thema \"Utopie\" interessiert dich, doch weißt du nicht so recht, was sich hinter dem Wort verbirgt? Hier findest du ausgewählte Seiten im Internet, die dich auf die richtige Spur bringen.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/philosophie/themen/existenzialismus/index.html",
+                            "name": "Existenzialismus",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Was verbirgt sich hinter \"Existenzialismus\"?",
+                                    "link": "http://www.br.de/radio/bayern2/wissen/radiowissen/ethik-und-philosophie/existenzialismus-freiheit-glossar102.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bayern.gif\"><p>\"Existenzialismus\" hat die Philosophie besonders nach dem Zweiten Weltkrieg geprägt. Hier gibt es ein kleines Wörterbuch\" (Glossar).</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Informationen zu Sartre",
+                                    "link": "http://www.sartreonline.com/",
+                                    "content": "<p>Hier gibt es Texte und Videos zu Sartre.</p>",
+                                    "age": "11-13"
+                                },
+                                {
+                                    "title": "Albert Camus",
+                                    "link": "http://www.philolex.de/camus.htm",
+                                    "content": "<p>Hier gibt es Informationen zu Albert Camus in einem Lexikonartikel (philolex).</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+        ]
+    }
+}

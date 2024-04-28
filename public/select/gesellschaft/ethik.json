@@ -1,0 +1,553 @@
+{
+    "link": "ethik/index.html",
+    "icon": "/djaco_media/image/exercisefolder/select/b_ethik.png",
+    "text": "Ethik",
+    "content": {
+        "default": [
+            {
+                "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/index.html",
+                "name": "Eigenes Leben",
+                "count": 19,
+                "children": {
+                    "Eigenes Leben": [
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/glueck/index.html",
+                            "name": "Glück",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "\"Glücksbringer\" - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Gl%C3%BCcksbringer",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Was ist ein \"Glücksbringer\"? Lies bei Wikipedia nach.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Stichwort \"Glück\" - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Gl%C3%BCck",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Wie kann man \"Glück\" erklären? Wikipedia versucht es.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Philosophie des Glücks - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Philosophie_des_Gl%C3%BCcks",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Unter dem Stichwort&nbsp; \"Philosophie&nbsp; des&nbsp; Glücks\" gibt es bei Wikipedia Informationen.</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/verantwortung/index.html",
+                            "name": "Verantwortung",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Abenteuerliche Reise nach Anderland",
+                                    "link": "https://dms-portal.bildung.hessen.de/elc/fortbildung/religion/anderland/index.html",
+                                    "content": "<p>Fünf Freunde machen sich auf eine abenteuerliche Reise in ein unbekanntes Land. Hier findet Ihr das Bilderbuch \"Anderland\". Ihr könnt mit Maus und Tastatur in diesem Buch \"blättern\" und selbst über den Leseweg entscheiden. Vielleicht hilft Euch auch eure Lehrerin oder euer Lehrer dabei und gibt Hinweise für bestimmte Seiten oder Aufgaben.</p> <p>&nbsp;</p> <p>Ein Abenteuer, bei dem du den Leseweg entscheiden kannst!</p>",
+                                    "age": "3-7"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/tod/index.html",
+                            "name": "Tod",
+                            "count": 11,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/tod/tod/index.html",
+                                        "name": "Tod/Sterben",
+                                        "count": 5,
+                                        "children": [
+                                            {
+                                                "title": "Video: Trauer",
+                                                "link": "http://www.br.de/fernsehen/br-alpha/sendungen/alpha-campus/classics/trauer-100.html",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/br180.png\"><p></p><p>Tod, Bestattung, Schmerz und Erleichterung - Trauer. Der Film beschäftigt sich damit, wie wir in unserer Gesellschaft Abschied nehmen von geliebten Menschen.</p><p></p>",
+                                                "age": "8-13"
+                                            },
+                                            {
+                                                "title": "Aktion Schulstunde \"Leben mit dem Tod\"",
+                                                "link": "http://www.rpi-virtuell.net/workspace/C2A76C6B-4306-431E-887F-B576761B574E/CC%20BY/LebenmitdemTod.etool/index.html#goto-start",
+                                                "content": "<p>Du erarbeitest alleine oder in einer Gruppe ein Produkt - Bilder, Fotos, Wandzeitungen, eine Reportage oder eine Collage zum Thema. Mit den Aufgaben in diesem Portfolio bekommst du Vorschläge, wie und was du produzieren könntest.</p>",
+                                                "age": "7-10"
+                                            },
+                                            {
+                                                "title": "Wie Dana es wollte",
+                                                "link": "http://chrismon.evangelisch.de/artikel/2010/wiedanaeswollte5852",
+                                                "content": "<p>Ein berührender Artikel über eine junge Frau, die sich bewusst gemeinsam mit Familie und Freunden dem Tod stellt.</p>",
+                                                "age": "8-13"
+                                            },
+                                            {
+                                                "title": "Stichwort Tod - für Profis",
+                                                "link": "http://de.wikipedia.org/wiki/Tod",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Informationen zum Thema bei Wikipedia.</p>",
+                                                "age": "9-13"
+                                            },
+                                            {
+                                                "title": "Tod und Trauer bei Jugendlichen",
+                                                "link": "http://www.klartext-trauer.de/",
+                                                "content": "<p>Durch das Angebot von klartext! sollt Ihr die Chance bekommen, in schwierigen Lebenslagen, die durch Tod und Trauer geprägt sind, Hilfe und Unterstützung zu bekommen.</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/tod/stehi/index.html",
+                                        "name": "Sterbehilfe",
+                                        "count": 3,
+                                        "children": [
+                                            {
+                                                "title": "Linkseite zum Thema Sterbehilfe - für Profis",
+                                                "link": "http://www.sterbehilfe-debatte.de/sterbehilfe-debatte_links.html",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Viele Links zum Thema Sterbehilfe.</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Stichwort Sterbehilfe - für Profis",
+                                                "link": "http://de.wikipedia.org/wiki/Sterbehilfe",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Informationen bei Wikipedia.</p>",
+                                                "age": "8-13"
+                                            },
+                                            {
+                                                "title": "Planet Wissen: Was ist Sterbehilfe?",
+                                                "link": "https://www.planet-wissen.de/alltag_gesundheit/tod_und_trauer/sterben/video_sterbehilfe_definition.jsp",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_wissen_180.png\"><p>Aktive Sterbehilfe, passive Sterbehilfe, assistierter Suizid – was diese Arten von Sterbehilfe unterscheidet und was strafbar ist, zeigen diese kurzen Erklärfilme.</p>",
+                                                "age": "10-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/tod/hospiz/index.html",
+                                        "name": "Hospiz",
+                                        "count": 3,
+                                        "children": [
+                                            {
+                                                "title": "Kinderhospiz Bärenherz",
+                                                "link": "http://www.kinderhospiz-wiesbaden.de/",
+                                                "content": "<p>Das Bärenherz Wiesbaden wurde im Jahr 2002 eröffnet. Seitdem werden Kinder und Jugendliche im Alter zwischen null und 18 Jahren begleitet, die lebensverkürzend erkrankt sind. Es ist ein Platz, an dem umfassend versorgt, gepflegt und liebevoll getröstet wird.</p>",
+                                                "age": "5-13"
+                                            },
+                                            {
+                                                "title": "Hospiz - für Profis",
+                                                "link": "http://de.wikipedia.org/wiki/Hospiz",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Informationen zum Thema bei Wikipedia.</p>",
+                                                "age": "9-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/gewissen/index.html",
+                            "name": "Gewissen",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Gewissen - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Gewissen",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Wikipedia erklärt, was der Begriff bedeutet.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/eigenes_leben/liebe_und_freundschaft/index.html",
+                            "name": "Sexualität  und Liebe",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Loveline",
+                                    "link": "https://www.loveline.de/",
+                                    "content": "<p>Es geht um Liebe, Partnerschaft, Sexualität und Verhütung. Auf dem Jugendportal kannst du hierzu (auf Wunsch auch in \"<a href=\"https://www.loveline.de/service/leichte-sprache\" target=\"_blank\" rel=\"noopener\"><strong>leichter Sprache</strong></a>\" ganz ohne Fremdwörter) Informationen erhalten und an Umfragen teilnehmen. Einige Teile sind auch in <a href=\"https://www.loveline.de/service/gebaerdensprache\" target=\"_blank\" rel=\"noopener\"><strong>Gebärdensprache</strong></a> anschaubar.</p>",
+                                    "age": "6-10"
+                                },
+                                {
+                                    "title": "pro familia - Informationen für Jugendliche",
+                                    "link": "http://www.profamilia.de",
+                                    "content": "<p>Hast du Fragen rund um das Thema Sexualität? Pro familia bietet Aufklärung an.</p>",
+                                    "age": "6-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/ethik/menschenrecht/index.html",
+                "name": "Menschenrechte",
+                "count": 14,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/menschenrecht/kinderrechte/index.html",
+                            "name": "Kinderrechte",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Für Kinderrechte",
+                                    "link": "http://www.fuer-kinderrechte.de/",
+                                    "content": "<p>Werde aktiv und setze dich für deine Rechte ein. Auf dieser Seite erhältst du Unterstützung.</p>",
+                                    "age": "2-8"
+                                },
+                                {
+                                    "title": "Lernpfad: Genitalverstümmelung bei Mädchen und Frauen",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/biologie/menschenkunde/fortpflanzung/sexualerziehung/maedchenseiten/beschneidung_maedchen/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Was ist eigentlich weibliche Genitalverstümmelung? Und warum wird das überhaupt gemacht?<br>In diesem Lernpfad kannst du dich informieren und dir eine eigene Meinung bilden</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Lernpfad: Beschneidung von Jungen - ein heißes Eisen...",
+                                    "link": "https://lernarchiv.bildung.hessen.de/sek/biologie/menschenkunde/fortpflanzung/sexualerziehung/jungenseiten/beschneidung_jungen/index.html",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bs_logo_elixier_180x180.png\"><p>Was passiert eigentlich bei einer Beschneidung? Und warum wird das überhaupt gemacht?</p> <p>In diesem Lernpfad kannst du dich informieren und dir eine eigene Meinung zur Beschneidung bilden.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/menschenrecht/menschenrechte/index.html",
+                            "name": "Menschenrechte",
+                            "count": 5,
+                            "children": [
+                                {
+                                    "title": "Online-Spiel \"NO GAME - Armut wird gemacht\"",
+                                    "link": "http://nogame.sodi.de/",
+                                    "content": "<p>Mehr als eine Milliarde Menschen auf der Erde lebt in Armut, rund 30.000 Menschen sterben täglich an Ursachen, die mit Armut und Hunger in Verbindung gebracht werden. Doch was bedeutet arm sein eigentlich? Das Spiel regt dazu an, über unterschiedliche Lebensverhältnisse und globale Verantwortung nachzudenken.</p>",
+                                    "age": "7-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/menschenrecht/organisation/index.html",
+                            "name": "Organisationen",
+                            "count": 6,
+                            "children": [
+                                {
+                                    "title": "Unicef - für Profis",
+                                    "link": "https://www.unicef.de/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Das Kinderhilfswerk der Vereinten Nationen unterstützt Kinder weltweit. Auf der Homepage findest du weitere Informationen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Amnesty International - für Profis",
+                                    "link": "http://www.amnesty.de",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Amnesty International kämpft für die Durchsetzung der Menschenrechte. Auf der Homepage findest du weitere Informationen.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "terre des hommes - für Profis",
+                                    "link": "https://www.tdh.de",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Diese Organisation unterstützt Kinder weltweit. Weitere Informationen findest du auf dieser Seite.</p>",
+                                    "age": "7-13"
+                                },
+                                {
+                                    "title": "Verein zur Unterstützung arbeitender Kinder - für Profis",
+                                    "link": "http://www.pronats.de/",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p><span lang=\"EN-GB\">ProNATs e.V macht auf arbeitende Kinder weltweit - so auch in Deutschland! - aufmerksam. <br>Viele Informationen, aber auch viel Text für interessierte und lesegewohnte Jugendliche.<br></span></p>",
+                                    "age": "7-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/ethik/portale/index.html",
+                "name": "Portale",
+                "count": 8,
+                "children": {
+                    "Portale": [
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/portale/globlern/index.html",
+                            "name": "Globales Lernen",
+                            "count": 8,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/portale/globlern/informationen/index.html",
+                                        "name": "Allgemeine Informationen",
+                                        "count": 5,
+                                        "children": [
+                                            {
+                                                "title": "GEPA",
+                                                "link": "https://www.gepa.de",
+                                                "content": "<p>Die&nbsp; Website dieses großen Fairhandelshauses gibt auch Einblicke hinter die Kulissen. Die Kriterien der GEPA werden <a href=\"https://www.gepa.de/gepa/mission/gepa-kriterien.html\" target=\"_blank\" rel=\"noopener\"><strong>hier </strong></a>dargelegt.</p>",
+                                                "age": "7-13"
+                                            },
+                                            {
+                                                "title": "FairTrade",
+                                                "link": "https://www.fairtrade-deutschland.de/",
+                                                "content": "<p>FairTrade hat sich zum Ziel gesetzt, durch fairen Handel das Leben der Produzentenfamilien in Afrika, Asien und Lateinamerika zu verbessern.</p>",
+                                                "age": "8-10"
+                                            },
+                                            {
+                                                "title": "Umweltnachrichten - für Profis",
+                                                "link": "https://www.umweltschutz-news.de/",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Aktuelle Nachrichten und Veranstaltungshinweise zum Themenfeld \"Umwelt\" könnten dich anregen, dich selbst zu engagieren.</p>",
+                                                "age": "8-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/portale/globlern/kampagnen/index.html",
+                                        "name": "Kampagnen zum Mitmachen",
+                                        "count": 3,
+                                        "children": [
+                                            {
+                                                "title": "Globale Bildungskampagne - für Profis",
+                                                "link": "https://www.bildungskampagne.org/",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Hier findest du Informationen über die jährlich stattfindenden Aktionswochen und Unterrichtsmaterial.</p>",
+                                                "age": "8-11"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/index.html",
+                "name": "Zusammen leben",
+                "count": 25,
+                "children": {
+                    "default": [
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/behinderte/index.html",
+                            "name": "Behinderte",
+                            "count": 6,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/behinderte/formen/index.html",
+                                        "name": "Formen der Behinderung",
+                                        "count": 4,
+                                        "children": [
+                                            {
+                                                "title": "Gezeichnete Seelen",
+                                                "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=8514",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p>In acht kurzen Filmen erzählen acht junge Menschen von ihren seelischen Nöten und psychischen Erkrankungen. Die Sendungen machen betroffen und regen zu Überlegungen an, welche individuelle und persönliche Hilfe zu finden ist.</p>",
+                                                "age": "9-13"
+                                            },
+                                            {
+                                                "title": "Mordskerle - Zwei Jungs kämpfen sich zurück ins Leben Teil 1",
+                                                "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=8931",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p></p><p>Philipp ist&nbsp; nach seinem unverschuldeten Verkehrsunfall wieder zusammengeflickt worden. Er trainiert verbissen, tagein tagaus. Er will wieder zurück ins Leben ...<br>Der 19-jährige Stefan ist schon seit ein paar Monaten in der Klinik. Nach dem Unfall mussten ihm beide Füße und der rechte Arm abgenommen werden...</p><p></p>",
+                                                "age": "11-13"
+                                            },
+                                            {
+                                                "title": "Mordskerle - Zwei Jungs kämpfen sich zurück ins Leben Teil 2",
+                                                "link": "http://www.planet-schule.de/sf/php/02_sen01.php?sendung=8932",
+                                                "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/planet_schule_logo_180.png\"><p></p><p>Für Philipp läuft es immer besser: Die Funktionen der rechten Hand und seines Arms kommen mehr und mehr zurück, bald bekommt er eine Prothese. Stefan ist in der Warteschleife. nichts geht voran, bis er ein Sommercamp besucht. Beeindruckend, wie die beiden ihr Schicksal versuchen zu meistern.</p><p></p>",
+                                                "age": "11-13"
+                                            },
+                                            {
+                                                "title": "Kampagne VISION 2020",
+                                                "link": "https://www.woche-des-sehens.de/vision2020/",
+                                                "content": "<p>Derzeitig sind über 30 <abbr title=\"Millionen\">Mio.</abbr> Menschen auf der Welt blind. 80% der Betroffenen erblinden an vermeidbaren oder behandelbaren Ursachen. Die Webseite gibt dir einen Überblick zu Kampagnen, die diese Ursachen bekämpfen.</p>",
+                                                "age": "7-13"
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/behinderte/lernorte/index.html",
+                                        "name": "Lernorte",
+                                        "count": 2,
+                                        "children": [
+                                            {
+                                                "title": "Deutsche Blindenstudienanstalt e.V - Marburg",
+                                                "link": "https://www.blista.de",
+                                                "content": "<p>Dem Verein geht es hauptsächlich um Hilfe zur Selbsthilfe für blinde Menschen.</p>",
+                                                "age": "7-13"
+                                            },
+                                            {
+                                                "title": "Dialogmuseum Frankfurt",
+                                                "link": "https://dialogmuseum.de/",
+                                                "content": "<p>Findest du dich in absoluter Dunkelheit zurecht? In diesem Museum kannst du das ausprobieren.</p>",
+                                                "age": "7-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/welteth/index.html",
+                            "name": "Projekt Weltethos",
+                            "count": null,
+                            "children": {}
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/bildung/index.html",
+                            "name": "Bildung",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Lexikon der Nachhaltigkeit",
+                                    "link": "http://www.nachhaltigkeit.info/",
+                                    "content": "<p>Hier ist ein Lexikon mit (fast) allen Informationen zum Thema Nachhaltigkeit.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Online - Kurs \"Nachhaltigkeit\" - für Profis",
+                                    "link": "http://www.dadalos-d.org/nachhaltigkeit/index.htm",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Diesen Onlinekurs zum Themenfeld \"Nachhaltigkeit\" kannst du alleine bewältigen.</p>",
+                                    "age": "10-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/freiheit/index.html",
+                            "name": "Freiheit",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Was heißt Freiheit? - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Freiheit",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Der Wikipedia- Artikel gibt Auskunft zu dieser Fragestellung.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Zitate zu \"Freiheit\" - für Profis",
+                                    "link": "http://de.wikiquote.org/wiki/Freiheit",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Dieser Wikipedia-Artikel enthält Sprichwörter und Volksmund, Bibelzitate und Werbesprüche zum Thema Freiheit.</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/frieden/index.html",
+                            "name": "Frieden",
+                            "count": 5,
+                            "children": {
+                                "default": [
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/frieden/person/index.html",
+                                        "name": "Persönlichkeiten",
+                                        "count": null,
+                                        "children": {}
+                                    },
+                                    {
+                                        "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/frieden/allgemein/index.html",
+                                        "name": "Allgemeines",
+                                        "count": 5,
+                                        "children": [
+                                            {
+                                                "title": "Institut für Friedenspädagogik - für Profis",
+                                                "link": "http://www.friedenspaedagogik.de",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Dieses Institut wäre eine Adresse, wenn du mehr Informationen zur Friedenserziehung suchst.</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Frieden - online arbeiten - für Profis",
+                                                "link": "http://www.dadalos-d.org/frieden/",
+                                                "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Mit diesem Kurs kannst du dich zu unterschiedlichsten Aspekten aktueller Friedensarbeit informieren. Bei der Adresse findest du nähere Hinweise zur Arbeit</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Vorbilder - Frieden erhalten",
+                                                "link": "http://www.dadalos-d.org/deutsch/Vorbilder/Vorbilder/vorbilder.htm",
+                                                "content": "<p>Fast alle der in diesem Kurs vorgestellten \"Vorbilder\" haben die höchste Auszeichnung erhalten haben, die die Menschheit zu vergeben hat - den Friedensnobelpreis. Sie alle haben gehandelt, haben Bedenken zurückgestellt, sich in Gefahr begeben, um der Ungerechtigkeit entgegenzuwirken. Sie alle haben die Welt ein Stück besser gemacht. Arbeitsaufgabe finden sich auf der Startseite</p>",
+                                                "age": "10-13"
+                                            },
+                                            {
+                                                "title": "Hompage \"Gewalt und Demokratie lernen\"",
+                                                "link": "https://arbeitsplattform.bildung.hessen.de/lsa/gud/index.html",
+                                                "content": "<p>Hier kannst du dich online informieren</p>",
+                                                "age": "9-13"
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/gerechtigkeit/index.html",
+                            "name": "Gerechtigkeit",
+                            "count": 2,
+                            "children": [
+                                {
+                                    "title": "Was heißt Strafe? - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Strafe",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Wikipedia erklärt den Begriff Strafe.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/gewalt/index.html",
+                            "name": "Gewalt",
+                            "count": 4,
+                            "children": [
+                                {
+                                    "title": "Warum begehen Menschen Verbrechen?",
+                                    "link": "http://mp3.bildung.hessen.de/hr2/2009/20090912_mxUser522_00c465c9_09_107.mp3",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/hr/hr_logo.gif\"><p>Die 15minütige Sendung versucht eine Antwort auf diese Frage zu geben.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "Lernpfad: Gewalt im Alltag",
+                                    "link": "http://wikis.zum.de/zum/Lernpfade_Ethik/Gewalt_im_Alltag",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/zum.gif\"><p>Es gibt viele Situationen des täglichen Lebens, in denen dir Gewalt begegnen kann. Doch wie sollte man sich dann verhalten? Darüber kannst du dich mit diesem Lernpfad auseinander setzen.</p>",
+                                    "age": "9-10"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/wahrheit/index.html",
+                            "name": "Wahrheit und Lüge",
+                            "count": 1,
+                            "children": [
+                                {
+                                    "title": "Was ist eine Lüge? - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/L%C3%BCge",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>&nbsp;Eine Antwort darauf gibt es bei Wikipedia.</p>",
+                                    "age": "9-13"
+                                }
+                            ]
+                        },
+                        {
+                            "link": "https://select.bildung.hessen.de/ethik/zusammen_leben/wuerde/index.html",
+                            "name": "Würde des Menschen",
+                            "count": 3,
+                            "children": [
+                                {
+                                    "title": "Menschenwürde - für Profis",
+                                    "link": "http://de.wikipedia.org/wiki/Menschenw%C3%BCrde",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Bei Wikipedia findest du Informationen zum Thema Menschenwürde.</p>",
+                                    "age": "9-13"
+                                },
+                                {
+                                    "title": "\"amnesty international\" Gruppen - für Profis",
+                                    "link": "http://www.amnesty.de/amnesty-gruppen",
+                                    "content": "<img src=\"/djaco_media/image/default_exclamation_180.png\"><p>Mit diesem Link findet man \"amnesty international\" Gruppen (vielleicht auch in der in der Nähe) für eigenes Engagement.</p>",
+                                    "age": "8-13"
+                                },
+                                {
+                                    "title": "Migration und Asyl",
+                                    "link": "https://www.bpb.de/themen/migration-integration/kurzdossiers/",
+                                    "content": "<img src=\"https://lernarchiv.bildung.hessen.de/logos/bpb_180.png\"><p>Hier gibt es aktuelle Informationen und Hintergrundberichte</p>",
+                                    "age": "8-13"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            },
+            {
+                "link": "https://select.bildung.hessen.de/ethik/coro/index.html",
+                "name": "Corona-Virus",
+                "count": 1,
+                "children": [
+                    {
+                        "title": "Coronavirus - einfach erklärt",
+                        "link": "https://www.hanisauland.de/spezial/corona-virus/",
+                        "content": "<p>In der Familie, im Supermarkt, in den Medien, überall ist das \"Coronavirus\" gerade DAS große Thema. Denn schon viele tausend Menschen auf der ganzen Welt sind an dem Virus erkrankt. Lies nach, welche Maßnahmen unternommen werden, warum diese Schritte nötig sind und wie du dich am besten verhältst.</p>",
+                        "age": "5-10"
+                    }
+                ]
+            }
+        ]
+    }
+}

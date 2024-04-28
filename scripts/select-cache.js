@@ -86,10 +86,26 @@ async function main() {
         }
     }
     await fs.writeFile("select.json", JSON.stringify(categories));
+    for (const category of categories) {
+        for (const button of category.buttons) {
+            await fs.writeFile(`${category.name}/`);
+        }
+    }
     console.log("Done!");
 }
 
-main();
+async function generateChunks() {
+    const data = JSON.parse((await fs.readFile("select.json")).toString());
+    for (const category of data) {
+        for (const button of category.buttons) {
+            await fs.writeFile(`${category.name}/${button.text.toLowerCase()}.json`, JSON.stringify(button));
+        }
+    }
+}
+
+// uncomment the needed file
+//main();
+//generateChunks();
 
 function removeBreaks(text) {
     return text
