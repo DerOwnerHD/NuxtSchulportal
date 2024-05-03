@@ -2,7 +2,6 @@ export interface Credentials {
     username: string;
     password: string;
     school: number;
-    token: string;
 }
 interface CheckResponse {
     error: boolean;
@@ -192,23 +191,65 @@ export const useMoodleCheck = async (): Promise<boolean> => {
     return data.value?.valid || false;
 };
 
-export const syntaxHighlight = (json: any = {}) =>
-    JSON.stringify(json, null, 2)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/gm, (match) => {
-            let type = "number";
-            if (/^"/.test(match)) {
-                if (/:$/.test(match)) {
-                    type = "key";
-                } else {
-                    type = "string";
-                }
-            } else if (/true|false/.test(match)) {
-                type = "boolean";
-            } else if (/null/.test(match)) {
-                type = "null";
-            }
-            return `<span class="${type}">${match}</span>`;
+export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
+
+/**
+ * Logs in somebody who already has credentials set. Throws an error on failing, showing
+ * details. Should be used when a token has expired or is no longer stored.
+ */
+export async function useAuthenticate() {
+    const credentials = useCredentials();
+    const nuxt = useNuxtApp();
+    const { data, error } = await useFetch("/api/login", {
+        method: "POST",
+        body: credentials.value
+    });
+
+    if (error.value)
+        throw createError({
+            message: "Loginfehler",
+            data: error.value.data?.error_details ?? error.value.cause
         });
+
+    console.log("Authenticated!");
+    
+    // @ts-ignore
+    const { token, session } = data.value;
+    nuxt.runWithContext(() => {
+        useToken().value = token;
+        useSession().value = session;
+    });
+}
+
+export async function checkToken() {
+    const token = useToken();
+    if (!token.value) return false;
+    const { data, error } = await useFetch("/api/check", { query: { token: useToken().value } });
+    if (error.value?.status === 429) throw createError({ message: "Loginfehler", data: error.value.data });
+    return !error.value && data.value?.valid;
+}
+
+export async function logOff() {
+    const stop = confirm("Willst du dich wirklich abmelden?");
+    if (!stop) return;
+
+    if ("serviceWorker" in navigator) {
+        const registration = await navigator.serviceWorker.getRegistration();
+        const subscription = await registration?.pushManager.getSubscription();
+
+        if (subscription != null) await subscription.unsubscribe();
+        if (registration != null) await registration.unregister();
+    }
+
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+        const equals = cookie.indexOf("=");
+        const name = equals > -1 ? cookie.substring(0, equals) : cookie;
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
+    }
+
+    // Make sure the cookies have some time to actually get deleted
+    await useWait(100);
+
+    location.reload();
+}

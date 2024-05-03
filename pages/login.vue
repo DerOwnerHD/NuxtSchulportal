@@ -1,156 +1,162 @@
 <template>
-    <div class="grid justify-center">
-        <main class="relative mt-8 basic-card" id="login">
-            <h1 class="ml-5">Anmeldung</h1>
-            <div v-if="state !== Status.LoginSuccessful" stage="1" class="login-stage">
-                <div class="rounded-button absolute right-4 !px-3 top-2.5" @click="showSchoolSearch">
-                    <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
-                    <span class="ml-2">Schule</span>
+    <div class="grid gap-2 justify-center pt-4">
+        <BasicCard id="login" classes="relative">
+            <div class="grid w-full justify-center !p-0">
+                <div class="flex justify-between mb-1 w-full">
+                    <h1>Anmeldung</h1>
+                    <div v-if="state !== Status.LoginSuccessful" class="rounded-button !px-4" @click="showSchoolSearch">
+                        <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
+                        <span class="ml-2">Schule</span>
+                    </div>
                 </div>
-                <form id="login" @submit.prevent="login" class="flex justify-center">
-                    <div id="form-wrapper" class="grid w-80 place-content-center">
-                        <div class="flex">
-                            <input
-                                type="text"
-                                :disabled="state !== Status.None"
-                                v-model="credentials.username"
-                                name="username"
-                                placeholder="Name (Vorname.Nachname)"
-                                autofocus
-                                required />
-                            <input
-                                class="w-20 text-center"
-                                min="1"
-                                max="206568"
-                                :disabled="state !== Status.None"
-                                type="number"
-                                v-model="credentials.school"
-                                name="school"
-                                placeholder="Schule"
-                                required />
-                        </div>
-                        <div class="relative flex items-center">
-                            <input
-                                :type="passwordVisible ? 'text' : 'password'"
-                                :disabled="state !== Status.None"
-                                v-model="credentials.password"
-                                placeholder="Passwort"
-                                name="password"
-                                required
-                                class="flex-auto" />
-                            <font-awesome-icon
-                                id="login-password-toggle"
-                                class="rounded-button mx-2 aspect-square"
-                                @mousedown="passwordVisible = !passwordVisible"
-                                :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
-                        </div>
-                        <button :disabled="state !== Status.None">
-                            <div v-if="state !== Status.LoggingIn">
-                                <font-awesome-icon class="mr-1" :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
-                                <span>Anmelden</span>
+                <div v-if="state !== Status.LoginSuccessful" stage="1" class="login-stage">
+                    <form id="login" @submit.prevent="login" class="flex justify-center">
+                        <div id="form-wrapper" class="grid w-full place-content-center">
+                            <div class="flex">
+                                <input
+                                    type="text"
+                                    :disabled="state !== Status.None"
+                                    v-model="credentials.username"
+                                    name="username"
+                                    placeholder="Name (Vorname.Nachname)"
+                                    autofocus
+                                    required />
+                                <input
+                                    class="w-20 text-center"
+                                    min="1"
+                                    max="206568"
+                                    :disabled="state !== Status.None"
+                                    type="number"
+                                    v-model="credentials.school"
+                                    name="school"
+                                    placeholder="Schule"
+                                    required />
                             </div>
-                            <div v-else class="spinner" style="--size: 1.5rem"></div>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <div v-else-if="state === Status.LoginSuccessful" class="grid place-content-center mt-2 text-center login-stage" stage="2">
-                <div class="info">Deine Anmeldedaten bleiben gespeichert</div>
-                <font-awesome-icon class="text-3xl w-full justify-center mt-2" :icon="['fas', 'check']"></font-awesome-icon>
-                <p>Login erfolgreich</p>
-                <small>Die Seite wird gleich neu geladen</small>
-            </div>
-            <div class="error mt-2" v-if="errors.login.message">
-                <span>
-                    {{ errors.login.message }}
-                </span>
-            </div>
-        </main>
-        <footer class="mt-4 overflow-hidden basic-card" id="reset">
-            <h1 class="ml-5">Passwort vergessen</h1>
-            <div class="grid my-2 text-center">
-                <div v-if="![Status.ResetCodeVerification, Status.VerifyingCode, Status.ResetDone].includes(state)" class="reset-stage" stage="1">
-                    <div class="flex justify-center">
-                        <div class="warning">Nur mit hinterlegter E-Mail möglich</div>
-                    </div>
-                    <div class="select" id="resetType">
-                        <div id="student" selected @click="updateResetSelection('student')">
-                            <font-awesome-icon :icon="['fas', 'child']"></font-awesome-icon>
-                            Schüler
-                        </div>
-                        <div id="parent" @click="updateResetSelection('parent')">
-                            <font-awesome-icon :icon="['fas', 'hands-holding-child']"></font-awesome-icon>
-                            Eltern
-                        </div>
-                        <div id="teacher" @click="updateResetSelection('teacher')">
-                            <font-awesome-icon :icon="['fas', 'user']"></font-awesome-icon>
-                            Lehrer
-                        </div>
-                    </div>
-                    <form id="reset" @submit.prevent="beginReset" class="flex justify-center mt-2">
-                        <div id="form-wrapper" class="grid w-80 place-content-center">
-                            <input
-                                class="w-60"
-                                :disabled="state !== Status.None"
-                                type="text"
-                                name="birthday"
-                                v-model="reset.birthday"
-                                placeholder="Geburtsdatum (dd.mm.yyyy)"
-                                required />
+                            <div class="relative flex items-center">
+                                <input
+                                    :type="passwordVisible ? 'text' : 'password'"
+                                    :disabled="state !== Status.None"
+                                    v-model="credentials.password"
+                                    placeholder="Passwort"
+                                    name="password"
+                                    required
+                                    class="flex-auto" />
+                                <font-awesome-icon
+                                    id="login-password-toggle"
+                                    class="rounded-button mx-2 aspect-square"
+                                    @mousedown="passwordVisible = !passwordVisible"
+                                    :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
+                            </div>
                             <button :disabled="state !== Status.None">
-                                <div v-if="state !== Status.ResetSending">Weiter</div>
+                                <div v-if="state !== Status.LoggingIn">
+                                    <font-awesome-icon class="mr-1" :icon="['fas', 'arrow-right-from-bracket']"></font-awesome-icon>
+                                    <span>Anmelden</span>
+                                </div>
                                 <div v-else class="spinner" style="--size: 1.5rem"></div>
                             </button>
                         </div>
                     </form>
                 </div>
-                <div v-else-if="[Status.ResetCodeVerification, Status.VerifyingCode].includes(state)" class="reset-stage" stage="2">
-                    <div class="flex justify-center mb-2">
-                        <div class="info">Du hast keinen Code erhalten?<br />Kontaktiere deine Schule</div>
-                    </div>
-                    <p class="my-2 leading-4">Du hast einen Code per E-Mail erhalten<br />Dieser ist für 10 Minuten gültig</p>
-                    <form name="reset-code" class="flex justify-center" @input="handleResetInput" @keyup="handleResetInput">
-                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
-                        <span>-</span>
-                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
-                        <span>-</span>
-                        <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
-                    </form>
+                <div v-else-if="state === Status.LoginSuccessful" class="login-stage grid place-content-center text-center" stage="2">
+                    <div class="info">Deine Anmeldedaten bleiben gespeichert</div>
+                    <font-awesome-icon class="text-3xl w-full justify-center mt-2" :icon="['fas', 'check']"></font-awesome-icon>
+                    <p>Login erfolgreich</p>
+                    <small>Die Seite wird gleich neu geladen</small>
                 </div>
-                <div class="reset-stage" v-else-if="state === Status.ResetDone" stage="3">
-                    <div class="flex justify-center mb-2">
-                        <div class="warning">Dein neues Passwort ist nach<br />ungefähr 10 Minuten nutzbar</div>
-                    </div>
-                    <p>
-                        Dein neues Passwort ist<br /><b
-                            ><u>{{ reset.password }}</u></b
-                        >
-                    </p>
-                    <p>Bei deiner nächsten Anmeldung <b>online</b><br />musst du ein neues Passwort festlegen</p>
-                    <button class="button-with-symbol" @click="copyNewPassword">
-                        <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-                        <span>Kopieren</span>
-                    </button>
-                    <button class="button-with-symbol" @click="openDefaultLogin">
-                        <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
-                        <span>Öffnen</span>
-                    </button>
-                    <button class="button-with-symbol" onclick="location.reload()">
-                        <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
-                        <span>Neu laden</span>
-                    </button>
-                </div>
-                <div class="error mt-2" v-if="errors.reset.message">
+                <div class="error mt-2" v-if="errors.login.message">
                     <span>
-                        {{ errors.reset.message }}
+                        {{ errors.login.message }}
                     </span>
                 </div>
             </div>
-        </footer>
+        </BasicCard>
+        <BasicCard id="reset">
+            <div class="w-full grid justify-center">
+                <h1 class="mb-1 text-center">Passwort vergessen</h1>
+                <div class="grid my-2 text-center">
+                    <div v-if="![Status.ResetCodeVerification, Status.VerifyingCode, Status.ResetDone].includes(state)" class="reset-stage" stage="1">
+                        <div class="flex justify-center">
+                            <div class="warning">Nur mit hinterlegter E-Mail möglich</div>
+                        </div>
+                        <div class="select" id="resetType">
+                            <div id="student" selected @click="updateResetSelection('student')">
+                                <font-awesome-icon :icon="['fas', 'child']"></font-awesome-icon>
+                                Schüler
+                            </div>
+                            <div id="parent" @click="updateResetSelection('parent')">
+                                <font-awesome-icon :icon="['fas', 'hands-holding-child']"></font-awesome-icon>
+                                Eltern
+                            </div>
+                            <div id="teacher" @click="updateResetSelection('teacher')">
+                                <font-awesome-icon :icon="['fas', 'user']"></font-awesome-icon>
+                                Lehrer
+                            </div>
+                        </div>
+                        <form id="reset" @submit.prevent="beginReset" class="flex justify-center mt-2">
+                            <div id="form-wrapper" class="grid w-full place-content-center">
+                                <input
+                                    class="w-60"
+                                    :disabled="state !== Status.None"
+                                    type="text"
+                                    name="birthday"
+                                    v-model="reset.birthday"
+                                    placeholder="Geburtsdatum (dd.mm.yyyy)"
+                                    required />
+                                <button :disabled="state !== Status.None">
+                                    <div v-if="state !== Status.ResetSending">Weiter</div>
+                                    <div v-else class="spinner" style="--size: 1.5rem"></div>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div v-else-if="[Status.ResetCodeVerification, Status.VerifyingCode].includes(state)" class="reset-stage" stage="2">
+                        <div class="flex justify-center mb-2">
+                            <div class="info">Du hast keinen Code erhalten?<br />Kontaktiere deine Schule</div>
+                        </div>
+                        <p class="my-2 leading-4">Du hast einen Code per E-Mail erhalten<br />Dieser ist für 10 Minuten gültig</p>
+                        <form name="reset-code" class="flex justify-center" @input="handleResetInput" @keyup="handleResetInput">
+                            <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
+                            <span>-</span>
+                            <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
+                            <span>-</span>
+                            <input v-for="i in 4" required type="text" :disabled="state === Status.VerifyingCode" />
+                        </form>
+                    </div>
+                    <div class="reset-stage" v-else-if="state === Status.ResetDone" stage="3">
+                        <div class="flex justify-center mb-2">
+                            <div class="warning">Dein neues Passwort ist nach<br />ungefähr 10 Minuten nutzbar</div>
+                        </div>
+                        <p>
+                            Dein neues Passwort ist<br /><b
+                                ><u>{{ reset.password }}</u></b
+                            >
+                        </p>
+                        <p>Bei deiner nächsten Anmeldung <b>online</b><br />musst du ein neues Passwort festlegen</p>
+                        <button class="button-with-symbol" @click="copyNewPassword">
+                            <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
+                            <span>Kopieren</span>
+                        </button>
+                        <button class="button-with-symbol" @click="openDefaultLogin">
+                            <font-awesome-icon :icon="['fas', 'up-right-from-square']"></font-awesome-icon>
+                            <span>Öffnen</span>
+                        </button>
+                        <button class="button-with-symbol" onclick="location.reload()">
+                            <font-awesome-icon :icon="['fas', 'arrow-rotate-right']"></font-awesome-icon>
+                            <span>Neu laden</span>
+                        </button>
+                    </div>
+                    <div class="error mt-2" v-if="errors.reset.message">
+                        <span>
+                            {{ errors.reset.message }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </BasicCard>
         <dialog id="school-search" class="text-white w-80 h-[60vh] place-content-center rounded-xl focus:outline-none">
             <div class="grid w-full h-full place-content-center">
                 <div class="h-[60vh] py-3" v-if="search.loaded">
-                    <div class="w-full flex justify-center">
+                    <div class="w-full flex justify-center sticky top-0 pt-2 pb-1 backdrop-blur-md">
                         <input
                             v-model="searchQuery"
                             type="text"
@@ -163,14 +169,14 @@
                             :icon="['fas', 'xmark']"></font-awesome-icon>
                     </div>
                     <div class="mt-5">
-                        <ul id="schools" v-for="school in search.results">
+                        <ul id="schools" class="grid" v-for="school in search.results">
                             <li @click="closeSchoolSearch(school.id)">
                                 {{ school.name }}
                                 <small>{{ school.town }}</small>
                             </li>
                         </ul>
                         <p class="text-center">
-                            <span v-if="searchQuery === ''">Na los! Suche etwas...</span>
+                            <span v-if="searchQuery === ''">Suche nach einem Ort oder einer Schule</span>
                             <span v-else-if="!search.results.length">Keine Ergebnisse gefunden</span>
                         </p>
                     </div>
@@ -235,8 +241,11 @@ async function showSchoolSearch() {
         const response = await fetch("/schools.json");
         const districts = await response.json();
         if (!Array.isArray(districts)) throw new TypeError("Expected to recieve list of districts");
-        search.value.schools = search.value.schools.concat(...districts.map((district) => district.schools as School[]));
-        search.value.loaded = true;
+        search.value = {
+            ...search.value,
+            schools: search.value.schools.concat(...districts.map((district) => district.schools as School[])),
+            loaded: true
+        };
     } catch (error) {
         console.error(error);
         dialog?.close();
@@ -248,12 +257,12 @@ function closeSchoolSearch(id?: number) {
     searchQuery.value = "";
     search.value.results = [];
     dialog.close();
-    if (!id) return;
+    if (typeof id !== "number") return;
     credentials.value.school = id;
 }
 watch(searchQuery, (value) => {
+    if (value === "") return (search.value.results = []);
     const regex = new RegExp(value, "i");
-    console.log(search.value.schools);
     search.value.results = search.value.schools.filter((school) => regex.test(school.name)).slice(0, 10);
 });
 
@@ -274,7 +283,7 @@ async function login() {
     if (!patterns.USERNAME.test(username)) return showErrorMessage("Nutzername ungültig");
     if (school === null || school < 1 || school > 206568 || !Number.isInteger(school)) return showErrorMessage("Schule ungültig");
     state.value = Status.LoggingIn;
-    const { data, error } = await useFetch<LoginResponse>("/api/login", {
+    const { data, error } = await useFetch("/api/login", {
         method: "POST",
         body: credentials.value
     });
@@ -289,13 +298,17 @@ async function login() {
     // A cookie can only be set for at most one year
     const expiration = new Date();
     expiration.setFullYear(expiration.getFullYear() + 1);
-    useCookie<{}>("credentials", { expires: expiration }).value = toRaw(credentials.value);
-    useCookie("token").value = data.value?.token;
-    useCookie("session").value = data.value?.session;
+    useCookie<{}>("credentials", { expires: expiration }).value = credentials.value;
+    // @ts-ignore
+    useToken().value = data.value?.token;
+    // @ts-ignore
+    useSession().value = data.value?.session;
 
-    const card = document.querySelector("main#login");
+    const card = document.querySelector("#login");
     if (!(card instanceof HTMLElement)) return;
     await resizeCard(card, { in: ".login-stage[stage='2']", out: ".login-stage[stage='1']" }, () => (state.value = Status.LoginSuccessful));
+    // Using this, the auth middleware will recognize that we are, in fact, logged in and thus
+    // will redirect us either to / or to the path given in the redirect parameter 
     location.reload();
 }
 
@@ -359,7 +372,7 @@ async function beginReset() {
         token,
         sid
     };
-    const card = document.querySelector("footer#reset");
+    const card = document.querySelector("#reset");
     if (!(card instanceof HTMLElement)) return;
     await resizeCard(card, { in: ".reset-stage[stage='2']", out: ".reset-stage[stage='1']" }, () => (state.value = Status.ResetCodeVerification));
 }
@@ -415,6 +428,7 @@ interface FinalResetResponse {
     password: string;
 }
 async function verifyResetCode() {
+    console.log("HIIIII")
     let code = "";
     const satisfied = Array.from(document.querySelectorAll(".reset-stage[stage='2'] input")).every((element, index) => {
         if (!(element instanceof HTMLInputElement)) return true;
@@ -436,17 +450,20 @@ async function verifyResetCode() {
             code
         }
     });
-    const card = document.querySelector("footer#reset");
+    const card = document.querySelector("#reset");
     // We cannot risk the password getting lost just because it
     // couldn't find the element (how that would be possible I dunno)
-    if (!(card instanceof HTMLElement)) return (state.value = Status.ResetDone);
+    if (!(card instanceof HTMLElement)) {
+        alert(data.value);
+        return;
+    }
     if (error.value !== null) {
         // This means we have just been rate limited and we do not want
         // to destroy the whole process so we just let the user try again
         if (error.value.status === 429) return showErrorMessage("Versuche es gleich erneut", "reset");
         await resizeCard(card, { in: ".reset-stage[stage='1']", out: ".reset-stage[stage='2']" }, () => (state.value = Status.None));
         const { data, cause } = error.value;
-        showErrorMessage(data?.error_details || cause, "reset");
+        showErrorMessage(data?.error_details ?? cause, "reset");
         return;
     }
     if (!data.value) return;
@@ -463,6 +480,10 @@ function openDefaultLogin() {
 </script>
 
 <style scoped>
+h1 {
+    @apply text-2xl;
+    font-family: "Honk";
+}
 #form-wrapper > * {
     @apply my-1;
 }

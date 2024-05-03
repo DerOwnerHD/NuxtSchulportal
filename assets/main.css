@@ -1,9 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
 body {
     width: 100vw;
     height: 100vh;
     background: black;
-    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: clip;
 }
 #background {
     background: #141414;
@@ -30,6 +32,7 @@ body {
     --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 0%, #ffffff 50%, transparent 100%) 1;
     --white-gradient-border-image-zero: linear-gradient(0deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
     --gradient-border-degrees: 90deg;
+    --basic-card-background: linear-gradient(to bottom, #282828, #121212);
     color: white;
 }
 @keyframes spin {
@@ -164,15 +167,6 @@ h1,
     width: var(--size);
     background-size: var(--size);
     animation: 900ms spin infinite linear;
-}
-.basic-card {
-    background: linear-gradient(to bottom, #282828, #121212);
-    @apply w-80 shadow-lg rounded-xl mx-5 text-white py-3;
-    border-top: solid 1px;
-    border-image: var(--white-gradient-border-image);
-    h1 {
-        @apply text-2xl mt-1;
-    }
 }
 .button-with-symbol {
     @apply rounded-full bg-white text-black mx-1.5 px-3 py-1 mt-2 hover:active:scale-[0.95];

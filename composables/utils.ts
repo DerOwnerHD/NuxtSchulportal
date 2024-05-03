@@ -16,6 +16,8 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
     "503": "Service Not Available"
 };
 
+export const useSSRAlerts = () => useState<string[]>("ssr-alerts", () => []);
+
 export const infoDialogs: { [name: string]: InfoDialog } = {
     LOGIN: {
         disappearAfter: 2000,

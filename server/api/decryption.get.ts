@@ -3,6 +3,7 @@ import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSc
 
 import cryptoJS from "crypto-js";
 import { constants, publicEncrypt } from "crypto";
+import { SPH_PUBLIC_KEY, generateUUID } from "../crypto";
 
 const schema = {
     query: {
@@ -10,22 +11,6 @@ const schema = {
         session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN }
     }
 };
-
-// This is the public key avaliable under https://start.schulportal.hessen.de/ajax.php?f=rsaPublicKey
-// It should (hopefully) not change any time soon
-const PUBLIC_KEY =
-    "-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgGpTJwSxNDmELTK+qfZUowESiPD/\nrFaHQ7UyLEiLtleYGb6bvIFG+hAa25RY6ZP0a653QKfA5LFUs6IFQLU1JT9Uahtw\nHAAsb0oLWJukaa/6XGqRGTM3tKAWIQOxEqIxS8zBHdQZiZQZmuZlSrwdJwJLBoSr\nbp8iQWB1XMYlJigLAgMBAAE=\n-----END PUBLIC KEY-----";
-
-// This method is directly implemented from the Schulportal
-// For the original code see https://start.schulportal.hessen.de/js/createAEStoken.js
-function generateUUID() {
-    let time = performance.now();
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx-xxxxxx3xx".replace(/[xy]/g, (char) => {
-        const random = (time + Math.random() * 16) % 16 | 0;
-        time = Math.floor(time / 16);
-        return (char === "x" ? random : (random & 0x3) | 0x8).toString(16);
-    });
-}
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
@@ -49,7 +34,7 @@ export default defineEventHandler(async (event) => {
         // key provided by SPH to be then sent to them in a handshake
         const encrypted = publicEncrypt(
             {
-                key: PUBLIC_KEY,
+                key: SPH_PUBLIC_KEY,
                 padding: constants.RSA_PKCS1_PADDING
             },
             Buffer.from(password.toString())

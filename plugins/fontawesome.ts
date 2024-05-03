@@ -109,7 +109,6 @@ library.add(
     faLock,
     faUpload,
     faDownload,
-    faPenToSquare,
     faList,
     faCheckToSlot
 );

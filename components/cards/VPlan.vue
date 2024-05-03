@@ -2,8 +2,8 @@
     <main v-if="cards.includes('vplan')">
         <GradientBorder class="w-[90%] mx-[5%] rounded-2xl mb-2 text-center text-white">
             <div class="grid place-content-center py-2" v-if="!plan">
-                <div class="error" v-if="errors.vplan">
-                    <span>{{ errors.vplan }}</span>
+                <div class="error" v-if="error">
+                    <span>{{ fetchError }}</span>
                 </div>
                 <div class="placeholder flex justify-evenly" v-else>
                     <div excluded v-for="n in 2">
@@ -61,9 +61,25 @@
 <script setup lang="ts">
 const months = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 const cards = useOpenCards();
-const plan = useState<Vertretungsplan>("vplan");
-const errors = useAppErrors();
 let distanceInterval: NodeJS.Timeout;
+
+const reload = ref(false);
+const { data: plan, error } = await useAsyncData(
+    "vertretungsplan",
+    () =>
+        $fetch("/api/vertretungen", {
+            query: {
+                token: useToken().value,
+                school: useSchool()
+            },
+            server: false
+        }),
+    {
+        watch: [reload]
+    }
+);
+// @ts-ignore
+const fetchError = computed(() => error.value?.data?.error_details ?? error.value?.cause);
 
 onMounted(() => {
     fadeIn();
@@ -92,8 +108,8 @@ async function refreshPlan(bypass: boolean): Promise<any> {
     if (nulledPlan.value == null && !useAppErrors().value.vplan && !bypass) return;
     // The plan just as well as errors messages get cleared
     nulledPlan.value = null;
-    errors.value.vplan = null;
-    const plan = await useVplan();
+    error.value = null;
+    reload.value = true;
     // We can expect the session to have timeouted once this fires
     // Thus we can trigger a reauth (if that shouldn't work there ain't much to do)
     if (plan === "401: Unauthorized") {

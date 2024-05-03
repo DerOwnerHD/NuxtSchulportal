@@ -109,7 +109,7 @@ const knownSubscriptionServices = [
 
 const isSubscriptionService = (host: string) => knownSubscriptionServices.some((pattern) => pattern.test(host));
 
-const checkKey = (req: Request) => req.headers.authorization === process.env.KEY;
+const checkKey = (req: Request) => req.headers.authorization === process.env.ALLOWANCE_KEY;
 
 const testPatterns = (req: Request, testForAutologin: boolean) => {
     if (!req.body) return false;
@@ -141,10 +141,11 @@ app.listen(process.env.PORT, () => console.log(consoleTime() + `🌐 Listening o
 
 let connected = false;
 async function connect() {
-    const { DATABASE_URL, DATABASE_SHARD, RATELIMIT_BYPASS, API_URL } = process.env;
+    const { DATABASE_URL, DATABASE_SHARD, RATELIMIT_BYPASS, API_URL, TIMEZONE } = process.env;
     if (!DATABASE_URL || !DATABASE_SHARD) throw new ReferenceError("Database URL and/or shard not set");
     if (!RATELIMIT_BYPASS) throw new ReferenceError("Ratelimit Bypass key not set");
     if (!API_URL) throw new ReferenceError("API URL not set");
+    if (!TIMEZONE) console.error("Timezone not set, assuming 0 (UTC time)");
 
     try {
         await mongoose.connect(DATABASE_URL);
@@ -155,13 +156,52 @@ async function connect() {
         return;
     }
 
+    const timezone = parseInt(TIMEZONE ?? "0");
+
     connected = true;
+
+    let intervalStep = 0;
+    let lastInterval = 0;
+    function incrementInterval(interval: number): boolean {
+        // Whenever the interval we use changes, we need to clear again
+        if (lastInterval !== interval) intervalStep = 0;
+        lastInterval = interval;
+        // For example: When the interval is 10 minutes and the current counter is 6,
+        // we increment again to 7 and return false as the process still needs to wait
+        // But if the interval is only one minute, this will never get triggered, which
+        // is the intended way.
+        if (intervalStep < interval - 1) {
+            intervalStep++;
+            return false;
+        }
+        intervalStep = 0;
+        return true;
+    }
+
     setInterval(async () => {
         const now = new Date();
+        // UTC hours are in summer time one hour behind Germany and in winter two
+        const hour = now.getUTCHours() + timezone;
         // Why we doin' this? Just dont wanna run ping the SPH like a bot <- (it is a bot lol)
         // at 3am when there is OBVIOUSLY nothing changing about the plan
         // Also, past a certain time, there is no need to perform this every minute
-        if (now.getUTCHours() > 16 || now.getUTCHours() < 5 || (now.getUTCHours() > 12 && now.getUTCMinutes() % 2 === 0)) return;
+        const MIN_HOUR = 6;
+        const MAX_HOUR = 18;
+        // The way the system works, the checks for the first entry run from 6:00 until 8:59
+        const intervalDuration = [
+            { hours: [6, 8], interval: 1 },
+            { hours: [9, 13], interval: 5 },
+            { hours: [14, 18], interval: 10 }
+        ];
+        const currentInterval = intervalDuration.find((x) => x.hours[0] <= hour && x.hours[1] >= hour);
+        // If the current interval is unknown, it also must mean we are out of the ranges to check
+        // (which coincide with our MAX and MIN hours)
+        if (hour > MAX_HOUR || hour < MIN_HOUR || !currentInterval) return;
+        console.log(consoleTime() + "Running with interval of " + currentInterval.interval + " minute(s)");
+        // This gets triggered every minute and thus that function checks
+        // if we have waited the sufficient time for continuing the function.
+        if (!incrementInterval(currentInterval.interval)) return;
+
         const subscriptions = await Notification.find({});
         console.log(consoleTime() + `👤 Loaded ${subscriptions.length} subscription(s)`);
         if (!subscriptions.length) return;
@@ -210,7 +250,12 @@ async function connect() {
                             "X-RateLimit-Bypass": RATELIMIT_BYPASS ?? ""
                         }
                     });
-                    if (response.status === 401) return await attemptLogin();
+                    // A 403 code indicates that the API encountered a redirect to / by the SPH and thus cannot send us any data.
+                    // API error code of "Route gesperrt" - a known issue which seems to occurr pretty often and cannot be easily resolved.
+                    // Thus a full reauth is the only known method at this time.
+                    if (response.status === 401 || response.status === 403) return await attemptLogin();
+                    if (response.status !== 200)
+                        return console.error(consoleTime() + `❌ Vplan fetch failed for user ${i} with code ${response.status}`);
                     const plan = (await response.json()) as Vertretungsplan;
                     const oldPlan = subscription.plan as Vertretungsplan;
 
