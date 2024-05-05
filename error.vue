@@ -6,8 +6,8 @@
         </div>
         <div v-if="error" class="max-w-full">
             <p class="text-justify">{{ error.message }}</p>
-            <pre v-html="data"></pre>
-            <pre v-html="error.stack"></pre>
+            <pre class="dark" v-html="data"></pre>
+            <pre class="dark" v-html="error.stack"></pre>
         </div>
         <div class="grid buttons mt-2">
             <ButtonDefault :icon="['fas', 'arrow-rotate-right']" @click="navigateTo('/', { external: true })">

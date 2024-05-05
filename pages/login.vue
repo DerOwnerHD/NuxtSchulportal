@@ -157,11 +157,7 @@
             <div class="grid w-full h-full place-content-center">
                 <div class="h-[60vh] py-3" v-if="search.loaded">
                     <div class="w-full flex justify-center sticky top-0 pt-2 pb-1 backdrop-blur-md">
-                        <input
-                            v-model="searchQuery"
-                            type="text"
-                            class="w-60 h-10 rounded-md drop-shadow-md px-2"
-                            placeholder="Suche eine Schule..." />
+                        <input v-model="searchQuery" type="text" class="w-60 h-10 rounded-md shadow-md px-2" placeholder="Suche eine Schule..." />
 
                         <font-awesome-icon
                             @click="closeSchoolSearch"
@@ -308,7 +304,7 @@ async function login() {
     if (!(card instanceof HTMLElement)) return;
     await resizeCard(card, { in: ".login-stage[stage='2']", out: ".login-stage[stage='1']" }, () => (state.value = Status.LoginSuccessful));
     // Using this, the auth middleware will recognize that we are, in fact, logged in and thus
-    // will redirect us either to / or to the path given in the redirect parameter 
+    // will redirect us either to / or to the path given in the redirect parameter
     location.reload();
 }
 
@@ -428,7 +424,7 @@ interface FinalResetResponse {
     password: string;
 }
 async function verifyResetCode() {
-    console.log("HIIIII")
+    console.log("HIIIII");
     let code = "";
     const satisfied = Array.from(document.querySelectorAll(".reset-stage[stage='2'] input")).every((element, index) => {
         if (!(element instanceof HTMLInputElement)) return true;

@@ -13,7 +13,6 @@ defineProps<{ classes?: string }>();
 <style scoped>
 .basic-card {
     background: var(--basic-card-background);
-    border-image: var(--white-gradient-border-image);
-    border-top: solid 1px;
+    border-top: solid 1px #5b2ae1;
 }
 </style>

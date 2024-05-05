@@ -1,6 +1,16 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, setResponse, validateBody, parseCookies, BasicResponse } from "../utils";
+import {
+    generateDefaultHeaders,
+    parseCookie,
+    patterns,
+    removeBreaks,
+    setErrorResponse,
+    setResponse,
+    validateBody,
+    parseCookies,
+    BasicResponse
+} from "../utils";
 import { constants, publicEncrypt } from "crypto";
 import cryptoJS from "crypto-js";
 import { SPH_PUBLIC_KEY, generateUUID } from "../crypto";
@@ -25,9 +35,7 @@ interface Response extends BasicResponse {
     cooldown?: number;
 }
 
-export default defineEventHandler<
-    Promise<Response>
->(async (event) => {
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 

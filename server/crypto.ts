@@ -10,8 +10,8 @@ export const SPH_PUBLIC_KEY =
 /**
  * This method has been ripped from the SPH frontend (https://start.schulportal.hessen.de/js/createAEStoken.js).
  * The default implementation using Math.random is insecure. Thus, when available (which should always be the case)
- * the function uses crypto.randomUUID. This is implemented in Node since version 19. 
- * 
+ * the function uses crypto.randomUUID. This is implemented in Node since version 19.
+ *
  * See the [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID) for more details.
  * @returns The random UUID
  */

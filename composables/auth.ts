@@ -212,7 +212,7 @@ export async function useAuthenticate() {
         });
 
     console.log("Authenticated!");
-    
+
     // @ts-ignore
     const { token, session } = data.value;
     nuxt.runWithContext(() => {
@@ -253,3 +253,5 @@ export async function logOff() {
 
     location.reload();
 }
+
+export const isLoggedIn = () => !!useToken().value;

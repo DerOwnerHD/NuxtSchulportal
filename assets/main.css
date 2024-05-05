@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Days+One&display=swap");
 body {
     width: 100vw;
     height: 100vh;
@@ -17,7 +18,9 @@ body {
 #background > #overlay {
     height: inherit;
     width: inherit;
-    opacity: 15%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    opacity: 100%;
     filter: blur(3px);
 }
 :root {
@@ -29,10 +32,12 @@ body {
     --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
     --small-button-color: #4e5760;
     --full-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 10%, #ffffff 50%, transparent 90%) 1;
     --white-gradient-border-image-zero: linear-gradient(0deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
     --gradient-border-degrees: 90deg;
     --basic-card-background: linear-gradient(to bottom, #282828, #121212);
+    --fancy-basic-card-background: linear-gradient(to bottom, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    --button-scale-transition: transform 200ms;
     color: white;
 }
 @keyframes spin {
@@ -42,6 +47,11 @@ body {
     to {
         transform: rotate(360deg);
     }
+}
+.blurred-background {
+    background: linear-gradient(135deg, #ffffff20, #ffffff00);
+    backdrop-filter: blur(8px);
+    border: solid 1px #ffffff20;
 }
 @font-face {
     font-family: "SPBold";
@@ -55,7 +65,7 @@ body {
     font-family: "SPRegular";
     src: url("/font/regular.otf");
 }
-* {
+body {
     font-family: "SPSemiBold";
     user-select: none;
 }
@@ -222,7 +232,29 @@ code {
     span {
         font-family: inherit;
     }
+}
+pre.light,
+code.light {
     color: #abb2bf;
+    .string {
+        color: #7ac379;
+    }
+    .number {
+        color: #d19a66;
+    }
+    .boolean {
+        color: #61afef;
+    }
+    .null {
+        color: #c678dd;
+    }
+    .key {
+        color: #e06c75;
+    }
+}
+pre.dark,
+code.dark {
+    color: #dae2f1;
     .string {
         color: #7ac379;
     }
@@ -245,4 +277,19 @@ code {
 }
 #api-error {
     z-index: 10;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition: all 200ms ease-in-out;
+}
+
+.page-enter-from {
+    opacity: 0;
+    filter: blur(1rem);
+}
+
+.page-leave-to {
+    opacity: 0;
+    transform: translateX(-50vw);
 }
