@@ -1,7 +1,17 @@
 <template>
     <div class="h-16 relative">
-        <div class="dock-icon relative h-16" :class="{ open: isFlyoutOpen }" @touchstart="startHold" @touchend="stopHold">
+        <div class="dock-icon relative h-16" :class="{ open: isFlyoutOpen }" @touchstart="startHold" @touchend="stopHold" @click="navigateTo(route)">
+            <div
+                class="absolute -right-1 -top-1 rounded-full shadow-sm text-xs min-w-5 h-5 grid place-content-center font-bold"
+                :class="{ 'bg-gray-500': !hasError, 'bg-red-500': hasError }">
+                <span v-if="hasError">!</span>
+                <InfiniteSpinner v-else-if="notificationsForItem === null" :size="10"></InfiniteSpinner>
+                <span v-else>{{ notificationsForItem }}</span>
+            </div>
             <slot />
+        </div>
+        <div class="flex w-full justify-center mt-1">
+            <div class="dock-selector h-1 bg-white opacity-50 rounded-full" :class="{ selected: hasItemSelected }"></div>
         </div>
     </div>
 </template>
@@ -16,7 +26,14 @@ const props = defineProps<{
         text?: string;
         icon?: string[];
     }[][];
+    route: string;
 }>();
+
+const notifications = useNotifications();
+const notificationsForItem = computed(() => notifications.value.get(props.id) ?? null);
+const hasError = computed(() => notificationsForItem.value === -1);
+
+const hasItemSelected = computed(() => useRoute().path.startsWith(props.route));
 
 const isHoldingIcon = ref<string | null>(null);
 const isFlyoutOpen = ref(false);
@@ -62,5 +79,12 @@ function stopHold() {
     50% {
         transform: scale(90%);
     }
+}
+.dock-selector {
+    width: 0px;
+    transition: width 300ms;
+}
+.dock-selector.selected {
+    width: 15px;
 }
 </style>

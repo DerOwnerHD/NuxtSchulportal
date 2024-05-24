@@ -1,7 +1,7 @@
 <template>
     <div class="grid gap-2 justify-center pt-4">
         <BasicCard id="login" classes="relative">
-            <div class="grid w-full justify-center !p-0">
+            <div class="grid w-full px-5 justify-center">
                 <div class="flex justify-between mb-1 w-full">
                     <h1>Anmeldung</h1>
                     <div v-if="state !== Status.LoginSuccessful" class="rounded-button !px-4" @click="showSchoolSearch">

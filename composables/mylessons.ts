@@ -1,3 +1,5 @@
+import type { Nullable } from "~/server/utils";
+
 export async function useLerngruppenFetch() {
     try {
         const { courses } = await $fetch<{ courses: Lerngruppe[] }>("/api/courses", {
@@ -9,32 +11,30 @@ export async function useLerngruppenFetch() {
     }
 }
 
-export async function useMyLessonsCoursesFetch() {
+export async function fetchMyLessonsCourses() {
     const key = (await useAESKey()) ?? undefined;
     const token = useToken();
     const session = useSession();
-
-    const { data, error } = await useFetch<MyLessonsResponse>("/api/mylessons/courses", {
-        query: {
-            school: useSchool(),
-            token: token.value,
-            session: session.value,
-            key
-        },
-        retryStatusCodes: [429],
-        retryDelay: 15000
-    });
-
-    if (error.value !== null) {
-        const { cause, data } = error.value;
-        return (useAppErrors().value.mylessons = data?.error_details ?? cause);
+    try {
+        const response = await $fetch("/api/mylessons/courses", {
+            query: {
+                school: useSchool(),
+                token: token.value,
+                session: session.value,
+                key
+            }
+        });
+        // @ts-ignore
+        useMyLessonsCourses().value = { courses: response.courses, expired: response.expired };
+        useNotifications().value.set(
+            "mylessons",
+            response.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length
+        );
+    } catch (error) {
+        useNotifications().value.set("mylessons", -1);
+        // @ts-ignore
+        useAppErrors().value.set("mylessons", error?.data ?? error);
     }
-
-    if (data.value === null) throw new ReferenceError("Error and data both not given");
-
-    delete data.value.error;
-    useMyLessonsCourses().value = data.value;
-    useAppNews().value.lessons = data.value.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length;
 }
 
 export interface Lerngruppe {
@@ -44,7 +44,7 @@ export interface Lerngruppe {
     subject: string;
     teacher: {
         name: string;
-        image: NullableString;
+        image: Nullable<string>;
     };
 }
 
@@ -61,15 +61,11 @@ export interface MyLessonsAllCourses {
     expired: MyLessonsCourse[];
 }
 
-interface MyLessonsResponse extends MyLessonsAllCourses {
-    error?: boolean;
-}
-
 export interface MyLessonsCourse {
-    subject: NullableString;
+    subject: Nullable<string>;
     teacher: {
-        full: NullableString;
-        short: NullableString;
+        full: Nullable<string>;
+        short: Nullable<string>;
     };
     id: number;
     attendance?: { [type: string]: number };
@@ -77,33 +73,48 @@ export interface MyLessonsCourse {
 }
 
 export interface MyLessonsLesson {
-    topic: NullableString;
-    date: NullableString;
+    topic: Nullable<string>;
+    date: Nullable<string>;
     entry: number | null;
     lessons?: number[];
     homework: {
         done: boolean;
-        description: NullableString;
+        description: Nullable<string>;
     } | null;
     downloads: {
-        link: NullableString;
+        link: Nullable<string>;
         files: {
-            extension: NullableString;
-            name: NullableString;
-            size: NullableString;
+            extension: Nullable<string>;
+            name: Nullable<string>;
+            size: Nullable<string>;
         }[];
     };
     uploads: {
-        name: NullableString;
+        name: Nullable<string>;
         uploadable: boolean;
-        link: NullableString;
+        link: Nullable<string>;
         files: {
-            link: NullableString;
-            name: NullableString;
+            link: Nullable<string>;
+            name: Nullable<string>;
         }[];
     }[];
 }
 
-type NullableString = string | null;
-
 export const useSelectedMyLessonsCourse = () => useState<MyLessonsCourse>("selected-mylessons-course");
+
+export const MYLESSONS_ICON_IDENTIFIERS = [
+    { icon: ["fas", "landmark"], identifiers: ["politik", "wirtschaft", "powi"] },
+    { icon: ["fas", "magnet"], identifiers: ["phy"] },
+    { icon: ["fas", "keyboard"], identifiers: ["info"] },
+    { icon: ["fas", "square-root-variable"], identifiers: ["mathe"] },
+    { icon: ["fas", "flask-vial"], identifiers: ["che"] },
+    { icon: ["fas", "hands-praying"], identifiers: ["reli"] },
+    { icon: ["fas", "earth-americas"], identifiers: ["geo", "erd"] },
+    { icon: ["fas", "language"], identifiers: ["engl", "spanisch", "franz"] },
+    { icon: ["fas", "masks-theater"], identifiers: ["ds", "theater", "darstellendes spiel"] }
+];
+
+export function findIconForMyLessonsCourse(name: string) {
+    const group = MYLESSONS_ICON_IDENTIFIERS.find((group) => group.identifiers.some((identifier) => name.toLowerCase().includes(identifier)));
+    return group?.icon;
+}

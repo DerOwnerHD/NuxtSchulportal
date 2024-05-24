@@ -1,6 +1,7 @@
 import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import {
+    BasicResponse,
     generateDefaultHeaders,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
@@ -23,7 +24,12 @@ const schema = {
     }
 };
 
-export default defineEventHandler(async (event) => {
+interface Courses extends BasicResponse {
+    courses: MyLessonsCourse[];
+    expired: MyLessonsCourse[];
+}
+
+export default defineEventHandler<Promise<Courses>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 

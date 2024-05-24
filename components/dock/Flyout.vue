@@ -16,10 +16,11 @@
                             last: isLastItem(groupIndex, index)
                         }"
                         v-for="(item, index) of group"
-                        :item-id="index">
+                        :item-id="index"
+                        :disabled="item.disabled">
                         <div class="grid">
-                            <span class="text-base">{{ item.title }}</span>
-                            <span v-if="item.text" class="text-xs text-[#736d6c]">
+                            <span>{{ item.title }}</span>
+                            <span v-if="item.text" class="text-xs text-[#736d6c] font-[SPRegular]">
                                 {{ item.text }}
                             </span>
                         </div>
@@ -29,11 +30,13 @@
             </div>
             <div v-else class="py-2 px-4 w-full">Keine Schnellaktionen verfügbar</div>
         </div>
+        <!--
         <div
             class="fixed z-[202] scale-105"
             v-if="parent"
             v-html="parent.element.outerHTML"
             :style="`top: ${parent.y}px; left: ${parent.x}px;`"></div>
+        -->
     </div>
 </template>
 
@@ -79,10 +82,13 @@ onMounted(async () => {
 const hitboxes = ref<{ start: number; end: number; group: number; item: number }[]>([]);
 
 const parent = computed(() => {
+    return null;
+    /*
     const parent = flyout.value.element;
     if (!parent) return null;
     const { x, y } = parent.getBoundingClientRect();
     return { element: parent.cloneNode(true) as HTMLElement, x, y };
+    */
 });
 
 async function closeFlyout(event: MouseEvent | boolean) {
@@ -125,8 +131,11 @@ function endItemSelection() {
     if (!initialized.value) return;
     const [group, item] = selectedItem.value;
     if (group !== null && item !== null) {
-        emit("submit", flyout.value.groups[group][item]);
-        closeFlyout(true);
+        const data = flyout.value.groups[group][item];
+        if (!data.disabled) {
+            if (data.action) data.action();
+            closeFlyout(true);
+        }
     }
     lastYPosition.value = 0;
     selectedItem.value = [null, null];
@@ -139,16 +148,15 @@ function endItemSelection() {
     z-index: 200;
     opacity: 0;
     animation: opacity-in 400ms ease-in-out forwards;
-    backdrop-filter: blur(8px);
 }
 .flyout-overlay.close {
     animation: opacity-out 400ms ease-in-out forwards;
 }
 .flyout {
     @apply fixed;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "SPSemiBold";
     animation-delay: 100ms;
-    animation: scale-in cubic-bezier(1, 1.15, 0.77, 1) 200ms;
+    animation: scale-in var(--fast-easing-function) 200ms;
     width: 190px;
     z-index: 201;
     opacity: 0;
@@ -165,6 +173,9 @@ function endItemSelection() {
     }
     .item.last {
         @apply rounded-b-2xl;
+    }
+    .item[disabled="true"] {
+        opacity: 50%;
     }
     .group:not(:first-child) {
         border-top: solid 5px #c1bec3;

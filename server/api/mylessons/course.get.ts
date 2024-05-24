@@ -1,5 +1,7 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import {
+    BasicResponse,
+    Nullable,
     generateDefaultHeaders,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
@@ -12,7 +14,7 @@ import {
 } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
-import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
+import { COURSE_UNAVAILABLE_ERROR, MyLessonsLesson } from "~/server/mylessons";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
 
 const schema = {
@@ -25,7 +27,12 @@ const schema = {
     }
 };
 
-export default defineEventHandler(async (event) => {
+interface Course extends BasicResponse {
+    lessons: MyLessonsLesson[];
+    attendance: { [key: string]: Nullable<string> };
+}
+
+export default defineEventHandler<Promise<Course>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 

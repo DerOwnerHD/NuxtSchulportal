@@ -6,22 +6,7 @@ body {
     height: 100vh;
     background: black;
     overflow-y: auto;
-    overflow-x: clip;
-}
-#background {
-    background: #141414;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    z-index: -2;
-}
-#background > #overlay {
-    height: inherit;
-    width: inherit;
-    background-position: center center;
-    background-repeat: no-repeat;
-    opacity: 100%;
-    filter: blur(3px);
+    overflow-x: hidden;
 }
 :root {
     -webkit-tap-highlight-color: transparent;
@@ -38,6 +23,8 @@ body {
     --basic-card-background: linear-gradient(to bottom, #282828, #121212);
     --fancy-basic-card-background: linear-gradient(to bottom, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
     --button-scale-transition: transform 200ms;
+    --fast-easing-function: cubic-bezier(0.39, 0.79, 0.13, 1.04);
+    --small-white-border: solid 2px #ffffff20;
     color: white;
 }
 @keyframes spin {
@@ -49,9 +36,8 @@ body {
     }
 }
 .blurred-background {
-    background: linear-gradient(135deg, #ffffff20, #ffffff00);
-    backdrop-filter: blur(8px);
-    border: solid 1px #ffffff20;
+    background: linear-gradient(135deg, #ffffff28, #ffffff11);
+    border-top: var(--small-white-border);
 }
 @font-face {
     font-family: "SPBold";
@@ -73,9 +59,8 @@ p,
 small {
     color: white;
 }
-h1,
-*[header-alike] {
-    font-family: "Bricolage Grotesque";
+h1 {
+    font-family: "Merriweather";
     font-weight: bold;
     color: white;
 }
@@ -211,10 +196,6 @@ h1,
         background: #3c445c;
     }
 }
-.placeholder *:not([excluded]) {
-    background: #3c445c;
-    animation: loading infinite 2000ms ease-in-out;
-}
 dialog::backdrop {
     background: #00000090;
 }
@@ -271,25 +252,12 @@ code.dark {
         color: #e06c75;
     }
 }
-#main-content {
-    height: calc(100vh - 4rem);
-    overflow-y: visible;
-}
-#api-error {
-    z-index: 10;
-}
-
 .page-enter-active,
 .page-leave-active {
-    transition: all 200ms ease-in-out;
+    transition: all 0.4s;
 }
-
-.page-enter-from {
-    opacity: 0;
-    filter: blur(1rem);
-}
-
+.page-enter-from,
 .page-leave-to {
     opacity: 0;
-    transform: translateX(-50vw);
+    filter: blur(1rem);
 }

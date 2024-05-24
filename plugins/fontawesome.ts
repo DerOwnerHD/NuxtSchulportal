@@ -52,7 +52,17 @@ import {
     faCodeCompare,
     faKey,
     faBars,
-    faCaretRight
+    faCaretRight,
+    faGear,
+    faLandmark,
+    faEarthAmericas,
+    faKeyboard,
+    faMagnet,
+    faFlaskVial,
+    faSquareRootVariable,
+    faHandsPraying,
+    faLanguage,
+    faTheaterMasks
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -117,7 +127,17 @@ library.add(
     faCodeCompare,
     faKey,
     faBars,
-    faCaretRight
+    faCaretRight,
+    faGear,
+    faLandmark,
+    faMagnet,
+    faKeyboard,
+    faFlaskVial,
+    faSquareRootVariable,
+    faHandsPraying,
+    faEarthAmericas,
+    faLanguage,
+    faTheaterMasks
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

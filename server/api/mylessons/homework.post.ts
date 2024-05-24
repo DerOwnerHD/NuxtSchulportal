@@ -8,7 +8,8 @@ import {
     validateBody,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    schoolFromRequest
+    schoolFromRequest,
+    BasicResponse
 } from "../../utils";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
 
@@ -20,7 +21,7 @@ const schema = {
     }
 };
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
