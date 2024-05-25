@@ -29,15 +29,18 @@ export const fetchVertretungsplan = async (reauth?: boolean) => {
     if (isLoadingPlan.value) return;
     isLoadingPlan.value = true;
     useAppErrors().value.delete("vertretungsplan");
+    useNotifications().value.delete("vertretungsplan");
     // @ts-ignore
     useVertretungsplan().value = null;
     try {
-        if (reauth) await useAuthenticate();
+        // A event handler may pass an event as first parameter
+        if (reauth === true) await useAuthenticate();
         const data = await $fetch("/api/vertretungen", {
             query: {
                 school: useSchool(),
                 token: useToken().value
-            }
+            },
+            retry: false
         });
         const vertretungsCount = data.days.reduce((amount, day) => (amount += day.vertretungen.length), 0);
         useNotifications().value.set("vertretungsplan", vertretungsCount);
@@ -45,6 +48,7 @@ export const fetchVertretungsplan = async (reauth?: boolean) => {
         delete data.error;
         useVertretungsplan().value = data;
     } catch (error) {
+        useReauthenticate(error);
         useNotifications().value.set("vertretungsplan", -1);
         // @ts-ignore
         useAppErrors().value.set("vertretungsplan", error?.data ?? error);

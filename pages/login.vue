@@ -1,6 +1,6 @@
 <template>
-    <div class="grid gap-2 justify-center pt-4">
-        <BasicCard id="login" classes="relative">
+    <div class="grid gap-4 justify-center pt-4">
+        <section id="login" class="blurred-background relative">
             <div class="grid w-full px-5 justify-center">
                 <div class="flex justify-between mb-1 w-full">
                     <h1>Anmeldung</h1>
@@ -69,8 +69,8 @@
                     </span>
                 </div>
             </div>
-        </BasicCard>
-        <BasicCard id="reset">
+        </section>
+        <section id="reset" class="blurred-background">
             <div class="w-full grid justify-center">
                 <h1 class="mb-1 text-center">Passwort vergessen</h1>
                 <div class="grid my-2 text-center">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
             </div>
-        </BasicCard>
+        </section>
         <dialog id="school-search" class="text-white w-80 h-[60vh] place-content-center rounded-xl focus:outline-none">
             <div class="grid w-full h-full place-content-center">
                 <div class="h-[60vh] py-3" v-if="search.loaded">
@@ -476,16 +476,18 @@ function openDefaultLogin() {
 </script>
 
 <style scoped>
+section {
+    @apply py-4 rounded-2xl;
+}
 h1 {
     @apply text-2xl;
-    font-family: "Honk";
 }
 #form-wrapper > * {
     @apply my-1;
 }
 form {
     input {
-        background: var(--element-color);
+        background: var(--light-white-gradient);
         @apply mx-1.5 rounded-md h-10 placeholder-gray-400 pl-2 shadow-md;
     }
     input:not([name="password"]) {
@@ -494,10 +496,11 @@ form {
     button {
         @apply h-10 rounded-md mx-1.5 grid place-content-center hover:active:scale-[0.95];
         transition: transform 200ms;
-        background: linear-gradient(to bottom, #18d6ee, #3a7cd5);
+        background: var(--sph-gradient);
+        filter: drop-shadow(0px 0px 6px var(--sph-glow));
     }
     button:disabled {
-        background: var(--element-color);
+        background: var(--light-white-gradient);
     }
 }
 .reset-stage[stage="2"] {

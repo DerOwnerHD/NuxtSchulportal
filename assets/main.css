@@ -25,6 +25,10 @@ body {
     --button-scale-transition: transform 200ms;
     --fast-easing-function: cubic-bezier(0.39, 0.79, 0.13, 1.04);
     --small-white-border: solid 2px #ffffff20;
+    --light-white-gradient: linear-gradient(135deg, #ffffff28, #ffffff11);
+    --light-gold-gradient: linear-gradient(135deg, #dbac3428, #dbac3411);
+    --sph-gradient: linear-gradient(to bottom, #18d5ee, #397ed5);
+    --sph-glow: #2ba3e0;
     color: white;
 }
 @keyframes spin {
@@ -36,7 +40,7 @@ body {
     }
 }
 .blurred-background {
-    background: linear-gradient(135deg, #ffffff28, #ffffff11);
+    background: var(--light-white-gradient);
     border-top: var(--small-white-border);
 }
 @font-face {
@@ -260,4 +264,10 @@ code.dark {
 .page-leave-to {
     opacity: 0;
     filter: blur(1rem);
+}
+*::-webkit-scrollbar {
+    display: none;
+}
+* {
+    scrollbar-width: none;
 }

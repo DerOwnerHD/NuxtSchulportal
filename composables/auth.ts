@@ -52,145 +52,6 @@ export const useSchool = () => {
     return credentials.value.school;
 };
 
-/**
- * Validates the token stored in the credentials cookie
- * @returns Whether the stored token is valid
- */
-export const useTokenCheck = async (token: string): Promise<boolean> => {
-    const nuxtApp = useNuxtApp();
-
-    const { data: validation, error } = await nuxtApp.runWithContext(
-        async () =>
-            await useFetch<CheckResponse>("/api/check", {
-                method: "GET",
-                headers: { Authorization: token },
-                retry: false
-            })
-    );
-
-    if (error.value !== null) {
-        // @ts-expect-error
-        // Because we have an async call just before that,
-        // we can no longer call any composable without using this wrapper...
-        // (See https://github.com/nuxt/nuxt/issues/14269)
-        (await callWithNuxt(nuxtApp, useState<APIError>, ["api-error"])).value = {
-            response: syntaxHighlight(error.value.data),
-            message: "Anmeldung fehlgeschlagen",
-            recoverable: false
-        };
-
-        return false;
-    }
-
-    return validation.value?.valid || false;
-};
-
-export const useLogin = async (showError: boolean) => {
-    const nuxt = useNuxtApp();
-    const credentials = useCredentials();
-    try {
-        const { data, error } = await useFetch("/api/login", {
-            method: "POST",
-            body: credentials.value
-        });
-        if (error.value) throw error.value;
-        // @ts-ignore
-        const { session, token } = data.value;
-        nuxt.runWithContext(() => {
-            useSession().value = session;
-            useToken().value = token;
-        });
-        return true;
-    } catch (error) {
-        console.error(error);
-        if (showError)
-            nuxt.runWithContext(
-                () =>
-                    (useState<APIError>("api-error").value = {
-                        // @ts-ignore
-                        response: syntaxHighlight(error.data),
-                        message: "Anmeldung fehlgeschlagen",
-                        recoverable: false
-                    })
-            );
-        return false;
-    }
-};
-
-export const useMoodleLogin = async (): Promise<boolean> => {
-    // The session token is required to proceed to Moodle login
-    if (!useSession().value || !useCredentials().value.school) return false;
-
-    const { data, error: fetchError } = await useFetch<MoodleLoginResponse>("/api/moodle/login", {
-        method: "POST",
-        body: {
-            session: useSession().value,
-            school: useCredentials().value.school
-        },
-        retry: false
-    });
-
-    // It isn't dramatic if the Moodle login is not successful
-    if (fetchError.value !== null) {
-        const { data, cause } = fetchError.value;
-        const { error_details } = data;
-        useState<APIError>("api-error").value = {
-            response: syntaxHighlight(fetchError.value.data),
-            message: "Konnte Moodledaten nicht überprüfen",
-            recoverable: true
-        };
-        useAppErrors().value = {
-            ...useAppErrors().value,
-            conversations: error_details ?? "Serverfehler",
-            "moodle-courses": error_details ?? "Serverfehler",
-            "moodle-events": error_details ?? "Serverfehler",
-            "moodle-notifications": error_details ?? "Serverfehler"
-        };
-        return false;
-    }
-
-    // We can reasonably assert that data must exist if error does not
-    if (data.value === null) return false;
-
-    const { error, ...credentials } = data.value;
-    useMoodleCredentials().value = credentials;
-
-    return true;
-};
-
-export const useMoodleCheck = async (): Promise<boolean> => {
-    const credentials = useMoodleCredentials().value;
-    if (!credentials || !useCredentials().value) return false;
-
-    const { data, error } = await useFetch<MoodleCheckResponse>("/api/moodle/check", {
-        method: "GET",
-        query: {
-            ...credentials,
-            school: useCredentials().value?.school
-        },
-        retry: false
-    });
-
-    if (error.value !== null) {
-        if (window.location.host === "localhost") return false;
-        useState<APIError>("api-error").value = {
-            response: syntaxHighlight(error.value.data),
-            message: "Konnte Moodledaten nicht überprüfen",
-            recoverable: true
-        };
-        useAppErrors().value = {
-            ...useAppErrors().value,
-            conversations: "Serverfehler",
-            "moodle-courses": "Serverfehler",
-            "moodle-events": "Serverfehler",
-            "moodle-notifications": "Serverfehler"
-        };
-        return false;
-    }
-
-    return data.value?.valid || false;
-};
-
 export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
 
 /**
@@ -255,3 +116,11 @@ export async function logOff() {
 }
 
 export const isLoggedIn = () => !!useToken().value;
+
+export async function useReauthenticate(error: any) {
+    if (!("status" in error)) return;
+    if (error.status !== 401) return;
+    console.log("Credentials invalid, reauthenticating!");
+    await useAuthenticate();
+    alert("Neu eingeloggt!");
+}

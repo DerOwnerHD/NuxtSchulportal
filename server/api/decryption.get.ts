@@ -1,28 +1,31 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, patterns, setErrorResponse, transformEndpointSchema, validateQuery } from "../utils";
+import {
+    BasicResponse,
+    authHeaderOrQuery,
+    generateDefaultHeaders,
+    patterns,
+    setErrorResponse,
+    transformEndpointSchema,
+    validateQuery
+} from "../utils";
 
 import cryptoJS from "crypto-js";
 import { constants, publicEncrypt } from "crypto";
 import { SPH_PUBLIC_KEY, generateUUID } from "../crypto";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN }
-    }
-};
+interface Response extends BasicResponse {
+    key: string;
+}
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    const query = getQuery<{ token: string; session: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const token = authHeaderOrQuery(event);
+    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
 
     const rateLimit = handleRateLimit("/api/decryption.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
-
-    const { token, session } = query;
 
     try {
         // This is a random string (UUID) encrypted using a random key
@@ -48,7 +51,7 @@ export default defineEventHandler(async (event) => {
             method: "POST",
             body: `key=${encodeURIComponent(encrypted.toString("base64"))}`,
             headers: {
-                Cookie: `sid=${token}; SPH-Session=${session}`,
+                Cookie: `sid=${token}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders(address)
             }

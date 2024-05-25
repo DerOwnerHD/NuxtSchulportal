@@ -58,7 +58,6 @@ const appBackgroundGradient = computed(() => {
     const site = BACKGROUND_GRADIENTS.find((site) => site.pattern.test(useRoute().path));
     if (!site) return DEFAULT_BACKGROUND_GRADIENT;
     const channels = getRGBValues(site.color);
-    console.log(combineRGBValues(multiplyRGBValues(channels, BACKGROUND_COLOR_MULTIPLIER)));
     return combineRGBValues(multiplyRGBValues(channels, BACKGROUND_COLOR_MULTIPLIER));
 });
 </script>

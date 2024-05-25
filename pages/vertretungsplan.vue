@@ -6,7 +6,7 @@
             v-if="errors.has('vertretungsplan')"></ErrorDisplay>
         <div v-else-if="vertretungsplan" class="relative grid place-content-center w-screen max-w-[100vw] h-full">
             <DeckCard class="vplan-card" v-for="day of vertretungsplan.days" :colors="['#425849', '#1e2921']">
-                <div class="inner grid h-full">
+                <div class="inner grid h-full mb-2">
                     <header class="justify-between flex">
                         <h1>
                             <b>{{ day.day_of_week }}</b>
@@ -21,12 +21,12 @@
                             <ButtonRoundedBlurred :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan"></ButtonRoundedBlurred>
                         </div>
                     </header>
-                    <main class="my-2">
+                    <main class="py-2">
                         <div v-if="day.vertretungen.length" class="grid gap-2">
                             <div
                                 class="blurred-background p-2 rounded-lg w-full !border-none shadow-md flex gap-2 items-center hover:active:scale-95 transition-transform"
                                 v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of day.vertretungen">
-                                <span class="bg-gray-500 px-2 py-1 rounded-full">{{
+                                <span class="blurred-background !border-none shadow-sm px-2 py-1 rounded-full">{{
                                     lessons.list.length > 1 ? lessons.from + " - " + lessons.to : lessons.from
                                 }}</span>
                                 <div class="grid">
@@ -42,11 +42,24 @@
                                             {{ room }}
                                         </span>
                                     </div>
-                                    <span class="text-xs">Aufgaben in Moodle</span>
+                                    <span class="text-xs" v-if="note">{{ note }}</span>
                                 </div>
                             </div>
                         </div>
                         <p v-else class="text-center">Keine Vertretungen</p>
+                        <div v-if="day.news.length" class="blurred-background p-2 rounded-lg !border-none shadow-md my-2">
+                            <h1 class="flex gap-2 justify-center w-full items-center">
+                                <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
+                                Neuigkeiten
+                            </h1>
+                            <ul>
+                                <li v-for="item of day.news" class="list-disc ml-4">
+                                    <PrettyWrap>
+                                        <span v-html="item"></span>
+                                    </PrettyWrap>
+                                </li>
+                            </ul>
+                        </div>
                     </main>
                     <footer class="flex justify-center items-center gap-2 self-end">
                         <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
@@ -110,6 +123,7 @@ async function switchDay() {
     frontCard.style.transform = "rotate(5deg)";
 
     selectedDay.value = selectedDay.value === 1 ? 0 : 1;
+    await useWait(100);
     isRunningAnimation.value = false;
 }
 

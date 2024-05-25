@@ -1,6 +1,6 @@
 <template>
     <div
-        class="deck-card absolute p-5 w-72 rounded-2xl mx-auto left-0 right-0 h-full overflow-x-clip overflow-y-scroll"
+        class="deck-card blurred-background absolute w-72 p-5 rounded-2xl mx-auto left-0 right-0 h-full overflow-x-clip overflow-y-scroll backdrop-blur-lg"
         :style="{ '--color-1': colors[0], '--color-2': colors[1] }">
         <slot />
     </div>
@@ -16,7 +16,6 @@ defineProps<{ colors: string[] }>();
     transition-duration: 300ms;
     transition-property: transform opacity;
     border-top: var(--small-white-border);
-    background: radial-gradient(var(--color-1), var(--color-2)) center;
     will-change: transform opacity;
 }
 .deck-card:not(:first-child) {

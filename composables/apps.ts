@@ -153,7 +153,6 @@ interface MoodleEventsResponse {
 }
 
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
-export const useAppErrors = () => useState<AppErrorState>("app-errors");
 export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
 
 export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {

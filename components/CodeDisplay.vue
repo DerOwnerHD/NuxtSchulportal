@@ -8,3 +8,9 @@
 const props = defineProps<{ data: any }>();
 const code = computed(() => syntaxHighlight(props.data));
 </script>
+
+<style scoped>
+pre {
+    line-break: anywhere;
+}
+</style>

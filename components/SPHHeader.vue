@@ -17,8 +17,8 @@
     filter: drop-shadow(0px 0px 8px white);
 }
 .container {
-    filter: drop-shadow(0px 0px 16px #2ba3e0);
-    background: linear-gradient(to bottom, #18d5ee, #397ed5);
+    filter: drop-shadow(0px 0px 16px var(--sph-glow));
+    background: var(--sph-gradient);
     > div {
         clip-path: circle(50% at 50% 50%);
     }

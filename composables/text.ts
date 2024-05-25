@@ -50,3 +50,17 @@ export const STATIC_STRINGS = {
     IS_LOADING: "Wird geladen",
     LOADING_ERROR: "Fehler beim Laden"
 };
+
+let textMeasureCanvas: HTMLCanvasElement;
+// https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
+export const measureTextWidth = (text: string, font: string = "normal 16px Arial"): number | null => {
+    if (typeof document === "undefined") return null;
+    if (!textMeasureCanvas) textMeasureCanvas = document.createElement("canvas");
+
+    const context = textMeasureCanvas.getContext("2d");
+    if (context === null) return null;
+
+    context.font = font;
+    const metrics = context.measureText(text);
+    return metrics.width;
+};
