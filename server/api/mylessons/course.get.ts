@@ -30,6 +30,7 @@ const schema = {
 interface Course extends BasicResponse {
     lessons: MyLessonsLesson[];
     attendance: { [key: string]: Nullable<string> };
+    subject: Nullable<string>;
 }
 
 export default defineEventHandler<Promise<Course>>(async (event) => {
@@ -64,6 +65,15 @@ export default defineEventHandler<Promise<Course>>(async (event) => {
         const {
             window: { document }
         } = new JSDOM(html);
+
+        const headerElement = document.querySelector("h1[data-book]");
+        const subject = headerElement?.textContent?.replace(/\d\. Halbjahr/, "").trim() ?? null;
+        // @ts-ignore
+        const courseId = parseInt(headerElement?.getAttribute("data-book")) || null;
+
+        const teacherButton = document.querySelector(".btn.btn-primary.dropdown-toggle");
+        const teacherText = teacherButton?.getAttribute("title") ?? "";
+        const [fullName, shortName] = teacherText.split(" (").map((x) => x.replace(")", "").trim() || null);
 
         const lessonElements = Array.from(document.querySelectorAll(".tab-pane#history table.table tbody tr"));
         const lessons = [];
@@ -166,7 +176,7 @@ export default defineEventHandler<Promise<Course>>(async (event) => {
               })
             : null;
 
-        return { error: false, lessons, attendance };
+        return { error: false, lessons, attendance, subject, id: courseId, teacher: { short: shortName, full: fullName } };
     } catch (error) {
         console.error(error);
         return setErrorResponse(res, 500);

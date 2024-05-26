@@ -2,7 +2,13 @@
     <div
         class="scrolling-text whitespace-nowrap relative"
         :scrolling-text-id="id"
-        :style="{ font, '--length': scrollLength + 'px', '--container-size': containerSize + 'px', '--duration': duration + 'ms' }"
+        :style="{
+            font,
+            '--length': scrollLength + 'px',
+            '--container-size': containerSize + 'px',
+            '--duration': duration + 'ms',
+            '--animation-delay': startDelay + 'ms'
+        }"
         :animated="isMoving">
         <slot />
         <span class="px-5" v-if="isMoving"></span>
@@ -12,13 +18,13 @@
 
 <script setup lang="ts">
 const id = ref(Math.round(Math.random() * 1000));
-const props = defineProps<{ font?: string }>();
+const props = defineProps<{ font?: string; startDelay?: number; pixelsPerSecond?: number }>();
 const scrollLength = ref(0);
 const isMoving = ref(false);
 const containerSize = ref(0);
 const duration = ref(0);
-const MARGIN = 50;
-const PIXEL_PER_SECOND = 8;
+const MARGIN = 0;
+const PIXELS_PER_SECOND = 8;
 onMounted(async () => {
     const element = document.querySelector<HTMLElement>(`.scrolling-text[scrolling-text-id="${id.value}"]`);
     if (element === null) return;
@@ -32,7 +38,7 @@ onMounted(async () => {
     // 40 pixels is the width of the spacer element
     scrollLength.value = -(width - parentWidth + 40);
     containerSize.value = -parentWidth;
-    duration.value = Math.floor((scrollLength.value / -PIXEL_PER_SECOND) * 1000);
+    duration.value = Math.floor((scrollLength.value / -(props.pixelsPerSecond ?? PIXELS_PER_SECOND)) * 1000);
     isMoving.value = true;
 });
 </script>
@@ -40,6 +46,7 @@ onMounted(async () => {
 <style scoped>
 .scrolling-text[animated="true"] {
     animation: panning infinite var(--duration) linear;
+    animation-delay: var(--animation-delay);
 }
 @keyframes panning {
     0% {

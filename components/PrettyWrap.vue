@@ -6,7 +6,7 @@
 
 <style scoped>
 span {
-    text-wrap: balance;
+    text-wrap: pretty;
     hyphens: auto;
     -webkit-hyphens: auto;
     -moz-hyphens: auto;

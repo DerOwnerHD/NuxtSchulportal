@@ -76,6 +76,10 @@ export async function useAuthenticate() {
 
     // @ts-ignore
     const { token, session } = data.value;
+    // Whenever reauthing on the client, we may just clear our current AES key right here
+    // If another function then invokes this, it gets a new one for its current token
+    // (It would get it anyway but this just removes some small headache)
+    if ("localStorage" in globalThis) localStorage.removeItem("aes-key");
     nuxt.runWithContext(() => {
         useToken().value = token;
         useSession().value = session;

@@ -1,11 +1,11 @@
 <template>
     <div class="h-full py-8">
         <ErrorDisplay
-            :error="errors.get('vertretungsplan')"
+            :error="errors.get(AppID.Vertretungsplan)"
             :retryFunction="fetchVertretungsplan"
-            v-if="errors.has('vertretungsplan')"></ErrorDisplay>
+            v-if="errors.has(AppID.Vertretungsplan)"></ErrorDisplay>
         <div v-else-if="vertretungsplan" class="relative grid place-content-center w-screen max-w-[100vw] h-full">
-            <DeckCard class="vplan-card" v-for="day of vertretungsplan.days" :colors="['#425849', '#1e2921']">
+            <DeckCard class="vplan-card backdrop-blur-lg absolute" v-for="day of vertretungsplan.days" :colors="['#425849', '#1e2921']">
                 <div class="inner grid h-full mb-2">
                     <header class="justify-between flex">
                         <h1>
@@ -146,10 +146,26 @@ watch(vertretungsplan, () => {
 
 <style scoped>
 .inner {
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: min-content 1fr min-content;
 }
 .substitutions td {
     @apply p-1;
     border: solid 1px #ffffff50;
+}
+.deck-card {
+    transition-timing-function: cubic-bezier(0.55, 0.42, 0.58, 0.99);
+    transition-duration: 300ms;
+    transition-property: transform opacity;
+}
+.deck-card:not(:first-child) {
+    @apply top-0 opacity-50;
+}
+.deck-card:first-child {
+    @apply z-[3];
+    transform: rotate(0deg);
+}
+.deck-card:nth-child(2) {
+    @apply z-[2];
+    transform: rotate(5deg);
 }
 </style>

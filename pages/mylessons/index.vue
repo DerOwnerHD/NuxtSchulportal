@@ -1,9 +1,9 @@
 <template>
     <div class="h-full">
-        <ErrorDisplay :error="errors.get('mylessons')" v-if="errors.has('mylessons')"></ErrorDisplay>
+        <ErrorDisplay :error="errors.get(AppID.MyLessons)" v-if="errors.has(AppID.MyLessons)" :retry-function="fetchMyLessonsCourses"></ErrorDisplay>
         <div class="grid py-4 px-2" v-else-if="courses">
             <NuxtLink class="item grid gap-2 rounded-md p-2 items-center" v-for="(course, index) of courses.courses" :to="`/mylessons/${course.id}`">
-                <div class="icon h-16 relative grid">
+                <div class="h-16 relative grid">
                     <NuxtImg class="h-full" src="icons/folder.svg"></NuxtImg>
                     <font-awesome-icon
                         v-if="icons[index]"
@@ -11,9 +11,9 @@
                         :icon="icons[index]"></font-awesome-icon>
                 </div>
                 <div class="description grid overflow-x-clip min-w-0 relative w-full">
-                    <ScrollingText font="bold 17px 'Merriweather'">{{ course.subject }}</ScrollingText>
+                    <ScrollingText font="bold 17px 'Merriweather'" :start-delay="3000">{{ course.subject }}</ScrollingText>
                     <div v-if="course.last_lesson" class="last-lesson flex gap-2 items-center p-1">
-                        <span class="px-2 blurred-background !border-none rounded-full w-fit h-fit whitespace-nowrap">{{
+                        <span class="widget blurred-background whitespace-nowrap">{{
                             relativeOrAbsoluteDateFormat(course.last_lesson.date ?? "", "day-month-short")
                         }}</span>
                         <span class="text-xs whitespace-nowrap">{{ course.last_lesson.topic }}</span>
@@ -47,8 +47,6 @@ const icons = computed(() => {
     background: #ffffff30;
 }
 .description {
-    mask-image: linear-gradient(to right, black 0%, white 1%, white 99%, black 100%);
-    mask-mode: luminance;
     grid-template:
         "a a a"
         "b b c";

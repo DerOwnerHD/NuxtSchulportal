@@ -20,13 +20,15 @@
         <DockItem id="moodle" name="SchoolMoodle" subtitle="35 Kurse - davon 7 abgelaufen" :flyout="moodleFlyout" route="/moodle">
             <NuxtImg class="h-16" src="icons/moodle.svg"></NuxtImg>
         </DockItem>
-        <DockItem id="mylessons" name="Mein Unterricht" subtitle="7 Kurse" :flyout="myLessonsFlyout" route="/mylessons">
+        <DockItem id="mylessons" name="Mein Unterricht" subtitle="7 Kurse" :flyout="useMyLessonsFlyout()" route="/mylessons">
             <NuxtImg class="h-16" src="icons/mylessons.svg"></NuxtImg>
         </DockItem>
     </div>
 </template>
 
 <script setup lang="ts">
+import { useMyLessonsFlyout } from "~/composables/mylessons";
+
 const stundenplanFlyout = [[{ title: "Vergleichen", icon: ["fas", "code-compare"] }]];
 const moodleFlyout: any[] = [];
 const myLessonsFlyout = [[{ title: "Geheime Daten ausblenden", icon: ["fas", "key"] }]];

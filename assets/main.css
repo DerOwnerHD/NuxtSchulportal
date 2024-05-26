@@ -29,6 +29,9 @@ body {
     --light-gold-gradient: linear-gradient(135deg, #dbac3428, #dbac3411);
     --sph-gradient: linear-gradient(to bottom, #18d5ee, #397ed5);
     --sph-glow: #2ba3e0;
+    --fade-mask-size: 0.1;
+    --horizontal-fade-mask: linear-gradient(to right, transparent 0%, white 10%, white 90%, transparent 100%);
+    --vertical-fade-mask: linear-gradient(to bottom, transparent 0%, white 10%, white 90%, transparent 100%);
     color: white;
 }
 @keyframes spin {
@@ -59,14 +62,13 @@ body {
     font-family: "SPSemiBold";
     user-select: none;
 }
-p,
-small {
-    color: white;
-}
 h1 {
-    font-family: "Merriweather";
+    font-family: "Merriweather", serif;
     font-weight: bold;
-    color: white;
+}
+h2 {
+    font-family: "SPBold", sans-serif;
+    @apply text-xl;
 }
 .rounded-button {
     @apply p-1 rounded-full shadow-sm hover:active:scale-90 text-white;
@@ -270,4 +272,7 @@ code.dark {
 }
 * {
     scrollbar-width: none;
+}
+.widget {
+    @apply px-2 !border-none rounded-xl w-fit h-fit;
 }

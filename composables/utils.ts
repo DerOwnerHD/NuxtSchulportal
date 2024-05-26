@@ -18,6 +18,8 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
 
 export const useSSRAlerts = () => useState<string[]>("ssr-alerts", () => []);
 
+export const SPH_BASE = "https://start.schulportal.hessen.de";
+
 export const infoDialogs: { [name: string]: InfoDialog } = {
     LOGIN: {
         disappearAfter: 2000,

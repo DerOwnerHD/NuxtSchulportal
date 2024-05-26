@@ -15,6 +15,7 @@ export async function fetchMyLessonsCourses() {
     const key = (await useAESKey()) ?? undefined;
     const token = useToken();
     const session = useSession();
+    useAppErrors().value.delete(AppID.MyLessons);
     try {
         const response = await $fetch("/api/mylessons/courses", {
             query: {
@@ -27,13 +28,14 @@ export async function fetchMyLessonsCourses() {
         // @ts-ignore
         useMyLessonsCourses().value = { courses: response.courses, expired: response.expired };
         useNotifications().value.set(
-            "mylessons",
+            AppID.MyLessons,
             response.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length
         );
     } catch (error) {
-        useNotifications().value.set("mylessons", -1);
+        useReauthenticate(error);
+        useNotifications().value.set(AppID.MyLessons, -1);
         // @ts-ignore
-        useAppErrors().value.set("mylessons", error?.data ?? error);
+        useAppErrors().value.set(AppID.MyLessons, error?.data ?? error);
     }
 }
 
@@ -70,9 +72,12 @@ export interface MyLessonsCourse {
     id: number;
     attendance?: { [type: string]: number };
     last_lesson?: MyLessonsLesson;
+    // Only available when using /api/mylessons/course
+    lessons: MyLessonsLesson[];
 }
 
 export interface MyLessonsLesson {
+    attendance?: string;
     topic: Nullable<string>;
     date: Nullable<string>;
     entry: number | null;
@@ -117,4 +122,48 @@ export const MYLESSONS_ICON_IDENTIFIERS = [
 export function findIconForMyLessonsCourse(name: string) {
     const group = MYLESSONS_ICON_IDENTIFIERS.find((group) => group.identifiers.some((identifier) => name.toLowerCase().includes(identifier)));
     return group?.icon;
+}
+
+const useCurrentSemester = () => parseInt(useRuntimeConfig().public.currentSemester as string);
+export const useMyLessonsCourseDetails = () => useState("mylessons-course-details", () => new Map<number, MyLessonsCourse>());
+export async function fetchMyLessonsCourse(id: number) {
+    const courses = useMyLessonsCourseDetails();
+    const session = useSession();
+    const token = useToken();
+    const key = (await useAESKey()) ?? undefined;
+    if (courses.value.has(id)) return courses.value.get(id);
+    try {
+        const response = await $fetch("/api/mylessons/course", {
+            query: {
+                session: session.value,
+                token: token.value,
+                school: useSchool(),
+                semester: useCurrentSemester(),
+                id,
+                key
+            }
+        });
+        const { error, ...data } = response;
+        // @ts-ignore
+        courses.value.set(id, data);
+        return data;
+    } catch (error) {
+        useReauthenticate(error);
+        useAppErrors().value.set(AppID.MyLessonsCourse, error);
+        return null;
+    }
+}
+
+export function useMyLessonsFlyout() {
+    const courses = useMyLessonsCourses();
+    if (!courses.value) return [];
+    return [
+        courses.value.courses.map((course) => {
+            return {
+                title: course.subject ?? "",
+                icon: findIconForMyLessonsCourse(course.subject ?? ""),
+                action: () => navigateTo(`/mylessons/${course.id}`)
+            };
+        })
+    ];
 }

@@ -12,9 +12,11 @@
             <main class="max-w-[100vw]">
                 <slot />
             </main>
-            <footer class="flex justify-center w-screen sticky bottom-4" v-if="authed">
-                <DockContainer></DockContainer>
-            </footer>
+            <ClientOnly>
+                <footer class="flex justify-center w-screen sticky bottom-4 z-40" v-if="authed">
+                    <DockContainer></DockContainer>
+                </footer>
+            </ClientOnly>
         </div>
         <div class="fixed top-0 right-0 gap-2 z-[500] flex opacity-0">
             <button onclick="location.reload()">neu laden</button>
@@ -25,7 +27,6 @@
 </template>
 
 <script setup lang="ts">
-const SPH_BASE = "https://start.schulportal.hessen.de";
 const DEFAULT_BG_LOCATION = "/img/schulbg/default-lg.png";
 
 const flyout = useFlyout();
@@ -42,6 +43,7 @@ const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstuf
 
 const ssrAlerts = useSSRAlerts();
 onMounted(() => {
+    window.addEventListener("contextmenu", (event) => event.preventDefault());
     if (!authed) return;
     fetchVertretungsplan();
     fetchMyLessonsCourses();
@@ -49,8 +51,8 @@ onMounted(() => {
 
 const DEFAULT_BACKGROUND_GRADIENT = "#254e63";
 const BACKGROUND_GRADIENTS = [
-    { pattern: /\/vertretungsplan/, color: 0x1fbd54 },
-    { pattern: /\/mylessons(\/.*)?/, color: 0x665ef3 }
+    { pattern: /^\/vertretungsplan$/, color: 0x1fbd54 },
+    { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3 }
 ];
 const BACKGROUND_COLOR_MULTIPLIER = 0.4;
 
