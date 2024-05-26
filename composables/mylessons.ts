@@ -115,8 +115,10 @@ export const MYLESSONS_ICON_IDENTIFIERS = [
     { icon: ["fas", "flask-vial"], identifiers: ["che"] },
     { icon: ["fas", "hands-praying"], identifiers: ["reli"] },
     { icon: ["fas", "earth-americas"], identifiers: ["geo", "erd"] },
-    { icon: ["fas", "language"], identifiers: ["engl", "spanisch", "franz"] },
-    { icon: ["fas", "masks-theater"], identifiers: ["ds", "theater", "darstellendes spiel"] }
+    { icon: ["fas", "language"], identifiers: ["engl", "spanisch", "franz", "latein", "griech", "russisch"] },
+    { icon: ["fas", "masks-theater"], identifiers: ["ds", "theater", "darstellendes spiel"] },
+    { icon: ["fas", "running"], identifiers: ["sport"] },
+    { icon: ["fas", "pen"], identifiers: ["deutsch"] }
 ];
 
 export function findIconForMyLessonsCourse(name: string) {

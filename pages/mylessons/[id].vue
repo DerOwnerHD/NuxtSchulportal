@@ -150,6 +150,10 @@ function updateScroll() {
         card.style.scale = scale.toFixed(4);
     }
 }
+// The scrollend event does not exist on Safari *sigh*.
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollend_event#browser_compatibility
+// => This causes these devices to fail to snap to any element
+// and also it causes the bottom item counter to not refresh
 function endScroll() {
     const container = document.querySelector<HTMLElement>(".lessons-container");
     if (container === null) return;
