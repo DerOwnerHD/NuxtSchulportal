@@ -1,5 +1,5 @@
 <template>
-    <div class="deck-card blurred-background w-72 p-5 rounded-2xl mx-auto left-0 right-0 h-full max-h-full overflow-x-clip overflow-y-scroll">
+    <div class="deck-card w-72 min-w-72 max-w-72 p-5 rounded-2xl mx-auto left-0 right-0 h-full max-h-full overflow-x-clip overflow-y-scroll">
         <slot />
     </div>
 </template>
