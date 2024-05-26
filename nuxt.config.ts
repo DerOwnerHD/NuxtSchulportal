@@ -1,7 +1,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: { enabled: false },
-    modules: ["@nuxtjs/tailwindcss"],
+    app: {
+        pageTransition: {
+            name: "page",
+            mode: "out-in"
+        },
+        head: {
+            htmlAttrs: {
+                lang: "de"
+            },
+            title: "Schulportal Hessen",
+            link: [
+                { rel: "preload", href: "/font/regular.otf", as: "font", type: "font/otf" },
+                { rel: "preload", href: "/font/semibold.otf", as: "font", type: "font/otf" },
+                { rel: "preload", href: "/font/bold.otf", as: "font", type: "font/otf" }
+            ]
+        }
+    },
+    modules: ["@nuxtjs/tailwindcss", "@nuxt/image"],
     css: ["@fortawesome/fontawesome-svg-core/styles.css", "assets/main.css"],
     ssr: true,
     devServer: { port: 80 },

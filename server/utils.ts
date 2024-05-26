@@ -340,3 +340,5 @@ export interface BasicResponse {
     error: boolean;
     error_details?: any;
 }
+
+export type Nullable<T> = T | null;

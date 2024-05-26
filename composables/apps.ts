@@ -1,37 +1,3 @@
-export interface VertretungsDay {
-    date: string;
-    day: string;
-    day_of_week: string;
-    relative: "heute" | "morgen" | "";
-    vertretungen: Vertretung[];
-    news: string[];
-}
-
-export interface Vertretungsplan {
-    days: VertretungsDay[];
-    last_updated: string | null;
-    updating: boolean;
-}
-
-export interface Vertretung {
-    lessons: {
-        list: number[];
-        from: number;
-        to: number;
-    };
-    class: string | null;
-    substitute: string | null;
-    teacher: string | null;
-    subject: string | null;
-    subject_old: string | null;
-    room: string | null;
-    note: string | null;
-}
-
-interface VertretungenResponse extends Vertretungsplan {
-    error: boolean;
-}
-
 interface MoodleConversationsResponse {
     error: boolean;
     error_details?: any;
@@ -187,43 +153,7 @@ interface MoodleEventsResponse {
 }
 
 export const useSheetState = () => useState<{ open: string[] }>("sheets");
-export const useAppErrors = () => useState<AppErrorState>("app-errors");
 export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
-
-/**
- * Fetches the data of the Vertretungsplan from the API
- * @returns A list of all the days listed on the plan or null - which would indicate that the client should reauthenticate
- */
-export const useVplan = async (): Promise<Vertretungsplan | string> => {
-    const token = useToken().value;
-    if (!token) return "401: Unauthorized";
-
-    const { data, error: fetchError } = await useFetch<VertretungenResponse>("/api/vertretungen", {
-        method: "GET",
-        query: { school: useSchool() },
-        headers: { Authorization: token },
-        retry: false
-    });
-
-    const { error, ...plan } = data.value || {};
-    return handleReponse(fetchError, data, plan);
-};
-
-export const useMoodleCourses = async (): Promise<MoodleCourse[] | string> => {
-    const credentials = checkMoodleCredentials();
-    if (typeof credentials === "string") return credentials;
-
-    const { data, error } = await useFetch<MoodleCourseResponse>("/api/moodle/courses", {
-        method: "GET",
-        query: {
-            ...credentials,
-            school: useCredentials().value.school
-        },
-        retry: false
-    });
-
-    return handleReponse(error, data, data.value?.courses);
-};
 
 export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
     const credentials = checkMoodleCredentials();

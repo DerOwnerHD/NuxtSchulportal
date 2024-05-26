@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 14">
+            <defs>
+                <linearGradient id="outer-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#018077" offset="0%"></stop>
+                    <stop stop-color="#024659" offset="50%"></stop>
+                    <stop stop-color="#072844" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="white-gradient">
+                    <stop stop-color="#a7e5f9" offset="0%"></stop>
+                    <stop stop-color="#fdfffc" offset="15%"></stop>
+                </linearGradient>
+                <linearGradient id="left-gradient">
+                    <stop stop-color="#06a68a" offset="0%"></stop>
+                    <stop stop-color="#05d975" offset="45%"></stop>
+                </linearGradient>
+                <linearGradient id="bottom-right-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#faa409" offset="0%"></stop>
+                    <stop stop-color="#fb5000" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="right-gradient" x1="0" x2="1" y="0" y2="1">
+                    <stop stop-color="#b8ef42" offset="0%"></stop>
+                    <stop stop-color="#5be25a" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="bottom-left-gradient">
+                    <stop stop-color="#0c8ced" offset="0%"></stop>
+                    <stop stop-color="#029efb" offset="45%"></stop>
+                </linearGradient>
+                <linearGradient id="middle-gradient">
+                    <stop stop-color="#04d38b" offset="0%"></stop>
+                    <stop stop-color="#04d38b" offset="30%"></stop>
+                    <stop stop-color="#00e875" offset="30%"></stop>
+                    <stop stop-color="#00e875" offset="70%"></stop>
+                    <stop stop-color="#04d38b" offset="70%"></stop>
+                    <stop stop-color="#04d38b" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="bottom-middle-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#90f1e9" offset="0%"></stop>
+                    <stop stop-color="#42d8fa" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <path fill="url(#outer-gradient)" d="M 0 1.5 C 0 0.5 0.5 0 1.5 0 L 8.5 0 C 9.5 0 10 0.5 10 1.4 L 10 12.5 C 10 13.5 9.5 14 8.5 14 L 1.5 14 C 0.5 14 0 13.5 0 12.5 L 0 1.5"></path>
+            <path fill="url(#left-gradient)" d="M 0.8 2.5 C 0.8 1 1 0.8 2.5 0.8 L 3.6 0.8 L 3.6 3 L 0.8 3 L 0.8 2.5"></path>
+            <path fill="url(#middle-gradient)" d="M 3.6 0.8 L 6.4 0.8 L 6.4 3 L 3.6 3 L 3.6 0.8"></path>
+            <path fill="url(#right-gradient)" d="M 9.2 3 L 9.2 2.5 C 9.2 1 9 0.8 7.5 0.8 L 6.4 0.8 L 6.4 3 L 9.2 3"></path>
+            <path fill="url(#white-gradient)" d="M 0.8 3 L 0.8 4.4 L 9.2 4.4 L 9.2 3 L 0.8 3"></path>
+            <path fill="url(#left-gradient)" d="M 0.8 4.4 L 0.8 5.8 L 3.6 5.8 L 3.6 4.4 L 0.8 4.4"></path>
+            <path fill="url(#middle-gradient)" d="M 3.6 4.4 L 3.6 5.8 L 6.4 5.8 L 6.4 4.4 L 3.6 4.4"></path>
+            <path fill="url(#right-gradient)" d="M 6.4 4.4 L 6.4 5.8 L 9.2 5.8 L 9.2 4.4 L 6.4 4.4"></path>
+            <path fill="url(#white-gradient)" d="M 0.8 5.8 L 0.8 7.2 L 9.2 7.2 L 9.2 5.8 L 0.8 5.8"></path>
+            <path fill="url(#left-gradient)" d="M 0.8 7.2 L 0.8 8.6 L 3.6 8.6 L 3.6 7.2 L 0.8 7.2"></path>
+            <path fill="url(#middle-gradient)" d="M 3.6 7.2 L 3.6 8.6 L 6.4 8.6 L 6.4 7.2 L 3.6 7.2"></path>
+            <path fill="url(#right-gradient)" d="M 6.4 7.2 L 6.4 8.6 L 9.2 8.6 L 9.2 7.2 L 6.4 7.2"></path>
+            <path fill="url(#white-gradient)" d="M 0.8 8.6 L 0.8 9.7 C 0.8 9.9 0.9 10 1.1 10 L 8.9 10 C 9.1 10 9.2 9.9 9.2 9.7 L 9.2 8.6 L 0.8 8.6"></path>
+            <path fill="url(#white-gradient)" d="M 3.5 12.5 L 6.5 12.5 A 1 1 0 0 0 6.5 11.5 L 3.5 11.5 A 1 1 0 0 0 3.5 12.5"></path>      </svg>

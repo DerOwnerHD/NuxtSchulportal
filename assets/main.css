@@ -1,22 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Days+One&display=swap");
 body {
     width: 100vw;
     height: 100vh;
     background: black;
-    overflow: scroll;
-}
-#background {
-    background: #141414;
-    height: 100vh;
-    width: 100vw;
-    overflow: hidden;
-    z-index: -2;
-}
-#background > #overlay {
-    height: inherit;
-    width: inherit;
-    opacity: 15%;
-    filter: blur(3px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 :root {
     -webkit-tap-highlight-color: transparent;
@@ -27,9 +17,21 @@ body {
     --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
     --small-button-color: #4e5760;
     --full-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 0%, #ffffff 50%, transparent 100%) 1;
+    --white-gradient-border-image: linear-gradient(var(--gradient-border-degrees), transparent 10%, #ffffff 50%, transparent 90%) 1;
     --white-gradient-border-image-zero: linear-gradient(0deg, transparent 0%, #ffffff 50%, transparent 100%) 1;
     --gradient-border-degrees: 90deg;
+    --basic-card-background: linear-gradient(to bottom, #282828, #121212);
+    --fancy-basic-card-background: linear-gradient(to bottom, #833ab4 0%, #fd1d1d 50%, #fcb045 100%);
+    --button-scale-transition: transform 200ms;
+    --fast-easing-function: cubic-bezier(0.39, 0.79, 0.13, 1.04);
+    --small-white-border: solid 2px #ffffff20;
+    --light-white-gradient: linear-gradient(135deg, #ffffff28, #ffffff11);
+    --light-gold-gradient: linear-gradient(135deg, #dbac3428, #dbac3411);
+    --sph-gradient: linear-gradient(to bottom, #18d5ee, #397ed5);
+    --sph-glow: #2ba3e0;
+    --fade-mask-size: 0.1;
+    --horizontal-fade-mask: linear-gradient(to right, transparent 0%, white 10%, white 90%, transparent 100%);
+    --vertical-fade-mask: linear-gradient(to bottom, transparent 0%, white 10%, white 90%, transparent 100%);
     color: white;
 }
 @keyframes spin {
@@ -39,6 +41,10 @@ body {
     to {
         transform: rotate(360deg);
     }
+}
+.blurred-background {
+    background: var(--light-white-gradient);
+    border-top: var(--small-white-border);
 }
 @font-face {
     font-family: "SPBold";
@@ -52,19 +58,17 @@ body {
     font-family: "SPRegular";
     src: url("/font/regular.otf");
 }
-* {
+body {
     font-family: "SPSemiBold";
     user-select: none;
 }
-p,
-small {
-    color: white;
-}
-h1,
-*[header-alike] {
-    font-family: "Bricolage Grotesque";
+h1 {
+    font-family: "Merriweather", serif;
     font-weight: bold;
-    color: white;
+}
+h2 {
+    font-family: "SPBold", sans-serif;
+    @apply text-xl;
 }
 .rounded-button {
     @apply p-1 rounded-full shadow-sm hover:active:scale-90 text-white;
@@ -165,15 +169,6 @@ h1,
     background-size: var(--size);
     animation: 900ms spin infinite linear;
 }
-.basic-card {
-    background: linear-gradient(to bottom, #282828, #121212);
-    @apply w-80 shadow-lg rounded-xl mx-5 text-white py-3;
-    border-top: solid 1px;
-    border-image: var(--white-gradient-border-image);
-    h1 {
-        @apply text-2xl mt-1;
-    }
-}
 .button-with-symbol {
     @apply rounded-full bg-white text-black mx-1.5 px-3 py-1 mt-2 hover:active:scale-[0.95];
     svg {
@@ -207,10 +202,6 @@ h1,
         background: #3c445c;
     }
 }
-.placeholder *:not([excluded]) {
-    background: #3c445c;
-    animation: loading infinite 2000ms ease-in-out;
-}
 dialog::backdrop {
     background: #00000090;
 }
@@ -228,6 +219,9 @@ code {
     span {
         font-family: inherit;
     }
+}
+pre.light,
+code.light {
     color: #abb2bf;
     .string {
         color: #7ac379;
@@ -245,10 +239,40 @@ code {
         color: #e06c75;
     }
 }
-#main-content {
-    height: calc(100vh - 4rem);
-    overflow-y: visible;
+pre.dark,
+code.dark {
+    color: #dae2f1;
+    .string {
+        color: #7ac379;
+    }
+    .number {
+        color: #d19a66;
+    }
+    .boolean {
+        color: #61afef;
+    }
+    .null {
+        color: #c678dd;
+    }
+    .key {
+        color: #e06c75;
+    }
 }
-#api-error {
-    z-index: 10;
+.page-enter-active,
+.page-leave-active {
+    transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+    opacity: 0;
+    filter: blur(1rem);
+}
+*::-webkit-scrollbar {
+    display: none;
+}
+* {
+    scrollbar-width: none;
+}
+.widget {
+    @apply px-2 !border-none rounded-xl w-fit h-fit;
 }

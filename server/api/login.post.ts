@@ -1,8 +1,19 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, parseCookie, patterns, removeBreaks, setErrorResponse, setResponse, validateBody, parseCookies } from "../utils";
+import {
+    generateDefaultHeaders,
+    parseCookie,
+    patterns,
+    removeBreaks,
+    setErrorResponse,
+    setResponse,
+    validateBody,
+    parseCookies,
+    BasicResponse
+} from "../utils";
 import { constants, publicEncrypt } from "crypto";
 import cryptoJS from "crypto-js";
+import { SPH_PUBLIC_KEY, generateUUID } from "../crypto";
 // For some reason "Universität Kassel (Fachbereich 2) Kassel" has id 206568, like why?
 const schema = {
     body: {
@@ -14,9 +25,17 @@ const schema = {
     }
 };
 
-export default defineEventHandler<
-    Promise<{ error: boolean; error_details?: any; token: string; session: string; autologin: string; cooldown?: number }>
->(async (event) => {
+interface Response extends BasicResponse {
+    token: string;
+    // The session represents the SPH-Session header, thus not being available using legacy login
+    session: string;
+    // Not given on every request, but the client is supposed to know that if it does not supply autologin: true, it cannot expect to get it back
+    autologin: string;
+    // Only given when login failed multiple times
+    cooldown?: number;
+}
+
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
@@ -131,17 +150,6 @@ export default defineEventHandler<
     }
 });
 
-function generateUUID() {
-    let time = performance.now();
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx-xxxxxx3xx".replace(/[xy]/g, (char) => {
-        const random = (time + Math.random() * 16) % 16 | 0;
-        time = Math.floor(time / 16);
-        return (char === "x" ? random : (random & 0x3) | 0x8).toString(16);
-    });
-}
-
-const PUBLIC_KEY =
-    "-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgGpTJwSxNDmELTK+qfZUowESiPD/\nrFaHQ7UyLEiLtleYGb6bvIFG+hAa25RY6ZP0a653QKfA5LFUs6IFQLU1JT9Uahtw\nHAAsb0oLWJukaa/6XGqRGTM3tKAWIQOxEqIxS8zBHdQZiZQZmuZlSrwdJwJLBoSr\nbp8iQWB1XMYlJigLAgMBAAE=\n-----END PUBLIC KEY-----";
 /**
  * If for some reason, most likely when the servers are under heavy load,
  * the login using login.schulportal.hessen.de does not succeed, the old
@@ -168,7 +176,7 @@ async function attemptLegacyLogin(res: ServerResponse<IncomingMessage>, username
     const key = cryptoJS.AES.encrypt(generateUUID(), generateUUID()).toString();
     const encrypted = publicEncrypt(
         {
-            key: PUBLIC_KEY,
+            key: SPH_PUBLIC_KEY,
             padding: constants.RSA_PKCS1_PADDING
         },
         Buffer.from(key)

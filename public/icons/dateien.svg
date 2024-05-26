@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -8 27 22">
+            <defs>
+                <linearGradient id="folder-gradient" x1="0" x2="1" y1="0" y2="1">
+                    <stop stop-color="#ffc90c" offset="0%"></stop>
+                    <stop stop-color="#f86401" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="paper-gradient" x1="0" x2="1" y1="0" y2="1">
+                    <stop stop-color="#fefffb" offset="0%"></stop>
+                    <stop stop-color="#dee1f9" offset="70%"></stop>
+                </linearGradient>
+            </defs>
+            <path fill="url(#folder-gradient)" d="M 14 -3 L 14 -5 C 14 -6 15 -6 15 -6 L 22 -6 C 22 -6 23 -6 23 -5 L 23 -3"></path>
+            <path fill="url(#paper-gradient)" d="M 4 1 L 4 -4 C 4 -5 5 -6 7 -6 L 10 -6 C 11 -6 13 -5 13 -4 L 23 -4 L 23 1"></path>
+            <path fill="#f0fef7" d="M 0 3 C -0.02 1.003 1 0 2 0 L 25 0 C 26 0 27 1 27 3"></path>
+            <path fill="url(#folder-gradient)" d="M.22 3.984 2 9C2.005 9.003 4 14 6 14L21 14C23 14 25 9 25 9L26.667 3.985C26.778 3.6567 26.997 3.362 27 3 27 1 26 1 23 1L4 1C1 1 0 1 0 3 0 3.3333.123 3.685.218 3.982"></path>
+            <path fill="#d1deff" d="M 7 0 C 6 0 6 -1 6 -1 C 6 -1 6 -2 7 -2 L 11 -2 C 12 -2 12 -1 12 -1 C 12 -1 12 0 11 0 L 7 0"></path>
+            <path fill="#b0c2fc" d="M 14 0 C 13 0 13 -1 13 -1 C 13 -1 13 -2 14 -2 L 21 -2 C 22 -2 22 -1 22 -1 C 22 -1 22 0 21 0 L 14 0"></path>
+        </svg>

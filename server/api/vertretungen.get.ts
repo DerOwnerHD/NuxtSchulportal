@@ -2,6 +2,7 @@ import { hasInvalidSidRedirect } from "../failsafe";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     BasicResponse,
+    Nullable,
     authHeaderOrQuery,
     generateDefaultHeaders,
     hasInvalidAuthentication,
@@ -145,7 +146,7 @@ interface VertretungsDay {
 
 interface Vertretungsplan extends BasicResponse {
     days: VertretungsDay[];
-    last_updated: string | null;
+    last_updated: Nullable<string>;
     updating: boolean;
 }
 
@@ -155,11 +156,11 @@ interface Vertretung {
         from: number;
         to: number;
     };
-    class: string | null;
-    substitute: string | null;
-    teacher: string | null;
-    subject: string | null;
-    subject_old: string | null;
-    room: string | null;
-    note: string | null;
+    class: Nullable<string>;
+    substitute: Nullable<string>;
+    teacher: Nullable<string>;
+    subject: Nullable<string>;
+    subject_old: Nullable<string>;
+    room: Nullable<string>;
+    note: Nullable<string>;
 }

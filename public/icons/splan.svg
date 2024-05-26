@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="1 1 16 24">
+            <defs>
+                <linearGradient id="inner-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#8ea8db" offset="0%"></stop>
+                    <stop stop-color="#f3fffb" offset="10%"></stop>
+                </linearGradient>
+                <linearGradient id="upper-water-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#06c8f0" offset="0%"></stop>
+                    <stop stop-color="#0964f3" offset="50%"></stop>
+                </linearGradient>
+                <linearGradient id="lower-water-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#0597fe" offset="0%"></stop>
+                    <stop stop-color="#1123a1" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="outer-water-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#a8f0f7" offset="0%"></stop>
+                    <stop stop-color="#4c91de" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="bottom-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#b2fdfd" offset="0%"></stop>
+                    <stop stop-color="#b2fdfd" offset="33%"></stop>
+                    <stop stop-color="#55d1f6" offset="33%"></stop>
+                    <stop stop-color="#55d1f6" offset="66%"></stop>
+                    <stop stop-color="#1f5acd" offset="66%"></stop>
+                    <stop stop-color="#1f5acd" offset="100%"></stop>
+                </linearGradient>
+                <linearGradient id="outside-gradient" x1="0" x2="0" y1="0" y2="1">
+                    <stop stop-color="#fefffb" offset="0%"></stop>
+                    <stop stop-color="#dee1f9" offset="100%"></stop>
+                </linearGradient>
+            </defs>
+            <path fill="url(#inner-gradient)" d="M 3.19 3.99 L 14.8 4 C 17 5 14 10 10.5 12 C 9.52 13 9.52 13 10.96 14.02 C 14.11 16 17.06 20.99 14.85 22 L 3.16 22 C 1 21 4 16 7.01 14.02 C 8.49 13 8.49 13 7.49 11.99 C 3.99 9.99 0.99 4.99 3.19 3.99"></path>
+            <path fill="url(#upper-water-gradient)" d="M 2 6 L 16 6 C 15.1 8.4 13.3 10.8 11 12.5 L 10 12.5 C 9.5 13 9.5 13 9.5 13.5 L 9.5 15 C 9.5 15.3 9.3 15.6 9 15.6 C 8.7 15.6 8.5 15.3 8.5 15 L 8.5 13.5 C 8.5 13 8.5 13 8 12.5 C 5.4 11.2 3.1 8.9 2 6 M 9 17 C 8.7 17 8.5 17.2 8.5 17.5 C 8.5 17.8 8.7 18 9 18 C 9.3 18 9.5 17.8 9.5 17.5 C 9.5 17.2 9.3 17 9 17"></path>
+            <path fill="url(#lower-water-gradient)" d="M 2.6 20 C 5 20 8 18.5 9 18.5 C 10 18.5 13 20 15.4 20 L 15.4 22 L 2.4 22 Z"></path>
+            <path fill="#02ccfc" d="M 2.6 20 C 5 20 8 18.5 9 18.5 C 10 18.5 13 20 15.4 20 L 15.5 20.5 C 13 20.5 10 19 9 19 C 8 19 5 20.5 2.5 20.5 Z"></path>
+            <path fill="url(#outside-gradient)" d="M 5 2 L 2 2 C 1.5 2 1 2.5 1 3 C 1 3.5 1.5 4 2 4 L 2 4 C 0 5 3 10 6 12 C 7 13 7 13 6 14 C 3 16 0 21 2 22 L 2 22 C 1.5 22 1 22.5 1 23 C 1 23.5 1.5 24 2 24 L 16 24 C 16.5 24 17 23.5 17 23 C 17 22.5 16.5 22 16 22 L 16 22 C 18 21 15 16 12 14 C 11 13 11 13 12 12 C 15 10 18 5 16 4 L 16 4 C 16.5 4 17 3.5 17 3 C 17 2.5 16.5 2 16 2 L 5 2 M 3 4 L 14.5 4 C 17 5 14 10 10.5 12 C 9.5 13 9.5 13 10.5 14 C 14 16 17 21 14.5 22 L 3.5 22 C 1 21 4 16 7.5 14 C 8.5 13 8.5 13 7.5 12 C 4 10 1 5 3.5 4"></path>
+            <path fill="url(#outer-water-gradient)" d="M 2.62 20 C 2.22 20 1.67 20 1.42 20.18 C 1.23 20.9 1.32 21.71 2 22 L 3.5 22 C 2.65 21.67 2.61 20.82 2.58 20.49 L 2.64 20 L 2.62 20 M 15.39 20 L 16.54 20 C 16.71 20.57 16.82 21.64 16 22 L 14.5 22 C 15.25 21.7 15.39 21.08 15.42 20.5"></path>
+            <path fill="url(#bottom-gradient)" d="M 2 22 C 1.5 22 1 22.5 1 23 C 1 23.5 1.5 24 2 24 L 16 24 C 16.5 24 17 23.5 17 23 C 17 22.5 16.5 22 16 22 L 2 22"></path>
+        </svg>

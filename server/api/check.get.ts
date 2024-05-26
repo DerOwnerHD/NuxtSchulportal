@@ -1,5 +1,7 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
+    BasicResponse,
+    Nullable,
     authHeaderOrQuery,
     generateDefaultHeaders,
     patterns,
@@ -9,10 +11,15 @@ import {
     validateQuery
 } from "../utils";
 
+interface Response extends BasicResponse {
+    valid: boolean;
+    remaining: Nullable<number>;
+}
+
 // Both of these are provided sometimes, other times it sends us a pretty error page.
 // If the token is indeed valid, the remaining time would be in the 700s or 800s
 const INVALID_TIMES = ["0", "300", "100000"];
-export default defineEventHandler(async (event) => {
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
