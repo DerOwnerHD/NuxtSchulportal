@@ -6,8 +6,8 @@
             </PrettyWrap>
         </h2>
         <div class="flex gap-2 flex-wrap justify-center w-full">
-            <div class="widget bg-gray-500">{{ relativeOrAbsoluteDateFormat(lesson.date ?? "", "day-month-short") }}</div>
-            <div class="widget bg-gray-500">{{ lesson.attendance }}</div>
+            <div class="widget blurred-background">{{ relativeOrAbsoluteDateFormat(lesson.date ?? "", "day-month-short") }}</div>
+            <div class="widget blurred-background" v-if="lesson.attendance?.length">{{ lesson.attendance }}</div>
         </div>
         <section v-if="lesson.homework">
             <header class="flex justify-between">
@@ -18,7 +18,7 @@
                 <ButtonDefault :icon="['fas', 'check']" v-if="!lesson.homework.done" @click="markHomeworkAsDone">erledigt</ButtonDefault>
                 <span v-else>🥳 erledigt</span>
             </header>
-            <div v-html="lesson.homework.description"></div>
+            <div class="text-left" v-html="lesson.homework.description"></div>
         </section>
         <section v-if="lesson.downloads.files.length">
             <header class="flex justify-between">
@@ -95,7 +95,8 @@ async function markHomeworkAsDone() {
     grid-template-columns: min-content 1fr;
 }
 section {
-    @apply rounded-lg p-2 w-full bg-gray-500;
+    @apply rounded-lg p-2 w-full;
+    background: var(--light-white-gradient);
 }
 .upload {
     border: solid 2px white;

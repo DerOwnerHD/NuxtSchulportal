@@ -17,19 +17,9 @@
                 </div>
             </header>
             <main class="grid">
-                <div
-                    class="lessons-container opacity-0 grid w-screen gap-4 overflow-scroll"
-                    @scroll="updateScroll"
-                    @scrollend="endScroll"
-                    :class="{ '!overflow-hidden': courseData.lessons.length === 1 }">
-                    <DeckCard v-if="showElements" previous :class="{ 'opacity-0': !previousLesson }">
-                        <MyLessonsCard :lesson="previousLesson" :course="courseData.id"></MyLessonsCard>
-                    </DeckCard>
-                    <DeckCard v-if="showElements" current>
-                        <MyLessonsCard :lesson="selectedLesson" :course="courseData.id"></MyLessonsCard>
-                    </DeckCard>
-                    <DeckCard v-if="showElements" next :class="{ 'opacity-0': !nextLesson }">
-                        <MyLessonsCard :lesson="nextLesson" :course="courseData.id"></MyLessonsCard>
+                <div class="lessons-container opacity-0 flex w-screen overflow-scroll px-10" @scroll="updateScroll" @scrollend="endScroll">
+                    <DeckCard v-for="lesson of courseData.lessons" v-if="showElements">
+                        <MyLessonsCard :lesson="lesson" :course="courseData.id"></MyLessonsCard>
                     </DeckCard>
                 </div>
                 <ItemCounter :items="counters" :index="selected" @move="updateSelectedLesson"></ItemCounter>
@@ -53,18 +43,6 @@ const icon = computed(() => {
     return findIconForMyLessonsCourse(courseData.value.subject ?? "");
 });
 const selected = ref(0);
-const selectedLesson = computed(() => courseData.value?.lessons.at(selected.value) ?? null);
-const previousLesson = computed(() => {
-    if (!courseData.value) return null;
-    // If we just invoked -1 as an index, we would get the last item
-    if (selected.value === 0) return null;
-    return courseData.value.lessons.at(selected.value - 1) ?? null;
-});
-const nextLesson = computed(() => {
-    if (!courseData.value) return null;
-    if (selected.value === courseData.value.lessons.length - 1) return null;
-    return courseData.value.lessons.at(selected.value + 1) ?? null;
-});
 const counters = computed(() => {
     if (!courseData.value) return [];
     return courseData.value.lessons.map((x) => {
@@ -76,6 +54,22 @@ const counters = computed(() => {
 });
 function updateSelectedLesson(lesson: number) {
     selected.value = lesson;
+    const container = document.querySelector<HTMLElement>(".lessons-container");
+    if (container === null) return;
+    const child = container.querySelector<HTMLElement>(`.deck-card:nth-child(${lesson + 1})`);
+    if (child === null) return;
+    child.style.transitionDuration = "0ms";
+    child.style.scale = "1";
+    [lesson - 1, lesson + 1].map(async (x) => {
+        const child = container.children[x] as HTMLElement;
+        if (!child) return;
+        child.style.transitionDuration = "0ms";
+        child.style.scale = "0.85";
+        await nextTick();
+        child.style.transitionDuration = "";
+    });
+    child.scrollIntoView({ behavior: "instant", inline: "center" });
+    child.style.transitionDuration = "";
 }
 onMounted(() => {
     loadCourse();
@@ -91,6 +85,7 @@ async function loadCourse() {
 }
 
 const CARD_WIDTH = 288;
+const CARD_CENTER = CARD_WIDTH / 2;
 watch(courseData, async () => {
     await useWait(100);
     const container = document.querySelector<HTMLElement>(".lessons-container");
@@ -100,44 +95,35 @@ watch(courseData, async () => {
     parent.style.height = parent.clientHeight + "px";
     showElements.value = true;
     await nextTick();
-    container.scrollTo({ left: container.scrollWidth / 2 - CARD_WIDTH / 2 - (window.innerWidth - CARD_WIDTH) / 2 });
+    updateScroll();
     container.style.opacity = "1";
 });
 
-const scrollStart = ref<number | null>(null);
-const MAX_SCROLL = CARD_WIDTH * 0.9;
-const CARD_MARGIN = 16;
+const minimalScale = ref(1);
+const closestCard = ref({ index: 0, scale: 0 });
 function updateScroll() {
     const container = document.querySelector<HTMLElement>(".lessons-container");
     if (container === null) return;
-    if (scrollStart.value === null) scrollStart.value = container.scrollLeft;
-    const difference = container.scrollLeft - scrollStart.value;
-    const scale = clampNumber(0.9 + 0.1 * (Math.abs(difference) / CARD_WIDTH) + 0.02, 0.9, 1).toFixed(3);
-    const scaleForSelected = clampNumber(1 - 0.1 * (Math.abs(difference) / CARD_WIDTH), 0.9, 1).toFixed(3);
-    // @ts-ignore
-    container.children[0].style.transform = `scale(${scale})`;
-    // @ts-ignore
-    container.children[1].style.transform = `scale(${scaleForSelected})`;
-    // @ts-ignore
-    container.children[2].style.transform = `scale(${scale})`;
-    if (Math.abs(difference) > MAX_SCROLL) {
-        if (difference > 0 && nextLesson.value) selected.value += 1;
-        else if (difference < 0 && previousLesson.value) selected.value -= 1;
-        container.scrollTo({ left: container.scrollWidth / 2 - CARD_WIDTH / 2 - (window.innerWidth - CARD_WIDTH) / 2, behavior: "instant" });
-        scrollStart.value = null;
+    const cards = Array.from(container.querySelectorAll<HTMLElement>(".deck-card"));
+    const screenCenter = window.innerWidth / 2;
+    closestCard.value.scale = 0;
+    for (let i = 0; i < cards.length; i++) {
+        const card = cards[i];
+        const dimensions = card.getBoundingClientRect();
+        const cardCenter = dimensions.left + CARD_CENTER;
+        const cardDistance = Math.abs(screenCenter - cardCenter);
+        const scale = clampNumber(cardDistance > 2 * CARD_WIDTH ? 0 : 1 - 0.2 * (cardDistance / window.innerWidth), 0.85, 1);
+        if (scale < minimalScale.value) minimalScale.value = scale;
+        if (closestCard.value.scale < scale) closestCard.value = { scale, index: i };
+        card.style.scale = scale.toFixed(4);
     }
 }
 function endScroll() {
     const container = document.querySelector<HTMLElement>(".lessons-container");
     if (container === null) return;
-    if (scrollStart.value === null) return;
-    const difference = container.scrollLeft - scrollStart.value;
-    if (Math.abs(difference) > MAX_SCROLL / 2) {
-        if (difference > 0 && nextLesson.value) container.scrollTo({ left: scrollStart.value + MAX_SCROLL + CARD_MARGIN, behavior: "smooth" });
-        else if (difference < 0 && previousLesson.value) container.scrollTo({ left: 0, behavior: "smooth" });
-    } else {
-        container.scrollTo({ left: scrollStart.value, behavior: "smooth" });
-    }
+    const child = container.querySelector(`.deck-card:nth-child(${closestCard.value.index + 1})`);
+    if (child === null) return;
+    child.scrollIntoView({ behavior: "smooth", inline: "center" });
 }
 </script>
 
@@ -156,7 +142,6 @@ main {
     grid-template-rows: 1fr min-content;
 }
 .lessons-container {
-    grid-template-columns: 1fr 1fr 1fr;
 }
 .deck-card[previous],
 .deck-card[next] {
@@ -170,5 +155,8 @@ main {
 }
 .deck-card {
     @apply h-full max-h-full overflow-y-scroll;
+    transition-property: scale !important;
+    transition-duration: 100ms;
+    background: radial-gradient(#302e44, #302f37) center;
 }
 </style>

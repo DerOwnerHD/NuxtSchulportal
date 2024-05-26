@@ -5,7 +5,7 @@
             :retryFunction="fetchVertretungsplan"
             v-if="errors.has(AppID.Vertretungsplan)"></ErrorDisplay>
         <div v-else-if="vertretungsplan" class="relative grid place-content-center w-screen max-w-[100vw] h-full">
-            <DeckCard class="vplan-card backdrop-blur-lg absolute" v-for="day of vertretungsplan.days" :colors="['#425849', '#1e2921']">
+            <DeckCard class="vplan-card backdrop-blur-lg absolute blurred-background" v-for="day of vertretungsplan.days" :colors="['#425849', '#1e2921']">
                 <div class="inner grid h-full mb-2">
                     <header class="justify-between flex">
                         <h1>
