@@ -17,7 +17,7 @@
                 </div>
             </header>
             <main class="grid">
-                <div class="lessons-container opacity-0 flex w-screen overflow-scroll px-10" @scroll="updateScroll" @scrollend="endScroll">
+                <div class="lessons-container opacity-0 flex w-screen overflow-scroll px-10 min-h-72" @scroll="updateScroll" @scrollend="endScroll">
                     <DeckCard v-for="lesson of courseData.lessons" v-if="showElements">
                         <MyLessonsCard :lesson="lesson" :course="courseData.id"></MyLessonsCard>
                     </DeckCard>
@@ -73,10 +73,25 @@ function updateSelectedLesson(lesson: number) {
 }
 onMounted(() => {
     loadCourse();
+    if (!isEventHandlerRegistered.value) {
+        window.addEventListener("resize", handleResize);
+        isEventHandlerRegistered.value = true;
+    }
+    handleResize();
 });
 onUnmounted(() => {
     errors.value.delete(AppID.MyLessonsCourse);
+    window.removeEventListener("resize", handleResize);
+    isEventHandlerRegistered.value = false;
 });
+const isEventHandlerRegistered = ref(false);
+async function handleResize() {
+    await resizeCards();
+    await useWait(100);
+    updateScroll();
+    await useWait(100);
+    endScroll();
+}
 async function loadCourse() {
     errors.value.delete(AppID.MyLessonsCourse);
     if (!NUMBER_PATTERN.test(courseId)) return errors.value.set(AppID.MyLessonsCourse, "Ungültige ID");
@@ -88,16 +103,33 @@ const CARD_WIDTH = 288;
 const CARD_CENTER = CARD_WIDTH / 2;
 watch(courseData, async () => {
     await useWait(100);
+    window.removeEventListener("resize", handleResize);
+    isEventHandlerRegistered.value = false;
+    handleResize();
+    if (!isEventHandlerRegistered.value) {
+        window.addEventListener("resize", handleResize);
+        isEventHandlerRegistered.value = true;
+    }
+});
+
+async function resizeCards() {
     const container = document.querySelector<HTMLElement>(".lessons-container");
     if (container === null) return;
     const parent = container.parentElement;
     if (parent === null) return;
+
+    parent.style.height = "";
+
+    showElements.value = false;
+    await useWait(100);
+
     parent.style.height = parent.clientHeight + "px";
+
     showElements.value = true;
+
     await nextTick();
-    updateScroll();
     container.style.opacity = "1";
-});
+}
 
 const minimalScale = ref(1);
 const closestCard = ref({ index: 0, scale: 0 });
@@ -124,6 +156,7 @@ function endScroll() {
     const child = container.querySelector(`.deck-card:nth-child(${closestCard.value.index + 1})`);
     if (child === null) return;
     child.scrollIntoView({ behavior: "smooth", inline: "center" });
+    selected.value = closestCard.value.index;
 }
 </script>
 
@@ -140,8 +173,6 @@ header {
 }
 main {
     grid-template-rows: 1fr min-content;
-}
-.lessons-container {
 }
 .deck-card[previous],
 .deck-card[next] {
