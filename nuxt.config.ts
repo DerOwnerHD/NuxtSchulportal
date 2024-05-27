@@ -12,18 +12,17 @@ export default defineNuxtConfig({
             },
             title: "Schulportal Hessen",
             link: [
-                { rel: "preload", href: "font/regular.otf", as: "font", type: "font/otf" },
-                { rel: "preload", href: "font/semibold.otf", as: "font", type: "font/otf" },
-                { rel: "preload", href: "font/bold.otf", as: "font", type: "font/otf" },
-                { rel: "manifest", href: "manifest.json" },
-                { rel: "apple-touch-icon", href: "icon.png" },
-                { rel: "apple-touch-startup-image", href: "icon.png" }
+                { rel: "preload", href: "/font/regular.otf", as: "font", type: "font/otf" },
+                { rel: "preload", href: "/font/semibold.otf", as: "font", type: "font/otf" },
+                { rel: "preload", href: "/font/bold.otf", as: "font", type: "font/otf" },
+                { rel: "manifest", href: "/manifest.json" },
+                { rel: "apple-touch-icon", href: "/icon.png" },
+                { rel: "apple-touch-startup-image", href: "/icon.png" }
             ],
             meta: [
                 { name: "apple-mobile-web-app-capable", content: "yes" },
                 { name: "apple-mobile-web-app-status-bar-style", content: "black" },
                 { name: "apple-mobile-web-app-title", content: "Schulportal Hessen" },
-                { name: "touc", content: "Schulportal Hessen" },
                 { name: "mobile-web-app-capable", content: "yes" },
                 { name: "viewport", content: "width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" }
             ]

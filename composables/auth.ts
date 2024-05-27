@@ -61,6 +61,9 @@ export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
 export async function useAuthenticate() {
     const credentials = useCredentials();
     const nuxt = useNuxtApp();
+    // Even though we shouldn't use useFetch in a non-setup function on the client,
+    // using $fetch during SSR (which this function is called in sometimes) results
+    // in no IP getting passed through for rate limiting => 403 error
     const { data, error } = await useFetch("/api/login", {
         method: "POST",
         body: credentials.value
