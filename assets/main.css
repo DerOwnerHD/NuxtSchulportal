@@ -265,7 +265,6 @@ code.dark {
 .page-enter-from,
 .page-leave-to {
     opacity: 0;
-    filter: blur(1rem);
 }
 *::-webkit-scrollbar {
     display: none;

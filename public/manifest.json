@@ -1,10 +1,10 @@
 {
-    "name": "Schulportal",
+    "name": "Schulportal Hessen",
     "icons": [
         {
             "src": "icon.png",
             "type": "image/png",
-            "sizes": "150x150"
+            "sizes": "144x144"
         }
     ],
     "start_url": ".",

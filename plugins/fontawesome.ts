@@ -63,7 +63,9 @@ import {
     faHandsPraying,
     faLanguage,
     faTheaterMasks,
-    faHouse
+    faHouse,
+    faRunning,
+    faPen
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -139,7 +141,9 @@ library.add(
     faEarthAmericas,
     faLanguage,
     faTheaterMasks,
-    faHouse
+    faHouse,
+    faRunning,
+    faPen
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

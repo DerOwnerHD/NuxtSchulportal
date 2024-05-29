@@ -10,8 +10,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // The path we wish to be redirected to once the user has logged in for the first time
     // When already logged in, this is not needed as the auth happens directly inside of this
     // middleware and we never get redirected to any other page.
-    const redirectTo = encodeURIComponent(to.fullPath);
-    if (!credentials.value) return to.path === "/login" ? void 0 : navigateTo(`/login?redirect=${redirectTo}`);
+    const redirectTo = to.path !== "/" ? `?redirect=${encodeURIComponent(to.fullPath)}` : "";
+    if (!credentials.value) return to.path === "/login" ? void 0 : navigateTo(`/login${redirectTo}`);
 
     const validCredentialsSyntax =
         credentials.value &&

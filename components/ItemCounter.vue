@@ -39,12 +39,19 @@ watch(props, (value) => {
 const positions = ref<number[][]>([]);
 onMounted(async () => {
     await useWait(100);
+    addEventListener("resize", handleResize);
+    handleResize();
+});
+onUnmounted(() => {
+    removeEventListener("resize", handleResize);
+});
+function handleResize() {
     const items = Array.from(document.querySelectorAll(`.item-counter[counter-id="${id.value}"] .item-counter-item`));
     positions.value = items.map((item) => {
         const { left, width } = item.getBoundingClientRect();
         return [left, left + width];
     });
-});
+}
 const isSelecting = ref(false);
 function startHighlight(event: TouchEvent) {
     isSelecting.value = true;
