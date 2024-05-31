@@ -35,7 +35,7 @@ export async function fetchMyLessonsCourses() {
         useReauthenticate(error);
         useNotifications().value.set(AppID.MyLessons, -1);
         // @ts-ignore
-        useAppErrors().value.set(AppID.MyLessons, error?.data ?? error);
+        useAppErrors().value.set(AppID.MyLessons, error?.data?.error_details ?? error);
     }
 }
 
@@ -128,12 +128,13 @@ export function findIconForMyLessonsCourse(name: string) {
 
 const useCurrentSemester = () => parseInt(useRuntimeConfig().public.currentSemester as string);
 export const useMyLessonsCourseDetails = () => useState("mylessons-course-details", () => new Map<number, MyLessonsCourse>());
-export async function fetchMyLessonsCourse(id: number) {
+export async function fetchMyLessonsCourse(id: number, overwrite: boolean = false) {
     const courses = useMyLessonsCourseDetails();
     const session = useSession();
     const token = useToken();
     const key = (await useAESKey()) ?? undefined;
-    if (courses.value.has(id)) return courses.value.get(id);
+    if (overwrite) courses.value.delete(id);
+    if (courses.value.has(id) && !overwrite) return courses.value.get(id);
     try {
         const response = await $fetch("/api/mylessons/course", {
             query: {
@@ -151,7 +152,8 @@ export async function fetchMyLessonsCourse(id: number) {
         return data;
     } catch (error) {
         useReauthenticate(error);
-        useAppErrors().value.set(AppID.MyLessonsCourse, error);
+        // @ts-ignore
+        useAppErrors().value.set(AppID.MyLessonsCourse, error?.data?.error_details ?? error);
         return null;
     }
 }

@@ -13,7 +13,7 @@
                 <slot />
             </main>
             <ClientOnly>
-                <footer class="flex justify-center w-screen sticky bottom-4 z-40" v-if="authed">
+                <footer class="flex justify-center w-screen sticky bottom-0 z-40" v-if="authed">
                     <DockContainer></DockContainer>
                 </footer>
             </ClientOnly>
@@ -46,12 +46,14 @@ onMounted(() => {
     window.addEventListener("contextmenu", (event) => event.preventDefault());
     if (!authed) return;
     fetchVertretungsplan();
+    fetchStundenplan();
     fetchMyLessonsCourses();
 });
 
 const DEFAULT_BACKGROUND_GRADIENT = "#254e63";
 const BACKGROUND_GRADIENTS = [
     { pattern: /^\/vertretungsplan$/, color: 0x1fbd54 },
+    { pattern: /^\/stundenplan$/, color: 0x0000ad },
     { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3 }
 ];
 const BACKGROUND_COLOR_MULTIPLIER = 0.4;

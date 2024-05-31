@@ -8,5 +8,7 @@ export enum AppID {
     Vertretungsplan = "vertretungsplan",
     MyLessons = "mylessons",
     // This is used for app errors when the page of a specific course is viewed
-    MyLessonsCourse = "mylessons-course"
+    MyLessonsCourse = "mylessons-course",
+    Stundenplan = "stundenplan",
+    AES = "aes"
 }

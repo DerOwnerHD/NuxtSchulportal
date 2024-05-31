@@ -14,7 +14,7 @@ export async function useAESKey() {
             console.error("Decryption key in storage is invalid, regenerating");
         }
     }
-    if (!token.value) return useAppErrors().value.set("aes", KEYGEN_ERROR);
+    if (!token.value) return useAppErrors().value.set(AppID.AES, KEYGEN_ERROR);
     console.log("Generating unique AES key for session");
     try {
         const response = await $fetch("/api/decryption", {
@@ -25,7 +25,25 @@ export async function useAESKey() {
         return response.key;
     } catch (error) {
         useReauthenticate(error);
-        useAppErrors().value.set("aes", error);
+        // @ts-ignore
+        useAppErrors().value.set(AppID.AES, error?.data?.error_details ?? error);
         console.log("Could not generate decryption key");
+    }
+}
+
+/**
+ * Checks whether there is an AES key stored in Local Storage and if it has been generated from the current token.
+ * This does not mean it actually works. SPH internals are not known, who knows to what stuff this key is linked.
+ * We'll just have to assume it still works.
+ * @returns Whether the AES key set in the local storage is connected to the current token
+ */
+export function hasValidAESKeySet() {
+    try {
+        const storage = localStorage.getItem("aes-key");
+        if (storage === null) return false;
+        const data = JSON.parse(storage);
+        return data.key && data.token === useToken().value;
+    } catch {
+        return false;
     }
 }

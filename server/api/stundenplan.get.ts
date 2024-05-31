@@ -1,18 +1,22 @@
 import {
     generateDefaultHeaders,
     hasPasswordResetLocationSet,
-    parseCookie,
     authHeaderOrQuery,
     removeBreaks,
     setErrorResponse,
     hasInvalidAuthentication,
-    schoolFromRequest
+    schoolFromRequest,
+    BasicResponse
 } from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
 import { hasInvalidSidRedirect } from "../failsafe";
 
-export default defineEventHandler(async (event) => {
+interface Response extends BasicResponse {
+    plans: Stundenplan[];
+}
+
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
@@ -74,12 +78,12 @@ export default defineEventHandler(async (event) => {
                     plan.end = transformed;
                 }
 
-                plans.push(await loadSplanForDate(plan, token, true, address, "", school));
+                plans.push(await loadSplanForDate(plan, token, address, school));
             }
         }
 
         // The current plan we've been redirected to
-        plans.push(await loadSplanForDate(initialPlan, token, false, address, html));
+        plans.push(await loadSplanForDate(initialPlan, token, address, school, html));
 
         return {
             error: false,
@@ -105,27 +109,20 @@ interface PlanOptions {
     current?: boolean;
 }
 
-async function loadSplanForDate(
-    options: PlanOptions,
-    auth: string,
-    load: boolean,
-    address?: string,
-    html?: string,
-    school?: string
-): Promise<Stundenplan> {
-    if (load) {
-        const raw = await fetch("https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=" + options.start, {
-            method: "GET",
-            redirect: "manual",
-            headers: {
-                Cookie: `sid=${auth}`,
-                ...generateDefaultHeaders(address)
-            }
-        });
-        html = removeBreaks(await raw.text());
-    }
+async function fetchStundenplan(options: PlanOptions, token: string, address?: string, school?: string) {
+    const response = await fetch(`https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=${options.start}`, {
+        method: "GET",
+        redirect: "manual",
+        headers: {
+            Cookie: `sid=${token}; ${school}`,
+            ...generateDefaultHeaders(address)
+        }
+    });
+    return await response.text();
+}
 
-    const { window } = new JSDOM(html);
+async function loadSplanForDate(options: PlanOptions, token: string, address?: string, school?: string, html?: string): Promise<Stundenplan> {
+    const { window } = new JSDOM(html ?? (await fetchStundenplan(options, token, address, school)));
     const { document } = window;
 
     const plan: Stundenplan = {
@@ -154,12 +151,14 @@ async function loadSplanForDate(
         const checkForOccupiedSlots = lessons.children.length < 6;
 
         let day = 0;
+        // We slice off the first element of the row to remove the info label
         for (const lesson of Array.from(lessons.children).slice(1)) {
             // If this is greater than one, we would
             // have a lesson which spans two or more hours
             const span = parseInt(lesson.getAttribute("rowspan") || "1");
 
             const stunde: Stunde = {
+                // This fills the array with all the lessons along the span
                 lessons: Array.from({ length: span }, (v, k) => index + k + 1),
                 classes: Array.from(lesson.querySelectorAll("div.stunde")).map((element) => {
                     const title = element.getAttribute("title")?.trim() || "";
@@ -190,10 +189,29 @@ async function loadSplanForDate(
                 }
             }
 
-            plan.days.at(day)?.lessons.push(stunde);
+            plan.days[day].lessons.push(stunde);
             day++;
         }
     });
+
+    // We merge the lessons by going from bottom to top
+    // This eliminates the risk of modifying the indicies we still need to go to
+    // -> if we delete from the bottom, it make no difference to index up top
+    // Although it would seem inefficient to loop at the end through the array
+    // once more, the performance aspect is minimal (way less than 1ms)
+    for (const day of plan.days) {
+        // We set the last index checked to 1 by design, as index 0
+        // has no need to be checked as it is (obviously) the first lesson
+        for (let i = day.lessons.length - 1; i > 0; i--) {
+            const lesson = day.lessons[i];
+            const previous = day.lessons[i - 1];
+            const stringified = [lesson, previous].map((data) => JSON.stringify(data.classes));
+            if (stringified[0] === stringified[1]) {
+                day.lessons[i - 1].lessons = [...previous.lessons, ...lesson.lessons];
+                day.lessons.splice(i, 1);
+            }
+        }
+    }
 
     return plan;
 }

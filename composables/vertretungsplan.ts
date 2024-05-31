@@ -51,7 +51,7 @@ export const fetchVertretungsplan = async (reauth?: boolean) => {
         useReauthenticate(error);
         useNotifications().value.set(AppID.Vertretungsplan, -1);
         // @ts-ignore
-        useAppErrors().value.set(AppID.Vertretungsplan, error?.data ?? error);
+        useAppErrors().value.set(AppID.Vertretungsplan, error?.data?.error_details ?? error);
     }
     isLoadingPlan.value = false;
 };

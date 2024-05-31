@@ -74,3 +74,5 @@ export function modifyOpenDialogBoxes(box: string) {
     if (index === -1) return useOpenDialogBoxes().value.push(box);
     useOpenDialogBoxes().value.splice(index, 1);
 }
+
+export const isSecretModeActive = () => useState("secret-mode-enabled", () => false);

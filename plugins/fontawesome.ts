@@ -65,7 +65,8 @@ import {
     faTheaterMasks,
     faHouse,
     faRunning,
-    faPen
+    faPen,
+    faLongArrowDown
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -143,7 +144,8 @@ library.add(
     faTheaterMasks,
     faHouse,
     faRunning,
-    faPen
+    faPen,
+    faLongArrowDown
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

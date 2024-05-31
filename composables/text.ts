@@ -4,6 +4,11 @@ export const MONTH_NAMES = {
     short: ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
 };
 
+export const WEEKDAYS = {
+    full: ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"],
+    short: ["Mo", "Di", "Mi", "Do", "Fr"]
+};
+
 type DateStringFormat = "day-month-full" | "day-month-short" | "day-month-number";
 export function convertDateStringToFormat(dateString: string, format: DateStringFormat, year?: boolean, padStart: boolean = true) {
     const date = new Date(dateString);

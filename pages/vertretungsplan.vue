@@ -70,6 +70,10 @@
                     </footer>
                 </div>
             </DeckCard>
+            <div v-if="!vertretungsplan.days.length" class="grid place-content-center gap-2">
+                <p>Keine Tage verfügbar</p>
+                <ButtonRoundedBlurred text="Neu laden" :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan"></ButtonRoundedBlurred>
+            </div>
         </div>
         <div v-else class="h-full w-screen grid place-content-center">
             <InfiniteSpinner :size="50"></InfiniteSpinner>

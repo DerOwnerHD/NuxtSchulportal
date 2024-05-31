@@ -1,6 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Honk&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Days+One&display=swap");
 body {
     width: 100vw;
     height: 100vh;
@@ -26,6 +24,7 @@ body {
     --fast-easing-function: cubic-bezier(0.39, 0.79, 0.13, 1.04);
     --small-white-border: solid 2px #ffffff20;
     --light-white-gradient: linear-gradient(135deg, #ffffff28, #ffffff11);
+    --even-lighter-white-gradient: linear-gradient(135deg, #ffffff15, #ffffff06);
     --light-gold-gradient: linear-gradient(135deg, #dbac3428, #dbac3411);
     --sph-gradient: linear-gradient(to bottom, #18d5ee, #397ed5);
     --sph-glow: #2ba3e0;
@@ -59,7 +58,7 @@ body {
     src: url("/font/regular.otf");
 }
 body {
-    font-family: "SPSemiBold";
+    font-family: "SPSemiBold", sans-serif;
     user-select: none;
 }
 h1 {

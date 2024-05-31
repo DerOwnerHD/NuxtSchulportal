@@ -3,44 +3,12 @@ export interface Credentials {
     password: string;
     school: number;
 }
-interface CheckResponse {
-    error: boolean;
-    error_details?: any;
-    valid?: boolean;
-}
-export interface LoginResponse {
-    error: boolean;
-    error_details?: any;
-    token?: string;
-    session?: string;
-}
-interface APIError {
-    response: string;
-    message: string;
-    recoverable: boolean;
-}
-interface MoodleLoginResponse {
-    error: boolean;
-    error_details?: any;
-    cookie: string;
-    session: string;
-    paula: string;
-    user: number;
-}
-interface MoodleCheckResponse {
-    error: boolean;
-    valid: boolean;
-    user: number | null;
-    remaining: number | null;
-}
 interface MoodleCredentials {
     cookie: string;
     session: string;
     paula: string;
     user: number;
 }
-
-import { callWithNuxt } from "nuxt/app";
 
 export const useCredentials = () => useCookie<Credentials>("credentials");
 export const useToken = () => useCookie<string>("token");
@@ -54,11 +22,14 @@ export const useSchool = () => {
 
 export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
 
+const isLoggingIn = ref(false);
 /**
  * Logs in somebody who already has credentials set. Throws an error on failing, showing
  * details. Should be used when a token has expired or is no longer stored.
  */
 export async function useAuthenticate() {
+    if (isLoggingIn.value) return console.warn("Cannot log in more than once at a time");
+    isLoggingIn.value = true;
     const credentials = useCredentials();
     const nuxt = useNuxtApp();
     // Even though we shouldn't use useFetch in a non-setup function on the client,
@@ -69,11 +40,13 @@ export async function useAuthenticate() {
         body: credentials.value
     });
 
-    if (error.value)
+    if (error.value) {
+        isLoggingIn.value = false;
         throw createError({
             message: "Loginfehler",
             data: error.value.data?.error_details ?? error.value.cause
         });
+    }
 
     console.log("Authenticated!");
 
@@ -83,6 +56,7 @@ export async function useAuthenticate() {
     // If another function then invokes this, it gets a new one for its current token
     // (It would get it anyway but this just removes some small headache)
     if ("localStorage" in globalThis) localStorage.removeItem("aes-key");
+    isLoggingIn.value = false;
     nuxt.runWithContext(() => {
         useToken().value = token;
         useSession().value = session;
@@ -125,6 +99,7 @@ export async function logOff() {
 export const isLoggedIn = () => !!useToken().value;
 
 export async function useReauthenticate(error: any) {
+    if (isLoggingIn.value) return;
     if (!("status" in error)) return;
     if (error.status !== 401) return;
     console.log("Credentials invalid, reauthenticating!");

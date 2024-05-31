@@ -9,7 +9,7 @@
             <div class="widget blurred-background">{{ relativeOrAbsoluteDateFormat(lesson.date ?? "", "day-month-short") }}</div>
             <div class="widget blurred-background" v-if="lesson.attendance?.length">{{ lesson.attendance }}</div>
         </div>
-        <section v-if="lesson.homework">
+        <section class="homework" v-if="lesson.homework">
             <header class="flex justify-between">
                 <div class="flex gap-1 items-center">
                     <font-awesome-icon :icon="['fas', 'pen-to-square']"></font-awesome-icon>
@@ -20,7 +20,7 @@
             </header>
             <div class="text-left" v-html="lesson.homework.description"></div>
         </section>
-        <section v-if="lesson.downloads.files.length">
+        <section class="downloads" v-if="lesson.downloads.files.length">
             <header class="flex justify-between">
                 <div class="flex gap-1 items-center">
                     <font-awesome-icon :icon="['fas', 'download']"></font-awesome-icon>
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </section>
-        <section v-if="lesson.uploads.length">
+        <section class="uploads" v-if="lesson.uploads.length">
             <header class="flex items-center gap-1">
                 <font-awesome-icon :icon="['fas', 'download']"></font-awesome-icon>
                 <span>Abgaben</span>
@@ -95,8 +95,8 @@ async function markHomeworkAsDone() {
     grid-template-columns: min-content 1fr;
 }
 section {
+    background: linear-gradient(to bottom, #3a1d24, transparent);
     @apply rounded-lg p-2 w-full;
-    background: var(--light-white-gradient);
 }
 .upload {
     border: solid 2px white;

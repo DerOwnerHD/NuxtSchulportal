@@ -2,6 +2,10 @@
     <div class="h-full py-4">
         <ErrorDisplay :error="errors.get(AppID.MyLessonsCourse)" v-if="errors.has(AppID.MyLessonsCourse)" :retry-function="loadCourse"></ErrorDisplay>
         <div v-else-if="courseData" class="content grid gap-4 w-screen h-full pb-2">
+            <InfoBox class="w-fit justify-self-center" type="error" v-if="!hasValidAESKeySet()">
+                <span>Anwesendheiten sind nicht verfügbar</span>
+                <ButtonRoundedBlurred @click="loadCourse(true)" :icon="['fas', 'arrow-rotate-right']"></ButtonRoundedBlurred>
+            </InfoBox>
             <header class="grid items-center justify-center gap-2 w-screen px-4">
                 <div class="h-12 grid relative w-fit">
                     <NuxtImg class="h-12" src="icons/folder.svg"></NuxtImg>
@@ -17,7 +21,10 @@
                 </div>
             </header>
             <main class="grid">
-                <div class="lessons-container opacity-0 flex w-screen overflow-scroll px-10 min-h-72" @scroll="updateScroll" @scrollend="endScroll">
+                <div
+                    class="lessons-container opacity-0 flex w-screen overflow-scroll px-10 min-h-72"
+                    @scroll.passive="updateScroll"
+                    @scrollend.passive="endScroll">
                     <DeckCard v-for="lesson of courseData.lessons" v-if="showElements">
                         <MyLessonsCard :lesson="lesson" :course="courseData.id"></MyLessonsCard>
                     </DeckCard>
@@ -94,11 +101,11 @@ async function handleResize() {
     await useWait(100);
     endScroll();
 }
-async function loadCourse() {
+async function loadCourse(overwrite?: boolean) {
     errors.value.delete(AppID.MyLessonsCourse);
     if (!NUMBER_PATTERN.test(courseId)) return errors.value.set(AppID.MyLessonsCourse, "Ungültige ID");
     // @ts-ignore
-    courseData.value = await fetchMyLessonsCourse(parseInt(courseId));
+    courseData.value = await fetchMyLessonsCourse(parseInt(courseId), overwrite);
 }
 
 const CARD_WIDTH = 288;
@@ -161,12 +168,12 @@ function updateScroll() {
         const cardCenter = dimensions.left + CARD_CENTER;
         // The distance from the center of the screen
         const cardDistance = Math.abs(screenCenter - cardCenter);
-        // If the card has a distance greater than two times a card width, the scale is set to 0
+        // If the card has a distance greater than three times a card width, the scale is set to the min
         // -> only the closest cards are actually processed
         // We scale inside the area of 1.0 to 0.85 scale, depending on the distance from center
-        const scale = clampNumber(cardDistance > 2 * CARD_WIDTH ? 0 : 1 - 0.15 * (cardDistance / window.innerWidth), 0.85, 1);
+        const scale = cardDistance > 3 * CARD_WIDTH ? 0.85 : clampNumber(1 - 0.15 * (cardDistance / window.innerWidth), 0.85, 1);
         if (closestCard.value.scale < scale) closestCard.value = { scale, index: i };
-        card.style.scale = scale.toFixed(4);
+        card.style.scale = scale.toFixed(3);
     }
     selected.value = closestCard.value.index;
     clearTimeout(scrollTimeout.value);
@@ -215,8 +222,7 @@ main {
 }
 .deck-card {
     @apply h-full max-h-full overflow-y-scroll;
-    transition-property: scale !important;
-    transition-duration: 100ms;
+    transition: scale 100ms !important;
     background: radial-gradient(#302e44, #302f37) center;
 }
 </style>
