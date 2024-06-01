@@ -13,7 +13,7 @@
             id="stundenplan"
             name="Stundenplan"
             subtitle="Gültig vom 30. August bis 05. Dezember"
-            :flyout="stundenplanFlyout"
+            :flyout="useStundenplanFlyout()"
             route="/stundenplan">
             <NuxtImg class="h-16" src="icons/splan.svg"></NuxtImg>
         </DockItem>
@@ -27,11 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { useMyLessonsFlyout } from "~/composables/mylessons";
-
-const stundenplanFlyout = [[{ title: "Vergleichen", icon: ["fas", "code-compare"] }]];
 const moodleFlyout: any[] = [];
-const myLessonsFlyout = [[{ title: "Geheime Daten ausblenden", icon: ["fas", "key"] }]];
 </script>
 
 <style scoped>

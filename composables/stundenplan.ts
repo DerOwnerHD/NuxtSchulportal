@@ -98,17 +98,12 @@ export function comparePlans(id: string) {
             differences.push({ type: "default", subjects: subjects.concat(removedSubjects as StundenplanSubjectComparison[]), lessons: [j + 1] });
         }
 
-        console.log(differences);
-
         const largerPlan = hasMoreLessons ? day : baseDay;
-        console.log(largestSharedLesson, largestTotalLesson);
         // If both are the exact same size, nothing in this loop will ever happen
         for (let j = largestSharedLesson + 1; j <= largestTotalLesson; j++) {
-            console.log(j);
             differences.push({
                 type: hasMoreLessons ? "added" : "removed",
                 subjects: largerPlan[j - 1].classes.map((subject) => {
-                    console.log(subject);
                     return { type: "unchanged", data: subject };
                 }),
                 lessons: [j + 1]
@@ -135,10 +130,14 @@ export function comparePlans(id: string) {
                 }
                 return entry;
             })
-            .filter((x) => x !== null)
-            .toReversed();
+            .toReversed()
+            .filter((x) => x !== null);
 
-        return combined;
+        return combined as {
+            type: "default" | "added" | "removed";
+            lessons: number[];
+            subjects: StundenplanSubjectComparison[];
+        }[];
     });
 
     return { differences, lessons: basePlan.lessons.length > plan.lessons.length ? basePlan.lessons : plan.lessons };
@@ -177,4 +176,26 @@ function splitAllLessons(plan: Stundenplan): StundenplanLesson[][] {
             })
         )
     );
+}
+
+export function useStundenplanFlyout() {
+    const plans = useStundenplan();
+    const errors = useAppErrors();
+    const title = errors.value.has(AppID.Stundenplan)
+        ? STATIC_STRINGS.LOADING_ERROR
+        : plans.value
+          ? plans.value.length
+              ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
+              : "Keine Stundenpläne geladen"
+          : STATIC_STRINGS.IS_LOADING;
+    return [
+        [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }],
+        plans.value?.map((plan) => {
+            return {
+                title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
+                text: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
+                action: () => navigateTo(`/stundenplan?plan=${plan.start_date}`)
+            };
+        })
+    ];
 }

@@ -2,9 +2,33 @@
     <div class="h-full">
         <ErrorDisplay :error="errors.get(AppID.Stundenplan)" :retryFunction="fetchStundenplan" v-if="errors.has(AppID.Stundenplan)"></ErrorDisplay>
         <div class="my-2" v-else-if="plans && selectedPlan">
-            <div class="buttons grid w-screen gap-2 p-2">
-                <FluidButton @click="comparisonMode = !comparisonMode">{{ comparisonMode ? "Vergleichen aktiv!" : "Vergleichen" }}</FluidButton>
-                <FluidButton @click="selected === plans.length - 1 ? (selected = 0) : selected++">Cycle ({{ selected + 1 }})</FluidButton>
+            <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 gap-2 text-center">
+                <FluidButtonGroup>
+                    <FluidSelection
+                        id="splan-switcher"
+                        :options="planSelectionOptions"
+                        :show-amount="true"
+                        @update="updateSelectedPlan"></FluidSelection>
+                    <button class="flex items-center" @click="comparisonMode = !comparisonMode">
+                        <div class="h-full flex gap-2 items-center hover:active:scale-95 hover:active:opacity-90 transition-all">
+                            <font-awesome-icon :icon="['fas', 'code-compare']"></font-awesome-icon>
+                            <div class="grid">
+                                <span>Vergleichen</span>
+                                <span class="text-xs">mit aktivem Plan</span>
+                            </div>
+                            <span
+                                class="border-solid border-2 border-white rounded-full aspect-square h-8 grid place-content-center transition"
+                                :class="{ 'bg-white': comparisonMode, 'text-black': comparisonMode }">
+                                <font-awesome-icon :icon="['fas', 'check']"></font-awesome-icon>
+                            </span>
+                        </div>
+                    </button>
+                </FluidButtonGroup>
+                <div class="text-balance">
+                    <span> gültig ab dem {{ convertDateStringToFormat(selectedPlan.start_date, "day-month-full") }} </span>
+                    <span v-if="selectedPlan.end_date"> bis zum {{ convertDateStringToFormat(selectedPlan.end_date, "day-month-full") }} </span>
+                    <span v-if="selectedPlan.current"> (aktiv) </span>
+                </div>
             </div>
             <div
                 class="plan grid w-screen min-h-full text-center gap-2 px-2"
@@ -62,17 +86,17 @@
                                 <span class="font-bold">{{ subject.data.name }}</span>
                                 <span class="text-xs grid gap-1">
                                     <div v-if="subject.type === 'updated' && subject.updates && subject.updates.has('room')">
-                                        <div class="update-old">{{ subject.updates.get("room")?.at(0) }}</div>
+                                        <div class="update-old">{{ subject.updates.get("room")?.at(1) }}</div>
                                         <font-awesome-icon :icon="['fas', 'long-arrow-down']"></font-awesome-icon>
-                                        <div class="update-new">{{ subject.updates.get("room")?.at(1) }}</div>
+                                        <div class="update-new">{{ subject.updates.get("room")?.at(0) }}</div>
                                     </div>
                                     <span class="block" v-else>
                                         {{ subject.data.room }}
                                     </span>
                                     <div v-if="subject.type === 'updated' && subject.updates && subject.updates.has('teacher')">
-                                        <div class="update-old">{{ subject.updates.get("teacher")?.at(0) }}</div>
+                                        <div class="update-old">{{ subject.updates.get("teacher")?.at(1) }}</div>
                                         <font-awesome-icon :icon="['fas', 'long-arrow-down']"></font-awesome-icon>
-                                        <div class="update-new">{{ subject.updates.get("teacher")?.at(1) }}</div>
+                                        <div class="update-new">{{ subject.updates.get("teacher")?.at(0) }}</div>
                                     </div>
                                     <span class="block" v-else>
                                         {{ subject.data.teacher }}
@@ -100,9 +124,36 @@ const selectedPlan = computed(() => {
     if (!plans.value) return null;
     return plans.value[selected.value];
 });
+const route = useRoute();
+onMounted(() => navigateToSelectedPlan());
+// When we are already on a plan, pressing a button on the flyout won't do anything
+// -> the plan is not refreshed nor is the page remounted
+watch(plans, () => navigateToSelectedPlan());
+
+function navigateToSelectedPlan() {
+    if (!plans.value) return;
+    const planId = Array.isArray(route.query.plan) ? route.query.plan.at(0) : route.query.plan;
+    if (!planId) return;
+    const index = plans.value.findIndex((plan) => plan.start_date === planId);
+    if (index === -1) return;
+    selected.value = index;
+}
+
+function updateSelectedPlan(index: number) {
+    selected.value = index;
+}
+const planSelectionOptions = computed(() => {
+    if (!plans.value) return [];
+    return plans.value.map((plan) => {
+        return {
+            title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
+            subtitle: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
+            id: plan.start_date
+        };
+    });
+});
 const comparisonMode = ref(false);
-const compareIndex = ref(1);
-const compareTarget = computed(() => plans.value[compareIndex.value]?.start_date);
+const compareTarget = computed(() => plans.value[selected.value]?.start_date);
 const comparisonResult = computed(() => {
     if (!comparisonMode.value) return null;
     return comparePlans(compareTarget.value);
