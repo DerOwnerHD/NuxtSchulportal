@@ -20,7 +20,7 @@
                         </div>
                     </FluidToggle>
                 </FluidButtonGroup>
-                <div class="flex flex-wrap gap-2 justify-center">
+                <div class="flex flex-wrap gap-2 justify-center" id="splan-date-display">
                     <div class="bg-green-500 rounded-full px-2" v-if="selectedPlan.current">aktiv</div>
                     <div class="bg-gray-500 rounded-full px-2">{{ convertDateStringToFormat(selectedPlan.start_date, "day-month-full") }}</div>
                     <span>-</span>
@@ -30,7 +30,8 @@
                 </div>
             </div>
             <div
-                class="plan grid w-screen min-h-full text-center gap-2 px-2"
+                class="grid w-screen min-h-full text-center gap-2 px-2"
+                id="stundenplan"
                 :class="{
                     secret: secretMode
                 }"
@@ -135,9 +136,26 @@ function navigateToSelectedPlan() {
     selected.value = index;
 }
 
-function updateSelectedPlan(index: number) {
+async function updateSelectedPlan(index: number) {
+    const plan = document.querySelector("#stundenplan");
+    const dateDisplay = document.querySelector("#splan-date-display");
+    const prettyAnimationOptions = { duration: 300, easing: "ease-in-out", fill: "forwards" } as KeyframeAnimationOptions;
+    if (plan === null) return console.error("How... did we get here though??");
+    plan.animate({ transform: "translateX(-20vw)", opacity: "0" }, prettyAnimationOptions);
+    dateDisplay?.animate({ opacity: "0" }, prettyAnimationOptions);
+    await useWait(300);
     comparisonMode.value = false;
     selected.value = index;
+    // If we have a large plan, we first need to actually get that new data on there
+    await nextTick();
+    plan.animate(
+        [
+            { transform: "translateX(20vw)", opacity: "0" },
+            { transform: "translateX(0vw)", opacity: "1" }
+        ],
+        prettyAnimationOptions
+    );
+    dateDisplay?.animate({ opacity: "1" }, prettyAnimationOptions);
     const planAtIndex = plans.value[index];
     if (!planAtIndex) return console.error("Huh? Plan not found for one we just selected");
     // This acts the same way as the selection in the dock flyout
