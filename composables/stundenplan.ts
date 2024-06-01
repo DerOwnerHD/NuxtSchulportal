@@ -187,13 +187,18 @@ export function useStundenplanFlyout() {
           ? plans.value.length
               ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
               : "Keine Stundenpläne geladen"
-          : STATIC_STRINGS.IS_LOADING;
+          : // Due to the stundenplan useState being initialized using an array
+            // (instead of being empty), this state will never be available
+            STATIC_STRINGS.IS_LOADING;
     return [
         [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }],
         plans.value?.map((plan) => {
             return {
                 title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
                 text: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
+                // Already being on /stundenplan would cause nothing to happen
+                // Still, the parameter would be set and on a page reload, the user
+                // would get thrown to that plan (if it even exists)
                 action: () => navigateTo(`/stundenplan?plan=${plan.start_date}`)
             };
         })

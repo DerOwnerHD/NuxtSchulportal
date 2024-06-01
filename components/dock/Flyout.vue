@@ -1,13 +1,18 @@
 <template>
-    <div class="flyout-overlay" @click="closeFlyout" @touchstart="updateItemSelection" @touchmove="updateItemSelection" @touchend="endItemSelection">
+    <div
+        class="flyout-overlay fixed h-screen w-screen top-0 left-0 opacity-0 z-[200]"
+        @click="closeFlyout"
+        @touchstart="updateItemSelection"
+        @touchmove="updateItemSelection"
+        @touchend="endItemSelection">
         <div
-            class="flyout rounded-2xl"
+            class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform"
             :id="flyout.id"
             :origin="flyout.origin ?? 'top'"
             :orientation="flyout.orientation ?? 'left'"
             :any-selected="selectedItem[0] !== null">
             <div v-if="flyout.groups.length">
-                <div class="group" v-for="(group, groupIndex) of flyout.groups" :group-id="groupIndex">
+                <div class="group" v-for="(group, groupIndex) of removedEmptyGroups" :group-id="groupIndex">
                     <div
                         class="item flex justify-between py-2 px-4 text-black"
                         :class="{
@@ -43,6 +48,12 @@
 <script setup lang="ts">
 const emit = defineEmits(["submit"]);
 const flyout = useFlyout();
+// Prevents empty groups from showing up (thus adding a bar to i.e. the bottom and breaking the layout)
+// -> happens in splan dock flyout when plan hasn't loaded yet
+const removedEmptyGroups = computed(() => {
+    if (!flyout.value) return [];
+    return flyout.value.groups.filter((group) => group.length);
+});
 const MARGIN_TO_SCREEN_BORDER = 20;
 const flyoutDimensions = ref<DOMRect>();
 const initialized = ref(false);
@@ -144,23 +155,15 @@ function endItemSelection() {
 
 <style scoped>
 .flyout-overlay {
-    @apply fixed h-screen w-screen top-0 left-0;
-    z-index: 200;
-    opacity: 0;
     animation: opacity-in 400ms ease-in-out forwards;
 }
 .flyout-overlay.close {
     animation: opacity-out 400ms ease-in-out forwards;
 }
 .flyout {
-    @apply fixed;
     font-family: "SPSemiBold";
     animation-delay: 100ms;
     animation: scale-in var(--fast-easing-function) 200ms;
-    width: 190px;
-    z-index: 201;
-    opacity: 0;
-    scale: 100%;
     background: linear-gradient(135deg, #d8e1e6 0%, #cbc2ca 100%);
     .item:not(:first-child) {
         border-top: solid 2px #c4c4c4;
@@ -180,7 +183,6 @@ function endItemSelection() {
     .group:not(:first-child) {
         border-top: solid 5px #c1bec3;
     }
-    transition: transform 100ms ease-out;
 }
 .flyout[origin="top"][orientation="left"] {
     transform-origin: top left;

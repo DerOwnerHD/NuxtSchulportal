@@ -2,32 +2,31 @@
     <div class="h-full">
         <ErrorDisplay :error="errors.get(AppID.Stundenplan)" :retryFunction="fetchStundenplan" v-if="errors.has(AppID.Stundenplan)"></ErrorDisplay>
         <div class="my-2" v-else-if="plans && selectedPlan">
-            <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 gap-2 text-center">
+            <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 gap-1 text-center">
                 <FluidButtonGroup>
                     <FluidSelection
                         id="splan-switcher"
                         :options="planSelectionOptions"
                         :show-amount="true"
                         @update="updateSelectedPlan"></FluidSelection>
-                    <button class="flex items-center" @click="comparisonMode = !comparisonMode">
-                        <div class="h-full flex gap-2 items-center hover:active:scale-95 hover:active:opacity-90 transition-all">
-                            <font-awesome-icon :icon="['fas', 'code-compare']"></font-awesome-icon>
-                            <div class="grid">
-                                <span>Vergleichen</span>
-                                <span class="text-xs">mit aktivem Plan</span>
-                            </div>
-                            <span
-                                class="border-solid border-2 border-white rounded-full aspect-square h-8 grid place-content-center transition"
-                                :class="{ 'bg-white': comparisonMode, 'text-black': comparisonMode }">
-                                <font-awesome-icon :icon="['fas', 'check']"></font-awesome-icon>
-                            </span>
+                    <FluidToggle
+                        :icon="['fas', 'code-compare']"
+                        :state="comparisonMode"
+                        :disabled="selectedPlan.current"
+                        @update="(state) => (comparisonMode = state)">
+                        <div class="grid">
+                            <span>Vergleichen</span>
+                            <span class="text-xs">mit aktivem Plan</span>
                         </div>
-                    </button>
+                    </FluidToggle>
                 </FluidButtonGroup>
-                <div class="text-balance">
-                    <span> gültig ab dem {{ convertDateStringToFormat(selectedPlan.start_date, "day-month-full") }} </span>
-                    <span v-if="selectedPlan.end_date"> bis zum {{ convertDateStringToFormat(selectedPlan.end_date, "day-month-full") }} </span>
-                    <span v-if="selectedPlan.current"> (aktiv) </span>
+                <div class="flex flex-wrap gap-2 justify-center">
+                    <div class="bg-green-500 rounded-full px-2" v-if="selectedPlan.current">aktiv</div>
+                    <div class="bg-gray-500 rounded-full px-2">{{ convertDateStringToFormat(selectedPlan.start_date, "day-month-full") }}</div>
+                    <span>-</span>
+                    <div class="bg-gray-500 rounded-full px-2">
+                        {{ selectedPlan.end_date ? convertDateStringToFormat(selectedPlan.end_date, "day-month-full") : "unbekannt" }}
+                    </div>
                 </div>
             </div>
             <div
@@ -54,10 +53,7 @@
                 </div>
                 <div class="day grid" v-for="(day, index) of selectedPlan.days" v-if="!comparisonMode">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
-                    <div
-                        class="lesson rounded-md p-1 break-all"
-                        v-for="lesson of day.lessons"
-                        :style="{ '--start': lesson.lessons.at(0), '--end': lesson.lessons.at(-1) }">
+                    <div class="lesson" v-for="lesson of day.lessons" :style="{ '--start': lesson.lessons.at(0), '--end': lesson.lessons.at(-1) }">
                         <div v-if="lesson.classes.length" class="grid h-full items-center gap-2">
                             <div class="subject grid items-center" v-for="subject of lesson.classes">
                                 <span class="font-bold">{{ subject.name }}</span>
@@ -77,7 +73,7 @@
                 <div class="day grid" v-for="(day, index) of comparisonResult.differences" v-else-if="comparisonMode && comparisonResult">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
                     <div
-                        class="lesson rounded-md p-1 break-all"
+                        class="lesson"
                         :compare-type="lesson.type"
                         v-for="lesson of day"
                         :style="{ '--start': lesson.lessons.at(0), '--end': lesson.lessons.at(-1) }">
@@ -140,15 +136,22 @@ function navigateToSelectedPlan() {
 }
 
 function updateSelectedPlan(index: number) {
+    comparisonMode.value = false;
     selected.value = index;
+    const planAtIndex = plans.value[index];
+    if (!planAtIndex) return console.error("Huh? Plan not found for one we just selected");
+    // This acts the same way as the selection in the dock flyout
+    // Has no effect but when the user reloads the site, they get thrown out at this one
+    navigateTo(`/stundenplan?plan=${planAtIndex.start_date}`);
 }
 const planSelectionOptions = computed(() => {
     if (!plans.value) return [];
-    return plans.value.map((plan) => {
+    return plans.value.map((plan, index) => {
         return {
             title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
             subtitle: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
-            id: plan.start_date
+            id: plan.start_date,
+            default: index === selected.value
         };
     });
 });
@@ -172,13 +175,12 @@ const comparisonResult = computed(() => {
     grid-template-rows: subgrid;
     grid-row: 1 / var(--lesson-count);
     .lesson {
+        @apply rounded-md p-1 break-all border-solid border-[1px];
         /* 
             We add one to the end due to grid-row-end's rule
             + another one for our header
         */
         grid-row: calc(var(--start) + 1) / calc(var(--end) + 2);
-        border-width: 1px;
-        border-style: solid;
         background: var(--even-lighter-white-gradient);
         --bg-opacity: 0.2;
     }

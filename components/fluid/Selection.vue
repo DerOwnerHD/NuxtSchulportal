@@ -1,5 +1,5 @@
 <template>
-    <div class="fluid-selection relative" :selection-id="id">
+    <div class="fluid-selection flex items-center" :selection-id="id">
         <div class="flex gap-2 items-center hover:active:scale-95 hover:active:opacity-90 transition-all" @click="open">
             <span class="bg-gray-500 rounded-full min-w-5 text-center px-1" v-if="showAmount">{{ options.length }}</span>
             <span>{{ showSelected ? selectedOption?.title ?? "" : text ?? "Auswahl" }}</span>
@@ -28,6 +28,7 @@ function open() {
                     title: option.title,
                     text: option.subtitle,
                     icon: index === selected.value ? ["fas", "check"] : undefined,
+                    disabled: index === selected.value,
                     action: () => selectOption(index)
                 };
             })
@@ -39,6 +40,11 @@ function selectOption(index: number) {
     selected.value = index;
     emit("update", index);
 }
+onMounted(() => {
+    const defaultOption = props.options.findIndex((option) => option.default);
+    if (defaultOption === -1) return;
+    selected.value = defaultOption;
+});
 const selected = ref(0);
 const selectedOption = computed(() => props.options[selected.value]);
 const props = defineProps<{

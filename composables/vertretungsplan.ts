@@ -3,7 +3,7 @@ import type { Nullable } from "~/server/utils";
 export const useVertretungsplanFlyout = () => {
     const vertretungsplan = useVertretungsplan();
     const distance = vertretungsplan.value?.last_updated
-        ? `Vor ${calculateDateDistance(new Date(vertretungsplan.value.last_updated).getTime())} aktualisiert`
+        ? `Vor ${calculateDateDistance(new Date(vertretungsplan.value.last_updated).getTime(), true)} aktualisiert`
         : isLoadingPlan.value
           ? STATIC_STRINGS.IS_LOADING
           : STATIC_STRINGS.LOADING_ERROR;
