@@ -2,7 +2,7 @@
     <div class="h-full">
         <ErrorDisplay :error="errors.get(AppID.Stundenplan)" :retryFunction="fetchStundenplan" v-if="errors.has(AppID.Stundenplan)"></ErrorDisplay>
         <div class="my-2" v-else-if="plans && selectedPlan">
-            <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 gap-1 text-center">
+            <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 text-center gap-2">
                 <FluidButtonGroup>
                     <FluidSelection
                         id="splan-switcher"
@@ -141,20 +141,14 @@ async function updateSelectedPlan(index: number) {
     const dateDisplay = document.querySelector("#splan-date-display");
     const prettyAnimationOptions = { duration: 300, easing: "ease-in-out", fill: "forwards" } as KeyframeAnimationOptions;
     if (plan === null) return console.error("How... did we get here though??");
-    plan.animate({ transform: "translateX(-20vw)", opacity: "0" }, prettyAnimationOptions);
+    plan.animate({ opacity: "0" }, prettyAnimationOptions);
     dateDisplay?.animate({ opacity: "0" }, prettyAnimationOptions);
-    await useWait(300);
+    await useWait(prettyAnimationOptions.duration as number);
     comparisonMode.value = false;
     selected.value = index;
     // If we have a large plan, we first need to actually get that new data on there
     await nextTick();
-    plan.animate(
-        [
-            { transform: "translateX(20vw)", opacity: "0" },
-            { transform: "translateX(0vw)", opacity: "1" }
-        ],
-        prettyAnimationOptions
-    );
+    plan.animate({ opacity: "1" }, prettyAnimationOptions);
     dateDisplay?.animate({ opacity: "1" }, prettyAnimationOptions);
     const planAtIndex = plans.value[index];
     if (!planAtIndex) return console.error("Huh? Plan not found for one we just selected");
@@ -182,11 +176,11 @@ const comparisonResult = computed(() => {
 </script>
 
 <style scoped>
-.plan {
+#stundenplan {
     grid-template-columns: min-content repeat(5, 1fr);
     grid-template-rows: repeat(var(--lesson-count), auto);
 }
-.plan.secret .day .lesson {
+#stundenplan.secret .day .lesson {
     animation: rgb infinite linear 10000ms;
 }
 .day {

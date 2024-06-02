@@ -3,11 +3,12 @@
         <slot />
     </div>
 </template>
+y
 
-<style>
+<style scoped>
 .button-group {
     > *:not(:first-child)::before {
-        @apply mx-4 p-0 w-1 h-8 border-solid bg-gray-500 rounded-full content-empty;
+        @apply mx-2 p-0 w-1 h-8 border-solid bg-gray-500 rounded-full content-empty;
     }
 }
 </style>

@@ -36,17 +36,6 @@ function open() {
         id: props.id
     };
 }
-function selectOption(index: number) {
-    selected.value = index;
-    emit("update", index);
-}
-onMounted(() => {
-    const defaultOption = props.options.findIndex((option) => option.default);
-    if (defaultOption === -1) return;
-    selected.value = defaultOption;
-});
-const selected = ref(0);
-const selectedOption = computed(() => props.options[selected.value]);
 const props = defineProps<{
     id: string;
     options: { title: string; id: string; subtitle?: string; default?: boolean }[];
@@ -54,4 +43,20 @@ const props = defineProps<{
     showAmount?: boolean;
     text?: string;
 }>();
+function selectOption(index: number) {
+    selected.value = index;
+    emit("update", index);
+}
+onMounted(findDefaultOption);
+// The default value might be changed (i.e. the splan recomputing the default plan based on plan parameter)
+watch(props, findDefaultOption);
+
+function findDefaultOption() {
+    const defaultOption = props.options.findIndex((option) => option.default);
+    if (defaultOption === -1) return;
+    selected.value = defaultOption;
+}
+
+const selected = ref(0);
+const selectedOption = computed(() => props.options[selected.value]);
 </script>
