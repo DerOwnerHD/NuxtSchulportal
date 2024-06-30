@@ -1,5 +1,5 @@
 <template>
-    <div class="blurred-background m-2 rounded-2xl py-2 px-4 grid gap-2" v-if="announcement">
+    <div class="blurred-background m-2 rounded-2xl p-4 grid gap-2" v-if="announcement">
         <div class="flex gap-2 items-center">
             <font-awesome-icon :icon="['fas', 'circle-exclamation']"></font-awesome-icon>
             <span>{{ announcement.announced ? "Neuer aktiver Stundenplan" : "Unangekündigte Planänderung" }}</span>

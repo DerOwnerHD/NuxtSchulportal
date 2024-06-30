@@ -1,6 +1,6 @@
 <template>
     <div class="flex items-center">
-        <div class="flex items-center gap-2 relative" ref="container">
+        <div class="flex items-center relative" ref="container">
             <div
                 v-for="(option, index) of options"
                 @click="switchSelection(index)"
@@ -47,7 +47,7 @@ function updateSelectorPosition(animate: boolean = true) {
             left: offsetLeft + "px",
             width: clientWidth + "px"
         },
-        { duration: 300, fill: "forwards", easing: "ease-in-out" }
+        { duration: 300, fill: "forwards", easing: "cubic-bezier(0,.07,.75,-0.21)" }
     );
 }
 onMounted(() => {

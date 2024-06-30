@@ -62,6 +62,7 @@ export async function fetchStundenplan() {
 export const useSplanAnnouncement = () =>
     useState<{ announced: boolean; days: StringifiedPlanComparison[]; start_date: string }>("splan-announcement");
 
+const ANNOUNCEMENT_DAY_THRESHOLD = 7;
 function checkForUnannouncedPlan() {
     const plans = useStundenplan();
     if (!plans.value) {
@@ -105,6 +106,16 @@ function checkForUnannouncedPlan() {
         writePlanToCache();
         return null;
     }
+    // If the plan is older than some time (a week), then we can expect the user
+    // to already know about that plan change. They might not have visited the site
+    // in a week or may have not dismissed the popup in that time.
+    const testDate = new Date();
+    testDate.setDate(testDate.getDate() - ANNOUNCEMENT_DAY_THRESHOLD);
+    const planIsOld = new Date(currentPlan.start_date).getTime() < testDate.getTime();
+    if (planIsOld) {
+        writePlanToCache();
+        return null;
+    }
     // The new plan may have been listed for a longer time, thus it is not
     // an "unannounced" change, but we still want to alert the user (if they hadn't seen before)
     const newPlanWasInList = data.others.includes(currentPlan.start_date);
@@ -120,6 +131,10 @@ function checkForUnannouncedPlan() {
     // we would never had actually written anything to the user. But after this
     // we require acknoledgement from the user to ever dismiss the popup
     const differences = reducePlanComparison(comparison);
+    if (differences.length === 0) {
+        writePlanToCache();
+        return null;
+    }
     return { announced: newPlanWasInList, days: differences, start_date: currentPlan.start_date };
 }
 

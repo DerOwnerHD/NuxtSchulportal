@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 10">
                <defs>
                 <linearGradient id="outer-mu-gradient" x1="0" x2="0" y1="0" y2="1">
-                    <stop stop-color="#cebadd" offset="0%"></stop>
-                    <stop stop-color="#a97ebb" offset="100%"></stop>
+                    <stop stop-color="#a98bfc" offset="0%"></stop>
+                    <stop stop-color="#8781ff" offset="100%"></stop>
                 </linearGradient>
                 <linearGradient id="inner-mu-gradient" x1="0" x2="0" y1="0" y2="1">
                     <stop stop-color="#7389b7" offset="0%"></stop>

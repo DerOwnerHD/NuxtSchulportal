@@ -95,7 +95,8 @@ async function markHomeworkAsDone() {
     grid-template-columns: min-content 1fr;
 }
 section {
-    background: linear-gradient(to bottom, #3a1d24, transparent);
+    background: var(--light-white-gradient);
+    border: solid 2px #ffffff50;
     @apply rounded-lg p-2 w-full;
 }
 .upload {
