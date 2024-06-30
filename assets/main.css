@@ -27,6 +27,7 @@ body {
     --even-lighter-white-gradient: linear-gradient(135deg, #ffffff15, #ffffff06);
     --rotatable-white-gradient: linear-gradient(var(--rotation), #ffffff1b, #ffffff14);
     --light-gold-gradient: linear-gradient(135deg, #dbac3428, #dbac3411);
+    --light-red-gradient: linear-gradient(135deg, #ff000028, #ff000011);
     --sph-gradient: linear-gradient(to bottom, #18d5ee, #397ed5);
     --sph-glow: #2ba3e0;
     --fade-mask-size: 0.1;
@@ -45,6 +46,15 @@ body {
 .blurred-background {
     background: var(--light-white-gradient);
     border-top: var(--small-white-border);
+}
+.blurred-background.borderless {
+    border-top: none;
+}
+.blurred-background[bg-type="gold"] {
+    background: var(--light-gold-gradient);
+}
+.blurred-background[bg-type="red"] {
+    background: var(--light-red-gradient);
 }
 @font-face {
     font-family: "SPBold";

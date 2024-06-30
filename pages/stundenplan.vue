@@ -2,6 +2,7 @@
     <div class="h-full">
         <ErrorDisplay :error="errors.get(AppID.Stundenplan)" :retryFunction="fetchStundenplan" v-if="errors.has(AppID.Stundenplan)"></ErrorDisplay>
         <div class="my-2" v-else-if="plans && selectedPlan">
+            <SplanAnnouncement></SplanAnnouncement>
             <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 text-center gap-2">
                 <FluidButtonGroup>
                     <FluidSelection

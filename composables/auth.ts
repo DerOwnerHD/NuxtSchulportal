@@ -75,6 +75,9 @@ export async function logOff() {
     const stop = confirm("Willst du dich wirklich abmelden?");
     if (!stop) return;
 
+    localStorage.removeItem("aes-key");
+    localStorage.removeItem("splan-cache");
+
     if ("serviceWorker" in navigator) {
         const registration = await navigator.serviceWorker.getRegistration();
         const subscription = await registration?.pushManager.getSubscription();

@@ -52,7 +52,7 @@ const flyout = useFlyout();
 // -> happens in splan dock flyout when plan hasn't loaded yet
 const removedEmptyGroups = computed(() => {
     if (!flyout.value) return [];
-    return flyout.value.groups.filter((group) => group.length);
+    return flyout.value.groups.filter((group) => group?.length);
 });
 const MARGIN_TO_SCREEN_BORDER = 20;
 const flyoutDimensions = ref<DOMRect>();
