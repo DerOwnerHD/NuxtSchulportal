@@ -7,8 +7,8 @@
         <div v-else-if="vertretungsplan" class="container h-full grid gap-2 place-content-center justify-items-center">
             <main v-if="vertretungsplan.days.length">
                 <DeckCard class="vplan-card h-full blurred-background" v-if="selectedDay" :colors="['#425849', '#1e2921']">
-                    <div class="inner grid h-full">
-                        <main>
+                    <div class="inner grid h-full" ref="card">
+                        <main v-if="showCardContent">
                             <div v-if="selectedDay.vertretungen.length" class="grid gap-2">
                                 <div
                                     class="blurred-background p-2 rounded-lg w-full !border-none shadow-md flex gap-2 items-center hover:active:scale-95 transition-transform"
@@ -39,16 +39,12 @@
                                     <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
                                     Neuigkeiten
                                 </h1>
-                                <ul>
-                                    <li v-for="item of selectedDay.news" class="list-disc ml-4">
-                                        <PrettyWrap>
-                                            <span v-html="item"></span>
-                                        </PrettyWrap>
-                                    </li>
-                                </ul>
+                                <PrettyWrap v-for="item of selectedDay.news">
+                                    <span v-html="item"></span>
+                                </PrettyWrap>
                             </div>
                         </main>
-                        <footer class="flex justify-center items-center gap-2 self-end">
+                        <footer class="flex justify-center items-center gap-2 self-end" v-if="showCardContent">
                             <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
                             <span>Aktualisert vor {{ distanceToLastUpdated }}</span>
                         </footer>
@@ -105,6 +101,7 @@ async function switchDay(index: number) {
     await useWait(300);
     selected.value = index;
     await nextTick();
+    resizeCard();
     card.animate({ opacity: "1" }, { duration: 300, fill: "forwards", easing: "ease-out" });
 }
 const planSelectionOptions = computed(() =>
@@ -121,16 +118,40 @@ const selectedDay = computed(() => vertretungsplan.value?.days[selected.value]);
 const vertretungsplan = useVertretungsplan();
 onMounted(() => {
     continuousUpdate();
+    resizeCard();
+    window.addEventListener("resize", resizeCard);
 });
 onBeforeUnmount(() => {
     // This may not be strictly neccesary, but to just
     // have some nice clean up of our mess we do this
     clearInterval(distanceInterval);
+    window.removeEventListener("resize", resizeCard);
 });
 watch(vertretungsplan, () => {
     clearInterval(distanceInterval);
+    resizeCard();
     selected.value = 0;
     continuousUpdate();
+});
+
+// This is used to set the size for the card. It is supposed to prevent
+// the card from causing the whole thing from overflowing on the y axis.
+// On this screen, the user shouldn't have to scroll the page itself, only
+// inside the card. Surely, there might be a better way to do this but may
+// require some rework (also needs to be done for /mylessons/[id]
+const card = ref<HTMLElement | null>(null);
+const showCardContent = ref(false);
+async function resizeCard() {
+    if (card.value === null) return;
+    showCardContent.value = false;
+    card.value.style.height = "";
+    await nextTick();
+    card.value.style.height = card.value.clientHeight + "px";
+    showCardContent.value = true;
+}
+watch(card, (value) => {
+    // On mounted, the component may not yet be ready, so we also add this
+    if (value !== null) resizeCard();
 });
 </script>
 

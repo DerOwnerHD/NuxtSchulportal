@@ -16,6 +16,7 @@
                         <span class="widget blurred-background whitespace-nowrap">{{
                             relativeOrAbsoluteDateFormat(course.last_lesson.date ?? "", "day-month-short")
                         }}</span>
+                        <span class="widget bg-red-500" v-if="course.last_lesson.homework && !course.last_lesson.homework.done">HA</span>
                         <span class="text-xs whitespace-nowrap">{{ course.last_lesson.topic }}</span>
                     </div>
                 </div>

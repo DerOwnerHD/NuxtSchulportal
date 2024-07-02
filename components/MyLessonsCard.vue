@@ -18,7 +18,7 @@
                 <ButtonDefault :icon="['fas', 'check']" v-if="!lesson.homework.done" @click="markHomeworkAsDone">erledigt</ButtonDefault>
                 <span v-else>🥳 erledigt</span>
             </header>
-            <div class="text-left" v-html="lesson.homework.description"></div>
+            <PrettyWrap v-html="lesson.homework.description"></PrettyWrap>
         </section>
         <section class="downloads" v-if="lesson.downloads.files.length">
             <header class="flex justify-between">
@@ -82,6 +82,8 @@ async function markHomeworkAsDone() {
         }
     });
     if (response.error) return;
+    // If the user should reload the page, the homework would still be marked as undone.
+    // For that, a full reauth appears to be needed...
     props.lesson.homework.done = true;
 }
 </script>
