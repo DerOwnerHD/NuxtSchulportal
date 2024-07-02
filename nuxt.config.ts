@@ -1,6 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     devtools: { enabled: false },
+
     app: {
         pageTransition: {
             name: "page",
@@ -28,10 +29,12 @@ export default defineNuxtConfig({
             ]
         }
     },
+
     modules: ["@nuxtjs/tailwindcss", "@nuxt/image"],
     css: ["@fortawesome/fontawesome-svg-core/styles.css", "assets/main.css"],
     ssr: true,
     devServer: { port: 80 },
+
     runtimeConfig: {
         private: {
             notificationApi: {
@@ -46,6 +49,7 @@ export default defineNuxtConfig({
             baseMoodleURL: process.env.BASE_MOODLE_URL
         }
     },
+
     build: {
         transpile: [
             "@fortawesome/fontawesome-svg-core",
@@ -54,5 +58,7 @@ export default defineNuxtConfig({
             "@fortawesome/free-solid-svg-icons",
             "@fortawesome/vue-fontawesome"
         ]
-    }
+    },
+
+    compatibilityDate: "2024-07-02"
 });
