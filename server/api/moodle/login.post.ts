@@ -1,22 +1,22 @@
-import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../../utils";
+import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
+import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
 
-const schema = {
-    body: {
-        session: { type: "string", required: true, size: 64, pattern: patterns.HEX_CODE },
-        school: { type: "number", required: true, max: 206568, min: 1 }
-    }
+const bodySchema: SchemaEntryConsumer = {
+    session: { type: "string", required: true, size: 64, pattern: patterns.HEX_CODE },
+    school: { type: "number", required: true, max: 206568, min: 1 }
 };
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ session: string; school: number }>(event);
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/moodle/login.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
         // We need to ensure that a moodle link of that school actually exists
         // That could be mo1000.schule.hessen.de (which might not exist)
         const hasMoodle = await lookupSchoolMoodle(school);
-        if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
+        if (!hasMoodle) return setErrorResponse(res, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
         // Sends request to SAMLSingleSignOn which provides a URL which actually requires
         // authentication in form of a SPH-Session cookie (provided by user in POST request)

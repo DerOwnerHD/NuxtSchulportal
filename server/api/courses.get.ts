@@ -7,7 +7,8 @@ import {
     removeBreaks,
     setErrorResponse,
     authHeaderOrQuery,
-    schoolFromRequest
+    schoolFromRequest,
+    STATIC_STRINGS
 } from "../utils";
 import { JSDOM } from "jsdom";
 
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/courses.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

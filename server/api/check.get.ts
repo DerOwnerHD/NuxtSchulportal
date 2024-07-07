@@ -1,15 +1,5 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import {
-    BasicResponse,
-    Nullable,
-    authHeaderOrQuery,
-    generateDefaultHeaders,
-    patterns,
-    schoolFromRequest,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateQuery
-} from "../utils";
+import { BasicResponse, Nullable, STATIC_STRINGS, authHeaderOrQuery, generateDefaultHeaders, schoolFromRequest, setErrorResponse } from "../utils";
 
 interface Response extends BasicResponse {
     valid: boolean;
@@ -24,7 +14,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/check.get", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

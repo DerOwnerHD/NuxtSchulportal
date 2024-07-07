@@ -2,23 +2,20 @@ import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import {
     generateDefaultHeaders,
-    parseCookie,
     authHeaderOrQuery,
     setErrorResponse,
-    validateBody,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     schoolFromRequest,
     BasicResponse
 } from "../../utils";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
 
-const schema = {
-    body: {
-        action: { type: "string", required: true, options: ["done", "undone"] },
-        id: { type: "number", required: true, min: 1, max: 100000 },
-        lesson: { type: "number", required: true, min: 1, max: 1000 }
-    }
+const bodySchema: SchemaEntryConsumer = {
+    action: { type: "string", required: true, pattern: /^(done|undone)$/ },
+    id: { type: "number", required: true, min: 1, max: 100000 },
+    lesson: { type: "number", required: true, min: 1, max: 1000 }
 };
 
 export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
@@ -28,7 +25,8 @@ export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 
     const body = await readBody<{ action: "done" | "undone"; id: number; lesson: number }>(event);
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, schema);
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const token = authHeaderOrQuery(event);
     if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");

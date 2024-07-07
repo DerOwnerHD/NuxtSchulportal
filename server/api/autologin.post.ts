@@ -1,9 +1,8 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
-const schema = {
-    body: {
-        autologin: { type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN, required: true }
-    }
+import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { SchemaEntryConsumer, validateBodyNew } from "../validator";
+const bodySchema: SchemaEntryConsumer = {
+    autologin: { type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN, required: true }
 };
 // This gets used in soo many requests here, just gonna store it
 const LOGIN_URL = "https://login.schulportal.hessen.de/";
@@ -12,12 +11,11 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ autologin: string }>(event);
-
-    const valid = validateBody(body, schema.body);
-    if (!valid) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/autologin.post", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

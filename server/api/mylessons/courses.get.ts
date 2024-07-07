@@ -8,33 +8,31 @@ import {
     patterns,
     removeBreaks,
     schoolFromRequest,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateQuery
+    setErrorResponse
 } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
-        key: { required: false, pattern: patterns.AES_PASSWORD }
-    }
+const querySchema: SchemaEntryConsumer = {
+    token: { required: true, pattern: patterns.SID },
+    session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
+    key: { required: false, pattern: patterns.AES_PASSWORD }
 };
 
-interface Courses extends BasicResponse {
+interface Response extends BasicResponse {
     courses: MyLessonsCourse[];
     expired: MyLessonsCourse[];
 }
 
-export default defineEventHandler<Promise<Courses>>(async (event) => {
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ token: string; session: string; key?: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const rateLimit = handleRateLimit("/api/mylessons/courses.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

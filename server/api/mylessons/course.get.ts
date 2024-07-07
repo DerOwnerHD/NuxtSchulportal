@@ -8,37 +8,35 @@ import {
     patterns,
     removeBreaks,
     schoolFromRequest,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateQuery
+    setErrorResponse
 } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
 import { COURSE_UNAVAILABLE_ERROR, MyLessonsLesson } from "~/server/mylessons";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
-        key: { required: false, pattern: patterns.AES_PASSWORD },
-        semester: { required: false, type: "number", min: 1, max: 2 },
-        id: { required: true, type: "number", min: 1, max: 999_999 }
-    }
+const querySchema: SchemaEntryConsumer = {
+    token: { required: true, pattern: patterns.SID },
+    session: { required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
+    key: { required: false, pattern: patterns.AES_PASSWORD },
+    semester: { required: false, type: "number", min: 1, max: 2 },
+    id: { required: true, type: "number", min: 1, max: 999_999 }
 };
 
-interface Course extends BasicResponse {
+interface Response extends BasicResponse {
     lessons: MyLessonsLesson[];
     attendance: { [key: string]: Nullable<string> };
     subject: Nullable<string>;
 }
 
-export default defineEventHandler<Promise<Course>>(async (event) => {
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ token: string; session: string; key?: string; semester?: string; id: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const rateLimit = handleRateLimit("/api/mylessons/course.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

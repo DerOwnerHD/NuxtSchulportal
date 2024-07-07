@@ -1,22 +1,21 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
-const schema = {
-    body: {
-        token: { type: "string", required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
-        ikey: { type: "string", required: true, size: 32, pattern: patterns.HEX_CODE },
-        sid: { type: "string", required: true, pattern: patterns.SID },
-        code: { type: "string", required: true, pattern: patterns.PW_RESET_CODE }
-    }
+import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { SchemaEntryConsumer, validateBodyNew } from "../validator";
+const bodySchema: SchemaEntryConsumer = {
+    token: { type: "string", required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
+    ikey: { type: "string", required: true, size: 32, pattern: patterns.HEX_CODE },
+    sid: { type: "string", required: true, pattern: patterns.SID },
+    code: { type: "string", required: true, pattern: patterns.PW_RESET_CODE }
 };
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
     const body = await readBody<{ token: string; ikey: string; sid: string; code: string }>(event);
-
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/resetpassword.put", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
@@ -30,7 +29,7 @@ export default defineEventHandler(async (event) => {
     ].join("&");
 
     try {
-        const raw = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
+        const response = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
             method: "POST",
             headers: {
                 Cookie: `sid=${sid}`,
@@ -40,7 +39,7 @@ export default defineEventHandler(async (event) => {
             body: requestForm
         });
 
-        const html = removeBreaks(await raw.text());
+        const html = removeBreaks(await response.text());
         const passwordMatch = html.match(/(?:<div class="alert alert-success"> Das neue Passwort lautet: <b>)(.+)(?:<\/b>)/i);
         if (passwordMatch === null) return setErrorResponse(res, 400, "Falscher Code");
 

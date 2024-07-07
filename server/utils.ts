@@ -67,6 +67,9 @@ export const knownSubscriptionServices = [
 
 export const isSubscriptionService = (host: string) => knownSubscriptionServices.some((pattern) => pattern.test(host));
 
+/**
+ * @deprecated
+ */
 export const validateQuery = (
     query: any,
     schema: {
@@ -123,6 +126,7 @@ export const validateQuery = (
  * @param schema The expected layout of the body
  * @returns Whether the body is valid
  * @example { username: "testtest123" } as body and { username: { type: "string", required: true } } as schema
+ * @deprecated
  */
 export const validateBody = (
     body: any,
@@ -210,7 +214,9 @@ export const removeBreaks = (text: string): string =>
         .replace(/\s+/g, " ")
         .replace(/<2br \/>/gi, "\n\n");
 
-// This function can go fuck itself
+/**
+ * @deprecated
+ */
 export const parseJSONBody = (req: IncomingMessage): { [key: string]: string } => {
     try {
         const body = JSON.parse(req.read());
@@ -303,6 +309,7 @@ export const schoolFromRequest = (event: any, body?: any, stringify: boolean = t
  * the object, which is in JSON just {}.
  * @param schema Schema of the endpoint (with query and/or body)
  * @returns the modified schema
+ * @deprecated
  */
 export const transformEndpointSchema = (schema: any) => {
     // We HAVE to create a copy of it or otherwise that reference would
@@ -342,3 +349,9 @@ export interface BasicResponse {
 }
 
 export type Nullable<T> = T | null;
+
+export const STATIC_STRINGS = {
+    INVALID_TOKEN: "Token not provided or malformed",
+    CONTENT_TYPE_NO_JSON: 'Expected "application/json" as "content-type" header',
+    MOODLE_SCHOOL_NOT_EXIST: "Moodle does not exist for given school"
+};

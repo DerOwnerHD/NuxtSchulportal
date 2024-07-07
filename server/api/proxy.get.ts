@@ -1,10 +1,9 @@
-import { generateDefaultHeaders, patterns, schoolFromRequest, setErrorResponse, transformEndpointSchema, validateQuery } from "../utils";
+import { generateDefaultHeaders, patterns, schoolFromRequest, setErrorResponse } from "../utils";
+import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        path: { required: true, min: 1, max: 100, pattern: /^pimg-l-[0-9]{1,7}_[0-9a-f]{32}-(xs|s|m|l|xl)\.png$/ }
-    }
+const querySchema: SchemaEntryConsumer = {
+    token: { required: true, pattern: patterns.SID },
+    path: { required: true, min: 1, max: 100, pattern: /^pimg-l-[0-9]{1,7}_[0-9a-f]{32}-(xs|s|m|l|xl)\.png$/ }
 };
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +11,8 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ token: string; path: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const { token, path } = query;
 

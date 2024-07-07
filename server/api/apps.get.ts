@@ -1,12 +1,12 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { authHeaderOrQuery, generateDefaultHeaders, schoolFromRequest, setErrorResponse } from "../utils";
+import { authHeaderOrQuery, generateDefaultHeaders, schoolFromRequest, setErrorResponse, STATIC_STRINGS } from "../utils";
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/apps.get", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

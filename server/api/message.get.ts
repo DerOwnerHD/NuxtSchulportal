@@ -6,19 +6,16 @@ import {
     hasPasswordResetLocationSet,
     patterns,
     schoolFromRequest,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateQuery
+    setErrorResponse
 } from "../utils";
 
 import cryptoJS from "crypto-js";
+import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        key: { required: true, pattern: patterns.AES_PASSWORD },
-        id: { required: true, pattern: patterns.SPH_DIRECT_MESSAGE_UUID }
-    }
+const querySchema: SchemaEntryConsumer = {
+    token: { required: true, pattern: patterns.SID },
+    key: { required: true, pattern: patterns.AES_PASSWORD },
+    id: { required: true, type: "number" }
 };
 
 export default defineEventHandler(async (event) => {
@@ -26,7 +23,8 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ key: string; id: string; token: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const rateLimit = handleRateLimit("/api/message.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

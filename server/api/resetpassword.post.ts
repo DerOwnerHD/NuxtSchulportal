@@ -1,21 +1,11 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import {
-    APIError,
-    generateDefaultHeaders,
-    parseCookies,
-    patterns,
-    removeBreaks,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateBody
-} from "../utils";
-const schema = {
-    body: {
-        username: { type: "string", required: true, max: 32, pattern: patterns.USERNAME },
-        type: { type: "number", required: true, min: 0, max: 2 },
-        birthday: { type: "string", required: true, pattern: patterns.BIRTHDAY },
-        school: { type: "number", required: true, max: 206568, min: 1 }
-    }
+import { APIError, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { SchemaEntryConsumer, validateBodyNew } from "../validator";
+const bodySchema: SchemaEntryConsumer = {
+    username: { type: "string", required: true, max: 32, pattern: patterns.USERNAME },
+    type: { type: "number", required: true, min: 0, max: 2 },
+    birthday: { type: "string", required: true, pattern: patterns.BIRTHDAY },
+    school: { type: "number", required: true, max: 206568, min: 1 }
 };
 const USER_TYPE = ["Schueler", "Eltern", "Lehrer"];
 
@@ -23,10 +13,11 @@ export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ username: string; type: number; birthday: string; school: number }>(event);
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/resetpassword.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

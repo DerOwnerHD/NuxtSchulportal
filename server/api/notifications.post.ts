@@ -1,23 +1,23 @@
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { isSubscriptionService, patterns, setErrorResponse, transformEndpointSchema, validateBody } from "../utils";
+import { isSubscriptionService, patterns, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { SchemaEntryConsumer, validateBodyNew } from "../validator";
 
-const schema = {
-    body: {
-        endpoint: { required: true, type: "string", max: 300 },
-        auth: { required: true, type: "string", pattern: patterns.NOTIFICATION_AUTH },
-        p256dh: { required: true, type: "string", pattern: patterns.NOTIFICATION_P256DH },
-        autologin: { required: true, type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN }
-    }
+const bodySchema: SchemaEntryConsumer = {
+    endpoint: { required: true, type: "string", max: 300 },
+    auth: { required: true, type: "string", pattern: patterns.NOTIFICATION_AUTH },
+    p256dh: { required: true, type: "string", pattern: patterns.NOTIFICATION_P256DH },
+    autologin: { required: true, type: "string", pattern: patterns.SESSION_OR_AUTOLOGIN }
 };
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ endpoint: string; auth: string; p256dh: string; autologin: string }>(event);
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/notifications.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

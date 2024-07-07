@@ -2,34 +2,31 @@ import { hasInvalidSidRedirect } from "../failsafe";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
     generateDefaultHeaders,
-    parseCookie,
     patterns,
     setErrorResponse,
-    transformEndpointSchema,
-    validateQuery,
     authHeaderOrQuery,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     schoolFromRequest
 } from "../utils";
+import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
-const schema = {
-    query: {
-        category: { required: false, type: "number", min: 1, max: 11 },
-        start: { required: true, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS_OR_YEAR },
-        end: { required: false, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS },
-        query: { required: false, type: "string", max: 20 },
-        new: { required: false, type: "boolean" },
-        token: { required: false, type: "string", pattern: patterns.SID }
-    }
+const querySchema: SchemaEntryConsumer = {
+    category: { required: false, type: "number", min: 1, max: 11 },
+    start: { required: true, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS_OR_YEAR },
+    end: { required: false, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS },
+    query: { required: false, type: "string", max: 20 },
+    new: { required: false, type: "boolean" },
+    token: { required: false, type: "string", pattern: patterns.SID }
 };
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    const query = getQuery<{ category?: number; start: string; end?: string; query?: string; new?: "true" | "false" }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const query = getQuery<{ category?: string; start: string; end?: string; query?: string; new?: "true" | "false" }>(event);
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const token = authHeaderOrQuery(event);
     if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
@@ -56,7 +53,7 @@ export default defineEventHandler(async (event) => {
             headers: {
                 Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
-                ...generateDefaultHeaders()
+                ...generateDefaultHeaders(address)
             },
             body: requestForm
         });

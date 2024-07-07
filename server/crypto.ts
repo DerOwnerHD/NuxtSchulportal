@@ -3,6 +3,7 @@
  * Most likely this is a remnant of when HTTPS was not widely enforced and thus they wanted
  * to be able to securely send some specific data like login credentials or attendance data
  * over an encrypted connection.
+ * https://start.schulportal.hessen.de/ajax.php?f=rsaPublicKey
  */
 export const SPH_PUBLIC_KEY =
     "-----BEGIN PUBLIC KEY-----\nMIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgGpTJwSxNDmELTK+qfZUowESiPD/\nrFaHQ7UyLEiLtleYGb6bvIFG+hAa25RY6ZP0a653QKfA5LFUs6IFQLU1JT9Uahtw\nHAAsb0oLWJukaa/6XGqRGTM3tKAWIQOxEqIxS8zBHdQZiZQZmuZlSrwdJwJLBoSr\nbp8iQWB1XMYlJigLAgMBAAE=\n-----END PUBLIC KEY-----";

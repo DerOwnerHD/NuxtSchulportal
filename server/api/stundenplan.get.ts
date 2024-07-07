@@ -6,7 +6,8 @@ import {
     setErrorResponse,
     hasInvalidAuthentication,
     schoolFromRequest,
-    BasicResponse
+    BasicResponse,
+    STATIC_STRINGS
 } from "../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import { JSDOM } from "jsdom";
@@ -21,7 +22,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/stundenplan.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

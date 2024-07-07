@@ -1,28 +1,17 @@
 import { IncomingMessage, ServerResponse } from "http";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import {
-    generateDefaultHeaders,
-    parseCookie,
-    patterns,
-    removeBreaks,
-    setErrorResponse,
-    setResponse,
-    validateBody,
-    parseCookies,
-    BasicResponse
-} from "../utils";
+import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, setResponse, parseCookies, BasicResponse, STATIC_STRINGS } from "../utils";
 import { constants, publicEncrypt } from "crypto";
 import cryptoJS from "crypto-js";
 import { SPH_PUBLIC_KEY, generateUUID } from "../crypto";
+import { SchemaEntryConsumer, validateBodyNew } from "../validator";
 // For some reason "Universität Kassel (Fachbereich 2) Kassel" has id 206568, like why?
-const schema = {
-    body: {
-        username: { type: "string", required: true, max: 32 },
-        password: { type: "string", required: true, max: 100 },
-        school: { type: "number", required: true, max: 206568, min: 1 },
-        autologin: { type: "boolean", required: false },
-        legacy: { type: "boolean", required: false }
-    }
+const bodySchema: SchemaEntryConsumer = {
+    username: { type: "string", required: true, max: 32 },
+    password: { type: "string", required: true, max: 100 },
+    school: { type: "number", required: true, max: 206568, min: 1 },
+    autologin: { type: "boolean", required: false },
+    legacy: { type: "boolean", required: false }
 };
 
 interface Response extends BasicResponse {
@@ -39,10 +28,11 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ username: string; password: string; school: number; autologin?: boolean; legacy?: boolean }>(event);
-    if (!validateBody(body, schema.body)) return setErrorResponse(res, 400, schema);
+    const bodyValidation = validateBodyNew(bodySchema, body);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const rateLimit = handleRateLimit("/api/login.post", address, req.headers["x-ratelimit-bypass"]);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

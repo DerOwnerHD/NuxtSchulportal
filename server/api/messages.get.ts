@@ -6,19 +6,16 @@ import {
     hasPasswordResetLocationSet,
     patterns,
     schoolFromRequest,
-    setErrorResponse,
-    transformEndpointSchema,
-    validateQuery
+    setErrorResponse
 } from "../utils";
 
 import cryptoJS from "crypto-js";
+import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
-const schema = {
-    query: {
-        token: { required: true, pattern: patterns.SID },
-        key: { required: true, pattern: patterns.AES_PASSWORD },
-        type: { required: true, options: ["all", "visible", "invisible"] }
-    }
+const querySchema: SchemaEntryConsumer = {
+    token: { required: true, pattern: patterns.SID },
+    key: { required: true, pattern: patterns.AES_PASSWORD },
+    type: { required: true, pattern: /^(all|visible|invisible)$/ }
 };
 
 // yes, they called it unvisibleOnly, not invisible (wtf)
@@ -29,7 +26,8 @@ export default defineEventHandler(async (event) => {
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
     const query = getQuery<{ key: string; type: "visible" | "invisible"; token: string }>(event);
-    if (!validateQuery(query, schema.query)) return setErrorResponse(res, 400, transformEndpointSchema(schema));
+    const queryValidation = validateQueryNew(querySchema, query);
+    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const rateLimit = handleRateLimit("/api/messages.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
