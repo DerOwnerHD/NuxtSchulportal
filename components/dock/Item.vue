@@ -18,9 +18,8 @@
 
 <script setup lang="ts">
 const props = defineProps<{
-    id: string;
+    id: AppID;
     name: string;
-    subtitle?: string;
     flyout: {
         title: string;
         text?: string;

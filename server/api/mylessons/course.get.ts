@@ -79,13 +79,15 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             // @ts-ignore it does not matter what we push into parseInt
             const entry = parseInt(lesson.getAttribute("data-entry")) || null;
 
-            const firstRowItems = lesson
-                .querySelector("td:first-child")
-                ?.textContent?.split("   ")
-                .map((line) => line.trim());
+            const firstRowItems =
+                lesson
+                    .querySelector("td:first-child")
+                    ?.textContent?.split("   ")
+                    .map((line) => line.trim())
+                    .filter((line) => line !== "") ?? [];
             // We'd expect the content to be seperated by a big empty space
             // (the first part containing the date and then the lessons)
-            if (firstRowItems?.length !== 2) continue;
+            if (firstRowItems.length !== 2) continue;
             // This reverses our date from 23.09.2024 to 2024-09-23
             // so the Date constructor can actually parse it
             const date = firstRowItems[0].split(".").reverse().join("-");

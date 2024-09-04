@@ -4,7 +4,7 @@
             :error="errors.get(AppID.Vertretungsplan)"
             :retryFunction="fetchVertretungsplan"
             v-if="errors.has(AppID.Vertretungsplan)"></ErrorDisplay>
-        <div v-else-if="vertretungsplan" class="container h-full grid gap-2 place-content-center justify-items-center">
+        <div v-else-if="vertretungsplan" class="wrapper h-full grid gap-2 place-content-center justify-items-center">
             <main v-if="vertretungsplan.days.length">
                 <DeckCard class="vplan-card h-full blurred-background" v-if="selectedDay" :colors="['#425849', '#1e2921']">
                     <div class="inner grid h-full" ref="card">
@@ -37,23 +37,25 @@
                             <div v-if="selectedDay.news.length" class="blurred-background p-2 rounded-lg !border-none shadow-md my-2">
                                 <h1 class="flex gap-2 justify-center w-full items-center">
                                     <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
-                                    Neuigkeiten
+                                    Ankündigungen
                                 </h1>
                                 <PrettyWrap v-for="item of selectedDay.news">
                                     <span v-html="item"></span>
                                 </PrettyWrap>
                             </div>
                         </main>
-                        <footer class="flex justify-center items-center gap-2 self-end" v-if="showCardContent">
-                            <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
-                            <span>Aktualisert vor {{ distanceToLastUpdated }}</span>
-                        </footer>
                     </div>
                 </DeckCard>
             </main>
             <section v-else class="grid gap-2 place-content-center">
                 <p>Keine Tage verfügbar</p>
                 <ButtonRoundedBlurred text="Neu laden" :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan"></ButtonRoundedBlurred>
+            </section>
+            <section class="flex justify-center">
+                <div class="blurred-background px-4 rounded-full py-1 flex gap-2 items-center">
+                    <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
+                    <span>Aktualisert vor {{ distanceToLastUpdated }}</span>
+                </div>
             </section>
             <footer v-if="vertretungsplan.days.length" class="blurred-background rounded-full w-fit p-2">
                 <FluidButtonGroup>
@@ -101,7 +103,6 @@ async function switchDay(index: number) {
     await useWait(300);
     selected.value = index;
     await nextTick();
-    resizeCard();
     card.animate({ opacity: "1" }, { duration: 300, fill: "forwards", easing: "ease-out" });
 }
 const planSelectionOptions = computed(() =>
@@ -138,7 +139,7 @@ watch(vertretungsplan, () => {
 // the card from causing the whole thing from overflowing on the y axis.
 // On this screen, the user shouldn't have to scroll the page itself, only
 // inside the card. Surely, there might be a better way to do this but may
-// require some rework (also needs to be done for /mylessons/[id]
+// require some rework (also needs to be done for /mylessons/[id])
 const card = ref<HTMLElement | null>(null);
 const showCardContent = ref(false);
 async function resizeCard() {
@@ -156,7 +157,7 @@ watch(card, (value) => {
 </script>
 
 <style scoped>
-.container {
+.wrapper {
     grid-template-rows: 1fr min-content;
 }
 </style>

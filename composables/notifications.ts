@@ -10,5 +10,6 @@ export enum AppID {
     // This is used for app errors when the page of a specific course is viewed
     MyLessonsCourse = "mylessons-course",
     Stundenplan = "stundenplan",
-    AES = "aes"
+    AES = "aes",
+    Moodle = "moodle"
 }

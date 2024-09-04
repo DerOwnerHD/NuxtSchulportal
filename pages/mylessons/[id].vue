@@ -28,6 +28,7 @@
                     <DeckCard v-for="lesson of courseData.lessons" v-if="showElements">
                         <MyLessonsCard :lesson="lesson" :course="courseData.id"></MyLessonsCard>
                     </DeckCard>
+                    <p class="text-center w-full place-self-center" v-if="!courseData.lessons.length">Keine Stunden geladen</p>
                 </div>
                 <ItemCounter :items="counters" :index="selected" @move="updateSelectedLesson"></ItemCounter>
             </main>

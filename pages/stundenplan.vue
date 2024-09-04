@@ -29,6 +29,9 @@
                         {{ selectedPlan.end_date ? convertDateStringToFormat(selectedPlan.end_date, "day-month-full") : "unbekannt" }}
                     </div>
                 </div>
+                <div class="flex justify-center">
+                    <div class="bg-amber-600 rounded-full px-2">{{ currentWeekType }}-Woche</div>
+                </div>
             </div>
             <div
                 class="grid w-screen min-h-full text-center gap-2 px-2"
@@ -55,7 +58,7 @@
                 </div>
                 <div class="day grid" v-for="(day, index) of selectedPlan.days" v-if="!comparisonMode">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
-                    <div class="lesson" v-for="lesson of day.lessons" :style="{ '--start': lesson.lessons.at(0), '--end': lesson.lessons.at(-1) }">
+                    <div class="lesson" v-for="lesson of day.lessons" :style="generateStylesForLesson(lesson.lessons)">
                         <div v-if="lesson.classes.length" class="grid h-full items-center gap-2">
                             <div class="subject grid items-center" v-for="subject of lesson.classes">
                                 <span class="font-bold">{{ subject.name }}</span>
@@ -74,11 +77,7 @@
                 </div>
                 <div class="day grid" v-for="(day, index) of comparisonResult.differences" v-else-if="comparisonMode && comparisonResult">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
-                    <div
-                        class="lesson"
-                        :compare-type="lesson.type"
-                        v-for="lesson of day"
-                        :style="{ '--start': lesson.lessons.at(0), '--end': lesson.lessons.at(-1) }">
+                    <div class="lesson" :compare-type="lesson.type" v-for="lesson of day" :style="generateStylesForLesson(lesson.lessons)">
                         <div v-if="lesson.subjects.length" class="grid h-full items-center gap-2">
                             <div class="subject grid items-center" :compare-type="subject.type" v-for="subject of lesson.subjects">
                                 <span class="font-bold">{{ subject.data.name }}</span>
@@ -128,6 +127,8 @@ onMounted(() => navigateToSelectedPlan());
 // -> the plan is not refreshed nor is the page remounted
 watch(plans, () => navigateToSelectedPlan());
 
+const currentWeekType = computed(() => (new Date().getWeek() % 2 === 0 ? "A" : "B"));
+
 function navigateToSelectedPlan() {
     if (!plans.value) return;
     const planId = Array.isArray(route.query.plan) ? route.query.plan.at(0) : route.query.plan;
@@ -161,7 +162,7 @@ const planSelectionOptions = computed(() => {
     if (!plans.value) return [];
     return plans.value.map((plan, index) => {
         return {
-            title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
+            title: `${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
             subtitle: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
             id: plan.start_date,
             default: index === selected.value
@@ -174,6 +175,11 @@ const comparisonResult = computed(() => {
     if (!comparisonMode.value) return null;
     return comparePlans(compareTarget.value);
 });
+
+function generateStylesForLesson(lessons: number[]) {
+    // Using indicies [0] and [-1] does not work in JS
+    return { "--start": lessons.at(0), "--end": lessons.at(-1) };
+}
 </script>
 
 <style scoped>

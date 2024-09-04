@@ -12,6 +12,9 @@ module.exports = {
             },
             content: {
                 empty: '""'
+            },
+            gridTemplateRows: {
+                "header-main": "min-content 1fr"
             }
         }
     },

@@ -186,11 +186,13 @@ function stringifySubjects(subjects: StundenplanSubjectComparison[], show_unchan
 
 interface StringifiedPlanComparison {
     day: string;
-    differences: {
-        type: "default" | "added" | "removed";
-        lessons: number[];
-        subjects: StundenplanSubjectComparison[];
-    }[];
+    differences: StringifiedPlanComparisonLesson[];
+}
+
+interface StringifiedPlanComparisonLesson {
+    type: "default" | "added" | "removed";
+    lessons: number[];
+    subjects: StundenplanSubjectComparison[];
 }
 
 function reducePlanComparison(comparison: StundenplanComparison) {
@@ -397,17 +399,18 @@ export function useStundenplanFlyout() {
           : // Due to the stundenplan useState being initialized using an array
             // (instead of being empty), this state will never be available
             STATIC_STRINGS.IS_LOADING;
-    return [
-        [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }],
-        plans.value?.map((plan) => {
-            return {
-                title: `Ab ${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
-                text: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
-                // Already being on /stundenplan would cause nothing to happen
-                // Still, the parameter would be set and on a page reload, the user
-                // would get thrown to that plan (if it even exists)
-                action: () => navigateTo(`/stundenplan?plan=${plan.start_date}`)
-            };
-        })
-    ];
+    return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
+}
+
+export function getStundenplanFlyoutItems() {
+    const plans = useStundenplan();
+    if (!Array.isArray(plans.value)) return [];
+    return plans.value.map((plan) => ({
+        title: `${convertDateStringToFormat(plan.start_date, "day-month-full", true)}${plan.current ? " (aktiv)" : ""}`,
+        text: plan.end_date ? `Bis ${convertDateStringToFormat(plan.end_date, "day-month-full", true)}` : "",
+        // Already being on /stundenplan would cause nothing to happen
+        // Still, the parameter would be set and on a page reload, the user
+        // would get thrown to that plan (if it even exists)
+        action: () => navigateTo(`/stundenplan?plan=${plan.start_date}`)
+    }));
 }

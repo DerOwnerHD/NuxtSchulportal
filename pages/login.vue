@@ -20,6 +20,7 @@
                                     name="username"
                                     placeholder="Name (Vorname.Nachname)"
                                     autofocus
+                                    autocomplete="username"
                                     required />
                                 <input
                                     class="w-20 text-center"
@@ -40,6 +41,7 @@
                                     placeholder="Passwort"
                                     name="password"
                                     required
+                                    autocomplete="current-password"
                                     class="flex-auto" />
                                 <font-awesome-icon
                                     id="login-password-toggle"
@@ -154,36 +156,37 @@
             </div>
         </section>
         <dialog id="school-search" class="text-white w-80 h-[60vh] place-content-center rounded-xl focus:outline-none">
-            <div class="grid w-full h-full place-content-center">
-                <div class="h-[60vh] py-3" v-if="search.loaded">
-                    <div class="w-full flex justify-center sticky top-0 pt-2 pb-1 backdrop-blur-md">
-                        <input v-model="searchQuery" type="text" class="w-60 h-10 rounded-md shadow-md px-2" placeholder="Suche eine Schule..." />
-
-                        <font-awesome-icon
-                            @click="closeSchoolSearch"
-                            class="rounded-button text-2xl aspect-square self-center ml-2"
-                            :icon="['fas', 'xmark']"></font-awesome-icon>
+            <div class="grid gap-2 p-4 h-full items-start grid-rows overflow-hidden grid-rows-header-main" v-if="search.loaded">
+                <header class="w-full rounded-xl p-2 backdrop-blur-md flex min-h-0 shadow-md sticky">
+                    <input v-model="searchQuery" type="text" class="w-full h-10 rounded-xl px-2 shadow-md" placeholder="Suche eine Schule..." />
+                    <font-awesome-icon
+                        @click="closeSchoolSearch"
+                        class="blurred-background borderless p-1 rounded-full text-2xl aspect-square self-center ml-2"
+                        :icon="['fas', 'xmark']"></font-awesome-icon>
+                </header>
+                <main id="schools" class="grid gap-2 pb-4 z-30 overflow-y-scroll h-fit max-h-full relative pt-2" v-if="search.results.length">
+                    <div
+                        class="bg-white bg-opacity-10 rounded-xl p-2 shadow-md"
+                        @click="closeSchoolSearch(school.id)"
+                        v-for="school in search.results">
+                        <b>{{ school.id }}</b>
+                        {{ school.name }}
+                        <small>{{ school.town }}</small>
                     </div>
-                    <div class="mt-5">
-                        <ul id="schools" class="grid" v-for="school in search.results">
-                            <li @click="closeSchoolSearch(school.id)">
-                                {{ school.name }}
-                                <small>{{ school.town }}</small>
-                            </li>
-                        </ul>
-                        <p class="text-center">
-                            <span v-if="searchQuery === ''">Suche nach einem Ort oder einer Schule</span>
-                            <span v-else-if="!search.results.length">Keine Ergebnisse gefunden</span>
-                        </p>
-                    </div>
-                </div>
-                <div v-else class="spinner" style="--size: 4rem"></div>
+                </main>
+                <footer class="text-center" v-else>
+                    <span v-if="searchQuery === ''">Suche nach einem Ort oder einer Schule</span>
+                    <span v-else-if="!search.results.length">Keine Ergebnisse gefunden</span>
+                </footer>
             </div>
+            <div v-else class="spinner" style="--size: 4rem"></div>
         </dialog>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { Nullable } from "~/server/utils";
+
 // This only exists so that TypeScript doesn't complain about
 // all those things that would otherwise be undefined when building
 // the list there
@@ -256,13 +259,18 @@ function closeSchoolSearch(id?: number) {
     if (typeof id !== "number") return;
     credentials.value.school = id;
 }
+/**
+ * Rendering too many search items at once drastically impacts performance and is
+ * not required in the slightest.
+ */
+const MAX_SEARCH_RESULTS = 20;
 watch(searchQuery, (value) => {
     if (value === "") return (search.value.results = []);
     const regex = new RegExp(value, "i");
-    search.value.results = search.value.schools.filter((school) => regex.test(school.name)).slice(0, 10);
+    search.value.results = search.value.schools.filter((school) => regex.test(school.name)).slice(0, MAX_SEARCH_RESULTS);
 });
 
-const errors = ref<{ [key: string]: { message: string | null; timeout?: NodeJS.Timeout } }>({
+const errors = ref<{ [key: string]: { message: Nullable<string>; timeout?: NodeJS.Timeout } }>({
     login: { message: null },
     reset: { message: null }
 });
@@ -512,17 +520,17 @@ form {
     }
 }
 #school-search {
-    background: linear-gradient(to bottom, #282828, #121212);
+    background: var(--light-white-gradient);
+    backdrop-filter: blur(50px);
     input {
-        background: var(--element-color);
+        background: var(--light-white-gradient);
     }
     li {
-        background: linear-gradient(to bottom, #343434, #2c2c2c);
-        @apply my-1 mx-3 rounded-md px-2 text-xl hover:active:scale-95;
-        transition: transform 100ms;
-        small {
-            font-size: 0.8rem;
-        }
+        background: var(--light-white-gradient);
+    }
+    main {
+        mask-image: linear-gradient(to bottom, transparent 0%, white 5%, white 95%, transparent 100%);
+        mask-mode: alpha;
     }
 }
 </style>

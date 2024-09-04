@@ -27,16 +27,9 @@
 </template>
 
 <script setup lang="ts">
-const DEFAULT_BG_LOCATION = "/img/schulbg/default-lg.png";
-
+import "~/composables/prototype";
 const flyout = useFlyout();
-
 const authed = isLoggedIn();
-const credentials = useCredentials();
-const background = computed(
-    () =>
-        `background-image: url("${SPH_BASE}/${credentials.value ? `exporteur.php?a=schoolbg&s=lg&i=${credentials.value.school}` : DEFAULT_BG_LOCATION}")`
-);
 
 const dialogBoxes = useOpenDialogBoxes();
 const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstufenwahl"));
@@ -56,7 +49,7 @@ const BACKGROUND_GRADIENTS = [
     { pattern: /^\/stundenplan$/, color: 0x0000ad },
     { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3 }
 ];
-const BACKGROUND_COLOR_MULTIPLIER = 0.4;
+const BACKGROUND_COLOR_MULTIPLIER = 0.5;
 
 const appBackgroundGradient = computed(() => {
     const site = BACKGROUND_GRADIENTS.find((site) => site.pattern.test(useRoute().path));
