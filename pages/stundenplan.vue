@@ -29,8 +29,15 @@
                         {{ selectedPlan.end_date ? convertDateStringToFormat(selectedPlan.end_date, "day-month-full") : "unbekannt" }}
                     </div>
                 </div>
-                <div class="flex justify-center">
-                    <div class="bg-amber-600 rounded-full px-2">{{ currentWeekType }}-Woche</div>
+                <div class="flex justify-center gap-2">
+                    <div
+                        v-for="[color, type, text] of weekButtons"
+                        :style="{ '--color': color }"
+                        :class="{ selected: selectedWeekType === type }"
+                        class="week"
+                        @click="selectedWeekType = type">
+                        {{ text }}
+                    </div>
                 </div>
             </div>
             <div
@@ -56,7 +63,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="day grid" v-for="(day, index) of selectedPlan.days" v-if="!comparisonMode">
+                <div class="day grid" v-for="(day, index) of weekSpecificPlan.days" v-if="weekSpecificPlan && !comparisonMode">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
                     <div class="lesson" v-for="lesson of day.lessons" :style="generateStylesForLesson(lesson.lessons)">
                         <div v-if="lesson.classes.length" class="grid h-full items-center gap-2">
@@ -127,7 +134,17 @@ onMounted(() => navigateToSelectedPlan());
 // -> the plan is not refreshed nor is the page remounted
 watch(plans, () => navigateToSelectedPlan());
 
-const currentWeekType = computed(() => (new Date().getWeek() % 2 === 0 ? "A" : "B"));
+/**
+ * True is an even week, false an uneven week
+ */
+const currentWeekType = computed(() => new Date().getWeek() % 2 === 0);
+const selectedWeekType = ref<WeekType>(currentWeekType.value ? "even" : "odd");
+type WeekType = "even" | "odd" | "all";
+const weekButtons: [string, WeekType, string][] = [
+    ["#d97706", "even", "A-Woche"],
+    ["#6366f1", "odd", "B-Woche"],
+    ["#6b7280", "all", "Alle"]
+];
 
 function navigateToSelectedPlan() {
     if (!plans.value) return;
@@ -179,6 +196,31 @@ const comparisonResult = computed(() => {
 function generateStylesForLesson(lessons: number[]) {
     // Using indicies [0] and [-1] does not work in JS
     return { "--start": lessons.at(0), "--end": lessons.at(-1) };
+}
+
+const AFTERNOON_LESSONS_START = 8;
+const weekSpecificPlan = computed(() => {
+    // This has to be referenced for Vue to recompute this value if the selection changes
+    selectedWeekType.value;
+    if (!selectedPlan.value) return null;
+    if (selectedWeekType.value === "all") return selectedPlan.value;
+    const days = selectedPlan.value.days.map((day) => ({
+        ...day,
+        lessons: day.lessons
+            .map(({ lessons, classes }) => ({
+                lessons: fillLessonOnWeekType(lessons),
+                classes
+            }))
+            .filter(({ lessons }) => lessons.length)
+    }));
+    return { ...selectedPlan.value, days };
+});
+function fillLessonOnWeekType(lessons: number[]) {
+    if (lessons.length !== 1 || lessons[0] < AFTERNOON_LESSONS_START) return lessons;
+    const lesson = lessons[0];
+    const isCorrectWeek = selectedWeekType.value === (lesson % 2 === 0 ? "even" : "odd");
+    if (!isCorrectWeek) return [];
+    return selectedWeekType.value === "even" ? [lesson, lesson + 1] : [lesson - 1, lesson];
 }
 </script>
 
@@ -274,5 +316,15 @@ function generateStylesForLesson(lessons: number[]) {
 .lesson[compare-type="removed"],
 .lesson[compare-type="added"] {
     @apply bg-opacity-30 border-solid border-2 rounded-md;
+}
+.week {
+    @apply rounded-full px-2;
+    background-color: var(--color);
+}
+.week:not(.selected) {
+    @apply opacity-30 scale-90 transition-all;
+}
+.week.selected {
+    box-shadow: 0px 0px 15px 0px var(--color);
 }
 </style>

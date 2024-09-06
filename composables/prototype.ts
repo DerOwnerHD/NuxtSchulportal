@@ -1,3 +1,6 @@
+// This file is imported at the top of the setup script of the default layout.
+// If the file is not imported, these prototypes will not be set.
+
 declare global {
     interface Date {
         /**

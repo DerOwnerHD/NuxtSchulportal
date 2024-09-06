@@ -118,7 +118,8 @@ export const MYLESSONS_ICON_IDENTIFIERS = [
     { icon: ["fas", "language"], identifiers: ["engl", "spanisch", "franz", "latein", "griech", "russisch"] },
     { icon: ["fas", "masks-theater"], identifiers: ["ds", "theater", "darstellendes spiel"] },
     { icon: ["fas", "running"], identifiers: ["sport"] },
-    { icon: ["fas", "pen"], identifiers: ["deutsch"] }
+    { icon: ["fas", "pen"], identifiers: ["deutsch"] },
+    { icon: ["fas", "monument"], identifiers: ["geschi"] }
 ];
 
 export function findIconForMyLessonsCourse(name: string) {

@@ -5,45 +5,43 @@
             :retryFunction="fetchVertretungsplan"
             v-if="errors.has(AppID.Vertretungsplan)"></ErrorDisplay>
         <div v-else-if="vertretungsplan" class="wrapper h-full grid gap-2 place-content-center justify-items-center">
-            <main v-if="vertretungsplan.days.length">
-                <DeckCard class="vplan-card h-full blurred-background" v-if="selectedDay" :colors="['#425849', '#1e2921']">
-                    <div class="inner grid h-full" ref="card">
-                        <main v-if="showCardContent">
-                            <div v-if="selectedDay.vertretungen.length" class="grid gap-2">
-                                <div
-                                    class="blurred-background p-2 rounded-lg w-full !border-none shadow-md flex gap-2 items-center hover:active:scale-95 transition-transform"
-                                    v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of selectedDay.vertretungen">
-                                    <span class="blurred-background !border-none shadow-sm px-2 py-1 rounded-full">{{
-                                        lessons.list.length > 1 ? lessons.from + " - " + lessons.to : lessons.from
-                                    }}</span>
-                                    <div class="grid">
-                                        <div class="flex gap-1 items-center">
-                                            <span class="text-sm" v-if="!substitute && !subject">Ausfall in</span>
-                                            <span class="font-bold">{{ subject ?? subject_old }}</span>
-                                            <span v-if="(substitute || teacher) && subject">
-                                                <span class="text-sm">bei</span>
-                                                {{ substitute || teacher }}
-                                            </span>
-                                            <span v-if="room">
-                                                <span class="text-sm">in</span>
-                                                {{ room }}
-                                            </span>
-                                        </div>
-                                        <span class="text-xs" v-if="note">{{ note }}</span>
+            <main v-if="vertretungsplan.days.length" class="min-h-0">
+                <DeckCard class="vplan-card h-full blurred-background" v-if="vertretungsplan.days" :colors="['#425849', '#1e2921']">
+                    <div class="grid" ref="card" v-if="selectedDay">
+                        <div v-if="selectedDay.vertretungen.length" class="grid gap-2">
+                            <div
+                                class="blurred-background p-2 rounded-lg w-full !border-none shadow-md flex gap-2 items-center hover:active:scale-95 transition-transform"
+                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of selectedDay.vertretungen">
+                                <span class="blurred-background !border-none shadow-sm px-2 py-1 rounded-full">{{
+                                    lessons.list.length > 1 ? lessons.from + " - " + lessons.to : lessons.from
+                                }}</span>
+                                <div class="grid">
+                                    <div class="flex gap-1 items-center">
+                                        <span class="text-sm" v-if="!substitute && !subject">Ausfall in</span>
+                                        <span class="font-bold">{{ subject ?? subject_old }}</span>
+                                        <span v-if="(substitute || teacher) && subject">
+                                            <span class="text-sm">bei</span>
+                                            {{ substitute || teacher }}
+                                        </span>
+                                        <span v-if="room">
+                                            <span class="text-sm">in</span>
+                                            {{ room }}
+                                        </span>
                                     </div>
+                                    <span class="text-xs" v-if="note">{{ note }}</span>
                                 </div>
                             </div>
-                            <p v-else class="text-center">Keine Vertretungen</p>
-                            <div v-if="selectedDay.news.length" class="blurred-background p-2 rounded-lg !border-none shadow-md my-2">
-                                <h1 class="flex gap-2 justify-center w-full items-center">
-                                    <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
-                                    Ankündigungen
-                                </h1>
-                                <PrettyWrap v-for="item of selectedDay.news">
-                                    <span v-html="item"></span>
-                                </PrettyWrap>
-                            </div>
-                        </main>
+                        </div>
+                        <p v-else class="text-center">Keine Vertretungen</p>
+                        <div v-if="selectedDay.news.length" class="blurred-background p-2 rounded-lg !border-none shadow-md my-2">
+                            <h1 class="flex gap-2 justify-center w-full items-center">
+                                <font-awesome-icon :icon="['fas', 'newspaper']"></font-awesome-icon>
+                                Ankündigungen
+                            </h1>
+                            <PrettyWrap v-for="item of selectedDay.news">
+                                <span v-html="item"></span>
+                            </PrettyWrap>
+                        </div>
                     </div>
                 </DeckCard>
             </main>
@@ -74,7 +72,7 @@
 const errors = useAppErrors();
 const distanceToLastUpdated = ref<string | null>(null);
 let distanceInterval: NodeJS.Timeout;
-function continuousUpdate() {
+function createContinuousUpdate() {
     if (!vertretungsplan.value) return;
     clearInterval(distanceInterval);
     if (!vertretungsplan.value?.last_updated) return (distanceToLastUpdated.value = "<unbekannt>");
@@ -97,13 +95,14 @@ function continuousUpdate() {
     );
 }
 async function switchDay(index: number) {
-    const card = document.querySelector(".vplan-card");
+    const card = document.querySelector(".vplan-card") as HTMLElement;
     if (card === null) return (selected.value = index);
-    card.animate({ opacity: "0" }, { duration: 300, fill: "forwards", easing: "ease-in" });
-    await useWait(300);
+    const blendOpacity = (opacity: string) => card.querySelector("*")?.animate({ opacity }, { duration: 200, fill: "forwards", easing: "ease-in" });
+    card.animate({ transform: "rotateY(180deg)" }, { duration: 400 });
+    blendOpacity("0");
+    await useWait(400);
     selected.value = index;
-    await nextTick();
-    card.animate({ opacity: "1" }, { duration: 300, fill: "forwards", easing: "ease-out" });
+    blendOpacity("1");
 }
 const planSelectionOptions = computed(() =>
     vertretungsplan.value?.days.map((day) => {
@@ -115,24 +114,20 @@ const planSelectionOptions = computed(() =>
     })
 );
 const selected = ref(0);
-const selectedDay = computed(() => vertretungsplan.value?.days[selected.value]);
+const selectedDay = computed(() => vertretungsplan.value?.days?.at(selected.value));
 const vertretungsplan = useVertretungsplan();
 onMounted(() => {
-    continuousUpdate();
-    resizeCard();
-    window.addEventListener("resize", resizeCard);
+    createContinuousUpdate();
 });
 onBeforeUnmount(() => {
     // This may not be strictly neccesary, but to just
     // have some nice clean up of our mess we do this
     clearInterval(distanceInterval);
-    window.removeEventListener("resize", resizeCard);
 });
 watch(vertretungsplan, () => {
     clearInterval(distanceInterval);
-    resizeCard();
     selected.value = 0;
-    continuousUpdate();
+    createContinuousUpdate();
 });
 
 // This is used to set the size for the card. It is supposed to prevent
@@ -141,23 +136,15 @@ watch(vertretungsplan, () => {
 // inside the card. Surely, there might be a better way to do this but may
 // require some rework (also needs to be done for /mylessons/[id])
 const card = ref<HTMLElement | null>(null);
-const showCardContent = ref(false);
-async function resizeCard() {
-    if (card.value === null) return;
-    showCardContent.value = false;
-    card.value.style.height = "";
-    await nextTick();
-    card.value.style.height = card.value.clientHeight + "px";
-    showCardContent.value = true;
-}
-watch(card, (value) => {
-    // On mounted, the component may not yet be ready, so we also add this
-    if (value !== null) resizeCard();
-});
 </script>
 
 <style scoped>
 .wrapper {
     grid-template-rows: 1fr min-content;
+}
+.deck-card {
+    transform-style: preserve-3d;
+    perspective: 550px;
+    backface-visibility: visible;
 }
 </style>

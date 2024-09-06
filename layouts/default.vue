@@ -7,9 +7,9 @@
             <div id="overlay"></div>
         </div>
         <OberstufenwahlAlert v-if="isOberstufenWahlOpen"></OberstufenwahlAlert>
-        <div class="grid h-screen max-h-[100vh] w-screen py-4 overflow-y-scroll" id="content">
+        <div class="grid h-screen py-4 max-h-[100vh] w-screen overflow-y-scroll" id="content">
             <SPHHeader></SPHHeader>
-            <main class="max-w-[100vw]">
+            <main class="max-w-[100vw]" :class="{ 'min-h-0': !isPageScrollable }">
                 <slot />
             </main>
             <ClientOnly>
@@ -34,8 +34,20 @@ const authed = isLoggedIn();
 const dialogBoxes = useOpenDialogBoxes();
 const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstufenwahl"));
 
+const NON_SCROLLABLE_PAGES = [/^\/mylessons\/.+$/, /^\/vertretungsplan(\/)?$/];
+const isPageScrollable = useScrollabilityStatus();
+onRenderTriggered(updatePageScrollability);
+
+async function updatePageScrollability() {
+    const { path } = useRoute();
+    const isNonScrollable = NON_SCROLLABLE_PAGES.some((pattern) => pattern.test(path));
+    await nextTick();
+    isPageScrollable.value = !isNonScrollable;
+}
+
 const ssrAlerts = useSSRAlerts();
 onMounted(() => {
+    updatePageScrollability();
     window.addEventListener("contextmenu", (event) => event.preventDefault());
     if (!authed) return;
     fetchVertretungsplan();
@@ -45,8 +57,8 @@ onMounted(() => {
 
 const DEFAULT_BACKGROUND_GRADIENT = "#254e63";
 const BACKGROUND_GRADIENTS = [
-    { pattern: /^\/vertretungsplan$/, color: 0x1fbd54 },
-    { pattern: /^\/stundenplan$/, color: 0x0000ad },
+    { pattern: /^\/vertretungsplan(\/)?$/, color: 0x1fbd54 },
+    { pattern: /^\/stundenplan(\/)?$/, color: 0x0000ad },
     { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3 }
 ];
 const BACKGROUND_COLOR_MULTIPLIER = 0.5;

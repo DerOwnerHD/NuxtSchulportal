@@ -1,7 +1,7 @@
 <template>
     <div class="h-full py-4">
         <ErrorDisplay :error="errors.get(AppID.MyLessonsCourse)" v-if="errors.has(AppID.MyLessonsCourse)" :retry-function="loadCourse"></ErrorDisplay>
-        <div v-else-if="courseData" class="content grid gap-4 w-screen h-full pb-2">
+        <div v-else-if="courseData" class="content grid gap-4 w-screen h-full">
             <InfoBox class="w-fit justify-self-center" type="error" v-if="!hasValidAESKeySet()">
                 <span>Anwesendheiten sind nicht verfügbar</span>
                 <ButtonRoundedBlurred @click="loadCourse(true)" :icon="['fas', 'arrow-rotate-right']"></ButtonRoundedBlurred>
@@ -20,12 +20,12 @@
                     </ScrollingText>
                 </div>
             </header>
-            <main class="grid">
+            <main class="grid min-h-0">
                 <div
-                    class="lessons-container opacity-0 flex w-screen overflow-scroll px-10 min-h-72"
+                    class="lessons-container flex w-screen overflow-scroll px-10 min-h-72"
                     @scroll.passive="updateScroll"
                     @scrollend.passive="endScroll">
-                    <DeckCard v-for="lesson of courseData.lessons" v-if="showElements">
+                    <DeckCard v-for="lesson of courseData.lessons">
                         <MyLessonsCard :lesson="lesson" :course="courseData.id"></MyLessonsCard>
                     </DeckCard>
                     <p class="text-center w-full place-self-center" v-if="!courseData.lessons.length">Keine Stunden geladen</p>
@@ -40,7 +40,6 @@
 </template>
 
 <script setup lang="ts">
-const showElements = ref(false);
 const errors = useAppErrors();
 const route = useRoute();
 const courseId = route.params.id as string;
@@ -96,7 +95,6 @@ onUnmounted(() => {
 });
 const isEventHandlerRegistered = ref(false);
 async function handleResize() {
-    await resizeCards();
     await useWait(100);
     updateScroll();
     await useWait(100);
@@ -122,27 +120,6 @@ watch(courseData, async () => {
     }
 });
 
-async function resizeCards() {
-    const container = document.querySelector<HTMLElement>(".lessons-container");
-    if (container === null) return;
-    const parent = container.parentElement;
-    if (parent === null) return;
-    // Whenever the cards are hidden and the height is auto, the container
-    // takes the size it is actually supposed to have.
-    parent.style.height = "";
-    showElements.value = false;
-    await useWait(100);
-    // Sadly, we need to set the height of the parent, to prevent the
-    // whole container from overflowing when we have a big card. In
-    // this case, the page should not be scrollable, only the cards
-    // themselves. Having to scroll the page could hide the counters
-    // at the bottom and switching cards would wobble the whole content
-    // around.
-    parent.style.height = parent.clientHeight + "px";
-    showElements.value = true;
-    await nextTick();
-    container.style.opacity = "1";
-}
 /**
  * This is a Safari fix. Whenever the user is scrolling, we'd expect
  * a scroll event every few ms. So when there hasn't been any for a

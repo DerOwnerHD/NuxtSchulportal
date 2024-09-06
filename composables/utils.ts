@@ -3,6 +3,7 @@ export const useWait = (ms: number) => {
 };
 
 export const useOpenCards = () => useState<string[]>("cards-open");
+export const useScrollabilityStatus = () => useState("scrollability-status", () => true);
 
 export const DEFAULT_ERRORS: { [status: string]: string } = {
     "400": "Bad Request",
