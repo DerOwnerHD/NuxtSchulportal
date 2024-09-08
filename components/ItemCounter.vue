@@ -3,9 +3,9 @@
         <div
             class="item-counter w-screen justify-center overflow-x-hidden flex"
             :counter-id="id"
-            @touchstart="startHighlight"
-            @touchmove="findHighlightedCounter"
-            @touchend="cancelHighlighting"
+            @touchstart.passive="startHighlight"
+            @touchmove.passive="findHighlightedCounter"
+            @touchend.passive="cancelHighlighting"
             :selecting="isSelecting">
             <div class="item-counter-item" v-for="(item, index) of items" :index="index">
                 <div

@@ -1,6 +1,6 @@
 const KEYGEN_ERROR = "Entschlüsselung nicht möglich";
 export async function useAESKey() {
-    if (process.server) throw new Error("Cannot call useAESKey on the server");
+    if (import.meta.server) throw new Error("Cannot call useAESKey on the server");
     let storage = localStorage.getItem("aes-key");
     // If we do try to initialize this twice, it may or may not
     // work, depending on whether this SPH-Session (and sid) cookie

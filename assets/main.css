@@ -1,16 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap");
 body {
-    width: 100vw;
-    height: 100vh;
-    background: black;
-    overflow-y: auto;
-    overflow-x: hidden;
+    @apply h-full max-h-screen overflow-y-auto overflow-x-hidden bg-black;
 }
 :root {
+    @apply touch-none overscroll-contain h-full;
     -webkit-tap-highlight-color: transparent;
-    overscroll-behavior: contain;
-    touch-action: none;
-    -ms-touch-action: none;
     --element-color: #2d2d2d;
     --dark-gradient-background: linear-gradient(to bottom, #212121, #080808);
     --small-button-color: #4e5760;
@@ -34,6 +28,9 @@ body {
     --horizontal-fade-mask: linear-gradient(to right, transparent 0%, white 10%, white 90%, transparent 100%);
     --vertical-fade-mask: linear-gradient(to bottom, transparent 0%, white 10%, white 90%, transparent 100%);
     color: white;
+}
+#__nuxt {
+    @apply h-full;
 }
 @keyframes spin {
     from {

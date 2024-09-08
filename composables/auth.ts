@@ -99,7 +99,7 @@ export async function logOff() {
     location.reload();
 }
 
-export const isLoggedIn = () => !!useToken().value;
+export const isLoggedIn = computed(() => !!useToken().value);
 
 export async function useReauthenticate(error: any) {
     if (isLoggingIn.value) return;

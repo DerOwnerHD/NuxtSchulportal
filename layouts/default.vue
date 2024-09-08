@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="h-full">
         <div
             id="background"
             class="fixed top-0 z-[-1] overflow-hidden bg-center bg-no-repeat w-screen h-screen"
@@ -9,14 +9,14 @@
         <OberstufenwahlAlert v-if="isOberstufenWahlOpen"></OberstufenwahlAlert>
         <div class="grid h-screen py-4 max-h-[100vh] w-screen overflow-y-scroll" id="content">
             <SPHHeader></SPHHeader>
-            <main class="max-w-[100vw]" :class="{ 'min-h-0': !isPageScrollable }">
+            <main class="max-w-screen" :class="{ 'min-h-0': !isPageScrollable }">
                 <slot />
             </main>
-            <ClientOnly>
-                <footer class="flex justify-center w-screen sticky bottom-0 z-40" v-if="authed">
-                    <DockContainer></DockContainer>
-                </footer>
-            </ClientOnly>
+            <footer class="flex justify-center w-screen sticky bottom-0 z-40">
+                <ClientOnly>
+                    <DockContainer v-if="isLoggedIn"></DockContainer>
+                </ClientOnly>
+            </footer>
         </div>
         <div class="fixed top-0 right-0 gap-2 z-[500] flex opacity-0">
             <button onclick="location.reload()">neu laden</button>
@@ -29,14 +29,16 @@
 <script setup lang="ts">
 import "~/composables/prototype";
 const flyout = useFlyout();
-const authed = isLoggedIn();
 
 const dialogBoxes = useOpenDialogBoxes();
 const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstufenwahl"));
 
 const NON_SCROLLABLE_PAGES = [/^\/mylessons\/.+$/, /^\/vertretungsplan(\/)?$/];
 const isPageScrollable = useScrollabilityStatus();
-onRenderTriggered(updatePageScrollability);
+useNuxtApp().$router.afterEach(() => {
+    updatePageScrollability();
+    window?.scrollTo(0, 0);
+});
 
 async function updatePageScrollability() {
     const { path } = useRoute();
@@ -45,11 +47,10 @@ async function updatePageScrollability() {
     isPageScrollable.value = !isNonScrollable;
 }
 
-const ssrAlerts = useSSRAlerts();
 onMounted(() => {
     updatePageScrollability();
     window.addEventListener("contextmenu", (event) => event.preventDefault());
-    if (!authed) return;
+    if (!isLoggedIn.value) return;
     fetchVertretungsplan();
     fetchStundenplan();
     fetchMyLessonsCourses();

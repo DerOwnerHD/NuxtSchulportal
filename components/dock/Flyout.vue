@@ -2,9 +2,9 @@
     <div
         class="flyout-overlay fixed h-screen w-screen top-0 left-0 opacity-0 z-[200]"
         @click="closeFlyout"
-        @touchstart="updateItemSelection"
-        @touchmove="updateItemSelection"
-        @touchend="endItemSelection">
+        @touchstart.passive="updateItemSelection"
+        @touchmove.passive="updateItemSelection"
+        @touchend.passive="endItemSelection">
         <div
             class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform"
             :id="flyout.id"

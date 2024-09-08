@@ -1,10 +1,10 @@
 import express, { Request } from "express";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { spawn } from "child_process";
+import { spawn } from "node:child_process";
 import webpush, { WebPushError } from "web-push";
-import os from "os";
-import { appendFile } from "fs/promises";
+import os from "node:os";
+import { appendFile } from "node:fs/promises";
 dotenv.config();
 const app = express();
 

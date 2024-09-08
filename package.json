@@ -10,22 +10,22 @@
     },
     "devDependencies": {
         "@nuxt/devtools": "latest",
-        "@nuxt/image": "^1.7.0",
-        "@nuxtjs/tailwindcss": "^6.*",
-        "@types/crypto-js": "^4.*",
+        "@nuxt/image": "^1.8.0",
+        "@nuxtjs/tailwindcss": "^6.12.1",
+        "@types/crypto-js": "^4.2.2",
         "@types/jsdom": "^21.1.7",
-        "@types/node": "^20.*",
+        "@types/node": "latest",
         "nuxt": "^3.13.1",
         "prettier": "latest"
     },
     "dependencies": {
-        "@fortawesome/fontawesome-svg-core": "^6.*",
-        "@fortawesome/free-brands-svg-icons": "^6.*",
-        "@fortawesome/free-regular-svg-icons": "^6.*",
-        "@fortawesome/free-solid-svg-icons": "^6.*",
-        "@fortawesome/vue-fontawesome": "^3.0.*",
-        "crypto-js": "^4.*",
-        "jsdom": "^24.*",
-        "whatwg-url": "^14.*"
+        "@fortawesome/fontawesome-svg-core": "^6.6.0",
+        "@fortawesome/free-brands-svg-icons": "^6.6.0",
+        "@fortawesome/free-regular-svg-icons": "^6.6.0",
+        "@fortawesome/free-solid-svg-icons": "^6.6.0",
+        "@fortawesome/vue-fontawesome": "^3.0.8",
+        "crypto-js": "^4.2.0",
+        "jsdom": "^25.0.0",
+        "whatwg-url": "^14.0.0"
     }
 }

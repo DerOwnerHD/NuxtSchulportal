@@ -1,6 +1,11 @@
 <template>
     <div class="h-16 relative">
-        <div class="dock-icon relative h-16" :class="{ open: isFlyoutOpen }" @touchstart="startHold" @touchend="stopHold" @click="navigateTo(route)">
+        <div
+            class="dock-icon relative h-16"
+            :class="{ open: isFlyoutOpen }"
+            @touchstart.passive="startHold"
+            @touchend.passive="stopHold"
+            @click="navigateTo(route)">
             <div
                 class="absolute -right-1 -top-1 rounded-full shadow-sm text-xs min-w-5 h-5 grid place-content-center font-bold"
                 :class="{ 'bg-gray-500': !hasError, 'bg-red-500': hasError }">
