@@ -35,13 +35,14 @@ const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstuf
 
 const NON_SCROLLABLE_PAGES = [/^\/mylessons\/.+$/, /^\/vertretungsplan(\/)?$/];
 const isPageScrollable = useScrollabilityStatus();
-useNuxtApp().$router.afterEach(() => {
-    updatePageScrollability();
+useRouter().afterEach(async (route) => {
+    await nextTick();
+    updatePageScrollability(route);
     window?.scrollTo(0, 0);
 });
 
-async function updatePageScrollability() {
-    const { path } = useRoute();
+async function updatePageScrollability(route?: any) {
+    const { path } = route ?? useRoute();
     const isNonScrollable = NON_SCROLLABLE_PAGES.some((pattern) => pattern.test(path));
     await nextTick();
     isPageScrollable.value = !isNonScrollable;

@@ -9,6 +9,7 @@
             <div class="widget blurred-background">{{ relativeOrAbsoluteDateFormat(lesson.date ?? "", "day-month-short") }}</div>
             <div class="widget blurred-background" v-if="lesson.attendance?.length">{{ lesson.attendance }}</div>
         </div>
+        <p class="text-start" v-if="lesson.description" v-html="lesson.description"></p>
         <section class="homework" v-if="lesson.homework">
             <header class="flex justify-between">
                 <div class="flex gap-1 items-center">

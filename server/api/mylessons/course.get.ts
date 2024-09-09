@@ -94,23 +94,11 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             const lessonsOfLesson = firstRowItems[1].split(" - ").map((lesson) => parseInt(lesson.replace(/\.( )?(Stunde)?/gi, "")));
 
             const topic = lesson.querySelector("td:nth-child(2) > big b")?.innerHTML.trim() ?? null;
-            const hasHomework = lesson.querySelector("span.homework") !== null;
-            const homework = hasHomework
-                ? {
-                      // Depending on whether the homework is done, the done or undone
-                      // texts get hidden (so if it's done, the undone class is hidden, if not reversed)
-                      done: lesson.querySelector("span.homework .done:not(.hidden)") !== null,
-                      // We do want to remove an extra <br> at the beginning and the end of
-                      // the description, they seem to be always added on top
-                      // Just as well, every other <br> includes a white space just after it,
-                      // so we also purge all that stuff, as it is not removed by String.trim()
-                      description: lesson
-                          .querySelector("td:nth-child(2) span.markup")
-                          ?.innerHTML.replace(/(^<br>)|(<br>$)/, "")
-                          .replace(/<br> /g, "<br>")
-                          .trim()
-                  }
-                : null;
+
+            const descriptionElement = lesson.querySelector("span.markup:has(i[title='Ausführlicher Inhalt'])");
+            const description = descriptionElement ? fixTextBreakElements(descriptionElement.innerHTML.replace(/<i\b[^>]*>(.*?)<\/i>/gi, "")) : null;
+
+            const homework = getHomeworkForLesson(lesson);
 
             const downloadBox = lesson.querySelector("td:nth-child(2) .alert.alert-info");
             const downloads =
@@ -158,7 +146,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
                       ).trim()
                     : null;
 
-            lessons.push({ entry, lessons: lessonsOfLesson, date, topic, homework, downloads, uploads, attendance });
+            lessons.push({ entry, lessons: lessonsOfLesson, date, topic, description, homework, downloads, uploads, attendance });
         }
 
         const attendance: { [key: string]: number | null } = {};
@@ -182,3 +170,41 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         return setErrorResponse(res, 500);
     }
 });
+
+function getHomeworkForLesson(lesson: Element) {
+    const headerElement = lesson.querySelector("span.homework");
+    const hasHomework = headerElement !== null;
+
+    if (!hasHomework) return null;
+    const parent = headerElement.parentElement;
+
+    if (!parent) return null;
+
+    const childrenArray = Array.from(parent.children);
+    const headerIndex = childrenArray.indexOf(headerElement);
+    // Between the header and the content is an additional <br> element
+    if (headerIndex === -1 || headerIndex === childrenArray.length - 2) return null;
+
+    const textElement = childrenArray[headerIndex + 2];
+    if (!textElement) return null;
+
+    const homework = {
+        // Depending on whether the homework is done, the done or undone
+        // texts get hidden (so if it's done, the undone class is hidden, if not reversed)
+        done: headerElement.querySelector(".done:not(.hidden)") !== null,
+        // We do want to remove an extra <br> at the beginning and the end of
+        // the description, they seem to be always added on top
+        // Just as well, every other <br> includes a white space just after it,
+        // so we also purge all that stuff, as it is not removed by String.trim()
+        description: fixTextBreakElements(textElement.innerHTML)
+    };
+
+    return homework;
+}
+
+function fixTextBreakElements(text: string) {
+    return text
+        .replace(/(^<br>)|(<br>$)/, "")
+        .replace(/<br> /g, "<br>")
+        .trim();
+}

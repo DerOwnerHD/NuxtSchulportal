@@ -79,6 +79,7 @@ export interface MyLessonsCourse {
 export interface MyLessonsLesson {
     attendance?: string;
     topic: Nullable<string>;
+    description: Nullable<string>;
     date: Nullable<string>;
     entry: number | null;
     lessons?: number[];
