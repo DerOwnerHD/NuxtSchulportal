@@ -1,5 +1,5 @@
 <template>
-    <div class="h-fit min-h-[100vh] overflow-y-auto py-2">
+    <div class="wrapper h-screen items-center grid overflow-y-auto py-2" :style="{ '--gradient-color': color }">
         <ErrorDisplay :error="error" :buttons="buttons"></ErrorDisplay>
     </div>
 </template>
@@ -12,4 +12,14 @@ const buttons = [
     ]
 ];
 const error = useError();
+const backgroundGradients = useBackgroundGradients();
+const gradient = backgroundGradients.find((site) => site.type === "error");
+const channels = getRGBValues(gradient?.color ?? 0x000000);
+const color = combineRGBValues(multiplyRGBValues(channels, useBackgroundColorMultiplier()));
 </script>
+
+<style scoped>
+.wrapper {
+    background-image: radial-gradient(var(--gradient-color), #030303);
+}
+</style>

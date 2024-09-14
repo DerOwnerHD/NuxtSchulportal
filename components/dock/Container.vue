@@ -1,23 +1,16 @@
 <template>
     <div class="dock-gradient w-screen h-24 fixed bottom-0 left-0 z-[100] pointer-events-none"></div>
-    <div class="dock flex justify-evenly mx-4 p-4 rounded-2xl gap-6 blurred-background shadow-lg z-[101] relative backdrop-blur-md">
-        <DockItem :id="AppID.Vertretungsplan" name="Vertretungsplan" :flyout="useVertretungsplanFlyout()" route="/vertretungsplan">
-            <NuxtImg class="h-16" src="icons/vplan.svg"></NuxtImg>
-        </DockItem>
-        <DockItem :id="AppID.Stundenplan" name="Stundenplan" :flyout="useStundenplanFlyout()" route="/stundenplan">
-            <NuxtImg class="h-16" src="icons/splan.svg"></NuxtImg>
-        </DockItem>
-        <DockItem :id="AppID.Moodle" name="SchoolMoodle" :flyout="moodleFlyout" route="/moodle">
-            <NuxtImg class="h-16" src="icons/moodle.svg"></NuxtImg>
-        </DockItem>
-        <DockItem :id="AppID.MyLessons" name="Mein Unterricht" :flyout="useMyLessonsFlyout()" route="/mylessons">
-            <NuxtImg class="h-16" src="icons/mylessons.svg"></NuxtImg>
-        </DockItem>
+    <div class="dock flex justify-evenly mx-4 p-4 rounded-2xl gap-5 blurred-background shadow-lg z-[101] relative backdrop-blur-md">
+        <template v-for="{ id, route, compact_mode, icon, name, flyout, hide_notifications } of apps">
+            <DockItem v-if="compact_mode" :flyout="flyout?.value ?? []" :route="route" :name="name" :id="id" :hide-notifications="hide_notifications">
+                <NuxtImg class="max-h-16 h-16 max-w-12" :src="icon"></NuxtImg>
+            </DockItem>
+        </template>
     </div>
 </template>
 
 <script setup lang="ts">
-const moodleFlyout: any[] = [];
+const apps = useApps();
 </script>
 
 <style scoped>

@@ -7,7 +7,8 @@ import {
     authHeaderOrQuery,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    schoolFromRequest
+    schoolFromRequest,
+    STATIC_STRINGS
 } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
@@ -29,7 +30,7 @@ export default defineEventHandler(async (event) => {
     if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/calendar.get", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

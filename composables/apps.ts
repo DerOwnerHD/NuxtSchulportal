@@ -1,255 +1,96 @@
-interface MoodleConversationsResponse {
-    error: boolean;
-    error_details?: any;
-    conversations: MoodleConversation[];
-}
-
-export interface MoodleConversation {
-    id: number;
-    name: string;
-    subname: string | null;
-    icon: string | null;
-    type: number;
-    memberCount: number;
-    muted: boolean;
-    favorite: boolean;
-    unread: number | null;
-    members: MoodleMember[];
-    messages: MoodleMessage[];
-    canDeleteMessagesForEveryone: boolean;
-}
-
-export interface MoodleMessage {
-    id: number;
-    author: number;
-    text: string;
-    timestamp: number;
-}
-
-export interface MoodleMember {
-    id: number;
-    name: string;
-    profile: string;
-    avatar: {
-        small: string;
-        default: string;
-    };
-    online: boolean | null;
-    showStatus: boolean;
-    blocked: boolean;
-    contact: boolean;
-    deleted: boolean;
-    abilities: {
-        message: boolean;
-        messageIfBlocked: boolean;
-    };
-    requiresContact: boolean;
-    contactRequests: [];
-}
-
-export enum APIFetchError {
-    Unauthorized = 401,
-    Forbidden = 403,
-    TooManyRequests = 429,
-    ServerError = 500
-}
-
-interface AppErrorState {
-    [app: string]: string | null;
-}
-
-export interface MoodleCourse {
-    id: number;
-    category: string;
-    image: string;
-    timestamps: {
-        start: number;
-        end: number;
-    };
-    names: {
-        full: string;
-        display: string;
-        short: string;
-    };
-    progress: {
-        visible: boolean;
-        percentage: number;
-    };
-    hidden: boolean;
-    favorite: boolean;
-    exportFont: string;
-    properties: {
-        activityDates: boolean;
-        completionConditions: boolean;
-        shortName: boolean;
-    };
-    summary: {
-        text: string;
-        format: number;
-    };
-    link: string;
-}
-
-interface MoodleCourseResponse {
-    error: boolean;
-    error_details?: any;
-    courses: MoodleCourse[];
-}
-
-export interface MoodleEvent {
-    id: number;
-    name: string;
-    description: {
-        text: string;
-        format: number;
-    };
-    location: string;
-    category: number;
-    user: number;
-    repeat: number;
-    count: number;
-    type: string;
-    instance: string;
-    activity: {
-        name: string;
-        description: string;
-    };
-    timestamps: {
-        start: number;
-        modified: number;
-        midnight: number;
-        duration: number;
-        sort: number;
-    };
-    visible: boolean;
-    overdue: boolean;
-    icon: {
-        key: string;
-        component: string;
-        alt: string;
-        url: string;
-        class: string;
-    };
-    course: MoodleCourse;
-    abilities: {
-        edit: boolean;
-        delete: boolean;
-    };
-    links: {
-        edit: string;
-        delete: string;
-        view: string;
-    };
-    formatted: {
-        time: string;
-        location: string;
-    };
-}
-
-interface MoodleEventsResponse {
-    error: boolean;
-    error_details?: any;
-    events: MoodleEvent[];
-}
-
-export const useSheetState = () => useState<{ open: string[] }>("sheets");
-export const useAppNews = () => useState<{ [app: string]: number }>("app-news");
-
-export const useMoodleEvents = async (): Promise<MoodleEvent[] | string> => {
-    const credentials = checkMoodleCredentials();
-    if (typeof credentials === "string") return credentials;
-
-    const { data, error } = await useFetch<MoodleEventsResponse>("/api/moodle/events", {
-        method: "GET",
-        query: {
-            ...credentials,
-            school: useCredentials().value.school
-        },
-        retry: false
-    });
-
-    return handleReponse(error, data, data.value?.events);
-};
-
-export interface MoodleNotification {
-    id: number;
-    author: number;
-    subject: string;
-    message: {
-        short: string;
-        full: string;
-    };
-    read: boolean;
-    deleted: boolean;
+interface AppRegistry {
     icon: string;
-    timestamps: {
-        created: number;
-        read: number;
-        pretty: string;
-    };
-    link: string;
+    name: string;
+    load_function: () => Promise<any> | any;
+    load_on_mount?: boolean;
+    route: string;
+    /**
+     * Whether the item should be visible in the dock when it is only the small version (not fullscreen)
+     */
+    compact_mode?: boolean;
+    id: AppID;
+    flyout?: ComputedRef<FlyoutGroups>;
+    hide_notifications?: boolean;
 }
 
-interface MoodleNotificationResponse {
-    error: boolean;
-    error_details?: any;
-    notifications: MoodleNotification[];
+interface BackgroundGradientConfig {
+    pattern?: RegExp;
+    color: number;
+    type: "page" | "default" | "error";
 }
+export const useBackgroundColorMultiplier = () => 0.5;
+export const useBackgroundGradients = (): BackgroundGradientConfig[] => [
+    { pattern: /^\/vertretungsplan(\/)?$/, color: 0x1fbd54, type: "page" },
+    { pattern: /^\/stundenplan(\/)?$/, color: 0x0000ad, type: "page" },
+    { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3, type: "page" },
+    { color: 0x670310, type: "error" },
+    { color: 0x254e63, type: "default" }
+];
 
-export const useMoodleNotifications = async (): Promise<MoodleNotification[] | string> => {
-    const credentials = checkMoodleCredentials();
-    if (typeof credentials === "string") return credentials;
-
-    const { data, error } = await useFetch<MoodleNotificationResponse>("/api/moodle/notifications", {
-        method: "GET",
-        query: {
-            ...credentials,
-            school: useCredentials().value.school
+export const useApps = () =>
+    computed<AppRegistry[]>(() => [
+        {
+            icon: "/icons/vplan.svg",
+            name: "Vertretungsplan",
+            flyout: useVertretungsplanFlyout(),
+            id: AppID.Vertretungsplan,
+            load_function: fetchVertretungsplan,
+            load_on_mount: true,
+            route: "/vertretungsplan",
+            compact_mode: true
         },
-        retry: false
-    });
-
-    return handleReponse(error, data, data.value?.notifications);
-};
-
-const checkMoodleCredentials = () => useMoodleCredentials().value ?? "401: Unauthorized";
-
-const handleReponse = (error: any, data: any, value: any) => {
-    if (error.value !== null) return error.value.data.error_details || "Serverfehler";
-    if (data.value === null) return "Serverfehler";
-    return value;
-};
-
-export const useConversations = async (type?: "favorites" | "groups"): Promise<MoodleConversation[] | string> => {
-    const credentials = checkMoodleCredentials();
-    if (typeof credentials === "string") return credentials;
-
-    const { data, error } = await useFetch<MoodleConversationsResponse>("/api/moodle/conversations", {
-        method: "GET",
-        query: {
-            ...credentials,
-            school: useCredentials().value.school,
-            type
+        {
+            icon: "/icons/splan.svg",
+            name: "Stundenplan",
+            flyout: useStundenplanFlyout(),
+            id: AppID.Stundenplan,
+            load_function: fetchStundenplan,
+            load_on_mount: true,
+            route: "/stundenplan",
+            compact_mode: true
         },
-        retry: false
-    });
+        {
+            icon: "/icons/moodle.svg",
+            name: "Moodle",
+            flyout: computed(() => []),
+            id: AppID.Moodle,
+            load_function: () => {},
+            load_on_mount: false,
+            route: "/moodle",
+            compact_mode: true
+        },
+        {
+            icon: "/icons/mylessons.svg",
+            name: "Mein Unterricht",
+            flyout: useMyLessonsFlyout(),
+            id: AppID.MyLessons,
+            load_function: fetchMyLessonsCourses,
+            load_on_mount: true,
+            route: "/mylessons",
+            compact_mode: true
+        },
+        {
+            icon: "/icons/traffic-light-vertical.svg",
+            name: "Status",
+            flyout: computed(() => []),
+            id: AppID.Status,
+            load_function: () => {},
+            load_on_mount: false,
+            route: "/status",
+            compact_mode: true,
+            hide_notifications: true
+        }
+    ]);
 
-    return handleReponse(error, data, data.value?.conversations);
-};
-
-export const useOpenSheet = (sheet: string, open?: boolean) => {
-    const sheets = useSheetState();
-    const body = document.querySelector("body");
-    if (!body) return;
-
-    if (sheets.value.open.includes(sheet) && open) return;
-    if (!sheets.value.open.includes(sheet)) {
-        body.style.overflow = "hidden";
-        return sheets.value.open.push(sheet);
-    }
-
-    const index = sheets.value.open.indexOf(sheet);
-    sheets.value.open.splice(index, 1);
-
-    if (!sheets.value.open.length) body.style.overflow = "";
-};
+export enum AppID {
+    Vertretungsplan = "vertretungsplan",
+    MyLessons = "mylessons",
+    /**
+     * This is used for app errors when the page of a specific course is viewed
+     */
+    MyLessonsCourse = "mylessons-course",
+    Stundenplan = "stundenplan",
+    AES = "aes",
+    Moodle = "moodle",
+    Status = "status"
+}

@@ -6,7 +6,7 @@
         @touchmove.passive="updateItemSelection"
         @touchend.passive="endItemSelection">
         <div
-            class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform"
+            class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform text-black"
             :id="flyout.id"
             :origin="flyout.origin ?? 'top'"
             :orientation="flyout.orientation ?? 'left'"
@@ -14,7 +14,7 @@
             <div v-if="flyout.groups.length">
                 <div class="group" v-for="(group, groupIndex) of removedEmptyGroups" :group-id="groupIndex">
                     <div
-                        class="item flex justify-between py-2 px-4 text-black"
+                        class="item flex justify-between py-2 px-4"
                         :class="{
                             selected: selectedItem[0] === groupIndex && selectedItem[1] === index,
                             first: isFirstItem(groupIndex, index),

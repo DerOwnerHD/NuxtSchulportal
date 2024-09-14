@@ -160,16 +160,17 @@ export async function fetchMyLessonsCourse(id: number, overwrite: boolean = fals
     }
 }
 
-export function useMyLessonsFlyout() {
-    const courses = useMyLessonsCourses();
-    if (!courses.value) return [];
-    return [
-        courses.value.courses.map((course) => {
-            return {
-                title: course.subject ?? "",
-                icon: findIconForMyLessonsCourse(course.subject ?? ""),
-                action: () => navigateTo(`/mylessons/${course.id}`)
-            };
-        })
-    ];
-}
+export const useMyLessonsFlyout = () =>
+    computed<FlyoutGroups>(() => {
+        const courses = useMyLessonsCourses();
+        if (!courses.value) return [];
+        return [
+            courses.value.courses.map((course) => {
+                return {
+                    title: course.subject ?? "",
+                    icon: findIconForMyLessonsCourse(course.subject ?? ""),
+                    action: () => navigateTo(`/mylessons/${course.id}`)
+                };
+            })
+        ];
+    });

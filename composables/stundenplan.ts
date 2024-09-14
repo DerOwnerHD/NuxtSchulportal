@@ -387,20 +387,21 @@ function splitAllLessons(plan: Stundenplan): StundenplanLesson[][] {
     );
 }
 
-export function useStundenplanFlyout() {
-    const plans = useStundenplan();
-    const errors = useAppErrors();
-    const title = errors.value.has(AppID.Stundenplan)
-        ? STATIC_STRINGS.LOADING_ERROR
-        : plans.value
-          ? plans.value.length
-              ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
-              : "Keine Stundenpläne geladen"
-          : // Due to the stundenplan useState being initialized using an array
-            // (instead of being empty), this state will never be available
-            STATIC_STRINGS.IS_LOADING;
-    return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
-}
+export const useStundenplanFlyout = () =>
+    computed<FlyoutGroups>(() => {
+        const plans = useStundenplan();
+        const errors = useAppErrors();
+        const title = errors.value.has(AppID.Stundenplan)
+            ? STATIC_STRINGS.LOADING_ERROR
+            : plans.value
+              ? plans.value.length
+                  ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
+                  : "Keine Stundenpläne geladen"
+              : // Due to the stundenplan useState being initialized using an array
+                // (instead of being empty), this state will never be available
+                STATIC_STRINGS.IS_LOADING;
+        return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
+    });
 
 export function getStundenplanFlyoutItems() {
     const plans = useStundenplan();

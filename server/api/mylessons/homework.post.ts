@@ -7,7 +7,8 @@ import {
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     schoolFromRequest,
-    BasicResponse
+    BasicResponse,
+    STATIC_STRINGS
 } from "../../utils";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
@@ -29,7 +30,7 @@ export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
     if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
 
     const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, "Token not provided or malformed");
+    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rateLimit = handleRateLimit("/api/mylessons/homework.post", address);
     if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);

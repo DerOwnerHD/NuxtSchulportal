@@ -1,5 +1,5 @@
 <template>
-    <button class="rounded-full px-2 h-8 hover:active:scale-90 text-black flex gap-1 items-center">
+    <button class="rounded-full px-2 h-8 hover:active:scale-95 bg-white justify-center text-black flex gap-1 items-center">
         <font-awesome-icon v-if="icon" :icon="icon"></font-awesome-icon>
         <slot />
     </button>
@@ -11,8 +11,6 @@ defineProps<{ icon?: string[] }>();
 
 <style scoped>
 button {
-    background: #ffffffd0;
-    backdrop-filter: blur(2px);
     transition: var(--button-scale-transition);
 }
 </style>

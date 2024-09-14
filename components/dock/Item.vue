@@ -1,5 +1,5 @@
 <template>
-    <div class="h-16 relative">
+    <div class="dock-item h-16 relative">
         <div
             class="dock-icon relative h-16"
             :class="{ open: isFlyoutOpen }"
@@ -7,6 +7,7 @@
             @touchend.passive="stopHold"
             @click="navigateTo(route)">
             <div
+                v-if="!hideNotifications"
                 class="absolute -right-1 -top-1 rounded-full shadow-sm text-xs min-w-5 h-5 grid place-content-center font-bold"
                 :class="{ 'bg-gray-500': !hasError, 'bg-red-500': hasError }">
                 <span v-if="hasError">!</span>
@@ -31,6 +32,7 @@ const props = defineProps<{
         icon?: string[];
     }[][];
     route: string;
+    hideNotifications?: boolean;
 }>();
 
 const notifications = useNotifications();

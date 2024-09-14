@@ -22,12 +22,13 @@ export const useSchool = () => {
 
 export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
 
-const isLoggingIn = ref(false);
+export const useLoggingInStatus = () => useState("is-logging-in", () => false);
 /**
  * Logs in somebody who already has credentials set. Throws an error on failing, showing
  * details. Should be used when a token has expired or is no longer stored.
  */
 export async function useAuthenticate() {
+    const isLoggingIn = useLoggingInStatus();
     if (isLoggingIn.value) return console.warn("Cannot log in more than once at a time");
     isLoggingIn.value = true;
     const credentials = useCredentials();
@@ -102,10 +103,9 @@ export async function logOff() {
 export const isLoggedIn = computed(() => !!useToken().value);
 
 export async function useReauthenticate(error: any) {
-    if (isLoggingIn.value) return;
+    if (useLoggingInStatus().value) return;
     if (!("status" in error)) return;
     if (error.status !== 401) return;
     console.log("Credentials invalid, reauthenticating!");
     await useAuthenticate();
-    alert("Neu eingeloggt!");
 }

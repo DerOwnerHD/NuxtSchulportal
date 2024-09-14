@@ -13,6 +13,12 @@ const DEFAULT_ERRORS: { [status: string]: string } = {
     "502": "Bad Gateway",
     "503": "Service Not Available"
 };
+const SPECIAL_STATUS_MESSAGES: { [status: string]: string } = {
+    "401": "Anmeldedaten ungültig",
+    "429": "Woah, slow down!",
+    "500": "Serverfehler",
+    "503": "Momentan nicht verfügbar"
+};
 
 export const setResponse = (res: ServerResponse<IncomingMessage>, status: number, response: any): any => {
     res.statusCode = status;
@@ -21,11 +27,9 @@ export const setResponse = (res: ServerResponse<IncomingMessage>, status: number
 
 export const setErrorResponse = (res: ServerResponse<IncomingMessage>, status: number, details?: string | object): any => {
     res.statusCode = status;
-    if (details) return { error: true, error_details: details };
-
     return {
         error: true,
-        error_details: `${status}: ${DEFAULT_ERRORS[status.toString()]}`
+        error_details: details ?? (SPECIAL_STATUS_MESSAGES[status] ? SPECIAL_STATUS_MESSAGES[status] : `${status}: ${DEFAULT_ERRORS[status]}`)
     };
 };
 
@@ -345,7 +349,7 @@ export class APIError extends Error {
 
 export interface BasicResponse {
     error: boolean;
-    error_details?: any;
+    error_details?: string | Record<string, any>;
 }
 
 export type Nullable<T> = T | null;
@@ -355,3 +359,12 @@ export const STATIC_STRINGS = {
     CONTENT_TYPE_NO_JSON: 'Expected "application/json" as "content-type" header',
     MOODLE_SCHOOL_NOT_EXIST: "Moodle does not exist for given school"
 };
+
+export class PrevalidatedMap<K, V> extends Map<K, V> {
+    constructor() {
+        super();
+    }
+    public get(key: K) {
+        return super.get(key) as V;
+    }
+}

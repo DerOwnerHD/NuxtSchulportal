@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full">
+    <div class="h-full min-h-screen">
         <div
             id="background"
             class="fixed top-0 z-[-1] overflow-hidden bg-center bg-no-repeat w-screen h-screen"
@@ -48,28 +48,25 @@ async function updatePageScrollability(route?: any) {
     isPageScrollable.value = !isNonScrollable;
 }
 
+const apps = useApps();
+
 onMounted(() => {
     updatePageScrollability();
     window.addEventListener("contextmenu", (event) => event.preventDefault());
     if (!isLoggedIn.value) return;
-    fetchVertretungsplan();
-    fetchStundenplan();
-    fetchMyLessonsCourses();
+    for (const app of apps.value) {
+        if (app.load_on_mount) app.load_function();
+    }
 });
 
-const DEFAULT_BACKGROUND_GRADIENT = "#254e63";
-const BACKGROUND_GRADIENTS = [
-    { pattern: /^\/vertretungsplan(\/)?$/, color: 0x1fbd54 },
-    { pattern: /^\/stundenplan(\/)?$/, color: 0x0000ad },
-    { pattern: /^\/mylessons(\/.*)?$/, color: 0x665ef3 }
-];
-const BACKGROUND_COLOR_MULTIPLIER = 0.5;
+const backgroundGradients = useBackgroundGradients();
 
 const appBackgroundGradient = computed(() => {
-    const site = BACKGROUND_GRADIENTS.find((site) => site.pattern.test(useRoute().path));
-    if (!site) return DEFAULT_BACKGROUND_GRADIENT;
-    const channels = getRGBValues(site.color);
-    return combineRGBValues(multiplyRGBValues(channels, BACKGROUND_COLOR_MULTIPLIER));
+    const site =
+        backgroundGradients.find((site) => site.type === "page" && site.pattern?.test(useRoute().path)) ??
+        backgroundGradients.find((site) => site.type === "default");
+    const channels = getRGBValues(site?.color ?? 0x000000);
+    return combineRGBValues(multiplyRGBValues(channels, useBackgroundColorMultiplier()));
 });
 </script>
 

@@ -4,8 +4,8 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // auth on the server MIGHT be where the client has the site cached from some time ago, thus
     // not having valid auth anymore and this flag not being set from the server.
     // NO IDEA IF THIS ACTUALLY WORKS
-    if (process.client && useAuthSSR().value) return;
-    if (process.server) useAuthSSR().value = true;
+    if (import.meta.browser && useAuthSSR().value) return;
+    if (import.meta.server) useAuthSSR().value = true;
     const credentials = useCredentials();
     // The path we wish to be redirected to once the user has logged in for the first time
     // When already logged in, this is not needed as the auth happens directly inside of this
@@ -29,9 +29,13 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     // The user may set multiple parameters with the same name
     const { redirect } = to.query;
     if (Array.isArray(redirect)) throw createError({ message: "Cannot have multiple redirects", data: redirect });
-    // Not using external will cause the middleware to be called twice when navigating to /
-    // This isn't really a big issue, however this prevents that at no cost to us
-    if (to.path === "/login") return navigateTo(redirect ?? "/", { external: true });
+    if (to.path === "/login") {
+        if (redirect && redirect !== "/" && !/^\/[^/]+.*$/.test(redirect))
+            throw createError({ message: "Phishing attempt detected", data: redirect });
+        // Preventing the use of external routes will prevent phising attacks
+        navigateTo(redirect ?? "/", { external: true });
+        return;
+    }
 
     const token = useToken();
     if (!token.value) return await useAuthenticate();
