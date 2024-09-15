@@ -72,9 +72,11 @@ export async function checkToken() {
     return !error.value && data.value?.valid;
 }
 
-export async function logOff() {
-    const stop = confirm("Willst du dich wirklich abmelden?");
-    if (!stop) return;
+export async function logOff(bypassConfirm?: boolean) {
+    if (!bypassConfirm) {
+        const stop = confirm("Willst du dich wirklich abmelden?");
+        if (!stop) return;
+    }
 
     localStorage.removeItem("aes-key");
     localStorage.removeItem("splan-cache");

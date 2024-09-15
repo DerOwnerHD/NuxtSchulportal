@@ -1,6 +1,6 @@
 <template>
-    <div class="h-full w-screen grid place-content-center">
-        <div class="blurred-background backdrop-blur-md p-4 w-72 text-center grid gap-2 rounded-2xl">
+    <div class="generic-fullpage-dialog">
+        <div class="blurred-background">
             <h1 class="text-4xl">:/</h1>
             <span>Ein Fehler ist aufgetreten</span>
             <CodeDisplay class="max-h-52 overflow-scroll" :data="relevantErrorData"></CodeDisplay>

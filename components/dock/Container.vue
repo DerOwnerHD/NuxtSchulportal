@@ -19,7 +19,7 @@
                 :id="id"
                 :hide-notifications="hide_notifications"
                 type="compact">
-                <NuxtImg class="max-h-16 h-16 max-w-12" :src="icon"></NuxtImg>
+                <NuxtImg :src="icon"></NuxtImg>
             </DockItem>
             <DockItem
                 :disabled="isScrolling"
@@ -33,7 +33,7 @@
                 :hide-notifications="hide_notifications"
                 type="full"
                 @click="toggleFullscreenView('down')">
-                <NuxtImg class="max-h-16 h-16 max-w-12 justify-self-center" :src="icon"></NuxtImg>
+                <NuxtImg class="justify-self-center" :src="icon"></NuxtImg>
             </DockItem>
         </template>
     </div>
@@ -136,11 +136,10 @@ watch(isContainerFullSized, (value) => {
     border-top: var(--small-white-border);
 }
 .dock.fullscreen {
-    @apply grid place-content-start p-4;
-    grid-template-columns: repeat(4, 1fr);
+    @apply grid place-content-start p-4 grid-cols-4;
 }
 img {
-    pointer-events: none;
+    @apply pointer-events-none h-16;
 }
 .dock-gradient {
     background: linear-gradient(to top, #000000a0, transparent);

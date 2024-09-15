@@ -282,3 +282,9 @@ code.dark {
 .widget {
     @apply px-2 !border-none rounded-xl w-fit h-fit;
 }
+.generic-fullpage-dialog {
+    @apply h-full w-screen grid place-content-center;
+    > div {
+        @apply backdrop-blur-md p-4 w-72 text-center grid gap-2 rounded-2xl;
+    }
+}

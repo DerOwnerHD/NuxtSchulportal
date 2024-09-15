@@ -18,10 +18,6 @@
                 </ClientOnly>
             </footer>
         </div>
-        <div class="fixed top-0 right-0 gap-2 z-[500] flex opacity-0">
-            <button onclick="location.reload()">neu laden</button>
-            <button @click="logOff">abmelden</button>
-        </div>
         <DockFlyout v-if="flyout"></DockFlyout>
     </div>
 </template>

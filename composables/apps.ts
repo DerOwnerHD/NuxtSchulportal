@@ -27,6 +27,9 @@ export const useBackgroundGradients = (): BackgroundGradientConfig[] => [
     { color: 0x254e63, type: "default" }
 ];
 
+/**
+ * All apps are registered in this list. Determines dock placement and auto-run at mount.
+ */
 export const useApps = () =>
     computed<AppRegistry[]>(() => [
         {
@@ -69,6 +72,9 @@ export const useApps = () =>
             route: "/mylessons",
             compact_mode: true
         },
+        /**
+         * TODO: Design own icons for these. As "placeholders" (still veerrry cool) FluentUI emojis icons from Microsoft are used
+         */
         {
             icon: "/icons/traffic-light-vertical.svg",
             name: "Status",
@@ -77,6 +83,28 @@ export const useApps = () =>
             load_function: () => {},
             load_on_mount: false,
             route: "/status",
+            compact_mode: false,
+            hide_notifications: true
+        },
+        {
+            icon: "/icons/megaphone.svg",
+            name: "Pushs",
+            flyout: computed(() => []),
+            id: AppID.Notifications,
+            load_function: () => {},
+            load_on_mount: false,
+            route: "/notifications",
+            compact_mode: false,
+            hide_notifications: true
+        },
+        {
+            icon: "/icons/waving-hand.svg",
+            name: "Abmelden",
+            flyout: computed(() => []),
+            id: AppID.Logoff,
+            load_function: () => {},
+            load_on_mount: false,
+            route: "/logoff",
             compact_mode: false,
             hide_notifications: true
         }
@@ -92,5 +120,7 @@ export enum AppID {
     Stundenplan = "stundenplan",
     AES = "aes",
     Moodle = "moodle",
-    Status = "status"
+    Status = "status",
+    Notifications = "notifications",
+    Logoff = "logoff"
 }

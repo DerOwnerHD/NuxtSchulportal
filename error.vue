@@ -8,7 +8,7 @@
 const buttons = [
     [
         { icon: ["fas", "home"], action: () => navigateTo("/") },
-        { icon: ["fas", "arrow-right-from-bracket"], action: logOff }
+        { icon: ["fas", "arrow-right-from-bracket"], action: () => logOff() }
     ]
 ];
 const error = useError();

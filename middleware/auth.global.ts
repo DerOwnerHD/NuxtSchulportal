@@ -1,3 +1,4 @@
+const BLACKLISTED_REDIRECT_PATHS = ["/login", "/logoff", "/", "/status"];
 export default defineNuxtRouteMiddleware(async (to, from) => {
     // If we navigate between routes on the client and have already checked auth on the server,
     // there is no need to check again. A theoretical scenario in which we wouldn't have checked
@@ -30,9 +31,14 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
     const { redirect } = to.query;
     if (Array.isArray(redirect)) throw createError({ message: "Cannot have multiple redirects", data: redirect });
     if (to.path === "/login") {
-        if (redirect && redirect !== "/" && !/^\/[^/]+.*$/.test(redirect))
-            throw createError({ message: "Phishing attempt detected", data: redirect });
-        // Preventing the use of external routes will prevent phising attacks
+        // Phising attacks SHOULD be prevented by preventing the use of https:// or even //
+        // (anything that is not /<path>)
+        if (redirect && !/^\/[^/]+.*$/.test(redirect)) throw createError({ message: "Phishing attempt detected", data: redirect });
+        if (redirect && BLACKLISTED_REDIRECT_PATHS.includes(redirect)) {
+            navigateTo("/", { external: true });
+            return;
+        }
+        // To allow the page to reload, external is set
         navigateTo(redirect ?? "/", { external: true });
         return;
     }
