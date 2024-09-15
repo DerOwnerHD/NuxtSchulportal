@@ -77,7 +77,7 @@ export const useApps = () =>
             load_function: () => {},
             load_on_mount: false,
             route: "/status",
-            compact_mode: true,
+            compact_mode: false,
             hide_notifications: true
         }
     ]);

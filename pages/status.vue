@@ -379,12 +379,7 @@
                     </section>
                 </main>
             </section>
-            <ButtonDefault
-                class="blurred-background borderless text-white"
-                :icon="['fas', 'up-right-from-square']"
-                @click="navigateTo(STATUS_PAGE_URL, { external: true })"
-                >Statusseite öffnen</ButtonDefault
-            >
+            <UnderlinedLink :to="STATUS_PAGE_URL" class="text-center">Offizielle Statusseite öffnen</UnderlinedLink>
         </div>
     </div>
 </template>

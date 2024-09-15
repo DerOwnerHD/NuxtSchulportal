@@ -155,7 +155,7 @@
                 </div>
             </div>
         </section>
-        <UnderlinedLink class="sticky bottom-4 text-center" to="/status">Statusseite</UnderlinedLink>
+        <UnderlinedLink class="sticky bottom-4 text-center" to="/status">Anmeldeprobleme? Zur Statusseite</UnderlinedLink>
         <dialog id="school-search" class="text-white w-80 h-[60vh] place-content-center rounded-xl focus:outline-none">
             <div class="grid gap-2 p-4 h-full items-start grid-rows overflow-hidden grid-rows-header-main" v-if="search.loaded">
                 <header class="w-full rounded-xl p-2 backdrop-blur-md flex min-h-0 shadow-md sticky">

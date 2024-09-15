@@ -8,6 +8,8 @@
         <div
             class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform text-black"
             :id="flyout.id"
+            ref="element"
+            v-if="flyout"
             :origin="flyout.origin ?? 'top'"
             :orientation="flyout.orientation ?? 'left'"
             :any-selected="selectedItem[0] !== null">
@@ -57,22 +59,22 @@ const removedEmptyGroups = computed(() => {
 const MARGIN_TO_SCREEN_BORDER = 20;
 const flyoutDimensions = ref<DOMRect>();
 const initialized = ref(false);
+const element = useTemplateRef("element");
 onMounted(async () => {
     await nextTick();
-    const element = document.querySelector(`.flyout#${flyout.value.id}`) as HTMLElement;
-    if (element === null) return console.error("Couldn't find flyout we've just mounted");
-    const dimensions = element.getBoundingClientRect();
+    if (element.value === null) return console.error("Couldn't find flyout we've just mounted");
+    const dimensions = element.value.getBoundingClientRect();
     const [x, y] = flyout.value.position;
-    const securedX = Math.max(Math.min(x, window.innerWidth - MARGIN_TO_SCREEN_BORDER - FLYOUT_WIDTH), MARGIN_TO_SCREEN_BORDER);
+    const securedX = clampNumber(x, MARGIN_TO_SCREEN_BORDER, window.innerWidth - MARGIN_TO_SCREEN_BORDER - FLYOUT_WIDTH);
     const securedY =
-        flyout.value.origin !== "bottom"
-            ? Math.max(Math.min(y, window.innerHeight - MARGIN_TO_SCREEN_BORDER - dimensions.height), MARGIN_TO_SCREEN_BORDER)
-            : y - dimensions.height;
-    element.style.top = securedY + "px";
-    element.style.left = securedX + "px";
-    element.style.opacity = "1";
+        flyout.value.origin === "bottom"
+            ? clampNumber(y, MARGIN_TO_SCREEN_BORDER, y - dimensions.height)
+            : clampNumber(y, MARGIN_TO_SCREEN_BORDER, window.innerHeight - MARGIN_TO_SCREEN_BORDER - dimensions.height);
+    element.value.style.top = securedY + "px";
+    element.value.style.left = securedX + "px";
+    element.value.style.opacity = "1";
     await useWait(300);
-    const groups = Array.from(element.querySelectorAll(".group[group-id]"));
+    const groups = Array.from(element.value.querySelectorAll(".group[group-id]"));
     groups.forEach((group, groupIndex) => {
         hitboxes.value = hitboxes.value.concat(
             Array.from(group.querySelectorAll(".item[item-id]")).map((element, elementIndex) => {
@@ -86,22 +88,11 @@ onMounted(async () => {
             })
         );
     });
-    flyoutDimensions.value = element.getBoundingClientRect();
+    flyoutDimensions.value = element.value.getBoundingClientRect();
     initialized.value = true;
 });
 
 const hitboxes = ref<{ start: number; end: number; group: number; item: number }[]>([]);
-
-const parent = computed(() => {
-    return null;
-    /*
-    const parent = flyout.value.element;
-    if (!parent) return null;
-    const { x, y } = parent.getBoundingClientRect();
-    return { element: parent.cloneNode(true) as HTMLElement, x, y };
-    */
-});
-
 async function closeFlyout(event: MouseEvent | boolean) {
     if (!initialized.value) return;
     if (typeof event !== "boolean") {

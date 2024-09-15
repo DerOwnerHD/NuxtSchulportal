@@ -1,5 +1,5 @@
 <template>
-    <NuxtLink class="flex px-2 sticky justify-center top-0 z-20" to="/">
+    <NuxtLink class="flex px-2 sticky justify-center top-0 z-20" :to="navigatePath">
         <div class="container h-12 relative w-12 rounded-full z-[2]" @touchstart="startHolding" @touchend="endHolding">
             <div class="pt-1 flex justify-between h-full w-full">
                 <span class="text-3xl">SP</span>
@@ -17,6 +17,7 @@
 <script setup lang="ts">
 const secretMode = isSecretModeActive();
 const timeout: Ref<NodeJS.Timeout | undefined> = ref();
+const navigatePath = computed(() => (isLoggedIn.value ? "/" : "/login"));
 function startHolding() {
     timeout.value = setTimeout(() => {
         secretMode.value = !secretMode.value;

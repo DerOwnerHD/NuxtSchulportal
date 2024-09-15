@@ -36,7 +36,7 @@ interface Button {
     action?: Function;
 }
 const props = defineProps<{ error: any; retryFunction?: Function; buttons?: Button[][] }>();
-const relevantErrorData = computed(() => props.error.message ?? props.error);
+const relevantErrorData = computed(() => props.error?.message ?? props.error);
 async function retry() {
     if (!props.retryFunction) return location.reload();
     await props.retryFunction();

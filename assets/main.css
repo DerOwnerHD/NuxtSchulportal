@@ -30,7 +30,7 @@ body {
     color: white;
 }
 #__nuxt {
-    @apply h-full;
+    @apply h-full min-h-screen;
 }
 @keyframes spin {
     from {

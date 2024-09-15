@@ -9,10 +9,10 @@
         <OberstufenwahlAlert v-if="isOberstufenWahlOpen"></OberstufenwahlAlert>
         <div class="grid h-screen py-4 max-h-[100vh] w-screen overflow-y-scroll" id="content">
             <SPHHeader></SPHHeader>
-            <main class="max-w-screen" :class="{ 'min-h-0': !isPageScrollable }">
+            <main class="max-w-screen mb-24" :class="{ 'min-h-0': !isPageScrollable }">
                 <slot />
             </main>
-            <footer class="flex justify-center w-screen sticky bottom-0 z-40">
+            <footer class="flex justify-center w-screen z-40">
                 <ClientOnly>
                     <DockContainer v-if="isLoggedIn"></DockContainer>
                 </ClientOnly>

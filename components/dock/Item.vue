@@ -1,7 +1,7 @@
 <template>
-    <div class="dock-item h-16 relative">
+    <div class="dock-item relative" :class="{ 'h-16': type === 'compact' }">
         <div
-            class="dock-icon relative h-16"
+            class="dock-icon relative grid justify-center"
             :class="{ open: isFlyoutOpen }"
             @touchstart.passive="startHold"
             @touchend.passive="stopHold"
@@ -15,6 +15,9 @@
                 <span v-else>{{ notificationsForItem }}</span>
             </div>
             <slot />
+            <p class="text-xs text-center" v-if="props.type === 'full'">
+                <PrettyWrap>{{ props.name }}</PrettyWrap>
+            </p>
         </div>
         <div class="flex w-full justify-center mt-1">
             <div class="dock-selector h-1 bg-white opacity-50 rounded-full" :class="{ selected: hasItemSelected }"></div>
@@ -25,6 +28,8 @@
 <script setup lang="ts">
 const props = defineProps<{
     id: AppID;
+    disabled?: boolean;
+    type: "compact" | "full";
     name: string;
     flyout: {
         title: string;
@@ -44,11 +49,12 @@ const hasItemSelected = computed(() => useRoute().path.startsWith(props.route));
 const isHoldingIcon = ref<string | null>(null);
 const isFlyoutOpen = ref(false);
 async function startHold(event: TouchEvent) {
-    if (isHoldingIcon.value) return;
+    if (isHoldingIcon.value || props.disabled) return;
     // crypto.randomUUID is only available in secure contexts, thus not in a dev enviroment
     const holdingUUID = "randomUUID" in crypto ? crypto.randomUUID() : "a";
     isHoldingIcon.value = holdingUUID;
     await useWait(1000);
+    if (props.disabled) return;
     if (isHoldingIcon.value !== holdingUUID || !(event.target instanceof Element)) return;
     const element = event.target.closest(".dock-icon");
     if (element === null) return;
@@ -59,9 +65,9 @@ async function startHold(event: TouchEvent) {
     useFlyout().value = {
         id: `dock-${props.id}`,
         groups: props.flyout,
-        position: [dimensions.left, dimensions.top - 10],
+        position: [dimensions.left, props.type === "compact" ? dimensions.top - 10 : dimensions.top + dimensions.height + 10],
         title: props.name,
-        origin: "bottom",
+        origin: props.type === "compact" ? "bottom" : "top",
         element
     };
 }

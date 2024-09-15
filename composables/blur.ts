@@ -92,6 +92,6 @@ export function combineRGBValues(channels: number[]) {
     return "#" + channels.map((channel) => Math.floor(channel).toString(16).padStart(2, "0")).join("");
 }
 
-export function clampNumber(number: number, min: number, max: number) {
+export function clampNumber(number: number, min: number = Number.MIN_SAFE_INTEGER, max: number = Number.MAX_SAFE_INTEGER) {
     return Math.min(Math.max(number, min), max);
 }
