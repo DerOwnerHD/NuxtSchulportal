@@ -1,3 +1,4 @@
+import { CalendarEntry } from "~/common/calendar";
 import { hasInvalidSidRedirect } from "../failsafe";
 import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
 import {
@@ -8,7 +9,8 @@ import {
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     schoolFromRequest,
-    STATIC_STRINGS
+    STATIC_STRINGS,
+    BasicResponse
 } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
@@ -21,7 +23,11 @@ const querySchema: SchemaEntryConsumer = {
     token: { required: false, type: "string", pattern: patterns.SID }
 };
 
-export default defineEventHandler(async (event) => {
+interface Response extends BasicResponse {
+    entries: CalendarEntry[];
+}
+
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
 
@@ -95,25 +101,6 @@ interface BasicCalendarEntry {
     start: string;
     end: string;
     _tool?: string; // Only known value is "Schulwochen"
-}
-
-interface CalendarEntry {
-    school: number;
-    id: number;
-    start: string;
-    end: string;
-    last_updated: string;
-    author: string | null;
-    location: string | null;
-    public: boolean;
-    private: boolean;
-    secret: boolean;
-    new: boolean;
-    title: string;
-    category: number;
-    description: string;
-    all_day: boolean;
-    external_id: string | null;
 }
 
 function transformCalendarEntry(entry: BasicCalendarEntry): CalendarEntry {

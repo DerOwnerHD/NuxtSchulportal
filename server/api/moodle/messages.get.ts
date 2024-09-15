@@ -1,14 +1,8 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateDefaultHeaders, patterns, setErrorResponse, STATIC_STRINGS } from "../../utils";
-import {
-    MoodleConversationMember,
-    MoodleConversationMessage,
-    generateMoodleURL,
-    lookupSchoolMoodle,
-    transformMoodleMember,
-    transformMoodleMessage
-} from "../../moodle";
+import { generateMoodleURL, lookupSchoolMoodle, transformMoodleMember, transformMoodleMessage } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { MoodleConversationMember, MoodleConversationMessage } from "~/common/moodle";
 
 const querySchema: SchemaEntryConsumer = {
     session: { required: true, size: 10, pattern: patterns.MOODLE_SESSION },

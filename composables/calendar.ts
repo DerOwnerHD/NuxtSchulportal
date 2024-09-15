@@ -1,35 +1,10 @@
-interface CalendarFilters {
-    category?: number;
-    query?: string;
-    start: string;
-    end?: string;
-    new?: boolean;
-}
-interface CalendarResponse {
-    error: boolean;
-    error_details?: any;
-    entries: CalendarEntry[];
-}
-export interface CalendarEntry {
-    school: number;
-    id: number;
-    start: string;
-    end: string;
-    last_updated: string;
-    author: string | null;
-    location: string | null;
-    public: boolean;
-    private: boolean;
-    secret: boolean;
-    new: boolean;
-    title: string;
-    category: number;
-    description: string;
-    all_day: boolean;
-    external_id: string | null;
-}
+import type { CalendarEntry, CalendarFilters } from "~/common/calendar";
 
 export const useCalendarEntries = () => useState<CalendarEntry[]>("calendar-entries");
+/**
+ * Calendar categories are dynamically added to /kalender.php by javascript.
+ * IF they are school-dependent, they might not be accurate in this listing
+ */
 export const calendarCategories = [
     // This is a category (most likely created by accident) that contains the week entries
     // and does have neither name nor icon on SPH (undefined). This is most likely a bug.
@@ -47,11 +22,15 @@ export const calendarCategories = [
     { id: 8, name: "Fachkonferenz", colors: ["#5e4ce6", "#8e5bf4"], icon: ["fas", "at"] },
     { id: 9, name: "Fortbildung (extern)", colors: ["#97f575", "#42e86e"], icon: ["fas", "chalkboard-user"] },
     { id: 10, name: "Abitur", colors: ["#d70fd0", "#f55d90"], icon: ["fas", "graduation-cap"] },
-    { id: 11, name: "Externe Termine", colors: ["#000000", "#000000"], icon: ["fas", "car"] }
+    { id: 11, name: "Externe Termine", colors: ["#000000", "#000000"], icon: ["fas", "car"] },
+    { id: 12, name: "Elterngespräche", colors: ["#fff994", "#ffdf08"], icon: ["fas", "calendar"] },
+    { id: 13, name: "Examen", colors: ["#97f575", "#9ef247"], icon: ["fas", "highlighter"] },
+    { id: 14, name: "Berufliche Orientierung", colors: ["#ff6250", "#ff7f50"], icon: ["fas", "briefcase"] },
+    { id: 15, name: "Notentermine", colors: ["#ed1700", "#ed8f00"], icon: ["fas", "bell"] }
 ];
 
 export const fetchCalendar = async (filters: CalendarFilters) =>
-    await useFetch<CalendarResponse>("/api/calendar", {
+    await useFetch("/api/calendar", {
         query: { ...filters, school: useSchool() },
         headers: { Authorization: useToken().value }
     });

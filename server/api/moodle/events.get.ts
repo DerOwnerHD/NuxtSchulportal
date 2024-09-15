@@ -1,7 +1,8 @@
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { APIError, generateDefaultHeaders, patterns, setErrorResponse, STATIC_STRINGS } from "../../utils";
-import { MoodleEvent, generateMoodleURL, lookupSchoolMoodle, transformMoodleEvent } from "../../moodle";
+import { generateMoodleURL, lookupSchoolMoodle, transformMoodleEvent } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { MoodleEvent } from "~/common/moodle";
 
 const querySchema: SchemaEntryConsumer = {
     session: { required: true, size: 10, pattern: patterns.MOODLE_SESSION },
