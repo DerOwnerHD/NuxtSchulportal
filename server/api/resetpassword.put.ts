@@ -10,7 +10,7 @@ const bodySchema: SchemaEntryConsumer = {
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
-    const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
+    const address = getRequestIP(event, { xForwardedFor: true });
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
     const body = await readBody<{ token: string; ikey: string; sid: string; code: string }>(event);

@@ -21,7 +21,7 @@ const bodySchema: SchemaEntryConsumer = {
 
 export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
     const { req, res } = event.node;
-    const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
+    const address = getRequestIP(event, { xForwardedFor: true });
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
 

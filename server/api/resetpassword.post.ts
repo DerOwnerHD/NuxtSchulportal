@@ -11,7 +11,7 @@ const USER_TYPE = ["Schueler", "Eltern", "Lehrer"];
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
-    const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
+    const address = getRequestIP(event, { xForwardedFor: true });
 
     if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 

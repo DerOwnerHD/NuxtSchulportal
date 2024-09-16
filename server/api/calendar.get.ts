@@ -29,7 +29,7 @@ interface Response extends BasicResponse {
 
 export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
-    const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
+    const address = getRequestIP(event, { xForwardedFor: true });
 
     const query = getQuery<{ category?: string; start: string; end?: string; query?: string; new?: "true" | "false" }>(event);
     const queryValidation = validateQueryNew(querySchema, query);

@@ -23,7 +23,7 @@ const typeTransforms = { all: "All", visible: "visibleOnly", invisible: "unvisib
 
 export default defineEventHandler(async (event) => {
     const { req, res } = event.node;
-    const address = req.headersDistinct["x-forwarded-for"]?.join("; ");
+    const address = getRequestIP(event, { xForwardedFor: true });
 
     const query = getQuery<{ key: string; type: "visible" | "invisible"; token: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
