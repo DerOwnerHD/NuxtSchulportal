@@ -1,4 +1,4 @@
-import { generateDefaultHeaders, patterns, setErrorResponse, STATIC_STRINGS } from "../../utils";
+import { BasicResponse, generateDefaultHeaders, patterns, setErrorResponse, STATIC_STRINGS } from "../../utils";
 import { handleRateLimit, RateLimitAcceptance } from "../../ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
@@ -9,7 +9,13 @@ const querySchema: SchemaEntryConsumer = {
     school: { required: true, type: "number", min: 1, max: 9999 }
 };
 
-export default defineEventHandler(async (event) => {
+interface Response extends BasicResponse {
+    valid: boolean;
+    user: number | null;
+    remaining: number | null;
+}
+
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = getRequestIP(event, { xForwardedFor: true });
 
@@ -46,8 +52,8 @@ export default defineEventHandler(async (event) => {
         return {
             error: false,
             valid: !json[0].error,
-            user: json[0].data?.userid || null,
-            remaining: json[0].data?.timeremaining || null
+            user: json[0].data?.userid ?? null,
+            remaining: json[0].data?.timeremaining ?? null
         };
     } catch (error) {
         console.error(error);

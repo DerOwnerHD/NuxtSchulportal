@@ -1,4 +1,4 @@
-import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../../utils";
+import { BasicResponse, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../../utils";
 import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
@@ -8,7 +8,14 @@ const bodySchema: SchemaEntryConsumer = {
     school: { type: "number", required: true, max: 206568, min: 1 }
 };
 
-export default defineEventHandler(async (event) => {
+interface Response extends BasicResponse {
+    cookie: string;
+    session: string;
+    paula: string;
+    user: number;
+}
+
+export default defineEventHandler<Promise<Response>>(async (event) => {
     const { req, res } = event.node;
     const address = getRequestIP(event, { xForwardedFor: true });
 

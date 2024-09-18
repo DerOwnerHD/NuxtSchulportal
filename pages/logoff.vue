@@ -7,11 +7,9 @@
                 <small>Alle Daten werden gelöscht!</small>
             </div>
             <div class="grid gap-2 grid-cols-2">
-                <ButtonRoundedBlurred
-                    v-for="button of buttons"
-                    :icon="button.icon"
-                    @click="executeButtonAction(button)"
-                    :text="button.text"></ButtonRoundedBlurred>
+                <ButtonRoundedBlurred v-for="button of buttons" :icon="button.icon" @click="executeButtonAction(button)">{{
+                    button.text
+                }}</ButtonRoundedBlurred>
             </div>
         </div>
     </div>

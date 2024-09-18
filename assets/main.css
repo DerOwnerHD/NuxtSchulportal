@@ -27,6 +27,8 @@ body {
     --fade-mask-size: 0.1;
     --horizontal-fade-mask: linear-gradient(to right, transparent 0%, white 10%, white 90%, transparent 100%);
     --vertical-fade-mask: linear-gradient(to bottom, transparent 0%, white 10%, white 90%, transparent 100%);
+    --table-light-background: var(--light-white-gradient);
+    --table-dark-background: var(--even-lighter-white-gradient);
     color: white;
 }
 #__nuxt {
@@ -286,5 +288,25 @@ code.dark {
     @apply h-full w-screen grid place-content-center;
     > div {
         @apply backdrop-blur-md p-4 w-72 text-center grid gap-2 rounded-2xl;
+    }
+}
+
+table {
+    @apply border-separate border-spacing-2;
+    thead {
+        --background: var(--table-light-background);
+    }
+    tbody {
+        tr:nth-child(even) {
+            --background: var(--table-light-background);
+        }
+        tr:nth-child(odd) {
+            --background: var(--table-dark-background);
+        }
+    }
+    td,
+    th {
+        @apply p-2 rounded-lg;
+        background: var(--background);
     }
 }

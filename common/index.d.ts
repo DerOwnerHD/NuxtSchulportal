@@ -13,3 +13,5 @@ export interface SPHStatus {
  * See https://info.schulportal.hessen.de/status-des-schulportal-hessen/ for these items
  */
 export type SPHStatusKey = "login" | "paedorg" | "lernsys" | "paednet" | "bs" | "support";
+
+export type AnyFunction = () => Promise<any> | any;

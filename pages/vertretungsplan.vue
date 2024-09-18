@@ -48,7 +48,7 @@
             </main>
             <section v-else class="grid gap-2 place-content-center">
                 <p>Keine Tage verfügbar</p>
-                <ButtonRoundedBlurred text="Neu laden" :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan"></ButtonRoundedBlurred>
+                <ButtonRoundedBlurred :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan">Neu laden</ButtonRoundedBlurred>
             </section>
             <section class="flex justify-center">
                 <div class="blurred-background px-4 rounded-full py-1 flex gap-2 items-center">

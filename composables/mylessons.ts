@@ -130,7 +130,7 @@ export function findIconForMyLessonsCourse(name: string) {
 
 const useCurrentSemester = () => parseInt(useRuntimeConfig().public.currentSemester as string);
 export const useMyLessonsCourseDetails = () => useState("mylessons-course-details", () => new Map<number, MyLessonsCourse>());
-export async function fetchMyLessonsCourse(id: number, overwrite: boolean = false) {
+export async function fetchMyLessonsCourse(id: number, semester?: number, overwrite: boolean = false) {
     const courses = useMyLessonsCourseDetails();
     const session = useSession();
     const token = useToken();
@@ -143,7 +143,7 @@ export async function fetchMyLessonsCourse(id: number, overwrite: boolean = fals
                 session: session.value,
                 token: token.value,
                 school: useSchool(),
-                semester: useCurrentSemester(),
+                semester: semester ?? useCurrentSemester(),
                 id,
                 key
             }

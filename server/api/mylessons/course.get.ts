@@ -15,6 +15,7 @@ import cryptoJS from "crypto-js";
 import { COURSE_UNAVAILABLE_ERROR, MyLessonsLesson } from "~/server/mylessons";
 import { hasInvalidSidRedirect } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { querySelectorArray } from "~/server/dom";
 
 const querySchema: SchemaEntryConsumer = {
     token: { required: true, pattern: patterns.SID },
@@ -136,30 +137,33 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
                 return { name, uploadable, link, files };
             });
 
-            const encodedAttendance = lesson.querySelector("td:nth-child(3) encoded")?.innerHTML ?? "";
-            const attendance =
-                typeof key === "string"
+            const encodedAttendance = lesson.querySelector("td:nth-child(3) encoded")?.innerHTML;
+            const attendance = encodedAttendance?.length
+                ? typeof key === "string"
                     ? removeBreaks(
                           cryptoJS.AES.decrypt(encodedAttendance, key)
                               .toString(cryptoJS.enc.Utf8)
                               .replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>|<(\/)?[^>]*>/g, "")
                       ).trim()
-                    : null;
+                    : null
+                : null;
 
             lessons.push({ entry, lessons: lessonsOfLesson, date, topic, description, homework, downloads, uploads, attendance });
         }
 
         const attendance: { [key: string]: number | null } = {};
         typeof key === "string"
-            ? Array.from(document.querySelectorAll(".tab-pane#attendanceTable table.table tbody tr")).map((element) => {
-                  const [name, count] = Array.from(element.querySelectorAll("td encoded")).map((element) =>
-                      removeBreaks(
+            ? querySelectorArray(document, ".tab-pane#attendanceTable table.table tbody tr").map((element) => {
+                  const [name, count] = Array.from(element.querySelectorAll("td encoded")).map((element) => {
+                      if (!element.innerHTML.length) return null;
+                      return removeBreaks(
                           cryptoJS.AES.decrypt(element.innerHTML, key)
                               .toString(cryptoJS.enc.Utf8)
                               .replace(/<div class="hidden hidden_encoded">[a-f0-9]{32}<\/div>/, "")
                               .trim()
-                      )
-                  );
+                      );
+                  });
+                  if (name === null || count === null) return;
                   return (attendance[name] = parseInt(count) || null);
               })
             : null;

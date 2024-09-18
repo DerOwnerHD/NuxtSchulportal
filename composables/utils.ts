@@ -19,6 +19,13 @@ export const DEFAULT_ERRORS: { [status: string]: string } = {
 
 export const useSSRAlerts = () => useState<string[]>("ssr-alerts", () => []);
 
+export function joinLessonList(lessons: number[]) {
+    const lessonSuffix = " Stunde";
+    if (!lessons.length) return "";
+    if (lessons.length === 1) return `${lessons[0]}. Stunde`;
+    return `${lessons.at(0)}. - ${lessons.at(-1)}. Stunde`;
+}
+
 export const SPH_BASE = "https://start.schulportal.hessen.de";
 
 export const infoDialogs: { [name: string]: InfoDialog } = {

@@ -71,7 +71,16 @@ import {
     faCircleExclamation,
     faLongArrowRight,
     faMonument,
-    faLongArrowLeft
+    faLongArrowLeft,
+    faFile,
+    faFileExcel,
+    faFileWord,
+    faFilePowerpoint,
+    faFileLines,
+    faFileZipper,
+    faFileImage,
+    faFileAudio,
+    faFileVideo
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -156,7 +165,19 @@ library.add(
     faCircleExclamation,
     faMonument,
     faUpRightFromSquare,
-    faLongArrowLeft
+    faLongArrowLeft,
+    faChevronUp,
+    faChevronDown,
+    faFile,
+    faFileExcel,
+    faFileWord,
+    faFilePowerpoint,
+    faFileLines,
+    faFilePdf,
+    faFileZipper,
+    faFileImage,
+    faFileAudio,
+    faFileVideo
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

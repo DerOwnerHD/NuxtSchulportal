@@ -379,7 +379,7 @@
                     </section>
                 </main>
             </section>
-            <UnderlinedLink :to="STATUS_PAGE_URL" class="text-center">Offizielle Statusseite öffnen</UnderlinedLink>
+            <HighlightedLink :to="STATUS_PAGE_URL" class="text-center">Offizielle Statusseite öffnen</HighlightedLink>
         </div>
     </div>
 </template>

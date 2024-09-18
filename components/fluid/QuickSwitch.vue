@@ -29,8 +29,8 @@ function switchSelection(index: number) {
     emit("update", index);
     updateSelectorPosition();
 }
-const selector = ref<HTMLElement | null>(null);
-const container = ref<HTMLElement | null>(null);
+const selector = useTemplateRef("selector");
+const container = useTemplateRef("container");
 function updateSelectorPosition(animate: boolean = true) {
     if (!selector.value || !container.value) return;
     const element = container.value.querySelector<HTMLElement>(`.option[index="${selected.value}"]`);

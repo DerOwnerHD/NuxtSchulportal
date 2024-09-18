@@ -4,18 +4,15 @@
             <h1 class="text-4xl">:/</h1>
             <span>Ein Fehler ist aufgetreten</span>
             <CodeDisplay class="max-h-52 overflow-scroll" :data="relevantErrorData"></CodeDisplay>
-            <ButtonRoundedBlurred
-                :icon="['fas', 'arrow-rotate-right']"
-                :text="retryFunction ? 'Erneut versuchen' : 'Seite neu laden'"
-                @click="retry"></ButtonRoundedBlurred>
+            <ButtonRoundedBlurred :icon="['fas', 'arrow-rotate-right']" @click="retry">{{
+                retryFunction ? "Erneut versuchen" : "Seite neu laden"
+            }}</ButtonRoundedBlurred>
             <div class="button-group grid gap-2" v-for="group of buttons">
-                <ButtonRoundedBlurred
-                    v-for="button of group"
-                    :icon="button.icon"
-                    @click="executeButtonAction(button)"
-                    :text="button.text"></ButtonRoundedBlurred>
+                <ButtonRoundedBlurred v-for="button of group" :icon="button.icon" @click="executeButtonAction(button)">{{
+                    button.text
+                }}</ButtonRoundedBlurred>
             </div>
-            <div class="mt-4 flex gap-2 items-center justify-center blurred-background borderless rounded-xl py-2" v-if="showLoggingInDisplay">
+            <div class="mt-4 flex gap-2 items-center justify-center blurred-background borderless rounded-xl py-2" v-if="performingReauth">
                 <template v-if="isLoggingIn">
                     <InfiniteSpinner :size="20"></InfiniteSpinner>
                     <span>Du wirst neu eingeloggt</span>
@@ -30,12 +27,14 @@
 </template>
 
 <script setup lang="ts">
+import type { AnyFunction } from "~/common";
+
 interface Button {
     icon?: string[];
     text?: string;
     action?: Function;
 }
-const props = defineProps<{ error: any; retryFunction?: Function; buttons?: Button[][] }>();
+const props = defineProps<{ error: any; retryFunction?: AnyFunction; buttons?: Button[][]; performingReauth?: boolean }>();
 const relevantErrorData = computed(() => props.error?.message ?? props.error);
 async function retry() {
     if (!props.retryFunction) return location.reload();
@@ -46,10 +45,6 @@ async function executeButtonAction(button: Button) {
     await button.action();
 }
 const isLoggingIn = useLoggingInStatus();
-const showLoggingInDisplay = ref(false);
-onMounted(() => {
-    if (toRaw(isLoggingIn.value)) showLoggingInDisplay.value = true;
-});
 </script>
 
 <style scoped>
