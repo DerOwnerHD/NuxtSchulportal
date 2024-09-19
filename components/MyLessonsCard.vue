@@ -28,7 +28,9 @@
                         >
                     </div>
                 </ExpandableSection>
-                <div class="widget pointer-events-none absolute bg-red-500 top-2.5 right-2 rounded-full shadow-sm" v-if="!lesson.homework?.done">unerledigt</div>
+                <div class="widget pointer-events-none absolute bg-red-500 top-2.5 right-2 rounded-full shadow-sm" v-if="!lesson.homework?.done">
+                    unerledigt
+                </div>
             </div>
             <ExpandableSection
                 :name="lesson.entry"

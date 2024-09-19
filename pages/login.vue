@@ -4,7 +4,10 @@
             <div class="grid w-full px-5 justify-center">
                 <div class="flex justify-between mb-1 w-full">
                     <h1>Anmeldung</h1>
-                    <div v-if="state !== Status.LoginSuccessful" class="rounded-button !px-4" @click="showSchoolSearch">
+                    <div
+                        v-if="state !== Status.LoginSuccessful"
+                        class="blurred-background borderless rounded-full px-4 flex items-center"
+                        @click="showSchoolSearch">
                         <font-awesome-icon :icon="['fas', 'magnifying-glass']"></font-awesome-icon>
                         <span class="ml-2">Schule</span>
                     </div>
@@ -45,7 +48,7 @@
                                     class="flex-auto" />
                                 <font-awesome-icon
                                     id="login-password-toggle"
-                                    class="rounded-button mx-2 aspect-square"
+                                    class="mx-2"
                                     @mousedown="passwordVisible = !passwordVisible"
                                     :icon="['fas', passwordVisible ? 'eye-slash' : 'eye']"></font-awesome-icon>
                             </div>
@@ -76,25 +79,15 @@
             <div class="w-full grid justify-center">
                 <h1 class="mb-1 text-center">Passwort vergessen</h1>
                 <div class="grid my-2 text-center">
-                    <div v-if="![Status.ResetCodeVerification, Status.VerifyingCode, Status.ResetDone].includes(state)" class="reset-stage" stage="1">
+                    <div
+                        v-if="![Status.ResetCodeVerification, Status.VerifyingCode, Status.ResetDone].includes(state)"
+                        class="reset-stage grid gap-2"
+                        stage="1">
                         <div class="flex justify-center">
                             <div class="warning">Nur mit hinterlegter E-Mail möglich</div>
                         </div>
-                        <div class="select" id="resetType">
-                            <div id="student" selected @click="updateResetSelection('student')">
-                                <font-awesome-icon :icon="['fas', 'child']"></font-awesome-icon>
-                                Schüler
-                            </div>
-                            <div id="parent" @click="updateResetSelection('parent')">
-                                <font-awesome-icon :icon="['fas', 'hands-holding-child']"></font-awesome-icon>
-                                Eltern
-                            </div>
-                            <div id="teacher" @click="updateResetSelection('teacher')">
-                                <font-awesome-icon :icon="['fas', 'user']"></font-awesome-icon>
-                                Lehrer
-                            </div>
-                        </div>
-                        <form id="reset" @submit.prevent="beginReset" class="flex justify-center mt-2">
+                        <LegacySelectBox :options="resetTypeOptions" :disabled="state !== Status.None"></LegacySelectBox>
+                        <form id="reset" @submit.prevent="beginReset" class="flex justify-center">
                             <div id="form-wrapper" class="grid w-full place-content-center">
                                 <input
                                     class="w-60"
@@ -186,7 +179,19 @@
 </template>
 
 <script setup lang="ts">
+import type { LegacySelectBoxOption } from "~/common/component-props";
 import type { Nullable } from "~/server/utils";
+
+type ResetType = "student" | "parent" | "teacher";
+interface ResetTypeOption extends LegacySelectBoxOption {
+    id: ResetType;
+}
+const resetTypeOptions: ResetTypeOption[] = [
+    { id: "student", icon: ["fas", "child"], text: "Schüler", default: true },
+    { id: "parent", icon: ["fas", "hands-holding-child"], text: "Eltern" },
+    { id: "teacher", icon: ["fas", "user"], text: "Lehrer" }
+];
+const selectedResetType = ref<ResetType>("student");
 
 // This only exists so that TypeScript doesn't complain about
 // all those things that would otherwise be undefined when building
@@ -355,7 +360,7 @@ async function beginReset() {
     const { data, error } = await useFetch<InitialResetResponse>("/api/resetpassword", {
         method: "POST",
         body: {
-            type,
+            type: selectedResetType.value,
             username,
             school,
             birthday: reset.value.birthday
@@ -380,12 +385,6 @@ async function beginReset() {
     const card = document.querySelector("#reset");
     if (!(card instanceof HTMLElement)) return;
     await resizeCard(card, { in: ".reset-stage[stage='2']", out: ".reset-stage[stage='1']" }, () => (state.value = Status.ResetCodeVerification));
-}
-
-function updateResetSelection(type: string) {
-    if (state.value !== Status.None) return;
-    document.querySelector(`.select#resetType > div#${type}`)?.setAttribute("selected", "");
-    document.querySelectorAll(`.select#resetType > div:not(#${type})`).forEach((x) => x.removeAttribute("selected"));
 }
 
 async function handleResetInput(event: Event) {

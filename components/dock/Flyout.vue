@@ -187,28 +187,4 @@ function endItemSelection() {
 .flyout[origin="bottom"][orientation="right"] {
     transform-origin: bottom right;
 }
-@keyframes scale-in {
-    1% {
-        transform: scale(0);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
-@keyframes opacity-in {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-    }
-}
-@keyframes opacity-out {
-    0% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-    }
-}
 </style>

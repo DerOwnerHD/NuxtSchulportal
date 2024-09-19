@@ -12,6 +12,9 @@ module.exports = {
                 "-3": "-0.75rem",
                 "-4": "-1rem"
             },
+            borderWidth: {
+                1: "1px"
+            },
             content: {
                 empty: '""'
             },

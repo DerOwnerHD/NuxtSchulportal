@@ -34,14 +34,6 @@ body {
 #__nuxt {
     @apply h-full min-h-screen;
 }
-@keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
 .blurred-background {
     background: var(--light-white-gradient);
     border-top: var(--small-white-border);
@@ -79,22 +71,6 @@ h2 {
     font-family: "SPBold", sans-serif;
     @apply text-xl;
 }
-.rounded-button {
-    @apply p-1 rounded-full shadow-sm hover:active:scale-90 text-white;
-    transition: transform 0.2s ease-out;
-    background: var(--small-button-color);
-}
-.big-button {
-    @apply bg-white rounded-full w-64 h-8 drop-shadow-md hover:active:scale-90;
-    transition: transform 0.2s ease-out;
-}
-.card-icon {
-    width: 1rem;
-}
-#header {
-    z-index: 4;
-    background: linear-gradient(to right, #18d6ee, #3a7cd5);
-}
 .card {
     > main > .gradient-border::before {
         width: calc(18rem + 6px);
@@ -111,18 +87,6 @@ h2 {
             }
         }
     }
-}
-.gradient-border {
-    @apply relative;
-}
-.gradient-border::before {
-    @apply z-[-1] m-[-3px] bottom-0 top-0 left-0 right-0 absolute drop-shadow-xl rounded-[inherit] content-[""];
-    background: var(--gradient);
-    width: calc(100% + 6px);
-}
-.gradient-border > * {
-    background: linear-gradient(to bottom, #212121, #080808);
-    border-radius: inherit;
 }
 .warning,
 .basic-warning {
@@ -162,22 +126,6 @@ h2 {
 .info::before {
     content: "ℹ️";
 }
-.select {
-    @apply flex my-3 justify-center text-white;
-    > div {
-        @apply border-white border-[1px] px-2 py-1 rounded-md mx-0.5;
-    }
-    > div[selected] {
-        @apply bg-[#ffffff50];
-    }
-}
-.spinner {
-    background: url("https://i.imgur.com/NCYL2PJ.png") no-repeat;
-    height: var(--size);
-    width: var(--size);
-    background-size: var(--size);
-    animation: 900ms spin infinite linear;
-}
 .button-with-symbol {
     @apply rounded-full bg-white text-black mx-1.5 px-3 py-1 mt-2 hover:active:scale-[0.95];
     svg {
@@ -197,9 +145,6 @@ h2 {
     height: var(--size);
     font-size: calc(var(--size) - 0.25rem);
 }
-.card-main-description {
-    @apply text-sm text-center mb-1;
-}
 @keyframes loading {
     0% {
         background: #3c445c;
@@ -213,14 +158,6 @@ h2 {
 }
 dialog::backdrop {
     background: #00000090;
-}
-.course-counter,
-.small-info {
-    background: var(--small-button-color);
-    @apply rounded-full ml-2 h-5 min-w-[1.25rem] text-center px-1 text-sm;
-}
-.small-info {
-    @apply px-2 py-0.5;
 }
 pre,
 code {
