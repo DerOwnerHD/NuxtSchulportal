@@ -1,4 +1,4 @@
-import { setErrorResponse, BasicResponse, patterns, generateDefaultHeaders, getOptionalSchool } from "../utils";
+import { setErrorResponseEvent, BasicResponse, generateDefaultHeaders, getOptionalSchool } from "../utils";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { SchemaEntry, SchemaEntryConsumer, validateQueryNew } from "../validator";
 
@@ -10,15 +10,17 @@ const querySchema: SchemaEntryConsumer = {
     link: { required: true, type: "string", max: 512, validator_function: validateURL }
 };
 
+const rlHandler = defineRateLimit({ interval: 10, allowed_per_interval: 3 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
     const query = getQuery<{ link: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
     const school = getOptionalSchool(event, null, false) as number;
 
-    const rateLimit = handleRateLimit("/api/sso.get", address, getRatelimitBypassKey(req));
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     try {
         const encodedURL = Buffer.from(query.link).toString("base64url");
@@ -32,12 +34,12 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             headers: generateDefaultHeaders(address)
         });
         const locationHeader = response.headers.get("Location");
-        if (response.status !== 302 || locationHeader === null) return setErrorResponse(res, 503, "Failed to generate SSO token");
+        if (response.status !== 302 || locationHeader === null) return setErrorResponseEvent(event, 503, "Failed to generate SSO token");
 
         return { error: false, link: locationHeader };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });
 

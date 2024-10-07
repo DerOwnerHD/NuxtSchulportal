@@ -1,4 +1,4 @@
-import type { Nullable } from "~/server/utils";
+import type { Vertretungsplan } from "~/common/vertretungsplan";
 
 export const useVertretungsplanFlyout = () =>
     computed<FlyoutGroups>(() => {
@@ -36,17 +36,15 @@ export const fetchVertretungsplan = async (reauth?: boolean) => {
     try {
         // A event handler may pass an event as first parameter
         if (reauth === true) await useAuthenticate();
-        const data = await $fetch("/api/vertretungen", {
+        const data = await $fetch<Vertretungsplan>("/api/vertretungen", {
             query: {
-                school: useSchool(),
+                school: school.value,
                 token: useToken().value
             },
             retry: false
         });
         const vertretungsCount = data.days.reduce((amount, day) => (amount += day.vertretungen.length), 0);
         useNotifications().value.set(AppID.Vertretungsplan, vertretungsCount);
-        // @ts-ignore
-        delete data.error;
         useVertretungsplan().value = data;
     } catch (error) {
         useReauthenticate(error);
@@ -56,33 +54,3 @@ export const fetchVertretungsplan = async (reauth?: boolean) => {
     }
     isLoadingPlan.value = false;
 };
-
-interface VertretungsDay {
-    date: string;
-    day: string;
-    day_of_week: string;
-    relative: string;
-    vertretungen: Vertretung[];
-    news: string[];
-}
-
-interface Vertretungsplan {
-    days: VertretungsDay[];
-    last_updated: Nullable<string>;
-    updating: boolean;
-}
-
-interface Vertretung {
-    lessons: {
-        list: number[];
-        from: number;
-        to: number;
-    };
-    class: Nullable<string>;
-    substitute: Nullable<string>;
-    teacher: Nullable<string>;
-    subject: Nullable<string>;
-    subject_old: Nullable<string>;
-    room: Nullable<string>;
-    note: Nullable<string>;
-}

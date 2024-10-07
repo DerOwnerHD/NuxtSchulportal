@@ -22,8 +22,6 @@ interface Response extends BasicResponse, Vertretungsplan {}
 const handleRL = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
 
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { res } = event.node;
-
     const token = getAuthToken(event);
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
@@ -93,7 +91,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             }
 
             data.push({
-                date: time.getTime(),
+                date: time.toString(),
                 day: date.join("-"),
                 day_of_week: DAYS[time.getDay()],
                 relative: headerElements[0]?.textContent || "",
@@ -142,7 +140,9 @@ function parseLastUpdatedString(document: Document) {
 
     const day = matches[1].split(".").reverse().join("-");
     const time = matches[2];
-    return new Date(`${day} ${time}`).getTime();
+    // As the server is most likely in UTC while the SPH returns the German timezone, we cannot just parse this into a Date object.
+    // Rather, the client (which is most likely in that timezone) should decide
+    return `${day} ${time}`;
 }
 
 /**

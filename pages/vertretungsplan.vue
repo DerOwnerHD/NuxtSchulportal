@@ -11,13 +11,13 @@
                         <div v-if="selectedDay.vertretungen.length" class="grid gap-2">
                             <div
                                 class="blurred-background borderless p-2 rounded-lg w-full flex gap-2 items-center hover:active:scale-95 transition-transform"
-                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note } of selectedDay.vertretungen">
+                                v-for="{ lessons, subject, subject_old, substitute, teacher, room, note, type } of selectedDay.vertretungen">
                                 <span class="blurred-background borderless whitespace-nowrap px-2 py-1 rounded-full">{{
                                     lessons.list.length > 1 ? lessons.from + " - " + lessons.to : lessons.from
                                 }}</span>
                                 <div class="grid">
                                     <p>
-                                        <span class="text-sm" v-if="!substitute && !subject">Ausfall in </span>
+                                        <span class="text-sm" v-if="type">{{ type }} in </span>
                                         <span class="font-bold"> {{ subject ?? subject_old }} </span>
                                         <template v-if="room">
                                             <span class="text-sm"> in Raum </span>
