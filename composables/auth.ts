@@ -3,17 +3,18 @@ export interface Credentials {
     password: string;
     school: number;
 }
-interface MoodleCredentials {
-    cookie: string;
-    session: string;
-    paula: string;
-    user: number;
-}
 
 export const useCredentials = () => useCookie<Credentials>("credentials");
 export const useToken = () => useCookie<string>("token");
 export const useSession = () => useCookie<string>("session");
-export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-credentials");
+export const school = computed(() => {
+    const credentials = useCredentials();
+    if (!credentials.value) return null;
+    return credentials.value.school;
+});
+/**
+ * @deprecated
+ */
 export const useSchool = () => {
     const credentials = useCredentials();
     if (!credentials.value) return null;
