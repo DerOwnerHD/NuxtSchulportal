@@ -18,7 +18,7 @@ export const SPH_PUBLIC_KEY =
  */
 export function generateUUID() {
     if ("randomUUID" in crypto) return crypto.randomUUID();
-    console.warn("Using unsecure UUID generation");
+    console.warn("Using insecure UUID generation");
     let time = performance.now();
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx-xxxxxx3xx".replace(/[xy]/g, (char) => {
         const random = (time + Math.random() * 16) % 16 | 0;

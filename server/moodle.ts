@@ -1,14 +1,20 @@
 import { lookup } from "node:dns/promises";
 import type {
+    PreMoodleConversationMember,
+    PreMoodleConversationMessage,
+    PreMoodleCourse,
+    PreMoodleEvent,
+    PreMoodleNotification,
+    PreMoodleConversation,
+    MoodleConversation,
     MoodleConversationMember,
-    MoodleConversationMessage,
     MoodleCourse,
     MoodleEvent,
     MoodleNotification,
-    MoodleConversation
+    MoodleMessage as MoodleConversationMessage
 } from "~/common/moodle";
 
-export const transformMoodleMember = (member: MoodleConversationMember) => {
+export const transformMoodleMember = (member: PreMoodleConversationMember): MoodleConversationMember => {
     return {
         id: member.id,
         name: member.fullname,
@@ -28,7 +34,7 @@ export const transformMoodleMember = (member: MoodleConversationMember) => {
     };
 };
 
-export const transformMoodleCourse = (course: MoodleCourse) => {
+export function transformMoodleCourse(course: PreMoodleCourse): MoodleCourse {
     return {
         id: course.id,
         category: course.coursecategory,
@@ -62,9 +68,9 @@ export const transformMoodleCourse = (course: MoodleCourse) => {
         },
         link: course.viewurl
     };
-};
+}
 
-export const transformMoodleEvent = (event: MoodleEvent) => {
+export function transformMoodleEvent(event: PreMoodleEvent): MoodleEvent {
     return {
         id: event.id,
         name: event.name,
@@ -114,9 +120,9 @@ export const transformMoodleEvent = (event: MoodleEvent) => {
             location: event.formattedlocation
         }
     };
-};
+}
 
-export const transformMoodleNotification = (notification: MoodleNotification) => {
+export function transformMoodleNotification(notification: PreMoodleNotification): MoodleNotification {
     return {
         id: notification.id,
         author: notification.useridfrom,
@@ -137,18 +143,18 @@ export const transformMoodleNotification = (notification: MoodleNotification) =>
         },
         link: notification.contexturl
     };
-};
+}
 
-export const transformMoodleMessage = (message: MoodleConversationMessage) => {
+export function transformMoodleMessage(message: PreMoodleConversationMessage): MoodleConversationMessage {
     return {
         id: message.id,
         author: message.useridfrom,
         text: message.text,
         timestamp: message.timecreated * 1000
     };
-};
+}
 
-export const transformMoodleConversation = (conversation: MoodleConversation) => {
+export function transformMoodleConversation(conversation: PreMoodleConversation): MoodleConversation {
     return {
         id: conversation.id,
         name: conversation.name,
@@ -160,21 +166,21 @@ export const transformMoodleConversation = (conversation: MoodleConversation) =>
         favorite: conversation.isfavourite,
         // We assume the client just figures out whether it's
         // read by the count in this property instead of "isread"
-        unread: conversation.unreadcount,
+        unread: conversation.unreadcount ?? 0,
         members: conversation.members.map((member) => transformMoodleMember(member)),
         messages: conversation.messages.map((message) => transformMoodleMessage(message)),
         canDeleteMessagesForEveryone: conversation.candeletemessagesforallusers
     };
-};
+}
 
-export const lookupSchoolMoodle = async (school: any): Promise<boolean> => {
+export async function lookupSchoolMoodle(school: any): Promise<boolean> {
     try {
         await lookup(generateMoodleURL(school, true));
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
-};
+}
 
 const BASE_MOODLE_URL = useRuntimeConfig().public.baseMoodleURL;
 /**

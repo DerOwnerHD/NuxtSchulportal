@@ -1,4 +1,4 @@
-import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     BasicResponse,
     Nullable,
@@ -7,8 +7,8 @@ import {
     hasPasswordResetLocationSet,
     patterns,
     removeBreaks,
-    schoolFromRequest,
-    setErrorResponse
+    getOptionalSchool,
+    setErrorResponseEvent
 } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
@@ -31,35 +31,34 @@ interface Response extends BasicResponse {
     subject: Nullable<string>;
 }
 
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 4 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const query = getQuery<{ token: string; session: string; key?: string; semester?: string; id: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
-    const rateLimit = handleRateLimit("/api/mylessons/course.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const { token, session, key, semester, id } = query;
 
     try {
         const response = await fetch(`https://start.schulportal.hessen.de/meinunterricht.php?a=sus_view&id=${id}&halb=${semester}`, {
             headers: {
-                Cookie: `sid=${token}; SPH-Session=${session}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; SPH-Session=${session}; ${getOptionalSchool(event)}`,
                 ...generateDefaultHeaders(address)
             },
             redirect: "manual",
             method: "GET"
         });
 
-        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
-        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
-        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidSidRedirect(response)) return setErrorResponseEvent(event, 403, "Route gesperrt");
+        if (hasInvalidAuthentication(response)) return setErrorResponseEvent(event, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponseEvent(event, 418, "Lege dein Passwort fest");
 
         const html = removeBreaks(await response.text());
-        if (html.includes(COURSE_UNAVAILABLE_ERROR)) return setErrorResponse(res, 403, "Class not available for user");
+        if (html.includes(COURSE_UNAVAILABLE_ERROR)) return setErrorResponseEvent(event, 403, "Class not available for user");
 
         const {
             window: { document }
@@ -171,7 +170,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         return { error: false, lessons, attendance, subject, id: courseId, teacher: { short: shortName, full: fullName } };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });
 

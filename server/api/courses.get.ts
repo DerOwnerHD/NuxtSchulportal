@@ -1,40 +1,39 @@
 import { hasInvalidSidRedirect } from "../failsafe";
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     generateDefaultHeaders,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
     removeBreaks,
-    setErrorResponse,
-    authHeaderOrQuery,
-    schoolFromRequest,
+    setErrorResponseEvent,
+    getAuthToken,
+    getOptionalSchool,
     STATIC_STRINGS
 } from "../utils";
 import { JSDOM } from "jsdom";
 
+const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
-
-    const rateLimit = handleRateLimit("/api/courses.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     try {
         const response = await fetch("https://start.schulportal.hessen.de/lerngruppen.php", {
             method: "GET",
             redirect: "manual",
             headers: {
-                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; ${getOptionalSchool(event)}`,
                 ...generateDefaultHeaders(address)
             }
         });
 
-        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
-        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
-        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidSidRedirect(response)) return setErrorResponseEvent(event, 403, "Route gesperrt");
+        if (hasInvalidAuthentication(response)) return setErrorResponseEvent(event, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponseEvent(event, 418, "Lege dein Passwort fest");
 
         const {
             window: { document }
@@ -58,6 +57,6 @@ export default defineEventHandler(async (event) => {
         };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

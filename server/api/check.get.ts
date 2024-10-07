@@ -1,5 +1,5 @@
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { BasicResponse, Nullable, STATIC_STRINGS, authHeaderOrQuery, generateDefaultHeaders, schoolFromRequest, setErrorResponse } from "../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { BasicResponse, Nullable, STATIC_STRINGS, getAuthToken, generateDefaultHeaders, getOptionalSchool, setErrorResponseEvent } from "../utils";
 
 interface Response extends BasicResponse {
     valid: boolean;
@@ -9,20 +9,19 @@ interface Response extends BasicResponse {
 // Both of these are provided sometimes, other times it sends us a pretty error page.
 // If the token is indeed valid, the remaining time would be in the 700s or 800s
 const INVALID_TIMES = ["0", "300", "100000"];
+const rlHandler = defineRateLimit({ interval: 10, allowed_per_interval: 3 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
-
-    const rateLimit = handleRateLimit("/api/check.get", address, req.headers["x-ratelimit-bypass"]);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     try {
         const response = await fetch("https://start.schulportal.hessen.de/ajax_login.php", {
             headers: {
-                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; ${getOptionalSchool(event)}`,
                 "X-Requested-With": "XMLHttpRequest",
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders(address)
@@ -40,6 +39,6 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         return { error: false, valid, remaining };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

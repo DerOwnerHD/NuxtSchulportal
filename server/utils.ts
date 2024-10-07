@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
+import { H3Event } from "h3";
 
 const DEFAULT_ERRORS: { [status: string]: string } = {
     "400": "Bad Request",
@@ -20,11 +21,17 @@ const SPECIAL_STATUS_MESSAGES: { [status: string]: string } = {
     "503": "Momentan nicht verfügbar"
 };
 
+/**
+ * @deprecated
+ */
 export const setResponse = (res: ServerResponse<IncomingMessage>, status: number, response: any): any => {
     res.statusCode = status;
     return response;
 };
 
+/**
+ * @deprecated
+ */
 export const setErrorResponse = (res: ServerResponse<IncomingMessage>, status: number, details?: string | object): any => {
     res.statusCode = status;
     return {
@@ -32,6 +39,24 @@ export const setErrorResponse = (res: ServerResponse<IncomingMessage>, status: n
         error_details: details ?? (SPECIAL_STATUS_MESSAGES[status] ? SPECIAL_STATUS_MESSAGES[status] : `${status}: ${DEFAULT_ERRORS[status]}`)
     };
 };
+
+/**
+ *
+ * @param event The H3Event
+ * @param status The HTTP status code
+ * @param details The error_details key in the response
+ * @param extra Any other data that should be attached to the response
+ * @returns The response data, with type any by design to bypass requirements set
+ */
+export function setErrorResponseEvent(event: H3Event, status: number, details?: string | object, extra?: Record<string, any>): any {
+    if (status === 200) throw new SyntaxError("Cannot set an error response if the status code is 200 (would cause no fail on client)");
+    event.node.res.statusCode = status;
+    return {
+        error: true,
+        error_details: details ?? (SPECIAL_STATUS_MESSAGES[status] ? SPECIAL_STATUS_MESSAGES[status] : `${status}: ${DEFAULT_ERRORS[status]}`),
+        ...extra
+    };
+}
 
 export const patterns = {
     USERNAME: /^([A-Z]+\.[A-Z]+(?:-[A-Z]+)?|[A-Z]{3})$/i,
@@ -49,7 +74,8 @@ export const patterns = {
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
     DATE_YYYY_MM_DD_HYPHENS: /^20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
     DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
-    SPH_DIRECT_MESSAGE_UUID: /^[0-9a-f]{32}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+    SPH_DIRECT_MESSAGE_UUID: /^[0-9a-f]{32}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/,
+    SSO_LOCATION: /^https:\/\/login.schulportal.hessen.de\/saml\/singleSignOn\?SAMLRequest=[0-9a-z%&.=_-]*$/i
 };
 
 // This is in use when the user has to reset their password on SPH
@@ -218,32 +244,9 @@ export const removeBreaks = (text: string): string =>
         .replace(/\s+/g, " ")
         .replace(/<2br \/>/gi, "\n\n");
 
-/**
- * @deprecated
- */
-export const parseJSONBody = (req: IncomingMessage): { [key: string]: string } => {
-    try {
-        const body = JSON.parse(req.read());
-        // NOTE: Running JSON.parse on "true", "false", "null" or any number
-        // returns that number just fine. So when parsing that body, we have to
-        // expect it to actually be JSON and not some crap someone sent to
-        // cause an error on the server. It is also unsafe to assume it's just
-        // an object, due to null also being an object type. (Which is parsable)
-        if (["number", "boolean"].includes(typeof body) || body === null || Array.isArray(body))
-            throw new TypeError("Body musn't be a number, a boolean, an array or null");
-        return body;
-    } catch (error) {
-        return {};
-    }
-};
-
-export const generateForwardedHeader = (address?: string): [string, string] => {
-    return ["X-Forwarded-For", address || "127.0.0.1"];
-};
-
-export const generateDefaultHeaders = (address?: string) => {
+export const generateDefaultHeaders = (address?: string | null) => {
     return {
-        "X-Forwarded-For": address || "127.0.0.1",
+        "X-Forwarded-For": address ?? "",
         "User-Agent": "NuxtSchulportal (https://github.com/DerOwnerHD/NuxtSchulportal)"
     };
 };
@@ -262,11 +265,9 @@ export const hasInvalidAuthentication = (response: Response) => parseCookies(res
  * @param event The H3Event given by Nuxt's event handler
  * @returns The cookie string or just null if it is not given or incorrect
  */
-export const authHeaderOrQuery = (event: any): string | null => {
+export const getAuthToken = (event: H3Event): string | null => {
     const { token } = getQuery<{ token?: string }>(event);
-    const {
-        headers: { authorization }
-    } = event.node.req as IncomingMessage;
+    const authorization = getRequestHeader(event, "Authorization");
     // Neither of them are given...
     if (typeof token !== "string" && typeof authorization !== "string") return null;
     // We can safely assume that one of them has to be correct
@@ -295,7 +296,7 @@ export const MAX_ALLOWED_SCHOOL = 9999;
  * @param stringify Directly format it according to the needs of the Cookie header (i=school) or an completely empty string when null (Default is true)
  * @returns The school ID, if in request and valid
  */
-export const schoolFromRequest = (event: any, body?: any, stringify: boolean = true) => {
+export const getOptionalSchool = (event: any, body?: any, stringify: boolean = true) => {
     const { school } = getQuery<{ school: string }>(event);
     // The school might also in POST requests be included inside the body.
     // (/login has that but that does not use this routine)
@@ -307,37 +308,10 @@ export const schoolFromRequest = (event: any, body?: any, stringify: boolean = t
 };
 
 /**
- * Transforms the schema of an endpoint so it can be sent as
- * valid JSON, so this function replaces the RegEx patterns
- * with the stringified version of these patterns instead of
- * the object, which is in JSON just {}.
- * @param schema Schema of the endpoint (with query and/or body)
- * @returns the modified schema
- * @deprecated
- */
-export const transformEndpointSchema = (schema: any) => {
-    // We HAVE to create a copy of it or otherwise that reference would
-    // also modify our normal schema passed to this function (which would be BAD)
-    const transformedSchema = JSON.parse(JSON.stringify(schema));
-
-    const structures = ["body", "query", "headers"];
-    for (const structure of structures) {
-        if (schema[structure] === undefined) continue;
-        for (const key of Object.keys(schema[structure])) {
-            const value = schema[structure][key];
-            if (!value.pattern) continue;
-
-            transformedSchema[structure][key].pattern = value.pattern.toString();
-        }
-    }
-
-    return transformedSchema;
-};
-
-/**
  * A class used to catch errors that occurr when fetching data
  * from the Schulportal. It includes the choice to show that error
  * in the 500 API response back to the user.
+ * @deprecated
  */
 export class APIError extends Error {
     public showToUser: boolean;
@@ -357,7 +331,11 @@ export type Nullable<T> = T | null;
 export const STATIC_STRINGS = {
     INVALID_TOKEN: "Token not provided or malformed",
     CONTENT_TYPE_NO_JSON: 'Expected "application/json" as "content-type" header',
-    MOODLE_SCHOOL_NOT_EXIST: "Moodle does not exist for given school"
+    MIME_JSON: "application/json",
+    INVALID_JSON: "Failed to parse JSON body",
+    MOODLE_SCHOOL_NOT_EXIST: "Diese Schule unterstützt kein Moodle",
+    ROUTE_LOCKED: "Route gesperrt",
+    PASSWORD_RESET_SET: "Lege dein Passwort fest"
 };
 
 export class PrevalidatedMap<K, V> extends Map<K, V> {
@@ -366,5 +344,20 @@ export class PrevalidatedMap<K, V> extends Map<K, V> {
     }
     public get(key: K) {
         return super.get(key) as V;
+    }
+}
+
+/**
+ * Executes the readBody function on a given event.
+ *
+ * Catches any errors when parsing and thus prevents Nuxt generating its own error response.
+ * @param event The H3Event
+ * @returns The body with the given definition or null if any error occured.
+ */
+export async function readBodySafe<T>(event: H3Event) {
+    try {
+        return await readBody<T>(event);
+    } catch {
+        return null;
     }
 }

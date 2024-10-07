@@ -1,4 +1,5 @@
-import { generateDefaultHeaders, patterns, schoolFromRequest, setErrorResponse } from "../utils";
+import { getRequestAddress } from "~/server/ratelimit";
+import { generateDefaultHeaders, patterns, getOptionalSchool, setErrorResponseEvent } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
 const querySchema: SchemaEntryConsumer = {
@@ -7,12 +8,11 @@ const querySchema: SchemaEntryConsumer = {
 };
 
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const query = getQuery<{ token: string; path: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
+
+    const address = getRequestAddress(event);
 
     const { token, path } = query;
 
@@ -20,15 +20,15 @@ export default defineEventHandler(async (event) => {
         const response = await fetch(`https://start.schulportal.hessen.de/${path}`, {
             method: "GET",
             headers: {
-                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; ${getOptionalSchool(event)}`,
                 ...generateDefaultHeaders(address)
             }
         });
 
-        res.setHeader("Content-Type", response.headers.get("Content-Type") || "image/png");
+        event.node.res.setHeader("Content-Type", response.headers.get("Content-Type") ?? "image/png");
         return await response.blob();
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

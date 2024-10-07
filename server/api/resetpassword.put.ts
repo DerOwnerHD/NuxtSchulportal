@@ -1,5 +1,5 @@
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { generateDefaultHeaders, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../utils";
 import { SchemaEntryConsumer, validateBodyNew } from "../validator";
 const bodySchema: SchemaEntryConsumer = {
     token: { type: "string", required: true, pattern: patterns.SESSION_OR_AUTOLOGIN },
@@ -8,17 +8,18 @@ const bodySchema: SchemaEntryConsumer = {
     code: { type: "string", required: true, pattern: patterns.PW_RESET_CODE }
 };
 
+const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
+    if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
+        return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
     const body = await readBody<{ token: string; ikey: string; sid: string; code: string }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
-    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
-    const rateLimit = handleRateLimit("/api/resetpassword.put", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+
+    const address = getRequestAddress(event) as string;
 
     const { token, ikey, sid, code } = body;
     const requestForm = [
@@ -41,14 +42,14 @@ export default defineEventHandler(async (event) => {
 
         const html = removeBreaks(await response.text());
         const passwordMatch = html.match(/(?:<div class="alert alert-success"> Das neue Passwort lautet: <b>)(.+)(?:<\/b>)/i);
-        if (passwordMatch === null) return setErrorResponse(res, 400, "Falscher Code");
+        if (passwordMatch === null) return setErrorResponseEvent(event, 400, "Falscher Code");
 
         const password = passwordMatch[1];
-        if (!password) return setErrorResponse(res, 400, "Falscher Code");
+        if (!password) return setErrorResponseEvent(event, 400, "Falscher Code");
 
         return { error: false, password };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

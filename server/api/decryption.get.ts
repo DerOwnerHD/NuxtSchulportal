@@ -1,5 +1,5 @@
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { BasicResponse, STATIC_STRINGS, authHeaderOrQuery, generateDefaultHeaders, setErrorResponse } from "../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { BasicResponse, STATIC_STRINGS, getAuthToken, generateDefaultHeaders, setErrorResponseEvent } from "../utils";
 
 import cryptoJS from "crypto-js";
 import { constants, publicEncrypt } from "crypto";
@@ -9,15 +9,15 @@ interface Response extends BasicResponse {
     key: string;
 }
 
+// This may get called often if you reauth in quick succession
+const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 4 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
-
-    const rateLimit = handleRateLimit("/api/decryption.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     try {
         // This is a random string (UUID) encrypted using a random key
@@ -50,7 +50,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         });
 
         const json = await response.json();
-        if (!json.challenge) return setErrorResponse(res, 500);
+        if (!json.challenge) return setErrorResponseEvent(event, 500);
 
         // The SPH returns a challenge encrypted using our AES
         // encrypted password, which we sent encrypted using RSA
@@ -63,13 +63,13 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         // As the recieved data SHOULD just be the password we once
         // sent in encrypted using RSA, if the two things are diffrent
         // there has to be something wrong with it all
-        if (decryptedB64 !== password.toString()) return setErrorResponse(res, 401, "Keys do not match");
+        if (decryptedB64 !== password.toString()) return setErrorResponseEvent(event, 401, "Keys do not match");
 
         // No need to encode it, the client does that automatically when
         // using the useFetch composable and the query property there
         return { error: false, key: decryptedB64 };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

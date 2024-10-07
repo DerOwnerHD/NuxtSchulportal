@@ -1,6 +1,6 @@
 import { SPHStatus } from "~/common";
 import { getCachedDuration, getCachedValue, storeInCache } from "../cache";
-import { BasicResponse, generateDefaultHeaders, removeBreaks, setErrorResponse } from "../utils";
+import { BasicResponse, generateDefaultHeaders, removeBreaks, setErrorResponseEvent } from "../utils";
 import { JSDOM } from "jsdom";
 import { querySelectorArray } from "../dom";
 
@@ -10,9 +10,6 @@ interface Response extends BasicResponse {
 }
 
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const cacheHit = getCachedValue<SPHStatus[]>("sph-status");
     if (cacheHit !== null)
         return {
@@ -24,14 +21,14 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     try {
         const response = await fetch("https://info.schulportal.hessen.de/status-des-schulportal-hessen/", {
             headers: {
-                ...generateDefaultHeaders(address)
+                ...generateDefaultHeaders()
             },
             redirect: "manual"
         });
 
-        if (response.status !== 200) return setErrorResponse(res, 503);
+        if (response.status !== 200) return setErrorResponseEvent(event, 503);
         const acceptedContentType = /^text\/html(; ?charset=utf-?8)?$/i;
-        if (!acceptedContentType.test(response.headers.get("Content-Type") ?? "")) return setErrorResponse(res, 503);
+        if (!acceptedContentType.test(response.headers.get("Content-Type") ?? "")) return setErrorResponseEvent(event, 503);
 
         const {
             window: { document }
@@ -55,7 +52,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });
 

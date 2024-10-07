@@ -1,5 +1,5 @@
-import { BasicResponse, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../../utils";
-import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
+import { BasicResponse, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
 
@@ -15,18 +15,18 @@ interface Response extends BasicResponse {
     user: number;
 }
 
+const rlHandler = defineRateLimit({ interval: 30, allowed_per_interval: 3 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
+    if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
+        return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ session: string; school: number }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
-    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
-    const rateLimit = handleRateLimit("/api/moodle/login.post", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const { session, school } = body;
 
@@ -36,7 +36,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         // We need to ensure that a moodle link of that school actually exists
         // That could be mo1000.schule.hessen.de (which might not exist)
         const hasMoodle = await lookupSchoolMoodle(school);
-        if (!hasMoodle) return setErrorResponse(res, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
+        if (!hasMoodle) return setErrorResponseEvent(event, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
         // Sends request to SAMLSingleSignOn which provides a URL which actually requires
         // authentication in form of a SPH-Session cookie (provided by user in POST request)
@@ -63,7 +63,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         ).headers.get("location");
 
         // The proxySingleSignOnArtifact has been moved to llngproxy01.schulportal.hessen.de as well
-        if (!proxySingleSignOnArtifact) return setErrorResponse(res, 401);
+        if (!proxySingleSignOnArtifact) return setErrorResponseEvent(event, 401);
 
         // If the previous request was sucessful, we can now GET to this location, which will
         // redirect us back to the Moodle Login page (/login/index.php) with a Paula cookie
@@ -82,8 +82,8 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         const moodleCookie = moodleRedirectCookies["mo-prod01"];
         // The site should normally always redirect to Moodle, but if it does not, we know
         // something has to have gone wrong, most likely some maintenance
-        if (redirectToMoodle.status !== 302) return setErrorResponse(res, 503, "Wartungsarbeiten");
-        if (redirectToMoodle.headers.get("location") !== institutionLogin || !moodleCookie) return setErrorResponse(res, 401);
+        if (redirectToMoodle.status !== 302) return setErrorResponseEvent(event, 503, "Wartungsarbeiten");
+        if (redirectToMoodle.headers.get("location") !== institutionLogin || !moodleCookie) return setErrorResponseEvent(event, 401);
 
         const moodleLogin = await fetch(institutionLogin, {
             redirect: "manual",
@@ -96,19 +96,19 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         // A successful request to login on Moodle must return a 303 code
         // along with a location header with a "testsession" redirect with the user ID
         const locationHeader = moodleLogin.headers.get("location");
-        if (moodleLogin.status !== 303 || locationHeader === null) return setErrorResponse(res, 401);
+        if (moodleLogin.status !== 303 || locationHeader === null) return setErrorResponseEvent(event, 401);
 
         // TODO: De-hardcode that stuff
         const loginValidation = locationHeader.match(
             /^(?:https:\/\/mo(?:[0-9]{1,6})\.schulportal\.hessen\.de\/login\/index.php\?testsession=)([0-9]+)$/i
         );
         // We would expect that in index 1 is the user ID
-        if (loginValidation === null || !loginValidation[1]) return setErrorResponse(res, 401);
+        if (loginValidation === null || !loginValidation[1]) return setErrorResponseEvent(event, 401);
 
         // Using this we may attempt to request the /my/ page of moodle
         // and there fetch the session key which is embedded in a logoff menu
         const moodleSession = parseCookies(moodleLogin.headers.getSetCookie())["MoodleSession"];
-        if (!moodleSession) return setErrorResponse(res, 401);
+        if (!moodleSession) return setErrorResponseEvent(event, 401);
         const mainPage = await fetch(`${generateMoodleURL(school)}/my/`, {
             redirect: "manual",
             headers: {
@@ -119,7 +119,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
 
         const mainPageContent = removeBreaks(await mainPage.text());
         const sessionKeyMatch = mainPageContent.match(/(?:logout\.php\?sesskey=)([a-z0-9]{10})/i);
-        if (sessionKeyMatch === null || !sessionKeyMatch[1]) return setErrorResponse(res, 401);
+        if (sessionKeyMatch === null || !sessionKeyMatch[1]) return setErrorResponseEvent(event, 401);
 
         return {
             error: false,
@@ -132,6 +132,6 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

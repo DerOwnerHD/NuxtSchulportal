@@ -1,4 +1,4 @@
-export interface MoodleConversationMember {
+export interface PreMoodleConversationMember {
     id: number;
     fullname: string;
     profileurl: string;
@@ -12,10 +12,10 @@ export interface MoodleConversationMember {
     canmessageevenifblocked: boolean | null;
     canmessage: boolean | null;
     requirescontact: boolean | null;
-    contactrequests: [];
+    contactrequests: any[];
 }
 
-export interface MoodleCourse {
+export interface PreMoodleCourse {
     coursecategory: string;
     courseimage: string;
     enddate: number;
@@ -39,14 +39,14 @@ export interface MoodleCourse {
     visible: boolean;
 }
 
-export interface MoodleConversationMessage {
+export interface PreMoodleConversationMessage {
     id: number;
     useridfrom: number;
     text: string;
     timecreated: number;
 }
 
-export interface MoodleConversation {
+export interface PreMoodleConversation {
     id: number;
     name: string;
     subname: string | null;
@@ -57,12 +57,12 @@ export interface MoodleConversation {
     isfavourite: boolean;
     isread: boolean;
     unreadcount: number | null;
-    members: MoodleConversationMember[];
-    messages: MoodleConversationMessage[];
+    members: PreMoodleConversationMember[];
+    messages: PreMoodleConversationMessage[];
     candeletemessagesforallusers: boolean;
 }
 
-export interface MoodleNotification {
+export interface PreMoodleNotification {
     id: number;
     useridfrom: number;
     useridto: number;
@@ -86,7 +86,7 @@ export interface MoodleNotification {
     customdata: string;
 }
 
-export interface MoodleEvent {
+export interface PreMoodleEvent {
     action: {
         actionable: boolean;
         itemcount: number;
@@ -100,7 +100,7 @@ export interface MoodleEvent {
     canedit: boolean;
     categoryid: number | null;
     component: string;
-    course: MoodleCourse;
+    course: PreMoodleCourse;
     deleteurl: string;
     description: string;
     descriptionformat: number;
@@ -143,4 +143,148 @@ export interface MoodleEvent {
     userid: number;
     viewurl: string;
     visible: number;
+}
+
+export interface MoodleConversation {
+    id: number;
+    name: string;
+    subname: string | null;
+    icon: string | null;
+    type: number;
+    memberCount: number;
+    muted: boolean;
+    favorite: boolean;
+    unread: number;
+    members: MoodleConversationMember[];
+    messages: any[];
+    canDeleteMessagesForEveryone: boolean;
+}
+
+export interface MoodleConversationMember {
+    id: number;
+    name: string;
+    profile: string;
+    avatar: {
+        small: string;
+        default: string;
+    };
+    online: boolean | null;
+    showStatus: boolean;
+    blocked: boolean;
+    contact: boolean;
+    deleted: boolean;
+    abilities: {
+        message: boolean | null;
+        messageIfBlocked: boolean | null;
+    };
+    requiresContact: boolean | null;
+    contactRequests: any[];
+}
+
+export interface MoodleCourse {
+    id: number;
+    category: string;
+    image: string;
+    timestamps: {
+        start: number;
+        end: number;
+    };
+    names: {
+        full: string;
+        display: string;
+        short: string;
+    };
+    progress: {
+        visible: boolean;
+        percentage: number;
+    };
+    hidden: boolean;
+    favorite: boolean;
+    exportFont: string;
+    properties: {
+        activityDates: boolean;
+        completionConditions: boolean;
+        shortName: boolean;
+    };
+    summary: {
+        text: string;
+        format: number;
+    };
+    link: string;
+}
+
+export interface MoodleEvent {
+    id: number;
+    name: string;
+    description: {
+        text: string;
+        format: number;
+    };
+    location: string;
+    category: number | null;
+    user: number;
+    repeat: number | null;
+    count: number | null;
+    type: string;
+    instance: number;
+    activity: {
+        name: string;
+        description: string;
+    };
+    timestamps: {
+        start: number;
+        modified: number;
+        midnight: number;
+        duration: number;
+        sort: number;
+    };
+    visible: boolean;
+    overdue: boolean;
+    icon: {
+        key: string;
+        component: string;
+        alt: string;
+        url: string;
+        class: string;
+    };
+    course: MoodleCourse;
+    abilities: {
+        edit: boolean;
+        delete: boolean;
+    };
+    links: {
+        edit: string;
+        delete: string;
+        view: string;
+    };
+    formatted: {
+        time: string;
+        location: string;
+    };
+}
+
+export interface MoodleNotification {
+    id: number;
+    author: number;
+    subject: string;
+    message: {
+        short: string;
+        full: string;
+    };
+    read: boolean;
+    deleted: boolean;
+    icon: string;
+    timestamps: {
+        created: number;
+        read: number;
+        pretty: string;
+    };
+    link: string;
+}
+
+export interface MoodleMessage {
+    id: number;
+    author: number;
+    text: string;
+    timestamp: number;
 }

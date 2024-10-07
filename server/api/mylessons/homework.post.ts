@@ -1,12 +1,12 @@
 import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
-import { RateLimitAcceptance, handleRateLimit } from "../../ratelimit";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     generateDefaultHeaders,
-    authHeaderOrQuery,
-    setErrorResponse,
+    getAuthToken,
+    setErrorResponseEvent,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    schoolFromRequest,
+    getOptionalSchool,
     BasicResponse,
     STATIC_STRINGS
 } from "../../utils";
@@ -19,28 +19,28 @@ const bodySchema: SchemaEntryConsumer = {
     lesson: { type: "number", required: true, min: 1, max: 1000 }
 };
 
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 4 });
 export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, "Expected 'application/json' as 'content-type' header");
+    if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
+        return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ action: "done" | "undone"; id: number; lesson: number }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
-    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const rateLimit = handleRateLimit("/api/mylessons/homework.post", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const { action, id, lesson } = body;
 
     try {
         const response = await fetch("https://start.schulportal.hessen.de/meinunterricht.php", {
             headers: {
-                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; ${getOptionalSchool(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 "X-Requested-With": "XMLHttpRequest",
                 ...generateDefaultHeaders(address)
@@ -50,13 +50,13 @@ export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
             method: "POST"
         });
 
-        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
-        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
-        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidSidRedirect(response)) return setErrorResponseEvent(event, 403, "Route gesperrt");
+        if (hasInvalidAuthentication(response)) return setErrorResponseEvent(event, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponseEvent(event, 418, "Lege dein Passwort fest");
 
         const text = await response.text();
         // This is the restrictor that occurs when the class is hidden for the user
-        if (text.includes(COURSE_UNAVAILABLE_ERROR)) return setErrorResponse(res, 403, "Class not available for user");
+        if (text.includes(COURSE_UNAVAILABLE_ERROR)) return setErrorResponseEvent(event, 403, "Class not available for user");
         // There is no other way to check - so if the request
         // ACTUALLY succeeded we have no real way of knowing
         // For example: If the lesson doesn't even exist or has
@@ -65,6 +65,6 @@ export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
         return { error: text !== "1" };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

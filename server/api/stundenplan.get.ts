@@ -1,33 +1,35 @@
 import {
     generateDefaultHeaders,
     hasPasswordResetLocationSet,
-    authHeaderOrQuery,
+    getAuthToken,
     removeBreaks,
-    setErrorResponse,
     hasInvalidAuthentication,
-    schoolFromRequest,
+    getOptionalSchool,
     BasicResponse,
-    STATIC_STRINGS
+    STATIC_STRINGS,
+    setErrorResponseEvent
 } from "../utils";
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { JSDOM } from "jsdom";
 import { hasInvalidSidRedirect } from "../failsafe";
+import { querySelectorArray } from "../dom";
+import { Stundenplan, StundenplanLesson } from "~/common/stundenplan";
 
 interface Response extends BasicResponse {
     plans: Stundenplan[];
 }
 
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
+
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event) as string;
 
-    const rateLimit = handleRateLimit("/api/stundenplan.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
-
-    const school = schoolFromRequest(event) as string;
+    const school = getOptionalSchool(event) as string;
 
     try {
         // Note: this redirects us to the currently active plan
@@ -40,9 +42,9 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             }
         });
 
-        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
-        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
-        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidSidRedirect(response)) return setErrorResponseEvent(event, 403, "Route gesperrt");
+        if (hasInvalidAuthentication(response)) return setErrorResponseEvent(event, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponseEvent(event, 418, "Lege dein Passwort fest");
 
         const html = removeBreaks(await response.text());
         const {
@@ -50,10 +52,16 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         } = new JSDOM(html);
         const plans: Stundenplan[] = [];
 
-        const initialPlan: PlanOptions = {
-            start: document.querySelector("#all .plan")?.getAttribute("data-date") || "",
+        const initialPlanOptions: PlanOptions = {
+            start: document.querySelector("#all .plan")?.getAttribute("data-date") ?? "",
             end: null,
             current: true
+        };
+
+        const fetchOptions = {
+            token,
+            school,
+            address
         };
 
         const selection = document.querySelector("#dateSelect");
@@ -72,19 +80,22 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
                     // The selected one is always the current plan (which is already fetched)
                     // Thus it should have an end date stored here, which we are attempting to get
                     if (option.hasAttribute("selected")) {
-                        initialPlan.end = transformed;
+                        initialPlanOptions.end = transformed;
                         continue;
                     }
 
                     plan.end = transformed;
                 }
 
-                plans.push(await loadSplanForDate(plan, token, address, school));
+                const data = await loadSplanForDate(plan, fetchOptions);
+                if (data === null) continue;
+                plans.push(data);
             }
         }
 
         // The current plan we've been redirected to
-        plans.push(await loadSplanForDate(initialPlan, token, address, school, html));
+        const initialPlan = await loadSplanForDate(initialPlanOptions, fetchOptions);
+        if (initialPlan !== null) plans.push(initialPlan);
 
         return {
             error: false,
@@ -100,31 +111,66 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });
 
 interface PlanOptions {
+    /**
+     * The start date of the plan. Always defined.
+     */
     start: string;
+    /**
+     * The end date of the plan. May not always be defined, most often
+     * only when another plan after it is already defined
+     */
     end: string | null;
+    /**
+     * Whether the plan is currently selected. Parsed from the HTML of the initial plan response.
+     */
     current?: boolean;
+    /**
+     * A reference to a Document only used for the initial plan.
+     * If this is present, the plan is not manually fetched anymore
+     */
+    document?: Document;
 }
 
-async function fetchStundenplan(options: PlanOptions, token: string, address?: string, school?: string) {
-    const response = await fetch(`https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=${options.start}`, {
-        method: "GET",
-        redirect: "manual",
-        headers: {
-            Cookie: `sid=${token}; ${school}`,
-            ...generateDefaultHeaders(address)
-        }
-    });
-    return await response.text();
+/**
+ * Fetches a plan using a provided start date.
+ * List of plan start/end dates is retrieved by first fetching the main /stundenplan.php page.
+ * @param options Options for the plan (used for the url with the start date)
+ * @param token Token of the user
+ * @param address
+ * @param school
+ * @returns
+ */
+async function fetchIndividualPlan(options: PlanOptions, fetchOptions: FetchOptions) {
+    try {
+        const response = await fetch(`https://start.schulportal.hessen.de/stundenplan.php?a=detail_klasse&date=${options.start}`, {
+            method: "GET",
+            redirect: "error",
+            headers: {
+                Cookie: `sid=${fetchOptions.token}; ${fetchOptions.school}`,
+                ...generateDefaultHeaders(fetchOptions.address)
+            }
+        });
+        return await response.text();
+    } catch {
+        return null;
+    }
 }
 
-async function loadSplanForDate(options: PlanOptions, token: string, address?: string, school?: string, html?: string): Promise<Stundenplan> {
-    const { window } = new JSDOM(html ?? (await fetchStundenplan(options, token, address, school)));
-    const { document } = window;
+interface FetchOptions {
+    token: string;
+    address?: string;
+    school?: string;
+}
+
+async function loadSplanForDate(options: PlanOptions, fetchOptions: FetchOptions): Promise<Stundenplan | null> {
+    const response = !options.document ? await fetchIndividualPlan(options, fetchOptions) : null;
+    if (!options.document && response === null) return null;
+    const document = options.document ?? new JSDOM(response as string).window.document;
 
     const plan: Stundenplan = {
         days: [
@@ -137,14 +183,14 @@ async function loadSplanForDate(options: PlanOptions, token: string, address?: s
         start_date: options.start,
         end_date: options.end,
         current: options.current ?? false,
-        lessons: Array.from(document.querySelectorAll("#all .plan table.table tbody tr td:first-child .VonBis small")).map((element) =>
+        lessons: querySelectorArray(document, "#all .plan table.table tbody tr td:first-child .VonBis small").map((element) =>
             element.innerHTML.split(" - ").map((lesson) => lesson.split(":").map((time) => parseInt(time)))
         )
     };
 
     // For some reason, there is an empty row at the first spot
     // -> thus we skip that first child element (tr)
-    document.querySelectorAll("#all .plan table.table tbody tr:not(:first-child)").forEach((lessons, index) => {
+    querySelectorArray(document, "#all .plan table.table tbody tr:not(:first-child)").forEach((lessons, index) => {
         // Normally, it would always have 6 children (lesson and all the days)
         // But if there are double lessons, there will only be one td item
         // Thus, if this is the case, we need to make sure we use the correct
@@ -158,17 +204,17 @@ async function loadSplanForDate(options: PlanOptions, token: string, address?: s
             // have a lesson which spans two or more hours
             const span = parseInt(lesson.getAttribute("rowspan") || "1");
 
-            const stunde: Stunde = {
+            const stunde: StundenplanLesson = {
                 // This fills the array with all the lessons along the span
                 lessons: Array.from({ length: span }, (v, k) => index + k + 1),
-                classes: Array.from(lesson.querySelectorAll("div.stunde")).map((element) => {
+                classes: querySelectorArray(lesson, "div.stunde").map((element) => {
                     const title = element.getAttribute("title")?.trim() || "";
                     const properties = title?.match(/(.*)(?: im Raum )(.*)(?: bei der Klasse\/Stufe\/Lerngruppe )(.*)/);
                     // We expect to recieve the subject, the room and the class (not used currently)
                     if (properties === null || properties.length !== 4) return { teacher: "", name: "", room: "" };
 
                     return {
-                        teacher: element.querySelector("small")?.innerHTML.trim() || "",
+                        teacher: element.querySelector("small")?.innerHTML.trim() ?? "",
                         name: properties[1],
                         room: properties[2]
                     };
@@ -215,28 +261,4 @@ async function loadSplanForDate(options: PlanOptions, token: string, address?: s
     }
 
     return plan;
-}
-
-interface Stunde {
-    lessons: number[];
-    classes: Class[];
-}
-
-interface Class {
-    teacher: string;
-    room: string;
-    name: string;
-}
-
-interface Stundenplan {
-    days: Day[];
-    start_date: string;
-    end_date: string | null;
-    lessons: number[][][];
-    current: boolean;
-}
-
-interface Day {
-    name: "Montag" | "Dienstag" | "Mittwoch" | "Donnerstag" | "Freitag";
-    lessons: Stunde[];
 }

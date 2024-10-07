@@ -1,5 +1,5 @@
-import { BasicResponse, generateDefaultHeaders, patterns, setErrorResponse, STATIC_STRINGS } from "../../utils";
-import { handleRateLimit, RateLimitAcceptance } from "../../ratelimit";
+import { BasicResponse, generateDefaultHeaders, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
+import { defineRateLimit, RateLimitAcceptance, getRequestAddress } from "~/server/ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
 
@@ -15,22 +15,21 @@ interface Response extends BasicResponse {
     remaining: number | null;
 }
 
+const rlHandler = defineRateLimit({ interval: 10, allowed_per_interval: 4 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const query = getQuery<{ [key: string]: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
-    const rateLimit = handleRateLimit("/api/moodle/check.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const { session, cookie, school } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
-        if (!hasMoodle) return setErrorResponse(res, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
+        if (!hasMoodle) return setErrorResponseEvent(event, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
         const response = await fetch(`${generateMoodleURL(school)}/lib/ajax/service.php?sesskey=${session}`, {
             method: "POST",
@@ -57,6 +56,6 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

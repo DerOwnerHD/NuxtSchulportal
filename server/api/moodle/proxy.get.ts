@@ -1,6 +1,7 @@
-import { generateDefaultHeaders, patterns, setErrorResponse } from "../../utils";
+import { generateDefaultHeaders, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { getRequestAddress } from "~/server/ratelimit";
 
 const querySchema: SchemaEntryConsumer = {
     cookie: { required: true, pattern: patterns.MOODLE_COOKIE },
@@ -14,18 +15,17 @@ const querySchema: SchemaEntryConsumer = {
 };
 
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const query = getQuery<{ [key: string]: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
+
+    const address = getRequestAddress(event);
 
     const { cookie, school, path } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
-        if (!hasMoodle) return setErrorResponse(res, 404, "Moodle doesn't exist for given school");
+        if (!hasMoodle) return setErrorResponseEvent(event, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
         const response = await fetch(`${generateMoodleURL(school)}${path}`, {
             method: "GET",
@@ -35,10 +35,10 @@ export default defineEventHandler(async (event) => {
             }
         });
 
-        res.setHeader("Content-Type", response.headers.get("Content-Type") || "image/png");
+        event.node.res.setHeader("Content-Type", response.headers.get("Content-Type") || "image/png");
         return await response.blob();
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

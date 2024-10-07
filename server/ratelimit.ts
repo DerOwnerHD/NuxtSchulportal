@@ -1,223 +1,123 @@
-const wait = (ms: number): Promise<void> => {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
-const rateLimits: RouteRateLimit[] = [
-    {
-        route: "/api/login.post",
-        interval: 15 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/check.get",
-        interval: 5 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/apps.get",
-        interval: 5 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/resetpassword.post",
-        interval: 60 * 1000,
-        allowedPerInterval: 1,
-        clients: []
-    },
-    {
-        route: "/api/resetpassword.put",
-        interval: 60 * 1000,
-        allowedPerInterval: 1,
-        clients: []
-    },
-    {
-        route: "/api/moodle/login.post",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/moodle/conversations.get",
-        interval: 5 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/moodle/messages.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 5,
-        clients: []
-    },
-    {
-        route: "/api/moodle/courses.get",
-        interval: 15 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/moodle/events.get",
-        interval: 15 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/moodle/check.get",
-        interval: 5 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/stundenplan.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/vertretungen.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/autologin.post",
-        interval: 20 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/notifications.post",
-        interval: 20 * 1000,
-        allowedPerInterval: 1,
-        clients: []
-    },
-    {
-        route: "/api/notifications.delete",
-        interval: 20 * 1000,
-        allowedPerInterval: 1,
-        clients: []
-    },
-    {
-        route: "/api/decryption.get",
-        interval: 20 * 1000,
-        allowedPerInterval: 1,
-        clients: []
-    },
-    {
-        route: "/api/mylessons/courses.get",
-        interval: 15 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/mylessons/homework.post",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/moodle/notifications.get",
-        interval: 15 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/messages.get",
-        interval: 15 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/message.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/courses.get",
-        interval: 20 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/calendar.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    },
-    {
-        route: "/api/mylessons/course.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 3,
-        clients: []
-    },
-    {
-        route: "/api/oberstufenwahl.get",
-        interval: 10 * 1000,
-        allowedPerInterval: 2,
-        clients: []
-    }
-];
+import { H3Event } from "h3";
 
 export enum RateLimitAcceptance {
+    /**
+     * Only sent if a requirement for the rate limit handler has not been met.
+     *
+     * Sent if a IP address is not set or multiple X-RateLimit-Bypass keys are set.
+     *
+     * The handler is expected to sent a 403 code.
+     */
     Forbidden,
+    /**
+     * A rate limit has been reached, return a 429 code.
+     */
     Rejected,
+    /**
+     * Everything is fine, the request can proceed and has been added to the client rate limit map.
+     */
     Allowed
 }
 
-interface RouteRateLimit {
-    route: string;
+interface RateLimitRouteConfig {
+    /**
+     * The interval in seconds after which one request is popped from the stack.
+     *
+     * This removal does not happen automatically, rather on the next check by that client on that route.
+     */
     interval: number;
-    allowedPerInterval: number;
-    clients: RateLimitClient[];
-}
-
-interface RateLimitClient {
-    address: string;
-    counter: number;
+    /**
+     * The max number of requests currently held in the client's stack after which a request is rejected.
+     */
+    allowed_per_interval: number;
+    /**
+     * Whether the route prevents the usage of the X-RateLimit-Bypass header
+     */
+    forbid_bypass?: boolean;
 }
 
 /**
- * Checks whether the given client's IP is allowed to make a request
- * to the given route or not due to some rate limiting on the route.
- * If there is no rate limit for this route, it is always allowed.
- * @param route The API route to check for like /api/login
- * @param address The IP address (IPv4 or IPv6 of the client)
- * @param key The Rate Limit bypass key
- * @returns Whether the request can pass or is denied (May also be forbidden if no IP is given)
+ * This holds the timestamps of the requests the user has issued.
+ *
+ * The system always checks the first item and sees if the interval has passed since then.
+ * If so, the item is popped from the array.
  */
-export const handleRateLimit = (route: string, address?: string, key?: string | string[]): RateLimitAcceptance => {
-    if (useRuntimeConfig().private.rateLimitBypass === (Array.isArray(key) ? key.join("") : key)) return RateLimitAcceptance.Allowed;
-    if (!address) return RateLimitAcceptance.Forbidden;
+type RateLimitClient = number[];
 
-    const routeIndex = rateLimits.findIndex((x) => x.route === route);
-    // If a route isn't configured but still is requesting
-    // this, we might just want to accept it in any way
-    if (routeIndex === -1) return RateLimitAcceptance.Allowed;
+/**
+ * Define a rate limit for a route.
+ * @param config
+ * @returns A handler function for any H3Event for that route
+ */
+export function defineRateLimit(config: RateLimitRouteConfig) {
+    const rateLimitBypassKey = useRuntimeConfig().private.rateLimitBypass;
+    const clients = new Map<string, RateLimitClient>();
+    /**
+     * Checks the rate limit for a client using this route.
+     * Pass the event to receive a result
+     * @param event The H3Event
+     * @returns Whether the request should be allowed. See RateLimitAcceptance enum.
+     */
+    function handler(event: H3Event): RateLimitAcceptance {
+        const bypassHeader = getRequestHeader(event, "X-RateLimit-Bypass");
+        // Multiple entries are strictly disallowed
+        if (bypassHeader?.includes(",")) return RateLimitAcceptance.Forbidden;
+        if (
+            !config.forbid_bypass &&
+            typeof bypassHeader === "string" &&
+            typeof rateLimitBypassKey === "string" &&
+            bypassHeader === rateLimitBypassKey
+        )
+            return RateLimitAcceptance.Allowed;
 
-    const routeLimits = rateLimits[routeIndex];
-    const client: RateLimitClient = routeLimits.clients.find((x) => x.address === address)!;
+        const address = getRequestAddress(event);
+        if (!address) return RateLimitAcceptance.Forbidden;
 
-    const clientIndex = rateLimits[routeIndex].clients.findIndex((x) => x.address === address);
+        const now = Date.now();
 
-    // We can safely just allow it to pass as there should be no problem
-    // by just one request if the user doesn't already exist in the data
-    if (!client) {
-        rateLimits[routeIndex].clients.push({ address, counter: 1 });
-        const index = rateLimits[routeIndex].clients.findIndex((x) => x.address === address);
-        // Some weird error if it wasn't added
-        if (index === -1) return RateLimitAcceptance.Rejected;
-        wait(routeLimits.interval).then(() => rateLimits[routeIndex].clients[index].counter--);
+        if (!clients.has(address)) {
+            clients.set(address, [now]);
+            return RateLimitAcceptance.Allowed;
+        }
+
+        const client = clients.get(address) as RateLimitClient;
+        if (!client.length) {
+            client[0] = now;
+            return RateLimitAcceptance.Allowed;
+        }
+        if (now - client[0] > config.interval * 1000) client.splice(0, 1);
+
+        if (client.length >= config.allowed_per_interval) return RateLimitAcceptance.Rejected;
+
+        client.push(now);
         return RateLimitAcceptance.Allowed;
     }
+    return handler;
+}
 
-    if (client.counter >= routeLimits.allowedPerInterval) return RateLimitAcceptance.Rejected;
+/**
+ * Attempts to load the user's IP address from the H3Event Nuxt passed to the event handler.
+ * As Nuxt adds that address as a X-Forwarded-For header, this function attempts to read it from there.
+ *
+ * For ratelimiting, the request is expected to fail if no address is given.
+ *
+ * CRITICAL: getRequestIP cannot be used, as the flag for using the xForwardedFor header has to be set.
+ * That function then always picks the first header of that name.
+ * As Nuxt only attaches its header last, this would result in the user being able to use their custom address
+ * and thusly bypass any rate limit.
+ *
+ * See https://github.com/unjs/h3/blob/main/src/utils/request.ts#L311 for this implemenation
+ * @param event The H3Event
+ * @returns The address - or null if none is found
+ */
+export function getRequestAddress(event: H3Event) {
+    // The user can pass multiple X-Forwarded-For headers however they like. Nuxt then attaches its own header at the very end.
+    // We cannot trust user input but will always have to assume that Nuxt added one for us.
+    const addressHeaderString = getRequestHeader(event, "X-Forwarded-For");
+    if (typeof addressHeaderString !== "string") return null;
 
-    client.counter++;
-    rateLimits[routeIndex].clients[clientIndex] = client;
-
-    wait(routeLimits.interval).then(() => rateLimits[routeIndex].clients[clientIndex].counter--);
-    return RateLimitAcceptance.Allowed;
-};
+    // getRequestHeader provides a string with all headers of the same name split by ", "
+    const addressHeaders = addressHeaderString.split(", ");
+    const address = addressHeaders.at(-1);
+    return address ?? null;
+}

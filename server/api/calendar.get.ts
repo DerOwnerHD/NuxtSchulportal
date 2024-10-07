@@ -1,21 +1,21 @@
 import { CalendarEntry } from "~/common/calendar";
 import { hasInvalidSidRedirect } from "../failsafe";
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     generateDefaultHeaders,
     patterns,
-    setErrorResponse,
-    authHeaderOrQuery,
+    setErrorResponseEvent,
+    getAuthToken,
     hasInvalidAuthentication,
     hasPasswordResetLocationSet,
-    schoolFromRequest,
+    getOptionalSchool,
     STATIC_STRINGS,
     BasicResponse
 } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
 const querySchema: SchemaEntryConsumer = {
-    category: { required: false, type: "number", min: 1, max: 11 },
+    category: { required: false, type: "number", min: 1, max: 99 },
     start: { required: true, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS_OR_YEAR },
     end: { required: false, pattern: patterns.DATE_YYYY_MM_DD_HYPHENS },
     query: { required: false, type: "string", max: 20 },
@@ -27,19 +27,18 @@ interface Response extends BasicResponse {
     entries: CalendarEntry[];
 }
 
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 5 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
     const query = getQuery<{ category?: string; start: string; end?: string; query?: string; new?: "true" | "false" }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
-    if (queryValidation.violations > 0) return setErrorResponse(res, 400, queryValidation);
+    if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
-    const token = authHeaderOrQuery(event);
-    if (token === null) return setErrorResponse(res, 400, STATIC_STRINGS.INVALID_TOKEN);
+    const token = getAuthToken(event);
+    if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const rateLimit = handleRateLimit("/api/calendar.get", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const { start, end, category } = query;
     const requestForm = [
@@ -58,23 +57,23 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         const response = await fetch("https://start.schulportal.hessen.de/kalender.php", {
             method: "POST",
             headers: {
-                Cookie: `sid=${token}; ${schoolFromRequest(event)}`,
+                Cookie: `sid=${token}; ${getOptionalSchool(event)}`,
                 "Content-Type": "application/x-www-form-urlencoded",
                 ...generateDefaultHeaders(address)
             },
             body: requestForm
         });
 
-        if (hasInvalidSidRedirect(response)) return setErrorResponse(res, 403, "Route gesperrt");
-        if (hasInvalidAuthentication(response)) return setErrorResponse(res, 401);
-        if (hasPasswordResetLocationSet(response)) return setErrorResponse(res, 418, "Lege dein Passwort fest");
+        if (hasInvalidSidRedirect(response)) return setErrorResponseEvent(event, 403, "Route gesperrt");
+        if (hasInvalidAuthentication(response)) return setErrorResponseEvent(event, 401);
+        if (hasPasswordResetLocationSet(response)) return setErrorResponseEvent(event, 418, "Lege dein Passwort fest");
 
         const data = (await response.json()) as BasicCalendarEntry[];
         if (!Array.isArray(data)) throw new TypeError("Calendar entries expected to be Array");
         return { error: false, entries: data.map((entry) => transformCalendarEntry(entry)) };
     } catch (error) {
         console.error(error);
-        setErrorResponse(res, 500);
+        setErrorResponseEvent(event, 500);
     }
 });
 

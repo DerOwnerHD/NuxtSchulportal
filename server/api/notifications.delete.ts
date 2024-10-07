@@ -1,5 +1,5 @@
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { isSubscriptionService, patterns, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { isSubscriptionService, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../utils";
 import { SchemaEntryConsumer, validateBodyNew } from "../validator";
 
 const bodySchema: SchemaEntryConsumer = {
@@ -8,31 +8,31 @@ const bodySchema: SchemaEntryConsumer = {
     p256dh: { required: true, type: "string", pattern: patterns.NOTIFICATION_P256DH }
 };
 
+const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
+    if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
+        return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ endpoint: string; auth: string; p256dh: string }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
-    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
-    const rateLimit = handleRateLimit("/api/notifications.delete", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event);
 
     const config = useRuntimeConfig();
 
     try {
         const url = new URL(body.endpoint);
-        if (!isSubscriptionService(url.host)) return setErrorResponse(res, 400, "No valid subscription service");
+        if (!isSubscriptionService(url.host)) return setErrorResponseEvent(event, 400, "No valid subscription service");
     } catch (error) {
-        return setErrorResponse(res, 400, "Invalid endpoint URL");
+        return setErrorResponseEvent(event, 400, "Invalid endpoint URL");
     }
 
     try {
         const { url, key } = config.private.notificationApi;
-        if (!(url || key)) return setErrorResponse(res, 503);
+        if (!(url || key)) return setErrorResponseEvent(event, 503);
 
         const response = await fetch(url, {
             method: "DELETE",
@@ -42,10 +42,10 @@ export default defineEventHandler(async (event) => {
             },
             body: JSON.stringify(body)
         });
-        if (response.status !== 200) return setErrorResponse(res, response.status);
+        if (response.status !== 200) return setErrorResponseEvent(event, response.status);
         return { error: false };
     } catch (error) {
         console.error(error);
-        return setErrorResponse(res, 500);
+        return setErrorResponseEvent(event, 500);
     }
 });

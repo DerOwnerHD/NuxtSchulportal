@@ -1,5 +1,5 @@
-import { RateLimitAcceptance, handleRateLimit } from "../ratelimit";
-import { APIError, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponse, STATIC_STRINGS } from "../utils";
+import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { APIError, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../utils";
 import { SchemaEntryConsumer, validateBodyNew } from "../validator";
 const bodySchema: SchemaEntryConsumer = {
     username: { type: "string", required: true, max: 32, pattern: patterns.USERNAME },
@@ -9,18 +9,18 @@ const bodySchema: SchemaEntryConsumer = {
 };
 const USER_TYPE = ["Schueler", "Eltern", "Lehrer"];
 
+const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });
 export default defineEventHandler(async (event) => {
-    const { req, res } = event.node;
-    const address = getRequestIP(event, { xForwardedFor: true });
-
-    if (req.headers["content-type"] !== "application/json") return setErrorResponse(res, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
+    if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
+        return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
     const body = await readBody<{ username: string; type: number; birthday: string; school: number }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
-    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponse(res, 400, bodyValidation);
+    if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
-    const rateLimit = handleRateLimit("/api/resetpassword.post", address);
-    if (rateLimit !== RateLimitAcceptance.Allowed) return setErrorResponse(res, rateLimit === RateLimitAcceptance.Rejected ? 429 : 403);
+    const rl = rlHandler(event);
+    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    const address = getRequestAddress(event) as string;
 
     const { username, type, birthday, school } = body;
 
@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
         });
 
         const { sid } = parseCookies(firstStep.headers.getSetCookie());
-        if (!sid) return setErrorResponse(res, 503);
+        if (!sid) return setErrorResponseEvent(event, 503);
 
         const html = removeBreaks(await firstStep.text());
         const firstIkey = readIkey(html);
@@ -69,7 +69,7 @@ export default defineEventHandler(async (event) => {
         console.error(error);
         let errorDetails;
         if (error instanceof APIError && error.showToUser) errorDetails = error.message;
-        return setErrorResponse(res, 500, errorDetails);
+        return setErrorResponseEvent(event, 500, errorDetails);
     }
 });
 

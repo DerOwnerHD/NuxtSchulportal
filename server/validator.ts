@@ -12,7 +12,7 @@ const JSON_BOOLEAN_PATTERN = /^(true|false)$/;
  * a flag indicates that. The response is designed for the frontend to have a better understanding
  * of what actually went wrong.
  * @param schema The SchemaEntryConsumer compliant data used to validate the request body
- * @param body The body data, as read using the global function readBody(H3Event)
+ * @param query The query, read using getQuery(H3Event)
  * @returns The computed violations
  */
 export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: string]: string | string[] }) {
@@ -36,6 +36,10 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: str
             offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
             continue;
         }
+
+        const functionResult = schemaItem.validator_function ? schemaItem.validator_function(entry, schemaItem, queryItem) : false;
+        if (functionResult) offenses.push("validator_function_failed");
+
         const isNumberDesired = schemaItem.type === "number";
         const isBooleanDesired = schemaItem.type === "boolean";
 
@@ -126,6 +130,9 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: { [key: strin
             continue;
         }
 
+        const functionResult = schemaItem.validator_function ? schemaItem.validator_function(entry, schemaItem, bodyItem) : false;
+        if (functionResult) offenses.push("validator_function_failed");
+
         // No boolean check needed here, as this SHOULD ;-) always be correct in JSON data
         const isNumberDesired = schemaItem.type === "number";
         const isStringDesired = schemaItem.type === "string";
@@ -159,7 +166,14 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: { [key: strin
     return { entries: offenseList, violations: violationCount, invalid: false };
 }
 
-type SchemaOffense = "required_missing" | "too_small" | "too_large" | "unfit_size" | "incorrect_type" | "pattern_no_match";
+type SchemaOffense =
+    | "required_missing"
+    | "too_small"
+    | "too_large"
+    | "unfit_size"
+    | "incorrect_type"
+    | "pattern_no_match"
+    | "validator_function_failed";
 
 function isInvalidNumber(number: number) {
     return Number.isNaN(number) || !Number.isFinite(number) || !Number.isSafeInteger(number);
@@ -203,6 +217,17 @@ export interface SchemaEntry {
      * Specifies the exact number or string length required
      */
     size?: number;
+    /**
+     * A function to run custom, not by default supported validations. Return a boolean with true meaning a
+     * violation occured inside the function.
+     *
+     * This function is run after type and definition checks are validated. If these fail, no validations after
+     * will be run.
+     * @param key The schema/query/body name of the entry
+     * @param schema The schema of the entry
+     * @param value The value passed by the user (may also be undefined if not required)
+     */
+    validator_function?: (key: string, schema: SchemaEntry, value: any) => boolean;
 }
 
 interface SerializedSchemaEntry {
@@ -212,9 +237,10 @@ interface SerializedSchemaEntry {
     min?: number;
     max?: number;
     size?: number;
+    has_validator_function: boolean;
 }
 
 function serializeSchemaEntry(entry: SchemaEntry): SerializedSchemaEntry {
     // Only overwrites the pattern property of entry, takes everything else as is
-    return Object.assign({}, entry, { pattern: entry.pattern?.toString() });
+    return Object.assign({}, entry, { pattern: entry.pattern?.toString(), has_validator_function: !!entry.validator_function });
 }
