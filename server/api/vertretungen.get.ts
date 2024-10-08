@@ -85,7 +85,8 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
                 const data: Record<string, any> = {};
                 for (const column of columns) {
                     const value = row.children[column.index].innerHTML.trim();
-                    data[column.key] = column.modifier_function ? column.modifier_function(value) : value;
+                    // Defaults to null if the string is just "", as a cell's content always is a string, even when empty
+                    data[column.key] = (column.modifier_function ? column.modifier_function(value) : value) || null;
                 }
                 vertretungen.push(data as Vertretung);
             }
