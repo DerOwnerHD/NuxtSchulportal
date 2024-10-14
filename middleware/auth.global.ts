@@ -21,7 +21,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
         typeof credentials.value.school === "number";
 
     if (!validCredentialsSyntax && to.path !== "/login") {
-        useSSRAlerts().value.push("Deine Anmeldedaten sind falsch gespeichert! Du wirst zum Login weitergeleitet.");
         // @ts-ignore we remove the cookie
         credentials.value = null;
         return navigateTo(`/login?redirect=${redirectTo}`);

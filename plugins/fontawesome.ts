@@ -80,7 +80,8 @@ import {
     faFileZipper,
     faFileImage,
     faFileAudio,
-    faFileVideo
+    faFileVideo,
+    faEllipsis
 } from "@fortawesome/free-solid-svg-icons";
 import { faImage } from "@fortawesome/free-regular-svg-icons";
 import { faJsfiddle } from "@fortawesome/free-brands-svg-icons";
@@ -177,7 +178,8 @@ library.add(
     faFileZipper,
     faFileImage,
     faFileAudio,
-    faFileVideo
+    faFileVideo,
+    faEllipsis
 );
 export default defineNuxtPlugin((nuxtApp) => {
     nuxtApp.vueApp.component("font-awesome-icon", FontAwesomeIcon);

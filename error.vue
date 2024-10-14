@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper h-screen items-center grid overflow-y-auto py-2" :style="{ '--gradient-color': color }">
-        <ErrorDisplay :error="error" :buttons="buttons"></ErrorDisplay>
+        <ErrorDisplay :error="{ error: parseResponseError(error) }" :buttons="buttons"></ErrorDisplay>
     </div>
 </template>
 

@@ -1,5 +1,5 @@
-export const syntaxHighlight = (json: any = {}) =>
-    JSON.stringify(json, null, 2)
+export function syntaxHighlight(data: any) {
+    return JSON.stringify(data, null, 2)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -18,3 +18,4 @@ export const syntaxHighlight = (json: any = {}) =>
             }
             return `<span class="${type}">${match}</span>`;
         });
+}

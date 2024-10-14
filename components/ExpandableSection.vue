@@ -12,6 +12,4 @@
 
 <script setup lang="ts">
 defineProps<{ icon?: string[]; title?: string }>();
-const isOpen = ref(false);
-const element = useTemplateRef("details");
 </script>

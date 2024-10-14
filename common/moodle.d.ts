@@ -282,9 +282,22 @@ export interface MoodleNotification {
     link: string;
 }
 
-export interface MoodleMessage {
+export interface MoodleConversationMessage {
     id: number;
     author: number;
     text: string;
     timestamp: number;
 }
+
+export type MoodleCoursesListClassification = "all" | "inprogress" | "future" | "past" | "favourites" | "hidden";
+
+/**
+ * 1: Individual conversations
+ *
+ * 2: Group conversations
+ *
+ * 3: Self conversations
+ *
+ * See https://github.com/moodle/moodle/blob/main/message/classes/api.php#L74
+ */
+export type MoodleConversationTypeFilter = 1 | 2 | 3;

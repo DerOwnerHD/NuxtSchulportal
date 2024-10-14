@@ -1,16 +1,7 @@
 import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    generateDefaultHeaders,
-    getAuthToken,
-    setErrorResponseEvent,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    getOptionalSchool,
-    BasicResponse,
-    STATIC_STRINGS
-} from "../../utils";
-import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { generateDefaultHeaders, getAuthToken, setErrorResponseEvent, getOptionalSchool, BasicResponse, STATIC_STRINGS } from "../../utils";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
 
 const bodySchema: SchemaEntryConsumer = {

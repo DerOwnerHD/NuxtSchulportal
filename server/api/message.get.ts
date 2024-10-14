@@ -1,13 +1,6 @@
-import { hasInvalidSidRedirect } from "../failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    patterns,
-    getOptionalSchool,
-    setErrorResponseEvent
-} from "../utils";
+import { generateDefaultHeaders, patterns, getOptionalSchool, setErrorResponseEvent } from "../utils";
 
 import cryptoJS from "crypto-js";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";

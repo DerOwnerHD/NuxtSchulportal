@@ -1,9 +1,7 @@
 <template>
     <div class="h-full py-8">
-        <ErrorDisplay :error="appErrors.get(AppID.Status)" :retryFunction="fetchStatus" v-if="appErrors.has(AppID.Status)"></ErrorDisplay>
-        <div v-else-if="status === null" class="h-full w-screen grid place-content-center">
-            <InfiniteSpinner :size="50"></InfiniteSpinner>
-        </div>
+        <AppErrorDisplay :id="AppID.Status" v-if="hasAppError(AppID.Status)"></AppErrorDisplay>
+        <FullPageSpinner v-else-if="status === null"></FullPageSpinner>
         <div v-else class="px-2 grid gap-2">
             <section
                 v-for="(item, index) of status"

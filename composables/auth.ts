@@ -12,14 +12,6 @@ export const school = computed(() => {
     if (!credentials.value) return null;
     return credentials.value.school;
 });
-/**
- * @deprecated
- */
-export const useSchool = () => {
-    const credentials = useCredentials();
-    if (!credentials.value) return null;
-    return credentials.value.school;
-};
 
 export const useAuthSSR = () => useState("checked-auth-on-ssr", () => false);
 
@@ -30,39 +22,91 @@ export const useLoggingInStatus = () => useState("is-logging-in", () => false);
  */
 export async function useAuthenticate() {
     const isLoggingIn = useLoggingInStatus();
-    if (isLoggingIn.value) return console.warn("Cannot log in more than once at a time");
+    if (isLoggingIn.value) {
+        console.warn("Cannot log in more than once at a time");
+        return false;
+    }
     isLoggingIn.value = true;
     const credentials = useCredentials();
     const nuxt = useNuxtApp();
-    // Even though we shouldn't use useFetch in a non-setup function on the client,
-    // using $fetch during SSR (which this function is called in sometimes) results
-    // in no IP getting passed through for rate limiting => 403 error
-    const { data, error } = await useFetch("/api/login", {
-        method: "POST",
-        body: credentials.value
-    });
 
-    if (error.value) {
-        isLoggingIn.value = false;
-        throw createError({
+    const authenticator = import.meta.client ? new ClientAuthenticator(credentials) : new SSRAuthenticator(credentials);
+    const auth = await authenticator.authenticate();
+
+    if (auth.error) {
+        createError({
             message: "Loginfehler",
-            data: error.value.data?.error_details ?? error.value.cause
+            data: auth.error_details
         });
+        isLoggingIn.value = false;
+        return false;
     }
 
     console.log("Authenticated!");
-
-    // @ts-ignore
-    const { token, session } = data.value;
+    const { token, session } = auth;
     // Whenever reauthing on the client, we may just clear our current AES key right here
     // If another function then invokes this, it gets a new one for its current token
     // (It would get it anyway but this just removes some small headache)
     if ("localStorage" in globalThis) localStorage.removeItem("aes-key");
     isLoggingIn.value = false;
     nuxt.runWithContext(() => {
-        useToken().value = token;
-        useSession().value = session;
+        useToken().value = token!;
+        useSession().value = session!;
     });
+    return true;
+}
+
+/**
+ * Woo! Classes have been used!
+ */
+abstract class Authenticator {
+    protected creds: Credentials | null = null;
+    public constructor(credentials: Ref<Credentials>) {
+        if (!credentials.value) throw new ReferenceError("Could not obtain credentials for auth");
+        this.creds = credentials.value;
+    }
+    public async authenticate(): Promise<AuthResponse> {
+        return null as any;
+    }
+}
+
+class SSRAuthenticator extends Authenticator {
+    constructor(credentials: Ref<Credentials>) {
+        super(credentials);
+    }
+    public override async authenticate(): Promise<AuthResponse> {
+        const { data, error } = await useFetch("/api/login", { method: "POST", body: this.creds });
+        if (error.value) {
+            return { error: true, error_details: parseResponseError(error.value) };
+        }
+        return { error: false, token: data.value?.token, session: data.value?.session };
+    }
+}
+
+class ClientAuthenticator extends Authenticator {
+    constructor(credentials: Ref<Credentials>) {
+        super(credentials);
+    }
+    public override async authenticate(): Promise<AuthResponse> {
+        try {
+            const response = await $fetch("/api/login", {
+                method: "POST",
+                body: this.creds
+            });
+            // If no error was thrown, we can always assert that the response was successful.
+            const { token, session } = response;
+            return { error: false, token, session };
+        } catch (error) {
+            return { error: true, error_details: parseResponseError(error) };
+        }
+    }
+}
+
+interface AuthResponse {
+    error: boolean;
+    error_details?: any;
+    token?: string;
+    session?: string;
 }
 
 export async function checkToken() {
@@ -105,10 +149,26 @@ export async function logOff(bypassConfirm?: boolean) {
 
 export const isLoggedIn = computed(() => !!useToken().value);
 
-export async function useReauthenticate(error: any) {
+/**
+ * Performs, if required due to the error's status being 401, a reauth.
+ *
+ * If one is already in progress, it will be skipped.
+ * @param error The response error object
+ */
+export async function useReauthenticate(error: any, authStack: AuthStack = "sph") {
     if (useLoggingInStatus().value) return;
     if (!("status" in error)) return;
-    if (error.status !== 401) return;
+    if (!checkForReauthRequirement(error)) return;
     console.log("Credentials invalid, reauthenticating!");
-    await useAuthenticate();
+    const hasAuthSucceeded = await useAuthenticate();
+    if (!hasAuthSucceeded) return;
+    if (authStack === "moodle") await attemptMoodleLogin();
 }
+
+/**
+ * What procedure should be used for re-authentication.
+ *
+ * If something that is not "sph" is provided, the system will run through the corresponding auth requirements.
+ * (i.e. Moodle: first, sph, then Moodle itself)
+ */
+type AuthStack = "sph" | "moodle";

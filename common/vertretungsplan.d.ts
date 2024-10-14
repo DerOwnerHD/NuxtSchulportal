@@ -1,5 +1,7 @@
+import { Nullable } from ".";
+
 export interface VertretungsDay {
-    date: number;
+    date: string;
     day: string;
     day_of_week: string;
     relative: string;
@@ -9,7 +11,7 @@ export interface VertretungsDay {
 
 export interface Vertretungsplan {
     days: VertretungsDay[];
-    last_updated: number | null;
+    last_updated: string | null;
     updating: boolean;
 }
 
@@ -19,11 +21,12 @@ export interface Vertretung {
         from: number;
         to: number;
     };
-    class: Nullable<string>;
+    classes: Nullable<string>;
     substitute: Nullable<string>;
     teacher: Nullable<string>;
     subject: Nullable<string>;
     subject_old: Nullable<string>;
     room: Nullable<string>;
     note: Nullable<string>;
+    type: Nullable<string>;
 }

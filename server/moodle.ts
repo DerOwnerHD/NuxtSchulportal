@@ -11,10 +11,147 @@ import type {
     MoodleCourse,
     MoodleEvent,
     MoodleNotification,
-    MoodleMessage as MoodleConversationMessage
+    MoodleConversationMessage
 } from "~/common/moodle";
+import { generateDefaultHeaders, patterns } from "./utils";
+import { MoodleExternalFunctions } from "./moodle-external-functions";
 
-export const transformMoodleMember = (member: PreMoodleConversationMember): MoodleConversationMember => {
+interface RequiredUserCredentials {
+    school: string;
+    cookie: string;
+    session: string;
+    address: string | null;
+}
+
+interface ExternalFunctionResponse<T extends MoodleExternalFunctions> {
+    error: boolean;
+    data: T["response"];
+    exception: {
+        message: string;
+        errorcode: string;
+        link: string;
+        moreinfourl: string;
+    };
+}
+
+/**
+ * If an error in parsing the request, i.e. invalid JSON, occured, not every single request is answered (so no array return value).
+ *
+ * This is not the same as when a session expires. That error is handled for every single method.
+ */
+interface GlobalMoodleResponseError {
+    error: string;
+    errorcode: string;
+    /** In production enviroments always nulled */
+    stacktrace: null;
+    /** In production enviroments always nulled */
+    debuginfo: null;
+    /** In production enviroments always nulled */
+    reproductionlink: null;
+}
+
+const METHOD_UNAUTHORIZED_CODES = ["servicerequireslogin", "invalidsesskey"];
+const METHOD_FORBIDDEN_CODES = ["servicenotavailable"];
+
+export function getMoodleErrorResponseCode(errorcode: string) {
+    if (METHOD_FORBIDDEN_CODES.includes(errorcode)) return 403;
+    else if (METHOD_UNAUTHORIZED_CODES.includes(errorcode)) return 401;
+    return 400;
+}
+
+type MoodleResponse<T extends MoodleExternalFunctions> =
+    | {
+          error: true;
+          error_details: any;
+          data: null;
+      }
+    | {
+          error: false;
+          error_details: undefined;
+          data: T["response"];
+      };
+
+/**
+ * Fields the caller should provide for createMoodleRequest.
+ */
+type ExternalFunctionRequiredFields<T extends MoodleExternalFunctions> = { name: T["name"]; args: T["args"] };
+
+/**
+ * Performs a Moodle service API call with the given functions to call.
+ *
+ * These functions are from authenticated (service.php) APIs, not unauthed (service-nologin.php).
+ *
+ * Multiple functions can be added to one request and will be returned in that order.
+ * @param param0 Authentication details for the user
+ * @param methods A chain of method calls to be added to the request
+ */
+export async function createMoodleRequest<T extends MoodleExternalFunctions>(
+    { school, cookie, session, address }: RequiredUserCredentials,
+    ...methods: ExternalFunctionRequiredFields<T>[]
+): Promise<MoodleResponse<T>[]> {
+    function errorOutAllMethods(reason?: any) {
+        return methods.map(() => ({ error: true as true, error_details: reason, data: null }));
+    }
+
+    try {
+        const response = await fetch(`${generateMoodleURL(school)}/lib/ajax/service.php?sesskey=${session}`, {
+            method: "POST",
+            headers: {
+                Cookie: `MoodleSession=${cookie}`,
+                "Content-Type": "application/json",
+                ...generateDefaultHeaders(address)
+            },
+            body: buildMoodleRequestBody(...methods)
+        });
+
+        if (!patterns.JSON_CHARSET_MIME_TYPE.test(response.headers.get("Content-Type")!)) {
+            return errorOutAllMethods("Invalid MIME type");
+        }
+
+        const data = await response.json();
+
+        // Ensure the response is an array and matches the number of methods in the request
+        if (!Array.isArray(data) || data.length !== methods.length) {
+            return errorOutAllMethods((data as GlobalMoodleResponseError).errorcode);
+        }
+
+        // Map each response to the corresponding method and ensure correct typing
+        const methodResponses: MoodleResponse<T>[] = methods.map((_, index) => {
+            const response = data[index] as ExternalFunctionResponse<T>;
+
+            if (response.error) {
+                return {
+                    error: true,
+                    error_details: response.exception?.errorcode ?? null,
+                    data: null
+                };
+            }
+
+            return {
+                error: false,
+                error_details: undefined,
+                data: response.data
+            };
+        });
+
+        return methodResponses;
+    } catch (error) {
+        // Catch any other errors and map to the correct error structure
+        return errorOutAllMethods(error);
+    }
+}
+
+function buildMoodleRequestBody<T extends MoodleExternalFunctions>(...methods: ExternalFunctionRequiredFields<T>[]) {
+    return JSON.stringify(
+        methods.map((method, index) => ({
+            index,
+            methodname: method.name,
+            args: method.args
+        }))
+    );
+}
+
+export function transformMoodleMember(member: PreMoodleConversationMember): MoodleConversationMember {
     return {
         id: member.id,
         name: member.fullname,
@@ -32,7 +169,7 @@ export const transformMoodleMember = (member: PreMoodleConversationMember): Mood
         requiresContact: member.requirescontact,
         contactRequests: member.contactrequests
     };
-};
+}
 
 export function transformMoodleCourse(course: PreMoodleCourse): MoodleCourse {
     return {
@@ -190,5 +327,7 @@ const BASE_MOODLE_URL = useRuntimeConfig().public.baseMoodleURL;
  * @param withoutProtocol Whether the HTTPS protocol should be included (only needed for DNS lookup)
  * @returns The generated URL
  */
-export const generateMoodleURL = (school: any, withoutProtocol: boolean = false): string =>
-    `${withoutProtocol ? "" : "https://"}mo${school}.${BASE_MOODLE_URL}`;
+export function generateMoodleURL(school: any, withoutProtocol: boolean = false): string {
+    if (!/^\d+$/.test(school)) throw new Error("An invalid school was provided to generateMoodleURL and was not validated properly!!");
+    return `${withoutProtocol ? "" : "https://"}mo${school}.${BASE_MOODLE_URL}`;
+}

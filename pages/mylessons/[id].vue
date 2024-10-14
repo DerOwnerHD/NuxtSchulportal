@@ -59,14 +59,12 @@
                 <FluidQuickSwitch :options="footerOptions" @update="switchFooterItem"></FluidQuickSwitch>
             </footer>
         </div>
-        <div v-else class="h-full w-screen grid place-content-center">
-            <InfiniteSpinner :size="50"></InfiniteSpinner>
-        </div>
+        <FullPageSpinner v-else></FullPageSpinner>
     </div>
 </template>
 
 <script setup lang="ts">
-const errors = useAppErrors();
+import type { MyLessonsCourse } from "~/common/mylessons";
 const route = useRoute();
 const courseId = route.params.id as string;
 const courseData = ref<MyLessonsCourse | null>(null);
@@ -79,7 +77,7 @@ const courseData = ref<MyLessonsCourse | null>(null);
  * two cards that slowly clears but is really ugly).
  */
 const isTouching = ref(false);
-const NUMBER_PATTERN = /^\d+$/;
+const NUMBER_PATTERN = /^\d{1,7}$/;
 const icon = computed(() => {
     if (!courseData.value) return null;
     return findIconForMyLessonsCourse(courseData.value.subject ?? "");
@@ -124,7 +122,7 @@ onMounted(() => {
     handleResize();
 });
 onUnmounted(() => {
-    errors.value.delete(AppID.MyLessonsCourse);
+    clearAppError(AppID.MyLessonsCourse);
     window.removeEventListener("resize", handleResize);
     isEventHandlerRegistered.value = false;
 });
@@ -135,11 +133,19 @@ async function handleResize() {
     await useWait(100);
     endScroll(true);
 }
+
+const selectedSemester = ref(useCurrentSemester());
+
 async function loadCourse(overwrite?: boolean) {
-    errors.value.delete(AppID.MyLessonsCourse);
+    clearAppError(AppID.MyLessonsCourse);
     if (!NUMBER_PATTERN.test(courseId)) return createAppError(AppID.MyLessonsCourse, "Ungültige ID", loadCourse);
-    // @ts-ignore
-    courseData.value = await fetchMyLessonsCourse(parseInt(courseId), overwrite);
+
+    const id = parseInt(courseId);
+    const map = useMyLessonsCourseDetails();
+
+    await fetchMyLessonsCourse(id, selectedSemester.value, overwrite);
+    if (hasAppError(AppID.MyLessonsCourse) || !map.value.has(id)) return;
+    courseData.value = map.value.get(id)!;
 }
 
 const CARD_WIDTH = 288;

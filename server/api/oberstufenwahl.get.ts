@@ -1,12 +1,10 @@
-import { Election } from "~/common/oberstufenwahl";
+import { Oberstufenwahl } from "~/common/oberstufenwahl";
 import { querySelectorArray } from "../dom";
-import { hasInvalidSidRedirect } from "../failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     getAuthToken,
     generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
     removeBreaks,
     getOptionalSchool,
     setErrorResponseEvent,
@@ -16,7 +14,7 @@ import {
 import { JSDOM } from "jsdom";
 
 interface Response extends BasicResponse {
-    elections: Election[];
+    elections: Oberstufenwahl[];
 }
 
 const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
@@ -46,7 +44,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             window: { document }
         } = new JSDOM(removeBreaks(await response.text()));
 
-        const elections: Election[] = querySelectorArray(document, ".container #content .panel")
+        const elections: Oberstufenwahl[] = querySelectorArray(document, ".container #content .panel")
             .map((panel) => {
                 const title = panel.querySelector(".panel-heading h3.panel-title")?.innerHTML ?? null;
                 const durationString = panel.querySelector(".panel-body")?.textContent?.trim();

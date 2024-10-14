@@ -1,7 +1,6 @@
-import { IncomingMessage, ServerResponse } from "http";
 import { H3Event } from "h3";
 
-const DEFAULT_ERRORS: { [status: string]: string } = {
+const DEFAULT_ERRORS: Record<string, string> = {
     "400": "Bad Request",
     "401": "Unauthorized",
     "403": "Forbidden",
@@ -14,30 +13,11 @@ const DEFAULT_ERRORS: { [status: string]: string } = {
     "502": "Bad Gateway",
     "503": "Service Not Available"
 };
-const SPECIAL_STATUS_MESSAGES: { [status: string]: string } = {
+const SPECIAL_STATUS_MESSAGES: Record<string, string> = {
     "401": "Anmeldedaten ungültig",
-    "429": "Woah, slow down!",
+    "429": "Du sendest zu viele Anfragen",
     "500": "Serverfehler",
     "503": "Momentan nicht verfügbar"
-};
-
-/**
- * @deprecated
- */
-export const setResponse = (res: ServerResponse<IncomingMessage>, status: number, response: any): any => {
-    res.statusCode = status;
-    return response;
-};
-
-/**
- * @deprecated
- */
-export const setErrorResponse = (res: ServerResponse<IncomingMessage>, status: number, details?: string | object): any => {
-    res.statusCode = status;
-    return {
-        error: true,
-        error_details: details ?? (SPECIAL_STATUS_MESSAGES[status] ? SPECIAL_STATUS_MESSAGES[status] : `${status}: ${DEFAULT_ERRORS[status]}`)
-    };
 };
 
 /**
@@ -75,15 +55,10 @@ export const patterns = {
     DATE_YYYY_MM_DD_HYPHENS: /^20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
     DATE_YYYY_MM_DD_HYPHENS_OR_YEAR: /^year|20[12]\d\-(0[1-9]|1[0-2])\-(0[1-9]|[12]\d|3[01])$/,
     SPH_DIRECT_MESSAGE_UUID: /^[0-9a-f]{32}-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/,
-    SSO_LOCATION: /^https:\/\/login.schulportal.hessen.de\/saml\/singleSignOn\?SAMLRequest=[0-9a-z%&.=_-]*$/i
+    SSO_LOCATION: /^https:\/\/login.schulportal.hessen.de\/saml\/singleSignOn\?SAMLRequest=[0-9a-z%&.=_-]*$/i,
+    JSON_CHARSET_MIME_TYPE: /^(application\/json(; ?charset=utf-?8)?)$/,
+    INTEGER: /^\d+$/
 };
-
-// This is in use when the user has to reset their password on SPH
-// All URLs get redirected to this URL and we need to make them aware of it
-// The second part is needed by the Splan, as it has to follow redirects
-export const hasPasswordResetLocationSet = (response: Response) =>
-    (response.status === 302 && response.headers.get("location") === "benutzerverwaltung.php?a=userChangePassword") ||
-    response.url === "https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userChangePassword";
 
 export const knownSubscriptionServices = [
     "android.googleapis.com",
@@ -94,117 +69,7 @@ export const knownSubscriptionServices = [
     ".*\\.notify.windows.com",
     ".*\\.push.apple.com"
 ].map((service) => new RegExp(`^${service.replace("*", ".*")}$`, "i"));
-
 export const isSubscriptionService = (host: string) => knownSubscriptionServices.some((pattern) => pattern.test(host));
-
-/**
- * @deprecated
- */
-export const validateQuery = (
-    query: any,
-    schema: {
-        [key: string]: {
-            required: boolean;
-            length?: number;
-            type?: string;
-            min?: number;
-            max?: number;
-            pattern?: RegExp;
-            options?: any[];
-        };
-    }
-): boolean => {
-    for (const key in schema) {
-        if (!key.length) continue;
-
-        const object = schema[key];
-        const value = query[key];
-
-        // If either the pattern is incorrect or the value is not in the
-        // valid options, we don't allow the request to continue
-        if (typeof value === "string" && ((object.pattern && !object.pattern.test(value)) || (object.options && !object.options.includes(value))))
-            return false;
-
-        if (object.type === "number" && value != undefined) {
-            const valueAsNumber = parseFloat(value);
-            if (!Number.isInteger(valueAsNumber) || !Number.isSafeInteger(valueAsNumber) || !Number.isFinite(valueAsNumber)) return false;
-            if ((object.max && valueAsNumber > object.max) || (object.min && valueAsNumber < object.min)) return false;
-        }
-
-        // If we have a string and it is either too large or too small, we fail
-        if (
-            object.type === "string" &&
-            value != undefined &&
-            ((object.min && object.min > value.length) || (object.max && object.max < value.length))
-        )
-            return false;
-
-        // As we always just recieve strings, we have
-        // to make sure it is a boolean this way
-        if (object.type === "boolean" && value != undefined && !["false", "true"].includes(value)) return false;
-
-        if ((value == undefined && object.required) || (object.length !== undefined && value?.length !== object.length && value != undefined))
-            return false;
-    }
-
-    return true;
-};
-
-/**
- * Validates the body has the required types of the things passed to it
- * @param body The object of the JSON body sent
- * @param schema The expected layout of the body
- * @returns Whether the body is valid
- * @example { username: "testtest123" } as body and { username: { type: "string", required: true } } as schema
- * @deprecated
- */
-export const validateBody = (
-    body: any,
-    schema: {
-        [key: string]: {
-            type: string;
-            required: boolean;
-            min?: number;
-            max?: number;
-            size?: number;
-            pattern?: RegExp;
-            options?: any[];
-        };
-    }
-): boolean => {
-    // CRUCIAL: The user may just pass the header but no actual body
-    if (!body) return false;
-    const keys = Object.keys(body);
-    const allowedKeys = Object.keys(schema);
-    for (const key of keys) {
-        if (!allowedKeys.includes(key)) return false;
-    }
-    for (const key in schema) {
-        if (!key.length) continue;
-        const object = schema[key];
-        const value = body[key];
-        if (value == undefined && object.required) return false;
-        if (["number", "string"].includes(object.type) && value != undefined && typeof value === object.type) {
-            if ((object.type === "number" && !Number.isInteger(value)) || (object.type === "string" && value === "")) return false;
-            // Our accessor is either length for a string or just the value for a number
-            const accessor = value.length ?? value;
-            if (
-                (object.min !== undefined && accessor < object.min) ||
-                (object.max !== undefined && accessor > object.max) ||
-                (object.size !== undefined && accessor !== object.size)
-            )
-                return false;
-
-            if (typeof value === "string" && ((object.pattern && !object.pattern.test(value)) || (object.options && !object.options.includes(value))))
-                return false;
-        }
-
-        // We explicitly only use == because the object may also be null
-        if ((object.required && value == undefined) || (value != undefined && typeof value !== object.type)) return false;
-    }
-
-    return true;
-};
 
 /**
  * Parses the Cookie or set-cookie string from HTTP requests
@@ -244,20 +109,18 @@ export const removeBreaks = (text: string): string =>
         .replace(/\s+/g, " ")
         .replace(/<2br \/>/gi, "\n\n");
 
-export const generateDefaultHeaders = (address?: string | null) => {
+/**
+ * Generate headers sent with every request to SPH. Includes this project as the user agent and
+ * (if given) the client's IP address in the X-Forwarded-For header.
+ * @param address The IP address of the client - if given
+ * @returns A record which can be integrated into a headers field
+ */
+export function generateDefaultHeaders(address?: string | null) {
     return {
         "X-Forwarded-For": address ?? "",
         "User-Agent": "NuxtSchulportal (https://github.com/DerOwnerHD/NuxtSchulportal)"
     };
-};
-
-/**
- * Checks whether the response has the "i" (institution) cookie is set to "0",
- * thus meaning the authentication provided by the user is not valid.
- * @param response The Fetch API response thats supposed to be parsed
- * @returns whether the request is sucessfully authed
- */
-export const hasInvalidAuthentication = (response: Response) => parseCookies(response.headers.getSetCookie())["i"] === "0";
+}
 
 /**
  * Gets either the content of the Authorization header or the query key "token",
@@ -265,7 +128,7 @@ export const hasInvalidAuthentication = (response: Response) => parseCookies(res
  * @param event The H3Event given by Nuxt's event handler
  * @returns The cookie string or just null if it is not given or incorrect
  */
-export const getAuthToken = (event: H3Event): string | null => {
+export function getAuthToken(event: H3Event): string | null {
     const { token } = getQuery<{ token?: string }>(event);
     const authorization = getRequestHeader(event, "Authorization");
     // Neither of them are given...
@@ -274,7 +137,7 @@ export const getAuthToken = (event: H3Event): string | null => {
     if (!patterns.SID.test(token || authorization!)) return null;
     // Again, we can block this TS error as we know that one of them HAS to be a string
     return token || authorization!;
-};
+}
 
 export const MIN_ALLOWED_SCHOOL = 1;
 export const MAX_ALLOWED_SCHOOL = 9999;
@@ -296,7 +159,7 @@ export const MAX_ALLOWED_SCHOOL = 9999;
  * @param stringify Directly format it according to the needs of the Cookie header (i=school) or an completely empty string when null (Default is true)
  * @returns The school ID, if in request and valid
  */
-export const getOptionalSchool = (event: any, body?: any, stringify: boolean = true) => {
+export function getOptionalSchool(event: H3Event, body?: any, stringify: boolean = true) {
     const { school } = getQuery<{ school: string }>(event);
     // The school might also in POST requests be included inside the body.
     // (/login has that but that does not use this routine)
@@ -305,28 +168,12 @@ export const getOptionalSchool = (event: any, body?: any, stringify: boolean = t
     const parsed = parseInt(school ?? schoolInBody);
     if (isNaN(parsed) || parsed > MAX_ALLOWED_SCHOOL || parsed < MIN_ALLOWED_SCHOOL) return stringify ? "" : null;
     return stringify ? `i=${parsed}` : parsed;
-};
-
-/**
- * A class used to catch errors that occurr when fetching data
- * from the Schulportal. It includes the choice to show that error
- * in the 500 API response back to the user.
- * @deprecated
- */
-export class APIError extends Error {
-    public showToUser: boolean;
-    constructor(message: string, showToUser?: boolean) {
-        super(message);
-        this.showToUser = showToUser || false;
-    }
 }
 
 export interface BasicResponse {
     error: boolean;
     error_details?: string | Record<string, any>;
 }
-
-export type Nullable<T> = T | null;
 
 export const STATIC_STRINGS = {
     INVALID_TOKEN: "Token not provided or malformed",

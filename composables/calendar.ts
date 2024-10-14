@@ -31,6 +31,6 @@ export const calendarCategories = [
 
 export const fetchCalendar = async (filters: CalendarFilters) =>
     await useFetch("/api/calendar", {
-        query: { ...filters, school: useSchool() },
+        query: { ...filters, school: school.value },
         headers: { Authorization: useToken().value }
     });

@@ -13,7 +13,7 @@
             </div>
             <p class="text-start" v-if="lesson.description" v-html="lesson.description"></p>
         </main>
-        <div class="bottom-container sticky bottom-0 w-full max-h-52 overflow-y-scroll">
+        <div class="bottom-container sticky bottom-0 w-full max-h-52 overflow-y-scroll shadow-lg">
             <div :class="{ hidden: !lesson.homework }">
                 <ExpandableSection
                     :name="lesson.entry"
@@ -65,14 +65,15 @@
 </template>
 
 <script setup lang="ts">
-import type { Nullable } from "~/server/utils";
+import type { Nullable } from "~/common";
+import type { MyLessonsLesson } from "~/common/mylessons";
 
-function openFileDownload(name: Nullable<string>) {
+async function openFileDownload(name: Nullable<string>) {
     if (!name || typeof props.course !== "number" || !props.lesson) return;
-    window.open(
-        `https://start.schulportal.hessen.de/meinunterricht.php?a=downloadFile&id=${props.course}&e=${props.lesson.entry}&f=${name}`,
-        "_blank"
+    const link = generateSSOLink(
+        `https://start.schulportal.hessen.de/meinunterricht.php?a=downloadFile&id=${props.course}&e=${props.lesson.entry}&f=${name}`
     );
+    window.open(link, "_blank");
 }
 const props = defineProps<{ lesson: MyLessonsLesson | null; course: number }>();
 async function toggleHomework() {
@@ -94,8 +95,7 @@ async function toggleHomework() {
         // For that, a full reauth appears to be needed...
         props.lesson.homework.done = !props.lesson.homework.done;
     } catch (error) {
-        // @ts-ignore
-        createAppError(AppID.MyLessonsCourse, error?.data?.error_details ?? error, () => clearAppError(AppID.MyLessonsCourse), true);
+        createAppError(AppID.MyLessonsCourse, error, () => clearAppError(AppID.MyLessonsCourse));
     }
 }
 </script>

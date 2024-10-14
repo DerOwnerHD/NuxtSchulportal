@@ -180,18 +180,18 @@
 
 <script setup lang="ts">
 import type { LegacySelectBoxOption } from "~/common/component-props";
-import type { Nullable } from "~/server/utils";
+import type { Nullable } from "~/common";
+import type { ResetPasswordUserType } from "~/common/reset-password";
 
-type ResetType = "student" | "parent" | "teacher";
 interface ResetTypeOption extends LegacySelectBoxOption {
-    id: ResetType;
+    id: ResetPasswordUserType;
 }
 const resetTypeOptions: ResetTypeOption[] = [
     { id: "student", icon: ["fas", "child"], text: "Schüler", default: true },
     { id: "parent", icon: ["fas", "hands-holding-child"], text: "Eltern" },
     { id: "teacher", icon: ["fas", "user"], text: "Lehrer" }
 ];
-const selectedResetType = ref<ResetType>("student");
+const selectedResetType = ref<ResetPasswordUserType>("student");
 
 // This only exists so that TypeScript doesn't complain about
 // all those things that would otherwise be undefined when building

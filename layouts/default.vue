@@ -6,7 +6,6 @@
             :style="{ '--gradient-color': appBackgroundGradient }">
             <div id="overlay"></div>
         </div>
-        <OberstufenwahlAlert v-if="isOberstufenWahlOpen"></OberstufenwahlAlert>
         <div class="grid h-screen py-4 max-h-[100vh] w-screen overflow-y-scroll" id="content">
             <SPHHeader></SPHHeader>
             <main class="max-w-screen mb-24" :class="{ 'min-h-0': !isPageScrollable }">
@@ -26,10 +25,6 @@
 import "~/composables/prototype";
 const flyout = useFlyout();
 
-const dialogBoxes = useOpenDialogBoxes();
-const isOberstufenWahlOpen = computed(() => dialogBoxes.value.includes("overstufenwahl"));
-
-const NON_SCROLLABLE_PAGES = [/^\/mylessons\/.+$/, /^\/vertretungsplan(\/)?$/];
 const isPageScrollable = useScrollabilityStatus();
 useRouter().afterEach(async (route) => {
     await nextTick();
@@ -39,18 +34,18 @@ useRouter().afterEach(async (route) => {
 
 async function updatePageScrollability(route?: any) {
     const { path } = route ?? useRoute();
-    const isNonScrollable = NON_SCROLLABLE_PAGES.some((pattern) => pattern.test(path));
+    const isNonScrollable = useNonScrollablePages().some((pattern) => pattern.test(path));
     await nextTick();
     isPageScrollable.value = !isNonScrollable;
 }
 
-const apps = useApps();
+const apps = appRegistry.value;
 
 onMounted(() => {
     updatePageScrollability();
     window.addEventListener("contextmenu", (event) => event.preventDefault());
     if (!isLoggedIn.value) return;
-    for (const app of apps.value) {
+    for (const app of apps) {
         if (app.load_on_mount) app.load_function();
     }
 });

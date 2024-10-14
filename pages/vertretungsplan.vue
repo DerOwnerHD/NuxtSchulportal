@@ -1,9 +1,6 @@
 <template>
     <div class="h-full py-8">
-        <ErrorDisplay
-            :error="errors.get(AppID.Vertretungsplan)"
-            :retryFunction="fetchVertretungsplan"
-            v-if="errors.has(AppID.Vertretungsplan)"></ErrorDisplay>
+        <AppErrorDisplay :id="AppID.Vertretungsplan" v-if="hasAppError(AppID.Vertretungsplan)"></AppErrorDisplay>
         <div v-else-if="vertretungsplan" class="wrapper h-full grid gap-2 place-content-center justify-items-center">
             <main v-if="vertretungsplan.days.length" class="min-h-0">
                 <DeckCard class="vplan-card h-full blurred-background" ref="card" v-if="vertretungsplan.days" :colors="['#425849', '#1e2921']">
@@ -50,10 +47,18 @@
                 <p>Keine Tage verfügbar</p>
                 <ButtonRoundedBlurred :icon="['fas', 'arrow-rotate-right']" @click="fetchVertretungsplan">Neu laden</ButtonRoundedBlurred>
             </section>
-            <section class="flex justify-center">
+            <section class="flex justify-center hover:active:scale-95 transition-transform" @click="useRelativeDistance = !useRelativeDistance">
                 <div class="blurred-background px-4 rounded-full py-1 flex gap-2 items-center">
                     <font-awesome-icon :icon="['fas', 'clock']"></font-awesome-icon>
-                    <span>Aktualisert vor {{ distanceToLastUpdated }}</span>
+                    <span v-if="vertretungsplan.last_updated">
+                        Aktualisert
+                        {{
+                            useRelativeDistance
+                                ? `vor ${distanceToLastUpdated}`
+                                : `am ${convertDateStringToFormat(vertretungsplan.last_updated, "day-month-short")} um ${convertTimeStringToFormat(vertretungsplan.last_updated, "hour-minute")}`
+                        }}</span
+                    >
+                    <span v-else>unbekannt</span>
                 </div>
             </section>
             <footer v-if="vertretungsplan.days.length" class="blurred-background rounded-full w-fit p-2">
@@ -63,18 +68,16 @@
                 </FluidButtonGroup>
             </footer>
         </div>
-        <div v-else class="h-full w-screen grid place-content-center">
-            <InfiniteSpinner :size="50"></InfiniteSpinner>
-        </div>
+        <FullPageSpinner v-else></FullPageSpinner>
     </div>
 </template>
 
 <script setup lang="ts">
-const errors = useAppErrors();
 const distanceToLastUpdated = ref<string | null>(null);
 const card = useTemplateRef("card");
 const content = useTemplateRef("content");
 let distanceInterval: NodeJS.Timeout;
+const useRelativeDistance = ref(true);
 function createContinuousUpdate() {
     if (!vertretungsplan.value) return;
     clearInterval(distanceInterval);

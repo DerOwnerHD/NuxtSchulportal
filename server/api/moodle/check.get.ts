@@ -1,7 +1,8 @@
-import { BasicResponse, generateDefaultHeaders, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
+import { BasicResponse, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
 import { defineRateLimit, RateLimitAcceptance, getRequestAddress } from "~/server/ratelimit";
-import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
+import { createMoodleRequest, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { Session_TimeRemaining_ExternalFunction } from "~/server/moodle-external-functions";
 
 const querySchema: SchemaEntryConsumer = {
     session: { required: true, size: 10, pattern: patterns.MOODLE_SESSION },
@@ -31,29 +32,16 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         const hasMoodle = await lookupSchoolMoodle(school);
         if (!hasMoodle) return setErrorResponseEvent(event, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
-        const response = await fetch(`${generateMoodleURL(school)}/lib/ajax/service.php?sesskey=${session}`, {
-            method: "POST",
-            headers: {
-                Cookie: `MoodleSession=${cookie}`,
-                "Content-Type": "application/json",
-                ...generateDefaultHeaders(address)
-            },
-            body: JSON.stringify([
-                {
-                    index: 0,
-                    methodname: "core_session_time_remaining",
-                    args: {}
-                }
-            ])
-        });
+        const response = await createMoodleRequest<Session_TimeRemaining_ExternalFunction>(
+            { school, cookie, session, address },
+            {
+                name: "core_session_external_function",
+                args: {}
+            }
+        );
 
-        const json = await response.json();
-        return {
-            error: false,
-            valid: !json[0].error,
-            user: json[0].data?.userid ?? null,
-            remaining: json[0].data?.timeremaining ?? null
-        };
+        const { error, data } = response[0];
+        return { error: false, valid: !error, user: data?.userid ?? null, remaining: data?.timeremaining ?? null };
     } catch (error) {
         console.error(error);
         return setErrorResponseEvent(event, 500);

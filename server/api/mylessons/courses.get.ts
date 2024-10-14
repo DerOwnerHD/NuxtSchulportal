@@ -1,19 +1,10 @@
-import { MyLessonsCourse } from "~/server/mylessons";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    BasicResponse,
-    generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    patterns,
-    removeBreaks,
-    getOptionalSchool,
-    setErrorResponseEvent
-} from "../../utils";
+import { BasicResponse, generateDefaultHeaders, patterns, removeBreaks, getOptionalSchool, setErrorResponseEvent } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
-import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
+import { MyLessonsAllCourses, MyLessonsCourseGlobal } from "~/common/mylessons";
 
 const querySchema: SchemaEntryConsumer = {
     token: { required: true, pattern: patterns.SID },
@@ -21,10 +12,7 @@ const querySchema: SchemaEntryConsumer = {
     key: { required: false, pattern: patterns.AES_PASSWORD }
 };
 
-interface Response extends BasicResponse {
-    courses: MyLessonsCourse[];
-    expired: MyLessonsCourse[];
-}
+interface Response extends BasicResponse, MyLessonsAllCourses {}
 
 const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
@@ -56,8 +44,8 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             window: { document }
         } = new JSDOM(removeBreaks(await response.text()));
 
-        const courses: MyLessonsCourse[] = [];
-        const expired: MyLessonsCourse[] = [];
+        const courses: MyLessonsCourseGlobal[] = [];
+        const expired: MyLessonsCourseGlobal[] = [];
         document.querySelectorAll("#mappen[role=tabpanel] .thumbnail").forEach((thumbnail) => {
             const button = thumbnail.querySelector("button[title]");
             if (button === null) return;

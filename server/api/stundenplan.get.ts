@@ -1,9 +1,7 @@
 import {
     generateDefaultHeaders,
-    hasPasswordResetLocationSet,
     getAuthToken,
     removeBreaks,
-    hasInvalidAuthentication,
     getOptionalSchool,
     BasicResponse,
     STATIC_STRINGS,
@@ -11,7 +9,7 @@ import {
 } from "../utils";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { JSDOM } from "jsdom";
-import { hasInvalidSidRedirect } from "../failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { querySelectorArray } from "../dom";
 import { Stundenplan, StundenplanLesson } from "~/common/stundenplan";
 

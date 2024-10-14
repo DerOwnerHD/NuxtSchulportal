@@ -1,5 +1,6 @@
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import { BasicResponse, Nullable, STATIC_STRINGS, getAuthToken, generateDefaultHeaders, getOptionalSchool, setErrorResponseEvent } from "../utils";
+import { BasicResponse, STATIC_STRINGS, getAuthToken, generateDefaultHeaders, getOptionalSchool, setErrorResponseEvent } from "../utils";
+import { Nullable } from "~/common";
 
 interface Response extends BasicResponse {
     valid: boolean;

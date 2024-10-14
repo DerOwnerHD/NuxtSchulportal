@@ -224,12 +224,17 @@ code.dark {
 .generic-fullpage-dialog {
     @apply h-full w-screen grid place-content-center;
     > div {
-        @apply backdrop-blur-md p-4 w-72 text-center grid gap-2 rounded-2xl;
+        @apply w-72;
     }
+}
+.inlined-error-display,
+.generic-fullpage-dialog > div {
+    @apply backdrop-blur-md p-4 text-center grid gap-2 rounded-2xl;
 }
 
 table {
-    @apply border-separate border-spacing-2;
+    border-collapse: separate;
+    border-spacing: 0.5rem;
     thead {
         --background: var(--table-light-background);
     }
@@ -244,6 +249,8 @@ table {
     td,
     th {
         @apply p-2 rounded-lg;
+        border-collapse: separate;
+        border-spacing: 0.5rem;
         background: var(--background);
     }
 }

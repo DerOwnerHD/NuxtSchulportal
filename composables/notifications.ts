@@ -5,7 +5,15 @@ import type { AnyFunction } from "~/common";
  * When the value is set to -1, the display is expected to show an error
  */
 export const useNotifications = () => useState("app-notifications", () => new Map<AppID, number>());
-interface AppErrorMetadata {
+export function clearNotifications(id: AppID) {
+    const map = useNotifications();
+    void map.value.delete(id);
+}
+export function setNotificationCount(id: AppID, count: number) {
+    const map = useNotifications();
+    void map.value.set(id, count);
+}
+export interface AppErrorMetadata {
     error: any;
     is_reauth_required?: boolean;
     retry_function?: AnyFunction;
@@ -15,11 +23,34 @@ export function hasAppError(id: AppID) {
     const map = useAppErrors();
     return map.value.has(id);
 }
-export function createAppError(id: AppID, error: any, retryFunction?: AnyFunction, isReauthRequired?: boolean) {
+export function createAppError(id: AppID, error: any, retryFunction?: AnyFunction, reauthOverwrite?: boolean) {
     const map = useAppErrors();
-    map.value.set(id, { error, retry_function: retryFunction, is_reauth_required: isReauthRequired });
+    void map.value.set(id, {
+        error: parseResponseError(error),
+        retry_function: retryFunction,
+        is_reauth_required: reauthOverwrite ?? checkForReauthRequirement(error)
+    });
 }
 export function clearAppError(id: AppID) {
     const map = useAppErrors();
-    map.value.delete(id);
+    void map.value.delete(id);
+}
+/**
+ * Attempts to parse the error data returned by a $fetch call by either trying to read the
+ * error_details field provided by the server, a message field or just using the error as is.
+ * @param error The error supplied using the catch block
+ * @returns Any data that might be of use
+ */
+export function parseResponseError(error: any) {
+    if (typeof error !== "object" || error === null) return error;
+    return error?.data?.error_details ?? error?.data?.message ?? error?.message ?? error?.name ?? error;
+}
+
+/**
+ * Checks whether a re-auth should be performed depending on the response's status code.
+ * @param error The error supplied using the catch block
+ * @returns
+ */
+export function checkForReauthRequirement(error: any) {
+    return error?.status === 401;
 }

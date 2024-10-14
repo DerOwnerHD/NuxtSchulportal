@@ -1,9 +1,11 @@
+import type { Oberstufenwahl } from "~/common/oberstufenwahl";
+
 export async function fetchOberstufenWahl() {
     const token = useToken();
     if (!token.value) return console.error("Cannot fetch Oberstufenwahl w/o token");
     try {
-        const { elections } = await $fetch<{ error: boolean; elections: Oberstufenwahl[] }>("/api/oberstufenwahl", {
-            query: { token: token.value, school: useSchool() }
+        const { elections } = await $fetch("/api/oberstufenwahl", {
+            query: { token: token.value, school: school.value }
         });
 
         if (!Array.isArray(elections)) return;
@@ -43,7 +45,6 @@ function checkForAlertElections() {
         expires: new Date(Date.now() + ONE_DAY),
         httpOnly: false
     }).value = "1";
-    modifyOpenDialogBoxes("oberstufenwahl");
 }
 
 export function calculateDateDistance(timestamp: number, dativ?: boolean) {
@@ -72,11 +73,4 @@ export function calculateDateDistance(timestamp: number, dativ?: boolean) {
 export interface OberstufenwahlMetadata extends Oberstufenwahl {
     hasStarted: boolean;
     distance: string;
-}
-
-export interface Oberstufenwahl {
-    title: string | null;
-    start: string;
-    end: string;
-    id: number | null;
 }

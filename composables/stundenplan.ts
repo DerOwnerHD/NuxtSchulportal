@@ -1,28 +1,4 @@
-import type { Nullable } from "~/server/utils";
-
-export interface StundenplanLesson {
-    lessons: number[];
-    classes: StundenplanClass[];
-}
-
-interface StundenplanClass {
-    teacher: string;
-    room: string;
-    name: string;
-}
-
-export interface Stundenplan {
-    days: StundenplanDay[];
-    start_date: string;
-    end_date: Nullable<string>;
-    lessons: number[][][];
-    current: boolean;
-}
-
-interface StundenplanDay {
-    name: "Montag" | "Dienstag" | "Mittwoch" | "Donnerstag" | "Freitag";
-    lessons: StundenplanLesson[];
-}
+import type { StundenplanDay, Stundenplan, StundenplanClass, StundenplanLesson } from "~/common/stundenplan";
 
 export const useStundenplan = () => useState<Stundenplan[]>("stundenplan", () => []);
 export function convertStundenplanTimeFormat(input: number[][]) {
@@ -36,15 +12,15 @@ export function formatLessonArray(lessons: number[], dots: string = ".", spacing
 }
 
 export async function fetchStundenplan() {
-    useAppErrors().value.delete(AppID.Stundenplan);
-    useNotifications().value.delete(AppID.Stundenplan);
+    clearAppError(AppID.Stundenplan);
+    clearNotifications(AppID.Stundenplan);
     // @ts-ignore
     useStundenplan().value = null;
     try {
         const response = await $fetch("/api/stundenplan", {
             query: {
                 token: useToken().value,
-                school: useSchool()
+                school: school.value
             }
         });
         useStundenplan().value = response.plans;
@@ -53,9 +29,8 @@ export async function fetchStundenplan() {
         if (announcement !== null) useSplanAnnouncement().value = announcement;
     } catch (error) {
         useReauthenticate(error);
-        useNotifications().value.set(AppID.Stundenplan, -1);
-        // @ts-ignore
-        useAppErrors().value.set(AppID.Stundenplan, error?.data?.error_details ?? error);
+        setNotificationCount(AppID.Stundenplan, -1);
+        createAppError(AppID.Stundenplan, error, fetchStundenplan);
     }
 }
 
@@ -387,21 +362,20 @@ function splitAllLessons(plan: Stundenplan): StundenplanLesson[][] {
     );
 }
 
-export const useStundenplanFlyout = () =>
-    computed<FlyoutGroups>(() => {
-        const plans = useStundenplan();
-        const errors = useAppErrors();
-        const title = errors.value.has(AppID.Stundenplan)
-            ? STATIC_STRINGS.LOADING_ERROR
-            : plans.value
-              ? plans.value.length
-                  ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
-                  : "Keine Stundenpläne geladen"
-              : // Due to the stundenplan useState being initialized using an array
-                // (instead of being empty), this state will never be available
-                STATIC_STRINGS.IS_LOADING;
-        return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
-    });
+export const useStundenplanFlyout = computed<FlyoutGroups>(() => {
+    const plans = useStundenplan();
+    const errors = useAppErrors();
+    const title = errors.value.has(AppID.Stundenplan)
+        ? STATIC_STRINGS.LOADING_ERROR
+        : plans.value
+          ? plans.value.length
+              ? `${plans.value.length} Stundenpl${plans.value.length > 1 ? "äne" : "an"} geladen`
+              : "Keine Stundenpläne geladen"
+          : // Due to the stundenplan useState being initialized using an array
+            // (instead of being empty), this state will never be available
+            STATIC_STRINGS.IS_LOADING;
+    return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
+});
 
 export function getStundenplanFlyoutItems() {
     const plans = useStundenplan();

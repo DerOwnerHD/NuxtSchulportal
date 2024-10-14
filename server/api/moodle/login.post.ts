@@ -15,7 +15,7 @@ interface Response extends BasicResponse {
     user: number;
 }
 
-const rlHandler = defineRateLimit({ interval: 30, allowed_per_interval: 3 });
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
 export default defineEventHandler<Promise<Response>>(async (event) => {
     if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
         return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);

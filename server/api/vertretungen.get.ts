@@ -1,14 +1,12 @@
 import { Vertretungsplan, VertretungsDay, Vertretung } from "~/common/vertretungsplan";
-import { querySelectorArray } from "../dom";
-import { hasInvalidSidRedirect } from "../failsafe";
+import { querySelectorArray } from "~/server/dom";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     BasicResponse,
     STATIC_STRINGS,
     getAuthToken,
     generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
     removeBreaks,
     getOptionalSchool,
     setErrorResponseEvent
@@ -19,13 +17,13 @@ const DAYS = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freita
 
 interface Response extends BasicResponse, Vertretungsplan {}
 
-const handleRL = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
+const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
 
 export default defineEventHandler<Promise<Response>>(async (event) => {
     const token = getAuthToken(event);
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
-    const rl = handleRL(event);
+    const rl = rlHandler(event);
     if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
     const address = getRequestAddress(event) as string;
 
@@ -170,7 +168,7 @@ function getTableHeaderIndicies(row: HTMLElement): IndexedColumnConfigKey[] {
     const columnConfig: ColumnConfigKey[] = [
         { name: "Stunde", key: "lessons", modifier_function: getLessonsOfEntry },
         { name: "Klasse", key: "classes" },
-        { name: "Vertreter", key: "substitution" },
+        { name: "Vertreter", key: "substitute" },
         { name: "Lehrer", key: "teacher" },
         { name: "Art", key: "type" },
         { name: "Fach", key: "subject" },
@@ -197,7 +195,7 @@ interface IndexedColumnConfigKey {
     /**
      * The key to which the data should be saved inside the output
      */
-    key: string;
+    key: keyof Vertretung;
     /**
      * The modifier function optionally provided by the ColumnConfigKey
      */
@@ -218,7 +216,7 @@ interface ColumnConfigKey {
     /**
      * The key to which it should be converted in the JSON output
      */
-    key: string;
+    key: keyof Vertretung;
     /**
      * After running a trim on the content of the field, the value is passed to this function.
      * If not present, the value of the field is returned as is. Can be used to i.e. parse a lesson string.

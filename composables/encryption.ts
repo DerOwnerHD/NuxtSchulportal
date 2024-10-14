@@ -14,19 +14,19 @@ export async function useAESKey() {
             console.error("Decryption key in storage is invalid, regenerating");
         }
     }
-    if (!token.value) return useAppErrors().value.set(AppID.AES, KEYGEN_ERROR);
+    if (!token.value) return void createAppError(AppID.AES, KEYGEN_ERROR, useAESKey);
     console.log("Generating unique AES key for session");
     try {
         const response = await $fetch("/api/decryption", {
             query: { token: token.value }
         });
+        // This ought to never happen! If so, the server must be craaazy!
         if (!patterns.AES_PASSWORD.test(response.key)) throw new Error(KEYGEN_ERROR);
         localStorage.setItem("aes-key", JSON.stringify({ key: response.key, token: token.value }));
         return response.key;
     } catch (error) {
         useReauthenticate(error);
-        // @ts-ignore
-        useAppErrors().value.set(AppID.AES, error?.data?.error_details ?? error);
+        void createAppError(AppID.AES, KEYGEN_ERROR, useAESKey);
         console.log("Could not generate decryption key");
     }
 }

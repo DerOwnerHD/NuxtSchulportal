@@ -4,3 +4,10 @@ export interface LegacySelectBoxOption {
     icon?: string[];
     default?: boolean;
 }
+
+export interface FluidSelectionOption {
+    title: string;
+    id: string;
+    subtitle?: string;
+    default?: boolean;
+}

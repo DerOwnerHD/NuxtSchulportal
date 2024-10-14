@@ -15,3 +15,7 @@ export interface SPHStatus {
 export type SPHStatusKey = "login" | "paedorg" | "lernsys" | "paednet" | "bs" | "support";
 
 export type AnyFunction = () => Promise<any> | any;
+
+export type Nullable<T> = T | null;
+
+export type SerializableObjects = Record | number | string | null | Array;

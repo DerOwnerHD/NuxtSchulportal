@@ -15,11 +15,14 @@ const JSON_BOOLEAN_PATTERN = /^(true|false)$/;
  * @param query The query, read using getQuery(H3Event)
  * @returns The computed violations
  */
-export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: string]: string | string[] }) {
+export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<string, string | string[]>) {
     const offenseList = [];
     for (const entry of Object.keys(schema)) {
         const offenses: SchemaOffense[] = [];
         const schemaItem = schema[entry];
+
+        schemaItem.min = schemaItem.min ?? Number.MIN_SAFE_INTEGER;
+        schemaItem.max = schemaItem.max ?? Number.MAX_SAFE_INTEGER;
 
         // We assume that Nuxt handles our validation for us and that we can always assume that if
         // Nuxt passes us an array, there are at least two entries, might they be empty or not
@@ -66,8 +69,8 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: str
                 continue;
             }
 
-            if (schemaItem.min && parsedAsType < schemaItem.min) offenses.push("too_small");
-            if (schemaItem.max && parsedAsType > schemaItem.max) offenses.push("too_large");
+            if (parsedAsType < (schemaItem.min ?? Number.MIN_SAFE_INTEGER)) offenses.push("too_small");
+            if (parsedAsType > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && parsedAsType !== schemaItem.size) offenses.push("unfit_size");
         }
 
@@ -77,7 +80,7 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: str
             // Here we can safely use queryItem, as it would be the same as parsedAsType
             // + we safe an unnecessary typeof check to make TS happy
             if (schemaItem.min && queryItem.length < schemaItem.min) offenses.push("too_small");
-            if (schemaItem.max && queryItem.length > schemaItem.max) offenses.push("too_large");
+            if (queryItem.length > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && queryItem.length !== schemaItem.size) offenses.push("unfit_size");
 
             if (schemaItem.pattern && !schemaItem.pattern.test(queryItem)) offenses.push("pattern_no_match");
@@ -101,7 +104,7 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: { [key: str
  * @param body The body data, as read using the global function readBody(H3Event)
  * @returns The computed violations
  */
-export function validateBodyNew(schema: SchemaEntryConsumer, body: { [key: string]: any }) {
+export function validateBodyNew(schema: SchemaEntryConsumer, body: Record<string, any>) {
     // This is crucial as the user might pass the Content-Type header but no corresponding body
     if (!body) return { violations: 0, invalid: true };
     // An array or i.e. a boolean or number also count as a valid body under application/json
@@ -145,8 +148,8 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: { [key: strin
                 continue;
             }
 
-            if (schemaItem.min && bodyItem < schemaItem.min) offenses.push("too_small");
-            if (schemaItem.max && bodyItem > schemaItem.max) offenses.push("too_large");
+            if (bodyItem < (schemaItem.min ?? Number.MIN_SAFE_INTEGER)) offenses.push("too_small");
+            if (bodyItem > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && bodyItem !== schemaItem.size) offenses.push("unfit_size");
         }
 
@@ -154,7 +157,7 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: { [key: strin
             // We do not wish to have empty strings
             if (!bodyItem.length) offenses.push("too_small");
             if (schemaItem.min && bodyItem.length < schemaItem.min) offenses.push("too_small");
-            if (schemaItem.max && bodyItem.length > schemaItem.max) offenses.push("too_large");
+            if (bodyItem.length > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && bodyItem.length !== schemaItem.size) offenses.push("unfit_size");
 
             if (schemaItem.pattern && !schemaItem.pattern.test(bodyItem)) offenses.push("pattern_no_match");
@@ -175,13 +178,12 @@ type SchemaOffense =
     | "pattern_no_match"
     | "validator_function_failed";
 
-function isInvalidNumber(number: number) {
+function isInvalidNumber(number: number, allowFloats?: boolean) {
+    if (!Number.isInteger(number) && !allowFloats) return false;
     return Number.isNaN(number) || !Number.isFinite(number) || !Number.isSafeInteger(number);
 }
 
-export interface SchemaEntryConsumer {
-    [key: string]: SchemaEntry;
-}
+export type SchemaEntryConsumer = Record<string, SchemaEntry>;
 
 export interface SchemaEntry {
     required?: boolean;
@@ -218,8 +220,13 @@ export interface SchemaEntry {
      */
     size?: number;
     /**
-     * A function to run custom, not by default supported validations. Return a boolean with true meaning a
-     * violation occured inside the function.
+     * By default, no floats are parsed. By using parseInt, they are automatically converted to integers
+     */
+    allow_floats?: boolean;
+    /**
+     * IMPORTANT: Return **TRUE** if an error occured!
+     *
+     * A function to run custom, not by default supported validations.
      *
      * This function is run after type and definition checks are validated. If these fail, no validations after
      * will be run.

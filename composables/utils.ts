@@ -1,63 +1,26 @@
-export const useWait = (ms: number) => {
+/**
+ * @deprecated
+ */
+export function useWait(ms: number) {
     return new Promise((resolve) => setTimeout(resolve, ms));
-};
+}
 
-export const useOpenCards = () => useState<string[]>("cards-open");
+export function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 export const useScrollabilityStatus = () => useState("scrollability-status", () => true);
-
-export const DEFAULT_ERRORS: { [status: string]: string } = {
-    "400": "Bad Request",
-    "401": "Unauthorized",
-    "403": "Forbidden",
-    "404": "Not Found",
-    "405": "Method Not Allowed",
-    "410": "Gone",
-    "429": "Too Many Requests",
-    "500": "Internal Server Error",
-    "503": "Service Not Available"
-};
-
-export const useSSRAlerts = () => useState<string[]>("ssr-alerts", () => []);
 
 export function joinLessonList(lessons: number[]) {
     const lessonSuffix = " Stunde";
     if (!lessons.length) return "";
-    if (lessons.length === 1) return `${lessons[0]}. Stunde`;
-    return `${lessons.at(0)}. - ${lessons.at(-1)}. Stunde`;
+    if (lessons.length === 1) return `${lessons[0]}.${lessonSuffix}`;
+    return `${lessons.at(0)}. - ${lessons.at(-1)}.${lessonSuffix}`;
 }
 
 export const SPH_BASE = "https://start.schulportal.hessen.de";
-
-export const infoDialogs: { [name: string]: InfoDialog } = {
-    LOGIN: {
-        disappearAfter: 2000,
-        header: "Anmeldung erfolgreich",
-        icon: "done.png"
-    },
-    AUTOMATIC_LOGIN: {
-        disappearAfter: 2000,
-        header: "Erneute Anmeldung erfolgreich",
-        icon: "done.png"
-    },
-    AUTOMATIC_LOGIN_ERROR: {
-        disappearAfter: 2000,
-        header: "Anmeldung fehlgeschlagen",
-        details: `Versuche es erneut oder melde dich ab`,
-        icon: "error.png"
-    }
-};
-
-interface InfoDialog {
-    header: string;
-    details?: string;
-    disappearAfter: number;
-    icon?: string;
-}
-export const useInfoDialog = () => useState<InfoDialog | null>("info-dialog");
 export const openLink = (link: string) => window.open(link, "_blank");
 export const addZeroToNumber = (number: number) => String(number).padStart(2, "0");
-
-export const useCards = () => useState<{ id: string; name: string; gradient: string; icon: string[]; index: number }[]>("cards");
 
 export const patterns = {
     USERNAME: /^([A-Z]+\.[A-Z]+(?:-[A-Z]+)?|[A-Z]{3})$/i,
@@ -75,12 +38,5 @@ export const patterns = {
     AES_PASSWORD: /^[A-Za-z0-9/\+=]{88}$/,
     TEACHER_NAME_FULL_STRING: /^[^,]+, [^(]+ \([^)]{3,4}\)$/i
 };
-
-export const useOpenDialogBoxes = () => useState<string[]>("open-dialog-boxes", () => []);
-export function modifyOpenDialogBoxes(box: string) {
-    const index = useOpenDialogBoxes().value.findIndex((x) => x === box);
-    if (index === -1) return useOpenDialogBoxes().value.push(box);
-    useOpenDialogBoxes().value.splice(index, 1);
-}
 
 export const isSecretModeActive = () => useState("secret-mode-enabled", () => false);

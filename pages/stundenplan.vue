@@ -1,6 +1,6 @@
 <template>
     <div class="h-full">
-        <ErrorDisplay :error="errors.get(AppID.Stundenplan)" :retryFunction="fetchStundenplan" v-if="errors.has(AppID.Stundenplan)"></ErrorDisplay>
+        <AppErrorDisplay :id="AppID.Stundenplan" v-if="hasAppError(AppID.Stundenplan)"></AppErrorDisplay>
         <div class="my-2" v-else-if="plans && selectedPlan">
             <SplanAnnouncement></SplanAnnouncement>
             <div class="blurred-background grid m-2 rounded-2xl place-content-center p-2 text-center gap-2">
@@ -113,9 +113,7 @@
                 </div>
             </div>
         </div>
-        <div v-else class="h-full w-screen grid place-content-center">
-            <InfiniteSpinner :size="50"></InfiniteSpinner>
-        </div>
+        <FullPageSpinner v-else></FullPageSpinner>
     </div>
 </template>
 
@@ -155,7 +153,7 @@ function navigateToSelectedPlan() {
     selected.value = index;
 }
 
-async function updateSelectedPlan(index: number) {
+async function updateSelectedPlan(id: string) {
     const plan = document.querySelector("#stundenplan");
     const dateDisplay = document.querySelector("#splan-date-display");
     const prettyAnimationOptions = { duration: 300, easing: "ease-in-out", fill: "forwards" } as KeyframeAnimationOptions;
@@ -164,6 +162,8 @@ async function updateSelectedPlan(index: number) {
     dateDisplay?.animate({ opacity: "0" }, prettyAnimationOptions);
     await useWait(prettyAnimationOptions.duration as number);
     comparisonMode.value = false;
+    const index = plans.value.findIndex((plan) => plan.start_date === id);
+    if (index === -1) return;
     selected.value = index;
     // If we have a large plan, we first need to actually get that new data on there
     await nextTick();

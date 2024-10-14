@@ -1,17 +1,7 @@
 import { CalendarEntry } from "~/common/calendar";
-import { hasInvalidSidRedirect } from "../failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    generateDefaultHeaders,
-    patterns,
-    setErrorResponseEvent,
-    getAuthToken,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    getOptionalSchool,
-    STATIC_STRINGS,
-    BasicResponse
-} from "../utils";
+import { generateDefaultHeaders, patterns, setErrorResponseEvent, getAuthToken, getOptionalSchool, STATIC_STRINGS, BasicResponse } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
 const querySchema: SchemaEntryConsumer = {

@@ -1,4 +1,4 @@
-export interface Election {
+export interface Oberstufenwahl {
     title: string | null;
     start: string;
     end: string;

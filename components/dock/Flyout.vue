@@ -1,20 +1,19 @@
 <template>
     <div
         class="flyout-overlay fixed h-screen w-screen top-0 left-0 opacity-0 z-[200]"
+        :class="{ close: isClosingFlyout }"
         @click="closeFlyout"
         @touchstart.passive="updateItemSelection"
         @touchmove.passive="updateItemSelection"
         @touchend.passive="endItemSelection">
         <div
             class="flyout rounded-2xl fixed w-[190px] z-[201] opacity-0 scale-100 transition-transform text-black"
-            :id="flyout.id"
             ref="element"
             v-if="flyout"
-            :origin="flyout.origin ?? 'top'"
-            :orientation="flyout.orientation ?? 'left'"
-            :any-selected="selectedItem[0] !== null">
+            :data-origin="flyout.origin ?? 'top'"
+            :data-orientation="flyout.orientation ?? 'left'">
             <div v-if="flyout.groups.length">
-                <div class="group" v-for="(group, groupIndex) of removedEmptyGroups" :group-id="groupIndex">
+                <div class="group" v-for="(group, groupIndex) of removedEmptyGroups" :data-group-id="groupIndex" ref="groups">
                     <div
                         class="item flex justify-between py-2 px-4"
                         :class="{
@@ -23,7 +22,7 @@
                             last: isLastItem(groupIndex, index)
                         }"
                         v-for="(item, index) of group"
-                        :item-id="index"
+                        :data-item-id="index"
                         :disabled="item.disabled">
                         <div class="grid">
                             <span>{{ item.title }}</span>
@@ -37,13 +36,6 @@
             </div>
             <div v-else class="py-2 px-4 w-full">Keine Schnellaktionen verfügbar</div>
         </div>
-        <!--
-        <div
-            class="fixed z-[202] scale-105"
-            v-if="parent"
-            v-html="parent.element.outerHTML"
-            :style="`top: ${parent.y}px; left: ${parent.x}px;`"></div>
-        -->
     </div>
 </template>
 
@@ -60,6 +52,7 @@ const MARGIN_TO_SCREEN_BORDER = 20;
 const flyoutDimensions = ref<DOMRect>();
 const initialized = ref(false);
 const element = useTemplateRef("element");
+const groupElements = useTemplateRef<HTMLDivElement[]>("groups");
 onMounted(async () => {
     await nextTick();
     if (element.value === null) return console.error("Couldn't find flyout we've just mounted");
@@ -74,10 +67,14 @@ onMounted(async () => {
     element.value.style.left = securedX + "px";
     element.value.style.opacity = "1";
     await useWait(300);
-    const groups = Array.from(element.value.querySelectorAll(".group[group-id]"));
-    groups.forEach((group, groupIndex) => {
+
+    flyoutDimensions.value = element.value.getBoundingClientRect();
+    initialized.value = true;
+
+    if (!groupElements.value) return;
+    groupElements.value.forEach((group, groupIndex) => {
         hitboxes.value = hitboxes.value.concat(
-            Array.from(group.querySelectorAll(".item[item-id]")).map((element, elementIndex) => {
+            querySelectorArray(group, ".item[data-item-id]").map((element, elementIndex) => {
                 const dimension = element.getBoundingClientRect();
                 return {
                     start: dimension.y,
@@ -88,18 +85,17 @@ onMounted(async () => {
             })
         );
     });
-    flyoutDimensions.value = element.value.getBoundingClientRect();
-    initialized.value = true;
 });
 
 const hitboxes = ref<{ start: number; end: number; group: number; item: number }[]>([]);
+const isClosingFlyout = ref(false);
 async function closeFlyout(event: MouseEvent | boolean) {
     if (!initialized.value) return;
     if (typeof event !== "boolean") {
         if (!(event.target instanceof HTMLElement)) return;
         if (event.target.closest(".flyout")) return;
     }
-    document.querySelector(".flyout-overlay")?.classList.add("close");
+    isClosingFlyout.value = true;
     await useWait(300);
     // @ts-ignore
     flyout.value = null;
@@ -175,16 +171,16 @@ function endItemSelection() {
         border-top: solid 5px #c1bec3;
     }
 }
-.flyout[origin="top"][orientation="left"] {
+.flyout[data-origin="top"][data-orientation="left"] {
     transform-origin: top left;
 }
-.flyout[origin="bottom"][orientation="left"] {
+.flyout[data-origin="bottom"][data-orientation="left"] {
     transform-origin: bottom left;
 }
-.flyout[origin="top"][orientation="right"] {
+.flyout[data-origin="top"][data-orientation="right"] {
     transform-origin: top right;
 }
-.flyout[origin="bottom"][orientation="right"] {
+.flyout[data-origin="bottom"][data-orientation="right"] {
     transform-origin: bottom right;
 }
 </style>

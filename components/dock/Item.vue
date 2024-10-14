@@ -63,7 +63,6 @@ async function startHold(event: TouchEvent) {
     if ("vibrate" in navigator) navigator.vibrate(100);
     isFlyoutOpen.value = true;
     useFlyout().value = {
-        id: `dock-${props.id}`,
         groups: props.flyout,
         position: [dimensions.left, props.type === "compact" ? dimensions.top - 10 : dimensions.top + dimensions.height + 10],
         title: props.name,
@@ -98,5 +97,8 @@ function stopHold() {
 }
 .dock-selector.selected {
     width: 15px;
+}
+.dock-item {
+    will-change: opacity;
 }
 </style>

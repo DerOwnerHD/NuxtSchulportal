@@ -1,9 +1,10 @@
-import type { Nullable } from "~/server/utils";
+import type { MyLessonsAllCourses, MyLessonsCourse, Lerngruppe, MyLessonsCourseGlobal } from "~/common/mylessons";
+import { setNotificationCount } from "./notifications";
 
 export async function useLerngruppenFetch() {
     try {
         const { courses } = await $fetch<{ courses: Lerngruppe[] }>("/api/courses", {
-            query: { token: useToken().value, school: useSchool() }
+            query: { token: useToken().value, school: school.value }
         });
         useLerngruppen().value = courses;
     } catch (error) {
@@ -19,7 +20,7 @@ export async function fetchMyLessonsCourses() {
     try {
         const response = await $fetch("/api/mylessons/courses", {
             query: {
-                school: useSchool(),
+                school: school.value,
                 token: token.value,
                 session: session.value,
                 key
@@ -33,78 +34,13 @@ export async function fetchMyLessonsCourses() {
         );
     } catch (error) {
         useReauthenticate(error);
-        useNotifications().value.set(AppID.MyLessons, -1);
-        // @ts-ignore
-        useAppErrors().value.set(AppID.MyLessons, error?.data?.error_details ?? error);
+        setNotificationCount(AppID.MyLessons, -1);
+        createAppError(AppID.MyLessons, error, fetchMyLessonsCourses);
     }
-}
-
-export interface Lerngruppe {
-    id: number;
-    semester: string;
-    course: string;
-    subject: string;
-    teacher: {
-        name: string;
-        image: Nullable<string>;
-    };
-}
-
-export interface MyLessonsSemester {
-    lessons: MyLessonsLesson[];
-    attendance: { [key: string]: number };
 }
 
 export const useLerngruppen = () => useState<Lerngruppe[]>("lerngruppen");
 export const useMyLessonsCourses = () => useState<MyLessonsAllCourses>("mylessons-courses");
-
-export interface MyLessonsAllCourses {
-    courses: MyLessonsCourse[];
-    expired: MyLessonsCourse[];
-}
-
-export interface MyLessonsCourse {
-    subject: Nullable<string>;
-    teacher: {
-        full: Nullable<string>;
-        short: Nullable<string>;
-    };
-    id: number;
-    attendance?: { [type: string]: number };
-    last_lesson?: MyLessonsLesson;
-    // Only available when using /api/mylessons/course
-    lessons: MyLessonsLesson[];
-}
-
-export interface MyLessonsLesson {
-    attendance?: string;
-    topic: Nullable<string>;
-    description: Nullable<string>;
-    date: Nullable<string>;
-    entry: number | null;
-    lessons?: number[];
-    homework: {
-        done: boolean;
-        description: Nullable<string>;
-    } | null;
-    downloads: {
-        link: Nullable<string>;
-        files: {
-            extension: Nullable<string>;
-            name: Nullable<string>;
-            size: Nullable<string>;
-        }[];
-    };
-    uploads: {
-        name: Nullable<string>;
-        uploadable: boolean;
-        link: Nullable<string>;
-        files: {
-            link: Nullable<string>;
-            name: Nullable<string>;
-        }[];
-    }[];
-}
 
 export const useSelectedMyLessonsCourse = () => useState<MyLessonsCourse>("selected-mylessons-course");
 
@@ -128,8 +64,9 @@ export function findIconForMyLessonsCourse(name: string) {
     return group?.icon;
 }
 
-const useCurrentSemester = () => parseInt(useRuntimeConfig().public.currentSemester as string);
+export const useCurrentSemester = () => parseInt(useRuntimeConfig().public.currentSemester as string);
 export const useMyLessonsCourseDetails = () => useState("mylessons-course-details", () => new Map<number, MyLessonsCourse>());
+
 export async function fetchMyLessonsCourse(id: number, semester?: number, overwrite: boolean = false) {
     const courses = useMyLessonsCourseDetails();
     const session = useSession();
@@ -142,35 +79,30 @@ export async function fetchMyLessonsCourse(id: number, semester?: number, overwr
             query: {
                 session: session.value,
                 token: token.value,
-                school: useSchool(),
+                school: school.value,
                 semester: semester ?? useCurrentSemester(),
                 id,
                 key
             }
         });
-        const { error, ...data } = response;
-        // @ts-ignore
-        courses.value.set(id, data);
-        return data;
+        const { error, error_details, ...data } = response;
+        void courses.value.set(id, data);
     } catch (error) {
         useReauthenticate(error);
-        // @ts-ignore
-        useAppErrors().value.set(AppID.MyLessonsCourse, error?.data?.error_details ?? error);
-        return null;
+        createAppError(AppID.MyLessonsCourse, error, () => fetchMyLessonsCourse(id, semester, overwrite));
     }
 }
 
-export const useMyLessonsFlyout = () =>
-    computed<FlyoutGroups>(() => {
-        const courses = useMyLessonsCourses();
-        if (!courses.value) return [];
-        return [
-            courses.value.courses.map((course) => {
-                return {
-                    title: course.subject ?? "",
-                    icon: findIconForMyLessonsCourse(course.subject ?? ""),
-                    action: () => navigateTo(`/mylessons/${course.id}`)
-                };
-            })
-        ];
-    });
+export const useMyLessonsFlyout = computed<FlyoutGroups>(() => {
+    const courses = useMyLessonsCourses();
+    if (!courses.value) return [];
+    return [
+        courses.value.courses.map((course) => {
+            return {
+                title: course.subject ?? "",
+                icon: findIconForMyLessonsCourse(course.subject ?? ""),
+                action: () => navigateTo(`/mylessons/${course.id}`)
+            };
+        })
+    ];
+});

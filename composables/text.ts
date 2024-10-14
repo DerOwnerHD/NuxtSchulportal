@@ -10,7 +10,7 @@ export const WEEKDAYS = {
 };
 
 type DateStringFormat = "day-month-full" | "day-month-short" | "day-month-number";
-export function convertDateStringToFormat(dateString: string, format: DateStringFormat, year?: boolean, padStart: boolean = true) {
+export function convertDateStringToFormat(dateString: string | number, format: DateStringFormat, year?: boolean, padStart: boolean = true) {
     const date = new Date(dateString);
     const day = padStart ? addZeroToNumber(date.getDate()) : date.getDate();
     const month = date.getMonth();
@@ -20,15 +20,24 @@ export function convertDateStringToFormat(dateString: string, format: DateString
             dayAndMonth = `${day}. ${MONTH_NAMES.full[month]}`;
             break;
         case "day-month-short":
-            dayAndMonth = `${day}. ${MONTH_NAMES.short[month]}`;
+            dayAndMonth = `${day}. ${MONTH_NAMES.short[month]}.`;
             break;
         case "day-month-number":
-            dayAndMonth = `${day}. ${MONTH_NAMES.short[month]}`;
+            dayAndMonth = `${day}. ${padStart ? addZeroToNumber(month + 1) : month + 1}.`;
             break;
         default:
             throw new ReferenceError(`DateStringFormat ${format} specified for conversion is invalid`);
     }
     return dayAndMonth + (year ? ` ${date.getFullYear()}` : "");
+}
+
+type TimeStringFormat = "hour-minute" | "hour-minute-second";
+export function convertTimeStringToFormat(dateString: string | number, format: TimeStringFormat, year?: boolean, padStart: boolean = true) {
+    const date = new Date(dateString);
+    const hours = padStart ? addZeroToNumber(date.getHours()) : date.getHours();
+    const minutes = padStart ? addZeroToNumber(date.getMinutes()) : date.getMinutes();
+    const seconds = padStart ? addZeroToNumber(date.getSeconds()) : date.getSeconds();
+    return `${hours}:${minutes}` + (format === "hour-minute-second" ? `:${seconds}` : "");
 }
 
 const ONE_DAY_IN_MS = 1000 * 60 * 60 * 24;
@@ -39,7 +48,7 @@ const RELATIVE_DAYS = [
     { multiplier: 1, name: "morgen" },
     { multiplier: 2, name: "übermorgen" }
 ];
-export function relativeOrAbsoluteDateFormat(dateString: string, format: DateStringFormat, year?: boolean) {
+export function relativeOrAbsoluteDateFormat(dateString: string | number, format: DateStringFormat, year?: boolean) {
     const date = new Date(dateString);
     for (const relative of RELATIVE_DAYS) {
         const then = new Date(Date.now() + relative.multiplier * ONE_DAY_IN_MS);
@@ -58,7 +67,7 @@ export const STATIC_STRINGS = {
 
 let textMeasureCanvas: HTMLCanvasElement;
 // https://stackoverflow.com/questions/118241/calculate-text-width-with-javascript/21015393#21015393
-export const measureTextWidth = (text: string, font: string = "normal 16px Arial"): number | null => {
+export function measureTextWidth(text: string, font: string = "normal 16px Arial"): number | null {
     if (typeof document === "undefined") return null;
     if (!textMeasureCanvas) textMeasureCanvas = document.createElement("canvas");
 
@@ -68,4 +77,4 @@ export const measureTextWidth = (text: string, font: string = "normal 16px Arial
     context.font = font;
     const metrics = context.measureText(text);
     return metrics.width;
-};
+}

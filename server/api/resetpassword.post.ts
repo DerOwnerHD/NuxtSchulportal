@@ -1,20 +1,29 @@
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import { APIError, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../utils";
-import { SchemaEntryConsumer, validateBodyNew } from "../validator";
+import { generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../utils";
+import { SchemaEntry, SchemaEntryConsumer, validateBodyNew } from "../validator";
+import { ResetPasswordUserType } from "~/common/reset-password";
 const bodySchema: SchemaEntryConsumer = {
     username: { type: "string", required: true, max: 32, pattern: patterns.USERNAME },
-    type: { type: "number", required: true, min: 0, max: 2 },
+    type: { type: "string", required: true, validator_function: validateUserType },
     birthday: { type: "string", required: true, pattern: patterns.BIRTHDAY },
     school: { type: "number", required: true, max: 206568, min: 1 }
 };
-const USER_TYPE = ["Schueler", "Eltern", "Lehrer"];
+
+const userTypeConversions: Record<ResetPasswordUserType, string> = {
+    student: "Schueler",
+    parent: "Eltern",
+    teacher: "Lehrer"
+};
+function validateUserType(_: string, __: SchemaEntry, value: string) {
+    return !Object.keys(userTypeConversions).includes(value);
+}
 
 const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });
 export default defineEventHandler(async (event) => {
     if (getRequestHeader(event, "Content-Type") !== STATIC_STRINGS.MIME_JSON)
         return setErrorResponseEvent(event, 400, STATIC_STRINGS.CONTENT_TYPE_NO_JSON);
 
-    const body = await readBody<{ username: string; type: number; birthday: string; school: number }>(event);
+    const body = await readBody<{ username: string; type: ResetPasswordUserType; birthday: string; school: number }>(event);
     const bodyValidation = validateBodyNew(bodySchema, body);
     if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
@@ -38,14 +47,14 @@ export default defineEventHandler(async (event) => {
         const html = removeBreaks(await firstStep.text());
         const firstIkey = readIkey(html);
 
-        if (firstIkey === null) throw new APIError("Expected ikey value from Schulportal", true);
+        if (firstIkey === null) throw new Error("Expected ikey from Schulportal");
 
         const requestForm = [
             "b=step2",
             `ikey=${firstIkey}`,
             `login=${encodeURIComponent(username)}`,
             `check=${encodeURIComponent(birthday)}`,
-            `type=${USER_TYPE[type] || "Schueler"}`
+            `type=${userTypeConversions[type]}`
         ].join("&");
 
         const secondStep = await fetch("https://start.schulportal.hessen.de/benutzerverwaltung.php?a=userPWreminder", {
@@ -59,7 +68,7 @@ export default defineEventHandler(async (event) => {
         });
 
         const secondHTML = removeBreaks(await secondStep.text());
-        if (!/<input id="token2"/i.test(secondHTML)) throw new APIError("Expected token in response HTML from Schulportal", true);
+        if (!/<input id="token2"/i.test(secondHTML)) throw new Error("Expected token in response HTML from Schulportal");
 
         const token = secondHTML.match(/(?:<input type="hidden" name="token1" value=")([a-f0-9]{64})(?:"( \/)?>)/i)![1];
         const secondIkey = readIkey(secondHTML);
@@ -67,9 +76,7 @@ export default defineEventHandler(async (event) => {
         return { error: false, token, ikey: secondIkey, sid };
     } catch (error) {
         console.error(error);
-        let errorDetails;
-        if (error instanceof APIError && error.showToUser) errorDetails = error.message;
-        return setErrorResponseEvent(event, 500, errorDetails);
+        return setErrorResponseEvent(event, 500);
     }
 });
 

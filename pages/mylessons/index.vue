@@ -1,6 +1,6 @@
 <template>
     <div class="h-full">
-        <ErrorDisplay :error="errors.get(AppID.MyLessons)" v-if="errors.has(AppID.MyLessons)" :retry-function="fetchMyLessonsCourses"></ErrorDisplay>
+        <AppErrorDisplay :id="AppID.MyLessons" v-if="hasAppError(AppID.MyLessons)"></AppErrorDisplay>
         <div class="grid py-4 px-2" v-else-if="courses">
             <NuxtLink class="item grid gap-2 rounded-md p-2 items-center" v-for="(course, index) of courses.courses" :to="`/mylessons/${course.id}`">
                 <div class="h-16 relative grid">
@@ -22,15 +22,12 @@
                 </div>
             </NuxtLink>
         </div>
-        <div v-else class="h-full w-screen grid place-content-center">
-            <InfiniteSpinner :size="50"></InfiniteSpinner>
-        </div>
+        <FullPageSpinner v-else></FullPageSpinner>
     </div>
 </template>
 
 <script setup lang="ts">
 const courses = useMyLessonsCourses();
-const errors = useAppErrors();
 const icons = computed(() => {
     if (!courses.value) return [];
     return courses.value.courses.map((course) => findIconForMyLessonsCourse(course.subject ?? ""));

@@ -10,12 +10,15 @@ const querySchema: SchemaEntryConsumer = {
         required: true,
         min: 1,
         max: 100,
-        pattern: /^\/(theme\/image\.php\/sph\/core\/\d{1,20}\/)|(pluginfile.php\/\d{1,10}\/.{1,100}).{1,50}$/
+        pattern: /^\/(theme\/image\.php\/sph\/core\/\d{1,20}\/)|(pluginfile.php\/\d{1,10}\/.{1,100}).{1,50}$/,
+        validator_function(key, schema, value: string) {
+            return /\.\./gi.test(value);
+        }
     }
 };
 
 export default defineEventHandler(async (event) => {
-    const query = getQuery<{ [key: string]: string }>(event);
+    const query = getQuery<Record<string, string>>(event);
     const queryValidation = validateQueryNew(querySchema, query);
     if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 

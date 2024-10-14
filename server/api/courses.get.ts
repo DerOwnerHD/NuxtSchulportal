@@ -1,15 +1,6 @@
-import { hasInvalidSidRedirect } from "../failsafe";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    removeBreaks,
-    setErrorResponseEvent,
-    getAuthToken,
-    getOptionalSchool,
-    STATIC_STRINGS
-} from "../utils";
+import { generateDefaultHeaders, removeBreaks, setErrorResponseEvent, getAuthToken, getOptionalSchool, STATIC_STRINGS } from "../utils";
 import { JSDOM } from "jsdom";
 
 const rlHandler = defineRateLimit({ interval: 60, allowed_per_interval: 2 });

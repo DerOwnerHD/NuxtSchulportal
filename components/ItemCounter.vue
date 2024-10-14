@@ -1,29 +1,26 @@
 <template>
-    <div class="counter w-screen">
-        <div
-            class="item-counter w-screen justify-center overflow-x-hidden flex"
-            :counter-id="id"
-            @touchstart.passive="startHighlight"
-            @touchmove.passive="findHighlightedCounter"
-            @touchend.passive="cancelHighlighting"
-            :selecting="isSelecting">
-            <div class="item-counter-item" v-for="(item, index) of items" :index="index">
-                <div
-                    class="bg-gray-500 rounded-full w-2 h-2 mx-1 my-4"
-                    :class="{
-                        'bg-white': currentIndex === index,
-                        hovered: index === hoveredIndex,
-                        'hovered-1': index - 1 === hoveredIndex || index + 1 === hoveredIndex,
-                        'hovered-2': index - 2 === hoveredIndex || index + 2 === hoveredIndex
-                    }"></div>
-            </div>
+    <div
+        class="item-counter w-screen justify-center overflow-x-hidden flex"
+        @touchstart.passive="startHighlight"
+        @touchmove.passive="findHighlightedCounter"
+        @touchend.passive="cancelHighlighting"
+        :selecting="isSelecting">
+        <div class="item-counter-item" v-for="(item, index) of items" :index="index" ref="items">
+            <div
+                class="bg-gray-500 rounded-full w-2 h-2 mx-1 my-4"
+                :class="{
+                    'bg-white': currentIndex === index,
+                    hovered: index === hoveredIndex,
+                    'hovered-1': index - 1 === hoveredIndex || index + 1 === hoveredIndex,
+                    'hovered-2': index - 2 === hoveredIndex || index + 2 === hoveredIndex
+                }"></div>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-const id = ref(Math.round(Math.random() * 1000));
 const emit = defineEmits(["move"]);
+const elements = useTemplateRef<HTMLDivElement[]>("items");
 interface Item {
     title: string;
     subtitle?: string;
@@ -39,15 +36,15 @@ watch(props, (value) => {
 const positions = ref<number[][]>([]);
 onMounted(async () => {
     await useWait(100);
-    addEventListener("resize", handleResize);
+    window.addEventListener("resize", handleResize);
     handleResize();
 });
 onUnmounted(() => {
-    removeEventListener("resize", handleResize);
+    window.removeEventListener("resize", handleResize);
 });
 function handleResize() {
-    const items = Array.from(document.querySelectorAll(`.item-counter[counter-id="${id.value}"] .item-counter-item`));
-    positions.value = items.map((item) => {
+    if (!elements.value) return;
+    positions.value = elements.value.map((item) => {
         const { left, width } = item.getBoundingClientRect();
         return [left, left + width];
     });
@@ -76,9 +73,6 @@ function cancelHighlighting() {
 </script>
 
 <style scoped>
-.counter {
-    mask-image: var(--horizontal-fade-mask);
-}
 .item-counter-item {
     div {
         transition: scale 300ms;

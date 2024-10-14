@@ -1,21 +1,13 @@
 import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import {
-    BasicResponse,
-    Nullable,
-    generateDefaultHeaders,
-    hasInvalidAuthentication,
-    hasPasswordResetLocationSet,
-    patterns,
-    removeBreaks,
-    getOptionalSchool,
-    setErrorResponseEvent
-} from "../../utils";
+import { BasicResponse, generateDefaultHeaders, patterns, removeBreaks, getOptionalSchool, setErrorResponseEvent } from "../../utils";
+import { Nullable } from "~/common";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
-import { COURSE_UNAVAILABLE_ERROR, MyLessonsLesson } from "~/server/mylessons";
-import { hasInvalidSidRedirect } from "~/server/failsafe";
+import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
+import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
 import { querySelectorArray } from "~/server/dom";
+import { MyLessonsCourse, MyLessonsLesson } from "~/common/mylessons";
 
 const querySchema: SchemaEntryConsumer = {
     token: { required: true, pattern: patterns.SID },
@@ -25,11 +17,7 @@ const querySchema: SchemaEntryConsumer = {
     id: { required: true, type: "number", min: 1, max: 999_999 }
 };
 
-interface Response extends BasicResponse {
-    lessons: MyLessonsLesson[];
-    attendance: { [key: string]: Nullable<string> };
-    subject: Nullable<string>;
-}
+interface Response extends BasicResponse, MyLessonsCourse {}
 
 const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 4 });
 export default defineEventHandler<Promise<Response>>(async (event) => {

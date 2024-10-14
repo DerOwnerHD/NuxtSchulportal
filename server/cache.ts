@@ -1,6 +1,6 @@
 import { PrevalidatedMap } from "./utils";
 
-const config: { [key in CacheKey]: ConfigValue } = {
+const config: Record<CacheKey, ConfigValue> = {
     "sph-status": {
         invalidate_after: 1000 * 60 * 5
     }

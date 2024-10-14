@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-const apps = useApps();
+const apps = appRegistry.value;
 
 const element = useTemplateRef("container");
 const items = useTemplateRef("items");

@@ -4,9 +4,9 @@
             <div
                 v-for="(option, index) of options"
                 @click="switchSelection(index)"
-                :index="index"
+                ref="options"
                 class="option flex gap-2 rounded-full px-4 py-1 items-center"
-                :class="{ selected: selected === index, 'hover:active:scale-95 hover:active:opacity-90': selected !== index }">
+                :class="{ 'hover:active:scale-95 hover:active:opacity-90': selected !== index }">
                 <div class="px-2 rounded-full bg-gray-500 h-fit" v-if="option.widget">{{ option.widget }}</div>
                 <font-awesome-icon v-if="option.icon" :icon="option.icon"></font-awesome-icon>
                 <div class="text-center">
@@ -14,7 +14,7 @@
                     <p class="text-sm leading-4">{{ option.subtitle }}</p>
                 </div>
             </div>
-            <div class="selector h-full right-0 absolute rounded-full opacity-0" ref="selector"></div>
+            <div class="pointer h-full right-0 absolute rounded-full opacity-0" ref="pointer"></div>
         </div>
     </div>
 </template>
@@ -27,22 +27,23 @@ function switchSelection(index: number) {
     if (index === selected.value) return;
     selected.value = index;
     emit("update", index);
-    updateSelectorPosition();
+    updatePointerPosition();
 }
-const selector = useTemplateRef("selector");
+const pointer = useTemplateRef("pointer");
 const container = useTemplateRef("container");
-function updateSelectorPosition(animate: boolean = true) {
-    if (!selector.value || !container.value) return;
-    const element = container.value.querySelector<HTMLElement>(`.option[index="${selected.value}"]`);
-    if (element === null) return;
+const optionElements = useTemplateRef<HTMLElement[]>("options");
+function updatePointerPosition(animate: boolean = true) {
+    if (!pointer.value || !container.value || !optionElements.value || optionElements.value.length <= selected.value) return;
+    const element = optionElements.value.at(selected.value);
+    if (!element) return;
     const { offsetLeft, clientWidth } = element;
     if (!animate) {
-        selector.value.style.left = offsetLeft + "px";
-        selector.value.style.width = clientWidth + "px";
-        selector.value.animate({ opacity: "1" }, { duration: 150, fill: "forwards" });
+        pointer.value.style.left = offsetLeft + "px";
+        pointer.value.style.width = clientWidth + "px";
+        pointer.value.animate({ opacity: "1" }, { duration: 150, fill: "forwards" });
         return;
     }
-    selector.value.animate(
+    pointer.value.animate(
         {
             left: offsetLeft + "px",
             width: clientWidth + "px"
@@ -51,12 +52,12 @@ function updateSelectorPosition(animate: boolean = true) {
     );
 }
 onMounted(() => {
-    updateSelectorPosition(false);
+    updatePointerPosition(false);
 });
 </script>
 
 <style scoped>
-.selector {
+.pointer {
     background-image: var(--light-white-gradient);
 }
 </style>
