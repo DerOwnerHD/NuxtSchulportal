@@ -1,5 +1,13 @@
-const NUMBER_BOOLEAN_PATTERN = /^(0|1)$/;
+const NUMBER_BOOLEAN_PATTERN = /^([01])$/;
 const JSON_BOOLEAN_PATTERN = /^(true|false)$/;
+/**
+ * Used for validating the max value of a number and the length of a string.
+ */
+const MAX_POSITIVE_INTEGER = Math.pow(2, 31) - 1;
+/**
+ * Used for validating the min value of a number
+ */
+const MAX_NEGATIVE_INTEGER = -Math.pow(2, 31);
 
 /**
  * Validates a request GET query and its parameters. Only the types **string**, **number**
@@ -20,9 +28,6 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
     for (const entry of Object.keys(schema)) {
         const offenses: SchemaOffense[] = [];
         const schemaItem = schema[entry];
-
-        schemaItem.min = schemaItem.min ?? Number.MIN_SAFE_INTEGER;
-        schemaItem.max = schemaItem.max ?? Number.MAX_SAFE_INTEGER;
 
         // We assume that Nuxt handles our validation for us and that we can always assume that if
         // Nuxt passes us an array, there are at least two entries, might they be empty or not
@@ -63,14 +68,14 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
         }
 
         if (isNumberDesired && typeof parsedAsType === "number") {
-            if (isInvalidNumber(parsedAsType)) {
+            if (isInvalidNumber(parsedAsType, schemaItem.allow_floats)) {
                 offenses.push("incorrect_type");
                 offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
                 continue;
             }
 
-            if (parsedAsType < (schemaItem.min ?? Number.MIN_SAFE_INTEGER)) offenses.push("too_small");
-            if (parsedAsType > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
+            if (schemaItem.min && parsedAsType < schemaItem.min) offenses.push("too_small");
+            if (schemaItem.max && parsedAsType > schemaItem.max) offenses.push("too_large");
             if (schemaItem.size && parsedAsType !== schemaItem.size) offenses.push("unfit_size");
         }
 
@@ -80,7 +85,7 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
             // Here we can safely use queryItem, as it would be the same as parsedAsType
             // + we safe an unnecessary typeof check to make TS happy
             if (schemaItem.min && queryItem.length < schemaItem.min) offenses.push("too_small");
-            if (queryItem.length > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
+            if (queryItem.length > (schemaItem.max ?? MAX_POSITIVE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && queryItem.length !== schemaItem.size) offenses.push("unfit_size");
 
             if (schemaItem.pattern && !schemaItem.pattern.test(queryItem)) offenses.push("pattern_no_match");
@@ -88,7 +93,7 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
 
         if (offenses.length) offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
     }
-    const violationCount = offenseList.reduce((count, value) => (count += value.offenses.length), 0);
+    const violationCount = offenseList.reduce((count, value) => (count + value.offenses.length), 0);
     return { entries: offenseList, violations: violationCount };
 }
 
@@ -142,14 +147,14 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: Record<string
 
         // After this point, we can safely assume that bodyItem has the desired type
         if (isNumberDesired && existsInBody) {
-            if (isInvalidNumber(bodyItem)) {
+            if (isInvalidNumber(bodyItem, schemaItem.allow_floats)) {
                 offenses.push("incorrect_type");
                 offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
                 continue;
             }
 
-            if (bodyItem < (schemaItem.min ?? Number.MIN_SAFE_INTEGER)) offenses.push("too_small");
-            if (bodyItem > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
+            if (schemaItem.min && bodyItem < schemaItem.min) offenses.push("too_small");
+            if (schemaItem.max && bodyItem > schemaItem.max) offenses.push("too_large");
             if (schemaItem.size && bodyItem !== schemaItem.size) offenses.push("unfit_size");
         }
 
@@ -157,7 +162,7 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: Record<string
             // We do not wish to have empty strings
             if (!bodyItem.length) offenses.push("too_small");
             if (schemaItem.min && bodyItem.length < schemaItem.min) offenses.push("too_small");
-            if (bodyItem.length > (schemaItem.max ?? Number.MAX_SAFE_INTEGER)) offenses.push("too_large");
+            if (bodyItem.length > (schemaItem.max ?? MAX_POSITIVE_INTEGER)) offenses.push("too_large");
             if (schemaItem.size && bodyItem.length !== schemaItem.size) offenses.push("unfit_size");
 
             if (schemaItem.pattern && !schemaItem.pattern.test(bodyItem)) offenses.push("pattern_no_match");
@@ -165,7 +170,7 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: Record<string
 
         if (offenses.length) offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
     }
-    const violationCount = offenseList.reduce((count, value) => (count += value.offenses.length), 0);
+    const violationCount = offenseList.reduce((count, value) => (count + value.offenses.length), 0);
     return { entries: offenseList, violations: violationCount, invalid: false };
 }
 
@@ -179,8 +184,9 @@ type SchemaOffense =
     | "validator_function_failed";
 
 function isInvalidNumber(number: number, allowFloats?: boolean) {
-    if (!Number.isInteger(number) && !allowFloats) return false;
-    return Number.isNaN(number) || !Number.isFinite(number) || !Number.isSafeInteger(number);
+    if (!Number.isSafeInteger(number) && !allowFloats) return true;
+    if (number < MAX_NEGATIVE_INTEGER || number > MAX_POSITIVE_INTEGER) return true;
+    return Number.isNaN(number) || !Number.isFinite(number);
 }
 
 export type SchemaEntryConsumer = Record<string, SchemaEntry>;
@@ -237,13 +243,8 @@ export interface SchemaEntry {
     validator_function?: (key: string, schema: SchemaEntry, value: any) => boolean;
 }
 
-interface SerializedSchemaEntry {
-    required?: boolean;
-    type?: "string" | "number" | "boolean";
+interface SerializedSchemaEntry extends Pick<SchemaEntry, "allow_floats" | "max" | "min" | "required" | "size" | "type"> {
     pattern?: string;
-    min?: number;
-    max?: number;
-    size?: number;
     has_validator_function: boolean;
 }
 

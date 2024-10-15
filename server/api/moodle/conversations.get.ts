@@ -9,7 +9,7 @@ const querySchema: SchemaEntryConsumer = {
     session: { required: true, size: 10, pattern: patterns.MOODLE_SESSION },
     cookie: { required: true, size: 26, pattern: patterns.MOODLE_COOKIE },
     school: { required: true, type: "number", min: 1, max: 9999 },
-    user: { required: true, type: "number", min: 1, pattern: patterns.INTEGER },
+    user: { required: true, type: "number", min: 1 },
     favorites: { required: false, type: "boolean" },
     type: { required: false, pattern: /^(personal|groups|self)$/ }
 };

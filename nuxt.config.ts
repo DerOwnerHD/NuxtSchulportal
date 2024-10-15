@@ -13,9 +13,6 @@ export default defineNuxtConfig({
             },
             title: "Schulportal Hessen",
             link: [
-                { rel: "preload", href: "/font/regular.otf", as: "font", type: "font/otf" },
-                { rel: "preload", href: "/font/semibold.otf", as: "font", type: "font/otf" },
-                { rel: "preload", href: "/font/bold.otf", as: "font", type: "font/otf" },
                 { rel: "manifest", href: "/manifest.json" },
                 { rel: "apple-touch-icon", href: "/icon.png" },
                 { rel: "apple-touch-startup-image", href: "/icon.png" }
