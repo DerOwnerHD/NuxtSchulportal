@@ -3,7 +3,7 @@
         <AppErrorDisplay :id="AppID.MyLessonsCourse" v-if="hasAppError(AppID.MyLessonsCourse)"></AppErrorDisplay>
         <div v-else-if="courseData" class="content grid w-screen h-full gap-2">
             <InfoBox class="w-fit justify-self-center" type="error" v-if="!hasValidAESKeySet()">
-                <span>Anwesendheiten sind nicht verfügbar</span>
+                <span>Anwesenheiten sind nicht verfügbar</span>
                 <ButtonRoundedBlurred @click="() => loadCourse(true)" :icon="['fas', 'arrow-rotate-right']"></ButtonRoundedBlurred>
             </InfoBox>
             <header class="grid items-center justify-center gap-2 w-screen px-4">
@@ -49,7 +49,7 @@
                             </tr>
                         </tbody>
                     </table>
-                    <p v-else class="text-center">Keine Anwesendheiten verfügbar</p>
+                    <p v-else class="text-center">Keine Anwesenheiten verfügbar</p>
                     <ButtonRoundedBlurred class="self-end" :icon="['fas', 'up-right-from-square']" @click="navigateTo('/mylessons-attendance')"
                         >Zur Erklärung</ButtonRoundedBlurred
                     >
@@ -215,7 +215,7 @@ function endScroll(bypassTouchRequirement?: boolean) {
 }
 
 const mainElement = useTemplateRef("main");
-const footerOptions = computed(() => [{ title: "Stunden", widget: courseData.value?.lessons.length }, { title: "Anwesendheit" }]);
+const footerOptions = computed(() => [{ title: "Stunden", widget: courseData.value?.lessons.length }, { title: "Anwesenheit" }]);
 const selectedFooterItem = ref(0);
 async function switchFooterItem(index: number) {
     if (!mainElement.value) return (selectedFooterItem.value = index);
