@@ -93,7 +93,7 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
 
         if (offenses.length) offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
     }
-    const violationCount = offenseList.reduce((count, value) => (count + value.offenses.length), 0);
+    const violationCount = offenseList.reduce((count, value) => count + value.offenses.length, 0);
     return { entries: offenseList, violations: violationCount };
 }
 
@@ -170,7 +170,7 @@ export function validateBodyNew(schema: SchemaEntryConsumer, body: Record<string
 
         if (offenses.length) offenseList.push({ offenses, entry, schema: serializeSchemaEntry(schemaItem) });
     }
-    const violationCount = offenseList.reduce((count, value) => (count + value.offenses.length), 0);
+    const violationCount = offenseList.reduce((count, value) => count + value.offenses.length, 0);
     return { entries: offenseList, violations: violationCount, invalid: false };
 }
 

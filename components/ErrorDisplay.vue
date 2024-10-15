@@ -12,7 +12,8 @@
                     button.text
                 }}</ButtonRoundedBlurred>
             </div>
-            <div class="mt-4 flex gap-2 items-center justify-center blurred-background borderless rounded-xl py-2" v-if="error.is_reauth_required">
+            <div v-if="error.is_reauth_required || error.next_request_after" class="h-4"></div>
+            <aside class="blurred-background borderless" v-if="error.is_reauth_required">
                 <template v-if="isLoggingIn">
                     <InfiniteSpinner :size="20"></InfiniteSpinner>
                     <span>Du wirst neu eingeloggt</span>
@@ -21,7 +22,14 @@
                     <font-awesome-icon :icon="['fas', 'check']"></font-awesome-icon>
                     <span>Neu eingeloggt</span>
                 </template>
-            </div>
+            </aside>
+            <aside class="blurred-background borderless" v-if="error.next_request_after">
+                <span v-if="rateLimitTimer"> Bitte warte noch {{ rateLimitTimer }} Sekunde(n) </span>
+                <template v-else>
+                    <font-awesome-icon :icon="['fas', 'check']"></font-awesome-icon>
+                    <span>Los geht's!</span>
+                </template>
+            </aside>
         </div>
     </div>
 </template>
@@ -45,10 +53,36 @@ async function executeButtonAction(button: Button) {
     await button.action();
 }
 const isLoggingIn = useLoggingInStatus();
+
+onMounted(() => {
+    startRateLimitTimer();
+});
+
+/**
+ * When the user leaves the page with the error while the countdown is still running,
+ * the value of next_request_after loses all its importance. As it is not stored as
+ * a timestamp, it will be reset upon the next visit. We cannot change that w/o deep, useless changes.
+ */
+onBeforeUnmount(() => {
+    clearInterval(rateLimitHandler.value);
+});
+
+const rateLimitTimer = ref(props.error.next_request_after ? Math.ceil(props.error.next_request_after / 1000) : null);
+const rateLimitHandler = ref<NodeJS.Timeout | undefined>(undefined);
+function startRateLimitTimer() {
+    if (!rateLimitTimer.value) return;
+    rateLimitTimer.value = Math.ceil(rateLimitTimer.value);
+    rateLimitHandler.value = setInterval(() => {
+        if (rateLimitTimer.value === null || --rateLimitTimer.value <= 0) return clearInterval(rateLimitHandler.value);
+    }, 1000);
+}
 </script>
 
 <style scoped>
 .button-group {
     grid-template-columns: auto auto;
+}
+aside {
+    @apply flex gap-2 items-center justify-center rounded-xl py-2;
 }
 </style>

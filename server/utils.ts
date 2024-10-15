@@ -173,6 +173,10 @@ export function getOptionalSchool(event: H3Event, body?: any, stringify: boolean
 export interface BasicResponse {
     error: boolean;
     error_details?: string | Record<string, any>;
+    /**
+     * Used when a rate limit occurs.
+     */
+    next_request_after?: number;
 }
 
 export const STATIC_STRINGS = {

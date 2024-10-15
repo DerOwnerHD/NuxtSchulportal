@@ -1,12 +1,13 @@
 import { H3Event } from "h3";
+import { BasicResponse, setErrorResponseEvent } from "~/server/utils";
 
 export enum RateLimitAcceptance {
     /**
      * Only sent if a requirement for the rate limit handler has not been met.
      *
-     * Sent if a IP address is not set or multiple X-RateLimit-Bypass keys are set.
+     * Sent if an IP address is not set or multiple X-RateLimit-Bypass keys are set.
      *
-     * The handler is expected to sent a 403 code.
+     * The handler is expected to send a 403 code.
      */
     Forbidden,
     /**
@@ -58,55 +59,65 @@ export function defineRateLimit(config: RateLimitRouteConfig) {
      * @param event The H3Event
      * @returns Whether the request should be allowed. See RateLimitAcceptance enum.
      */
-    function handler(event: H3Event): RateLimitAcceptance {
+    function handler(event: H3Event): BasicResponse | null {
         const bypassHeader = getRequestHeader(event, "X-RateLimit-Bypass");
         // Multiple entries are strictly disallowed
-        if (bypassHeader?.includes(",")) return RateLimitAcceptance.Forbidden;
+        if (bypassHeader?.includes(",")) return setRejectionStatus(event, RateLimitAcceptance.Forbidden);
         if (
             !config.forbid_bypass &&
             typeof bypassHeader === "string" &&
             typeof rateLimitBypassKey === "string" &&
             bypassHeader === rateLimitBypassKey
         )
-            return RateLimitAcceptance.Allowed;
+            return null;
 
         const address = getRequestAddress(event);
-        if (!address) return RateLimitAcceptance.Forbidden;
+        if (!address) return setRejectionStatus(event, RateLimitAcceptance.Forbidden);
 
         const now = Date.now();
 
         if (!clients.has(address)) {
             clients.set(address, [now]);
-            return RateLimitAcceptance.Allowed;
+            return null;
         }
 
         const client = clients.get(address) as RateLimitClient;
         if (!client.length) {
             client[0] = now;
-            return RateLimitAcceptance.Allowed;
+            return null;
         }
-        if (now - client[0] > config.interval * 1000) client.splice(0, 1);
 
-        if (client.length >= config.allowed_per_interval) return RateLimitAcceptance.Rejected;
+        const diffToEarliest = now - client[0];
+        if (diffToEarliest > config.interval * 1000) client.splice(0, 1);
+
+        if (client.length >= config.allowed_per_interval)
+            return setRejectionStatus(event, RateLimitAcceptance.Rejected, config.interval * 1000 - diffToEarliest);
 
         client.push(now);
-        return RateLimitAcceptance.Allowed;
+        return null;
     }
     return handler;
 }
 
+function setRejectionStatus(event: H3Event, acceptance: RateLimitAcceptance, nextRequestAfter?: number): BasicResponse | null {
+    if (acceptance === RateLimitAcceptance.Allowed) return null;
+    return setErrorResponseEvent(event, acceptance === RateLimitAcceptance.Forbidden ? 403 : 429, undefined, {
+        next_request_after: nextRequestAfter
+    });
+}
+
 /**
  * Attempts to load the user's IP address from the H3Event Nuxt passed to the event handler.
- * As Nuxt adds that address as a X-Forwarded-For header, this function attempts to read it from there.
+ * As Nuxt adds that address as an X-Forwarded-For header, this function attempts to read it from there.
  *
- * For ratelimiting, the request is expected to fail if no address is given.
+ * For rate limiting, the request is expected to fail if no address is given.
  *
  * CRITICAL: getRequestIP cannot be used, as the flag for using the xForwardedFor header has to be set.
  * That function then always picks the first header of that name.
  * As Nuxt only attaches its header last, this would result in the user being able to use their custom address
- * and thusly bypass any rate limit.
+ * and thus bypass any rate limit.
  *
- * See https://github.com/unjs/h3/blob/main/src/utils/request.ts#L311 for this implemenation
+ * See https://github.com/unjs/h3/blob/main/src/utils/request.ts#L311 for this implementation
  * @param event The H3Event
  * @returns The address - or null if none is found
  */

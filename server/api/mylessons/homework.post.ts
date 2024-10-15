@@ -1,5 +1,5 @@
 import { COURSE_UNAVAILABLE_ERROR } from "~/server/mylessons";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { generateDefaultHeaders, getAuthToken, setErrorResponseEvent, getOptionalSchool, BasicResponse, STATIC_STRINGS } from "../../utils";
 import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
@@ -23,7 +23,7 @@ export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { action, id, lesson } = body;

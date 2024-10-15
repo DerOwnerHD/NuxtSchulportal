@@ -1,5 +1,5 @@
 import { BasicResponse, generateDefaultHeaders, parseCookies, patterns, removeBreaks, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { generateMoodleURL, lookupSchoolMoodle } from "../../moodle";
 import { SchemaEntryConsumer, validateBodyNew } from "~/server/validator";
 
@@ -25,7 +25,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (bodyValidation.violations > 0 || bodyValidation.invalid) return setErrorResponseEvent(event, 400, bodyValidation);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { session, school } = body;

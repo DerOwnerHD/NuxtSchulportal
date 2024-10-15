@@ -7,7 +7,7 @@ import {
     STATIC_STRINGS,
     setErrorResponseEvent
 } from "../utils";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { JSDOM } from "jsdom";
 import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
 import { querySelectorArray } from "../dom";
@@ -24,7 +24,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event) as string;
 
     const school = getOptionalSchool(event) as string;

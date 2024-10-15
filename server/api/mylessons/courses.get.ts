@@ -1,4 +1,4 @@
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { BasicResponse, generateDefaultHeaders, patterns, removeBreaks, getOptionalSchool, setErrorResponseEvent } from "../../utils";
 import { JSDOM } from "jsdom";
 import cryptoJS from "crypto-js";
@@ -21,7 +21,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { token, session, key } = query;

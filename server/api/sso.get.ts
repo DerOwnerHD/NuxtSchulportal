@@ -1,5 +1,5 @@
 import { setErrorResponseEvent, BasicResponse, generateDefaultHeaders, getOptionalSchool } from "../utils";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { SchemaEntry, SchemaEntryConsumer, validateQueryNew } from "../validator";
 
 interface Response extends BasicResponse {
@@ -19,7 +19,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     const school = getOptionalSchool(event, null, false) as number;
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     try {

@@ -1,4 +1,4 @@
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
 import { createMoodleRequest, getMoodleErrorResponseCode, lookupSchoolMoodle, transformMoodleEvent } from "../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { session, cookie, school } = query;

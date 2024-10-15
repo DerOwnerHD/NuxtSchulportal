@@ -1,5 +1,5 @@
 import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { generateDefaultHeaders, patterns, getOptionalSchool, setErrorResponseEvent } from "../utils";
 
 import cryptoJS from "crypto-js";
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { key, type, token } = query;

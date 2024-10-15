@@ -1,6 +1,6 @@
 import { CalendarEntry } from "~/common/calendar";
 import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import { generateDefaultHeaders, patterns, setErrorResponseEvent, getAuthToken, getOptionalSchool, STATIC_STRINGS, BasicResponse } from "../utils";
 import { SchemaEntryConsumer, validateQueryNew } from "../validator";
 
@@ -27,7 +27,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
     const { start, end, category } = query;

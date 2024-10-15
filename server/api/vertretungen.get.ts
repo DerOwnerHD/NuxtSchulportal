@@ -1,7 +1,7 @@
 import { Vertretungsplan, VertretungsDay, Vertretung } from "~/common/vertretungsplan";
 import { querySelectorArray } from "~/server/dom";
 import { hasInvalidAuthentication, hasInvalidSidRedirect, hasPasswordResetLocationSet } from "~/server/failsafe";
-import { RateLimitAcceptance, defineRateLimit, getRequestAddress } from "~/server/ratelimit";
+import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
 import {
     BasicResponse,
     STATIC_STRINGS,
@@ -24,7 +24,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (token === null) return setErrorResponseEvent(event, 400, STATIC_STRINGS.INVALID_TOKEN);
 
     const rl = rlHandler(event);
-    if (rl !== RateLimitAcceptance.Allowed) return setErrorResponseEvent(event, rl === RateLimitAcceptance.Rejected ? 429 : 403);
+    if (rl !== null) return rl;
     const address = getRequestAddress(event) as string;
 
     try {
@@ -55,7 +55,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             const header = day.querySelector(".panel-heading");
             // Relative position of day ("heute", "morgen") and type of week ("A-Woche" or "B-Woche")
             const headerElements = [".badge:not(.woche)", ".badge.woche"].map((element) => header?.querySelector(element));
-            // News are kept in descrete boxes called "Allgemein" most often
+            // News are kept in discrete boxes called "Allgemein" most often
             // Inside those are more subsections, split by a <hr> element
             // -> thus we need to split at them and later merge all the stuff
             const news = querySelectorArray(day, ".infos > tbody > tr:not(.subheader) > td").map((element) =>
@@ -67,11 +67,11 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
             );
             const mergedNews: string[] = new Array<string>().concat(...news);
             // We can assume that the table has the attribute classview, for
-            // whatever that may be used for, it is most definetly present
+            // whatever that may be used for, it is most definitely present
             const table = day.querySelector<HTMLTableElement>("table.table[data-classview]");
 
             if (table === null) continue;
-            const columns = getTableHeaderIndicies(table);
+            const columns = getTableHeaderIndices(table);
 
             const vertretungen: Vertretung[] = [];
 
@@ -126,7 +126,7 @@ function isCurrentlyUpdating(document: Document) {
 /**
  * Attempts to parse the last updated string on the site to another format.
  * @param document The document from which to load the element
- * @returns Either the sucessfully parsed date or null on failure
+ * @returns Either the successfully parsed date or null on failure
  */
 function parseLastUpdatedString(document: Document) {
     // The element is attached to the bottom right of any day field
@@ -134,6 +134,7 @@ function parseLastUpdatedString(document: Document) {
     if (element === null) return null;
 
     // The field is constructed like "Letzte Aktualisierung: dd.mm.yyyy um hh:mm:ss Uhr"
+    // DO NOT REMOVE THIS NON-CAPTURING-GROUP
     const matches = element.innerHTML.match(/(\d{2}\.\d{2}\.\d{4})(?: um )(\d{2}:\d{2}:\d{2})/i);
     if (matches === null || matches.length !== 3) return null;
 
@@ -161,10 +162,10 @@ function getLessonsOfEntry(value: string) {
 
 /**
  * Checks the table header passed for all columns in the config.
- * For those found, the corresponding index is set. Config entrys or columns
+ * For those found, the corresponding index is set. Config entry's or columns
  * which do not have a counterpart are ignored.
  */
-function getTableHeaderIndicies(row: HTMLElement): IndexedColumnConfigKey[] {
+function getTableHeaderIndices(row: HTMLElement): IndexedColumnConfigKey[] {
     const columnConfig: ColumnConfigKey[] = [
         { name: "Stunde", key: "lessons", modifier_function: getLessonsOfEntry },
         { name: "Klasse", key: "classes" },

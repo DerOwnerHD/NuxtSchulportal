@@ -16,6 +16,10 @@ export function setNotificationCount(id: AppID, count: number) {
 export interface AppErrorMetadata {
     error: any;
     is_reauth_required?: boolean;
+    /**
+     * In ms, after what time a new request to that API endpoint is possible.
+     */
+    next_request_after?: number;
     retry_function?: AnyFunction;
 }
 export const useAppErrors = () => useState("app-errors", () => new Map<AppID, AppErrorMetadata>());
@@ -28,6 +32,7 @@ export function createAppError(id: AppID, error: any, retryFunction?: AnyFunctio
     void map.value.set(id, {
         error: parseResponseError(error),
         retry_function: retryFunction,
+        next_request_after: getRateLimitExpire(error),
         is_reauth_required: reauthOverwrite ?? checkForReauthRequirement(error)
     });
 }
@@ -53,4 +58,9 @@ export function parseResponseError(error: any) {
  */
 export function checkForReauthRequirement(error: any) {
     return error?.status === 401;
+}
+
+export function getRateLimitExpire(error?: any): number | undefined {
+    if (error?.status !== 429) return undefined;
+    return error?.data?.next_request_after ?? undefined;
 }
