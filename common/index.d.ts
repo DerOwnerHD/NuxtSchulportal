@@ -19,3 +19,5 @@ export type AnyFunction = () => Promise<any> | any;
 export type Nullable<T> = T | null;
 
 export type SerializableObjects = Record | number | string | null | Array;
+
+export type IconDefinition = [string, string];

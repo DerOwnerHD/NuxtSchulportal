@@ -29,6 +29,13 @@ body {
     --vertical-fade-mask: linear-gradient(to bottom, transparent 0%, white 10%, white 90%, transparent 100%);
     --table-light-background: var(--light-white-gradient);
     --table-dark-background: var(--even-lighter-white-gradient);
+    --flyout-background: linear-gradient(135deg, #d8e1e6, #cbc2ca);
+    --flyout-border: #c4c4c4;
+    --bold-font: "SPBold";
+    --semibold-font: "SPSemiBold";
+    --regular-font: "SPRegular";
+    --serif-font: "Merriweather";
+    --bounce-bezier: cubic-bezier(0.33, 1.35, 0.5, 1);
     color: white;
 }
 #__nuxt {

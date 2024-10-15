@@ -1,4 +1,4 @@
-import type { StundenplanDay, Stundenplan, StundenplanClass, StundenplanLesson } from "~/common/stundenplan";
+import type { Stundenplan, StundenplanClass, StundenplanDay, StundenplanLesson } from "~/common/stundenplan";
 
 export const useStundenplan = () => useState<Stundenplan[]>("stundenplan", () => []);
 export function convertStundenplanTimeFormat(input: number[][]) {
@@ -12,10 +12,11 @@ export function formatLessonArray(lessons: number[], dots: string = ".", spacing
 }
 
 export async function fetchStundenplan() {
+    const plan = useStundenplan();
     clearAppError(AppID.Stundenplan);
     clearNotifications(AppID.Stundenplan);
     // @ts-ignore
-    useStundenplan().value = null;
+    plan.value = null;
     try {
         const response = await $fetch("/api/stundenplan", {
             query: {
@@ -23,14 +24,13 @@ export async function fetchStundenplan() {
                 school: school.value
             }
         });
-        useStundenplan().value = response.plans;
-        useNotifications().value.set(AppID.Stundenplan, response.plans.length - 1);
+        plan.value = response.plans;
+        setNotificationCount(AppID.Stundenplan, response.plans.length - 1);
         const announcement = checkForUnannouncedPlan();
         if (announcement !== null) useSplanAnnouncement().value = announcement;
     } catch (error) {
-        useReauthenticate(error);
-        setNotificationCount(AppID.Stundenplan, -1);
         createAppError(AppID.Stundenplan, error, fetchStundenplan);
+        await useReauthenticate(error);
     }
 }
 
@@ -56,8 +56,7 @@ function checkForUnannouncedPlan() {
         data = JSON.parse(cache);
         // This is some validation in case something might have changed from where the user has it stored
         // If any of that should happen, we want to wipe the data stored - to allow the user to continue
-        if (typeof data.id !== "string" || !Array.isArray(data.days) || !Array.isArray(data.lessons) || !Array.isArray(data.others))
-            throw new Error();
+        if (!Array.isArray(data.days) || !Array.isArray(data.lessons) || !Array.isArray(data.others)) throw new Error();
     } catch (error) {
         console.error("Error while reading splan cache", error);
         localStorage.removeItem("splan-cache");
@@ -128,35 +127,6 @@ interface StundenplanComparison {
         subjects: StundenplanSubjectComparison[];
     }[][];
     lessons: number[][][];
-}
-
-function stringifySubjects(subjects: StundenplanSubjectComparison[], show_unchanged: boolean = false) {
-    return subjects
-        .map((subject) => {
-            const {
-                data: { room, teacher, name },
-                updates,
-                type
-            } = subject;
-            switch (type) {
-                case "new":
-                    return `${name} bei ${teacher} in ${room} hinzugefügt`;
-                case "removed":
-                    return `${name} entfernt`;
-                case "updated": {
-                    if (!updates) {
-                        console.warn("Defined a subject as updated in splan comparison even though nothing changed");
-                        // Returns null below (or the unchanged thingy)
-                        break;
-                    }
-                    const teacherString = " bei " + (updates.has("teacher") ? updates.get("teacher")!.join(", vorher ") : teacher);
-                    const roomString = " in " + (updates.has("room") ? updates.get("room")!.join(", vorher ") : room);
-                    return name + teacherString + roomString;
-                }
-            }
-            return show_unchanged ? `${name} bei ${teacher} in ${room}` : null;
-        })
-        .filter((x) => x !== null);
 }
 
 interface StringifiedPlanComparison {
@@ -293,7 +263,7 @@ export function comparePlans(id: string, plansOverwrite?: Stundenplan[]) {
         // As we have previously split all lessons (splitAllLessons), we now
         // once again merge those with the same data together (if they have the
         // same subjects in them)
-        const combined = differences
+        return differences
             .toReversed()
             .map((entry, index) => {
                 const actualIndex = differences.length - index - 1;
@@ -312,7 +282,6 @@ export function comparePlans(id: string, plansOverwrite?: Stundenplan[]) {
             })
             .toReversed()
             .filter((x) => x !== null);
-        return combined;
     });
 
     if (isOverwritingPlans)
@@ -362,7 +331,7 @@ function splitAllLessons(plan: Stundenplan): StundenplanLesson[][] {
     );
 }
 
-export const useStundenplanFlyout = computed<FlyoutGroups>(() => {
+export const stundenplanFlyout = computed<FlyoutGroup[]>(() => {
     const plans = useStundenplan();
     const errors = useAppErrors();
     const title = errors.value.has(AppID.Stundenplan)
@@ -374,7 +343,7 @@ export const useStundenplanFlyout = computed<FlyoutGroups>(() => {
           : // Due to the stundenplan useState being initialized using an array
             // (instead of being empty), this state will never be available
             STATIC_STRINGS.IS_LOADING;
-    return [[{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }], getStundenplanFlyoutItems()];
+    return [{ items: [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }] }, { items: getStundenplanFlyoutItems() }];
 });
 
 export function getStundenplanFlyoutItems() {

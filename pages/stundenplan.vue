@@ -84,9 +84,9 @@
                 </div>
                 <div class="day grid" v-for="(day, index) of comparisonResult.differences" v-else-if="comparisonMode && comparisonResult">
                     <div class="day-label">{{ WEEKDAYS.short[index] }}</div>
-                    <div class="lesson" :compare-type="lesson.type" v-for="lesson of day" :style="generateStylesForLesson(lesson.lessons)">
+                    <div class="lesson" :data-compare-type="lesson.type" v-for="lesson of day" :style="generateStylesForLesson(lesson.lessons)">
                         <div v-if="lesson.subjects.length" class="grid h-full items-center gap-2">
-                            <div class="subject grid items-center" :compare-type="subject.type" v-for="subject of lesson.subjects">
+                            <div class="subject grid items-center" :data-compare-type="subject.type" v-for="subject of lesson.subjects">
                                 <span class="font-bold">{{ subject.data.name }}</span>
                                 <span class="text-xs grid gap-1">
                                     <div v-if="subject.type === 'updated' && subject.updates && subject.updates.has('room')">
@@ -119,7 +119,6 @@
 
 <script setup lang="ts">
 const plans = useStundenplan();
-const errors = useAppErrors();
 const secretMode = isSecretModeActive();
 const selected = ref(0);
 const selectedPlan = computed(() => {
@@ -299,22 +298,22 @@ function fillLessonOnWeekType(lessons: number[]) {
     @apply rounded-md;
     background: var(--light-white-gradient);
 }
-.subject[compare-type="removed"],
+.subject[data-compare-type="removed"],
 .update-old,
-.lesson[compare-type="removed"] {
+.lesson[data-compare-type="removed"] {
     @apply border-red-500 bg-red-500 line-through;
 }
-.subject[compare-type="new"],
+.subject[data-compare-type="new"],
 .update-new,
-.lesson[compare-type="added"] {
+.lesson[data-compare-type="added"] {
     @apply border-lime-500 bg-lime-500;
 }
-.subject[compare-type="removed"],
-.subject[compare-type="new"],
+.subject[data-compare-type="removed"],
+.subject[data-compare-type="new"],
 .update-old,
 .update-new,
-.lesson[compare-type="removed"],
-.lesson[compare-type="added"] {
+.lesson[data-compare-type="removed"],
+.lesson[data-compare-type="added"] {
     @apply bg-opacity-30 border-solid border-2 rounded-md;
 }
 .week {
@@ -325,6 +324,6 @@ function fillLessonOnWeekType(lessons: number[]) {
     @apply opacity-30 scale-90 transition-all;
 }
 .week.selected {
-    box-shadow: 0px 0px 15px 0px var(--color);
+    box-shadow: 0 0 15px 0 var(--color);
 }
 </style>

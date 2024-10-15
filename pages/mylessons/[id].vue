@@ -154,7 +154,7 @@ watch(courseData, async () => {
     await useWait(100);
     window.removeEventListener("resize", handleResize);
     isEventHandlerRegistered.value = false;
-    handleResize();
+    await handleResize();
     if (!isEventHandlerRegistered.value) {
         window.addEventListener("resize", handleResize);
         isEventHandlerRegistered.value = true;
@@ -227,7 +227,7 @@ async function switchFooterItem(index: number) {
     animation.reverse();
     await useWait(duration);
     animation.cancel();
-    handleResize();
+    await handleResize();
 }
 </script>
 

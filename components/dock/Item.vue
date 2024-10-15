@@ -1,11 +1,6 @@
 <template>
-    <div class="dock-item relative" :class="{ 'h-16': type === 'compact' }">
-        <div
-            class="dock-icon relative grid justify-center"
-            :class="{ open: isFlyoutOpen }"
-            @touchstart.passive="startHold"
-            @touchend.passive="stopHold"
-            @click="navigateTo(route)">
+    <div class="dock-item relative" ref="item" :class="{ 'h-16': type === 'compact' }">
+        <div class="dock-icon relative grid justify-center" @touchstart.passive="startHold" @touchend.passive="stopHold" @click="navigateTo(route)">
             <div
                 v-if="!hideNotifications"
                 class="absolute -right-1 -top-1 rounded-full shadow-sm text-xs min-w-5 h-5 grid place-content-center font-bold"
@@ -31,48 +26,42 @@ const props = defineProps<{
     disabled?: boolean;
     type: "compact" | "full";
     name: string;
-    flyout: {
-        title: string;
-        text?: string;
-        icon?: string[];
-    }[][];
+    flyout: FlyoutGroup[];
     route: string;
     hideNotifications?: boolean;
 }>();
 
+const el = useTemplateRef<HTMLElement>("item");
+
 const notifications = useNotifications();
 const notificationsForItem = computed(() => notifications.value.get(props.id) ?? null);
-const hasError = computed(() => notificationsForItem.value === -1);
+const hasError = computed(() => hasAppError(props.id));
 
 const hasItemSelected = computed(() => useRoute().path.startsWith(props.route));
 
-const isHoldingIcon = ref<string | null>(null);
-const isFlyoutOpen = ref(false);
+const isHoldingIcon = ref(false);
 async function startHold(event: TouchEvent) {
-    if (isHoldingIcon.value || props.disabled) return;
-    // crypto.randomUUID is only available in secure contexts, thus not in a dev enviroment
-    const holdingUUID = "randomUUID" in crypto ? crypto.randomUUID() : "a";
-    isHoldingIcon.value = holdingUUID;
-    await useWait(1000);
+    if (isHoldingIcon.value || props.disabled || !el.value) return;
+    isHoldingIcon.value = true;
+    await sleep(1000);
     if (props.disabled) return;
-    if (isHoldingIcon.value !== holdingUUID || !(event.target instanceof Element)) return;
-    const element = event.target.closest(".dock-icon");
-    if (element === null) return;
-    const dimensions = element.getBoundingClientRect();
-    // Safari still does not support vibration
+    if (!isHoldingIcon.value || !(event.target instanceof Element)) return;
+    /**
+     * Safari does not have the feature implemented, Firefox on desktop has also removed it
+     * and Firefox for Android does not perform it.
+     */
     if ("vibrate" in navigator) navigator.vibrate(100);
-    isFlyoutOpen.value = true;
-    useFlyout().value = {
-        groups: props.flyout,
-        position: [dimensions.left, props.type === "compact" ? dimensions.top - 10 : dimensions.top + dimensions.height + 10],
-        title: props.name,
-        origin: props.type === "compact" ? "bottom" : "top",
-        element
-    };
+    isHoldingIcon.value = false;
+    void createFlyout(
+        {
+            groups: props.flyout
+        },
+        el.value
+    );
 }
 
 function stopHold() {
-    isHoldingIcon.value = null;
+    isHoldingIcon.value = false;
 }
 </script>
 
@@ -83,16 +72,13 @@ function stopHold() {
 .dock-icon:hover:active {
     animation: pulse 800ms;
 }
-.dock-icon.open {
-    z-index: 202;
-}
 @keyframes pulse {
     50% {
         transform: scale(90%);
     }
 }
 .dock-selector {
-    width: 0px;
+    width: 0;
     transition: width 300ms;
 }
 .dock-selector.selected {

@@ -17,22 +17,22 @@
                 </ClientOnly>
             </footer>
         </div>
-        <DockFlyout v-if="flyout"></DockFlyout>
+        <aside class="fixed h-screen w-screen top-0 left-0 z-[200] pointer-events-none" id="overlay-wrapper"></aside>
     </div>
 </template>
 
 <script setup lang="ts">
 import "~/composables/prototype";
-const flyout = useFlyout();
+import { RouteLocationNormalized } from "vue-router";
 
 const isPageScrollable = useScrollabilityStatus();
 useRouter().afterEach(async (route) => {
     await nextTick();
-    updatePageScrollability(route);
+    await updatePageScrollability(route);
     window?.scrollTo(0, 0);
 });
 
-async function updatePageScrollability(route?: any) {
+async function updatePageScrollability(route?: RouteLocationNormalized) {
     const { path } = route ?? useRoute();
     const isNonScrollable = useNonScrollablePages().some((pattern) => pattern.test(path));
     await nextTick();

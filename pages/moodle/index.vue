@@ -1,8 +1,14 @@
 <template>
     <div class="h-full">
         <AppErrorDisplay :id="AppID.Moodle" v-if="hasAppError(AppID.Moodle)"></AppErrorDisplay>
-        <div v-else-if="credentials" class="w-screen max-w-screen p-5">
-            <div class="blurred-background p-4 rounded-xl max-w-full grid gap-2 overflow-x-hidden">
+        <main v-else-if="credentials" class="w-screen max-w-screen p-5 grid gap-2">
+            <section class="flex justify-between items-center">
+                <h1 class="text-2xl">Dein Moodle</h1>
+                <ButtonRoundedBlurred class="whitespace-nowrap" :icon="['fas', 'bell']">
+                    <InfiniteSpinner :size="15"></InfiniteSpinner>
+                </ButtonRoundedBlurred>
+            </section>
+            <section class="blurred-background p-4 rounded-xl max-w-full grid gap-2 overflow-x-hidden">
                 <div class="flex justify-between items-center">
                     <h2>Deine Kurse</h2>
                     <FluidSelection
@@ -29,8 +35,8 @@
                 <div class="grid place-content-center" v-else>
                     <InfiniteSpinner :size="30"></InfiniteSpinner>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
         <FullPageSpinner v-else></FullPageSpinner>
     </div>
 </template>

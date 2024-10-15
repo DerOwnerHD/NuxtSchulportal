@@ -11,7 +11,7 @@ interface AppRegistry {
      */
     compact_mode?: boolean;
     id: AppID;
-    flyout?: ComputedRef<FlyoutGroups>;
+    flyout?: ComputedRef<FlyoutGroup[]>;
     hide_notifications?: boolean;
 }
 
@@ -44,7 +44,7 @@ export const appRegistry = computed<AppRegistry[]>(() => [
     {
         icon: "/icons/vplan.svg",
         name: "Vertretungsplan",
-        flyout: useVertretungsplanFlyout,
+        flyout: vertretungsplanFlyout,
         id: AppID.Vertretungsplan,
         load_function: fetchVertretungsplan,
         load_on_mount: true,
@@ -54,7 +54,7 @@ export const appRegistry = computed<AppRegistry[]>(() => [
     {
         icon: "/icons/splan.svg",
         name: "Stundenplan",
-        flyout: useStundenplanFlyout,
+        flyout: stundenplanFlyout,
         id: AppID.Stundenplan,
         load_function: fetchStundenplan,
         load_on_mount: true,
@@ -74,7 +74,7 @@ export const appRegistry = computed<AppRegistry[]>(() => [
     {
         icon: "/icons/mylessons.svg",
         name: "Mein Unterricht",
-        flyout: useMyLessonsFlyout,
+        flyout: myLessonsFlyout,
         id: AppID.MyLessons,
         load_function: fetchMyLessonsCourses,
         load_on_mount: true,
@@ -82,7 +82,7 @@ export const appRegistry = computed<AppRegistry[]>(() => [
         compact_mode: true
     },
     /**
-     * TODO: Design own icons for these. As "placeholders" (still veerrry cool) FluentUI emojis icons from Microsoft are used
+     * TODO: Design own icons for these. As "placeholders" (still very cool) FluentUI emojis icons from Microsoft are used
      */
     {
         icon: "/icons/traffic-light-vertical.svg",

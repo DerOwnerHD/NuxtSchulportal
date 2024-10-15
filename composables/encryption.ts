@@ -25,7 +25,7 @@ export async function useAESKey() {
         localStorage.setItem("aes-key", JSON.stringify({ key: response.key, token: token.value }));
         return response.key;
     } catch (error) {
-        useReauthenticate(error);
+        void useReauthenticate(error);
         void createAppError(AppID.AES, KEYGEN_ERROR, useAESKey);
         console.log("Could not generate decryption key");
     }

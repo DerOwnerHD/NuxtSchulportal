@@ -17,25 +17,27 @@ import type { FluidSelectionOption } from "~/common/component-props";
 const emit = defineEmits<{
     update: [id: string];
 }>();
-const flyout = useFlyout();
-const element = useTemplateRef("container");
+const element = useTemplateRef<HTMLElement>("container");
 function open() {
     if (!element.value) return;
-    const dimensions = element.value.getBoundingClientRect();
-    flyout.value = {
-        position: [dimensions.left, dimensions.top + dimensions.height + 8],
-        groups: [
-            props.options.map((option, index) => {
-                return {
-                    title: option.title,
-                    text: option.subtitle,
-                    icon: index === selected.value ? ["fas", "check"] : undefined,
-                    disabled: index === selected.value,
-                    action: () => selectOption(index)
-                };
-            })
-        ]
-    };
+    createFlyout(
+        {
+            groups: [
+                {
+                    items: props.options.map((option, index) => {
+                        return {
+                            title: option.title,
+                            text: option.subtitle,
+                            icon: index === selected.value ? ["fas", "check"] : undefined,
+                            disabled: index === selected.value,
+                            action: () => selectOption(index)
+                        };
+                    })
+                }
+            ]
+        },
+        element.value
+    );
 }
 const props = defineProps<{
     options: FluidSelectionOption[];

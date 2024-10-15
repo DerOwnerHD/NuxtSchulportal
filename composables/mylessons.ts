@@ -1,22 +1,11 @@
 import type { MyLessonsAllCourses, MyLessonsCourse, Lerngruppe, MyLessonsCourseGlobal } from "~/common/mylessons";
-import { setNotificationCount } from "./notifications";
-
-export async function useLerngruppenFetch() {
-    try {
-        const { courses } = await $fetch<{ courses: Lerngruppe[] }>("/api/courses", {
-            query: { token: useToken().value, school: school.value }
-        });
-        useLerngruppen().value = courses;
-    } catch (error) {
-        console.error(error);
-    }
-}
+import type { IconDefinition } from "~/common";
 
 export async function fetchMyLessonsCourses() {
     const key = (await useAESKey()) ?? undefined;
     const token = useToken();
     const session = useSession();
-    useAppErrors().value.delete(AppID.MyLessons);
+    clearAppError(AppID.MyLessons);
     try {
         const response = await $fetch("/api/mylessons/courses", {
             query: {
@@ -26,25 +15,22 @@ export async function fetchMyLessonsCourses() {
                 key
             }
         });
-        // @ts-ignore
         useMyLessonsCourses().value = { courses: response.courses, expired: response.expired };
         useNotifications().value.set(
             AppID.MyLessons,
             response.courses.filter((course) => course.last_lesson?.homework && !course.last_lesson.homework.done).length
         );
     } catch (error) {
-        useReauthenticate(error);
-        setNotificationCount(AppID.MyLessons, -1);
         createAppError(AppID.MyLessons, error, fetchMyLessonsCourses);
+        await useReauthenticate(error);
     }
 }
 
-export const useLerngruppen = () => useState<Lerngruppe[]>("lerngruppen");
 export const useMyLessonsCourses = () => useState<MyLessonsAllCourses>("mylessons-courses");
 
 export const useSelectedMyLessonsCourse = () => useState<MyLessonsCourse>("selected-mylessons-course");
 
-export const MYLESSONS_ICON_IDENTIFIERS = [
+export const MYLESSONS_ICON_IDENTIFIERS: { icon: IconDefinition; identifiers: string[] }[] = [
     { icon: ["fas", "landmark"], identifiers: ["politik", "wirtschaft", "powi"] },
     { icon: ["fas", "magnet"], identifiers: ["phy"] },
     { icon: ["fas", "keyboard"], identifiers: ["info"] },
@@ -59,7 +45,7 @@ export const MYLESSONS_ICON_IDENTIFIERS = [
     { icon: ["fas", "monument"], identifiers: ["geschi"] }
 ];
 
-export function findIconForMyLessonsCourse(name: string) {
+export function findIconForMyLessonsCourse(name: string): IconDefinition | undefined {
     const group = MYLESSONS_ICON_IDENTIFIERS.find((group) => group.identifiers.some((identifier) => name.toLowerCase().includes(identifier)));
     return group?.icon;
 }
@@ -88,21 +74,22 @@ export async function fetchMyLessonsCourse(id: number, semester?: number, overwr
         const { error, error_details, ...data } = response;
         void courses.value.set(id, data);
     } catch (error) {
-        useReauthenticate(error);
         createAppError(AppID.MyLessonsCourse, error, () => fetchMyLessonsCourse(id, semester, overwrite));
+        await useReauthenticate(error);
     }
 }
 
-export const useMyLessonsFlyout = computed<FlyoutGroups>(() => {
+export const myLessonsFlyout = computed<FlyoutGroup[]>(() => {
     const courses = useMyLessonsCourses();
     if (!courses.value) return [];
-    return [
-        courses.value.courses.map((course) => {
-            return {
-                title: course.subject ?? "",
-                icon: findIconForMyLessonsCourse(course.subject ?? ""),
-                action: () => navigateTo(`/mylessons/${course.id}`)
-            };
-        })
-    ];
+
+    const courseItems = courses.value.courses.map((course) => {
+        return {
+            title: course.subject ?? "",
+            icon: findIconForMyLessonsCourse(course.subject ?? ""),
+            action: () => navigateTo(`/mylessons/${course.id}`)
+        };
+    });
+
+    return [{ items: courseItems }];
 });
