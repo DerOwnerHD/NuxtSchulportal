@@ -18,9 +18,10 @@ const emit = defineEmits<{
     update: [id: string];
 }>();
 const element = useTemplateRef<HTMLElement>("container");
-function open() {
-    if (!element.value) return;
-    createFlyout(
+const isOpen = ref(false);
+async function open() {
+    if (!element.value || isOpen.value) return;
+    const metadata = await createFlyout(
         {
             groups: [
                 {
@@ -38,6 +39,9 @@ function open() {
         },
         element.value
     );
+    if (!metadata) return;
+    metadata.addCloseListener(() => (isOpen.value = false));
+    isOpen.value = true;
 }
 const props = defineProps<{
     options: FluidSelectionOption[];
