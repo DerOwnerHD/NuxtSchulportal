@@ -1,4 +1,4 @@
-import type { MyLessonsAllCourses, MyLessonsCourse, Lerngruppe, MyLessonsCourseGlobal } from "~/common/mylessons";
+import type { MyLessonsAllCourses, MyLessonsCourse } from "~/common/mylessons";
 import type { IconDefinition } from "~/common";
 
 export async function fetchMyLessonsCourses() {

@@ -6,6 +6,10 @@ export interface FlyoutProperties {
     style?: "small";
     groups: FlyoutGroup[];
     /**
+     * Used to identify a chained flyout to prevent opening it multiple times.
+     */
+    id?: string;
+    /**
      * The position related to the parent at which the flyout should spawn.
      * If i.e. "top" is passed, the flyout will be spawned at the top of parent.
      */
@@ -44,8 +48,6 @@ interface FlyoutDefaultItem extends FlyoutItem {
 /**
  * Allows to create an item, which, if hovered, opens another
  * flyout to reveal more content.
- *
- * NOT YET IMPLEMENTED!
  */
 interface FlyoutExpandItem extends FlyoutItem {
     type: "expand";
@@ -53,17 +55,45 @@ interface FlyoutExpandItem extends FlyoutItem {
      * When passing a chained flyout, it is highly recommended
      * to force it to spawn at a sideways position
      */
-    chained_flyout: FlyoutProperties;
+    chained_flyout: FlyoutGroup[];
 }
 
 const MARGIN_TO_SCREEN_BORDER = 16;
 
-export async function createFlyout(properties: FlyoutProperties, parent: Element) {
+/**
+ * By creating a wrapper for each overlay/flyout, multiple
+ * can be visible at the same time.
+ *
+ * Calling Vue's internal {@link render} function
+ * causes only that component to render inside.
+ *
+ * => multiple components like that in one wrapper are impossible
+ *
+ * This wrapper also gets removed when the overlay closes.
+ */
+function createOverlayWrapper() {
+    const parent = document.querySelector("#overlay-wrapper");
+    if (parent === null) return null;
+    const el = document.createElement("div");
+    parent.append(el);
+    return el;
+}
+
+function getFlyoutStyle(style: string = "small") {
+    switch (style) {
+        case "small":
+            return SmallFlyout;
+        default:
+            throw new TypeError("[Flyout] Received style of unknown type!");
+    }
+}
+
+export async function createFlyout(properties: FlyoutProperties, parent: Element | null): Promise<RegisteredFlyoutMetadata | null> {
     if (parent === null) throw new ReferenceError("[Flyout] Cannot create without parent");
-    const wrapper = document.querySelector("#overlay-wrapper");
+    const wrapper = createOverlayWrapper();
     if (wrapper === null) throw new ReferenceError("[Flyout] Could not get wrapper for overlays");
 
-    const vnode = createVNode(SmallFlyout, { properties });
+    const vnode = createVNode(getFlyoutStyle(properties.style), { properties });
     render(vnode, wrapper);
 
     await nextTick();
@@ -90,7 +120,9 @@ export async function createFlyout(properties: FlyoutProperties, parent: Element
             ? parentDim.top - height
             : verticalAlignment === "bottom"
               ? parentDim.top + parentDim.height
-              : MARGIN_TO_SCREEN_BORDER;
+              : // In the worst case, when "absolute" is requested, the
+                // flyout is aligned to the screen top
+                MARGIN_TO_SCREEN_BORDER;
 
     const horizontalCenterOfParent = parentDim.left + parentDim.width / 2;
 
@@ -99,7 +131,10 @@ export async function createFlyout(properties: FlyoutProperties, parent: Element
     await nextTick();
 
     const updatedDim = vnode.component?.exposed?.getDimensions() as DOMRect | undefined;
-    if (!(updatedDim instanceof DOMRect)) return;
+    if (!(updatedDim instanceof DOMRect)) {
+        resolveFlyout(wrapper);
+        return null;
+    }
     /**
      * The flyout should, by default, transform up from the left side of the parent, unless:
      *  - the offset left from the edge of the flyout to the center of the parent is larger than the same on the
@@ -115,21 +150,46 @@ export async function createFlyout(properties: FlyoutProperties, parent: Element
      * This is of no real relevance as it is only visible for a few hundred ms. Still - nice to have.
      */
     //
-    const shouldSpawnOnRightSide =
-        parentDim.left !== updatedDim.left && horizontalCenterOfParent - updatedDim.left > updatedDim.left + width - horizontalCenterOfParent;
+    const shouldSpawnOnRightSide = horizontalCenterOfParent - updatedDim.left > updatedDim.left + width - horizontalCenterOfParent;
 
-    /**
-     * This will resolve upon closure of the flyout.
-     */
-    await vnode.component?.exposed?.finalizeFlyout(
+    const isAboveParent = updatedDim.top + height < parentDim.top + parentDim.height / 2;
+
+    await vnode.component?.exposed?.inputTransform(
         // The origin from which the flyout is supposed to animate in.
         // i.e., if is spawns at the top of the parent, it should animate in from the bottom.
-        [shouldSpawnOnRightSide ? "right" : "left", verticalAlignment === "top" ? "bottom" : "top"]
+        [shouldSpawnOnRightSide ? "right" : "left", verticalAlignment === "top" || isAboveParent ? "bottom" : "top"]
     );
-    render(null, wrapper);
+
+    vnode.component?.exposed?.addCloseListener(() => resolveFlyout(wrapper));
+
+    return {
+        addCloseListener: vnode.component?.exposed?.addCloseListener,
+        requestClose: vnode.component?.exposed?.requestClose,
+        id: properties.id
+    };
 }
 
-function decideAlignment(screenSize: number, parentSize: number, parentOffset: number, flyoutSize: number) {
+export interface RegisteredFlyoutMetadata {
+    addCloseListener: ListenerAddFunction;
+    requestClose: AnyFunction;
+    id?: string;
+}
+
+function resolveFlyout(wrapper: Element) {
+    render(null, wrapper);
+    wrapper.remove();
+}
+
+type ListenerAddFunction = (cb: AnyFunction) => void;
+
+export async function createChainedFlyout(groups: FlyoutGroup[], el: Element | null, id?: string) {
+    if (el === null) return null;
+    return await createFlyout({ groups, id, style: "small", forced_position: { direction: "sides" } }, el);
+}
+
+type Alignment = "top" | "bottom" | "absolute";
+
+function decideAlignment(screenSize: number, parentSize: number, parentOffset: number, flyoutSize: number): Alignment {
     const totalHeight = parentOffset + parentSize + flyoutSize;
     // Positioning the flyout BELOW/RIGHT of the parent. There is enough space for it.
     if (totalHeight <= screenSize - MARGIN_TO_SCREEN_BORDER) return "bottom";

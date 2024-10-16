@@ -155,21 +155,25 @@ function navigateToSelectedPlan() {
 async function updateSelectedPlan(id: string) {
     const plan = document.querySelector("#stundenplan");
     const dateDisplay = document.querySelector("#splan-date-display");
-    const prettyAnimationOptions = { duration: 300, easing: "ease-in-out", fill: "forwards" } as KeyframeAnimationOptions;
-    if (plan === null) return console.error("How... did we get here though??");
-    plan.animate({ opacity: "0" }, prettyAnimationOptions);
-    dateDisplay?.animate({ opacity: "0" }, prettyAnimationOptions);
-    await useWait(prettyAnimationOptions.duration as number);
+    const ANIM_OPTIONS = { duration: 300, easing: "ease-in-out", fill: "forwards" } as KeyframeAnimationOptions;
+
+    if (plan === null) return;
+    plan.animate({ opacity: "0" }, ANIM_OPTIONS);
+    dateDisplay?.animate({ opacity: "0" }, ANIM_OPTIONS);
+    await useWait(ANIM_OPTIONS.duration as number);
+
     comparisonMode.value = false;
     const index = plans.value.findIndex((plan) => plan.start_date === id);
     if (index === -1) return;
     selected.value = index;
+
     // If we have a large plan, we first need to actually get that new data on there
     await nextTick();
-    plan.animate({ opacity: "1" }, prettyAnimationOptions);
-    dateDisplay?.animate({ opacity: "1" }, prettyAnimationOptions);
+
+    plan.animate({ opacity: "1" }, ANIM_OPTIONS);
+    dateDisplay?.animate({ opacity: "1" }, ANIM_OPTIONS);
     const planAtIndex = plans.value[index];
-    if (!planAtIndex) return console.error("Huh? Plan not found for one we just selected");
+    if (!planAtIndex) return;
     // This acts the same way as the selection in the dock flyout
     // Has no effect but when the user reloads the site, they get thrown out at this one
     navigateTo(`/stundenplan?plan=${planAtIndex.start_date}`);
@@ -193,7 +197,7 @@ const comparisonResult = computed(() => {
 });
 
 function generateStylesForLesson(lessons: number[]) {
-    // Using indicies [0] and [-1] does not work in JS
+    // Using indices [0] and [-1] does not work in JS
     return { "--start": lessons.at(0), "--end": lessons.at(-1) };
 }
 

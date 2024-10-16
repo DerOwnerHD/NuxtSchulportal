@@ -47,3 +47,21 @@ export function hasValidAESKeySet() {
         return false;
     }
 }
+
+/**
+ * This method has been ripped from the SPH frontend (https://start.schulportal.hessen.de/js/createAEStoken.js).
+ * The default implementation using Math.random is insecure.
+ *
+ * See the [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/API/Crypto/randomUUID) for more details.
+ * @returns The random UUID
+ */
+export function useRandomUUID() {
+    if ("randomUUID" in crypto) return crypto.randomUUID();
+    console.warn("Using insecure UUID generation");
+    let time = performance.now();
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx-xxxxxx3xx".replace(/[xy]/g, (char) => {
+        const random = (time + Math.random() * 16) % 16 | 0;
+        time = Math.floor(time / 16);
+        return (char === "x" ? random : (random & 0x3) | 0x8).toString(16);
+    });
+}

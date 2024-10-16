@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import "~/composables/prototype";
-import { RouteLocationNormalized } from "vue-router";
+import { type RouteLocationNormalized } from "vue-router";
 
 const isPageScrollable = useScrollabilityStatus();
 useRouter().afterEach(async (route) => {

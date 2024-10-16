@@ -20,6 +20,8 @@
 </template>
 
 <script setup lang="ts">
+import { easingFunctions } from "~/composables/utils";
+
 const emit = defineEmits<{ update: [index: number] }>();
 defineProps<{ options: { title: string; subtitle?: string; icon?: string[]; default?: boolean; widget?: any }[] }>();
 const selected = ref(0);
@@ -48,7 +50,7 @@ function updatePointerPosition(animate: boolean = true) {
             left: offsetLeft + "px",
             width: clientWidth + "px"
         },
-        { duration: 300, fill: "forwards", easing: "cubic-bezier(0,.07,.75,-0.21)" }
+        { duration: 300, fill: "forwards", easing: easingFunctions.bounce }
     );
 }
 onMounted(() => {

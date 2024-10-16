@@ -18,6 +18,10 @@ export function joinLessonList(lessons: number[]) {
     return `${lessons.at(0)}. - ${lessons.at(-1)}.${lessonSuffix}`;
 }
 
+export const easingFunctions = {
+    bounce: "cubic-bezier(0.33, 1.35, 0.5, 1)"
+};
+
 export const SPH_BASE = "https://start.schulportal.hessen.de";
 export const openLink = (link: string) => window.open(link, "_blank");
 export const addZeroToNumber = (number: number) => String(number).padStart(2, "0");

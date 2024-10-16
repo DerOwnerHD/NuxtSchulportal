@@ -3,7 +3,7 @@ import type { AnyFunction } from "~/common";
 interface AppRegistry {
     icon: string;
     name: string;
-    load_function: () => Promise<any> | any;
+    load_function: AnyFunction;
     load_on_mount?: boolean;
     route: string;
     /**

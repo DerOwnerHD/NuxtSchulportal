@@ -101,7 +101,7 @@ function createContinuousUpdate() {
     );
 }
 async function switchDay(index: number) {
-    const duration = 500;
+    const duration = 400;
     if (!card.value || !content.value) return (selected.value = index);
     const blendOpacity = (opacity: string) =>
         content.value?.animate({ opacity }, { duration: duration / 2, fill: "forwards", easing: "ease-in-out" });

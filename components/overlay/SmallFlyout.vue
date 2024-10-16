@@ -23,8 +23,12 @@
                 :data-group-index="groupIndex"
                 :data-item-index="index"
                 data-small-flyout-item=""
+                :data-type="item.type ?? 'default'"
                 :data-disabled="item.disabled ? true : null"
-                :data-selected="hoveredGroupIndex === groupIndex && hoveredItemIndex === index"
+                :data-selected="
+                    (hoveredGroupIndex === groupIndex && hoveredItemIndex === index) ||
+                    (currentChainedFlyout && groupIndex === currentChainedFlyout.group && index === currentChainedFlyout.item)
+                "
                 class="item"
                 v-for="(item, index) of group.items"
                 ref="items">
@@ -35,6 +39,7 @@
                     <small v-if="item.text">{{ item.text }}</small>
                 </div>
                 <font-awesome-icon v-if="item.type !== 'expand' && item.icon" :icon="item.icon"></font-awesome-icon>
+                <font-awesome-icon v-if="item.type === 'expand'" :icon="['fas', 'chevron-right']"></font-awesome-icon>
             </div>
         </section>
         <section class="px-4 py-2" v-if="!hasAnyItems">Keine Aktionen</section>
@@ -42,15 +47,71 @@
 </template>
 
 <script setup lang="ts">
-import type { FlyoutProperties } from "~/composables/flyout";
+import type { FlyoutProperties, RegisteredFlyoutMetadata } from "~/composables/flyout";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import type { AnyFunction } from "~/common";
 
 const FLYOUT_WIDTH = 190;
 
 const props = defineProps<{ properties: FlyoutProperties }>();
-defineExpose({ inputPosition, getDimensions, finalizeFlyout });
+defineExpose({ inputPosition, getDimensions, inputTransform, requestClose, addCloseListener });
 
 const el = useTemplateRef<HTMLElement>("flyout");
+
+/**
+ * Can be called from the parent flyout to request closure.
+ */
+async function requestClose() {
+    await closeFlyout();
+}
+
+const closeListeners = ref<AnyFunction[]>([]);
+function addCloseListener(cb: AnyFunction) {
+    closeListeners.value.push(cb);
+}
+
+interface IndexedFlyoutMetadata extends RegisteredFlyoutMetadata {
+    group: number;
+    item: number;
+}
+const currentChainedFlyout = ref<IndexedFlyoutMetadata | null>(null);
+/**
+ * Prevents opening multiple children all at once.
+ */
+const isRegisteringChild = ref(false);
+async function registerChainedFlyout(groups: FlyoutGroup[], group: number, item: number) {
+    if (isRegisteringChild.value || !el.value) return;
+    isRegisteringChild.value = true;
+
+    // First, the old one has to go!
+    if (currentChainedFlyout.value) {
+        const { group: iGroup, item: iItem } = currentChainedFlyout.value;
+        await currentChainedFlyout.value.requestClose();
+
+        currentChainedFlyout.value = null;
+
+        // If the user presses the same button again, they most
+        // likely wish to close the chained flyout.
+        if (iGroup === group && iItem === item) {
+            isRegisteringChild.value = false;
+            return;
+        }
+    }
+
+    /**
+     * Using the element of the item directly as the parent instead of the whole flyout
+     * aligns the child closer to that item the user clicked.
+     */
+    const itemEl = el.value.querySelector(`.item[data-group-index="${group}"][data-item-index="${item}"]`);
+    const metadata = await createChainedFlyout(groups, itemEl);
+    if (metadata === null) {
+        isRegisteringChild.value = false;
+        return;
+    }
+    metadata.addCloseListener(() => (currentChainedFlyout.value = null));
+    currentChainedFlyout.value = { ...metadata, group, item };
+    isRegisteringChild.value = false;
+}
 
 /**
  * The flyout is disabled/hidden as long as createFlyout has not yet
@@ -69,6 +130,7 @@ function handleTouchInputs(event: TouchEvent) {
     if (!touch) return;
     const elFromPoint = document.elementFromPoint(touch.clientX, touch.clientY);
     if (!(elFromPoint instanceof HTMLElement)) return;
+
     const el = elFromPoint.closest("[data-small-flyout-item]");
     if (el === null) return;
 
@@ -80,10 +142,18 @@ function handleTouchInputs(event: TouchEvent) {
 }
 
 async function submitTouchInput() {
-    if (hoveredGroupIndex.value === -1 && hoveredItemIndex.value === -1) return;
-    const item = props.properties.groups[hoveredGroupIndex.value].items[hoveredItemIndex.value];
+    const iGroup = hoveredGroupIndex.value;
+    const iItem = hoveredItemIndex.value;
+    hoveredGroupIndex.value = -1;
+    hoveredItemIndex.value = -1;
+    if (iGroup === -1 && iItem === -1) return;
+    const item = props.properties.groups[iGroup].items[iItem];
+    if (item.type === "expand") {
+        await registerChainedFlyout(item.chained_flyout, iGroup, iItem);
+        return;
+    }
     if ("action" in item && typeof item.action === "function" && !item.disabled) void item.action();
-    closeFlyout();
+    await closeFlyout();
 }
 onUnmounted(() => {
     window.removeEventListener("touchstart", closeFlyoutWithEvent);
@@ -97,10 +167,12 @@ function closeFlyoutWithEvent(event: Event) {
 
 async function closeFlyout() {
     isFlyoutClosing.value = true;
+    if (currentChainedFlyout.value) void currentChainedFlyout.value.requestClose();
     await sleep(400);
-    if (unmountPromise.value) unmountPromise.value(null);
+    // Yes, this will call a callback on the parent, who just requested a close on this child.
+    // (but also for the unmount handler)
+    closeListeners.value.forEach((cb) => cb());
 }
-const unmountPromise = ref<((value: unknown) => void) | null>(null);
 
 type HorizontalOrigin = "left" | "right";
 type VerticalOrigin = "top" | "bottom";
@@ -117,12 +189,11 @@ async function inputPosition([x, y]: number[]) {
  * This promise will not resolve until the flyout is closed.
  * Then the render function will be called on the wrapper, clearing the component.
  */
-async function finalizeFlyout(origin: [HorizontalOrigin, VerticalOrigin]) {
+async function inputTransform(origin: [HorizontalOrigin, VerticalOrigin]) {
     transformOrigin.value = origin;
     await nextTick();
     isFlyoutDisabled.value = false;
     window.addEventListener("touchstart", closeFlyoutWithEvent, { passive: true });
-    return new Promise((resolve) => (unmountPromise.value = resolve));
 }
 
 /**
@@ -165,8 +236,9 @@ small {
 }
 
 .small-flyout {
-    @apply absolute h-auto text-black rounded-2xl drop-shadow-lg pointer-events-auto max-h-screen overflow-y-scroll;
+    @apply absolute h-auto text-black rounded-2xl pointer-events-auto max-h-screen overflow-y-scroll;
     background: var(--flyout-background);
+    box-shadow: var(--surronding-shadow);
     font-family: var(--semibold-font), sans-serif;
     /** @ts-ignore */
     transform-origin: var(--horizontal) var(--vertical);
@@ -178,19 +250,17 @@ small {
 .small-flyout[data-closing] {
     transition-duration: 400ms;
     transition-property: opacity, transform;
-    @apply pointer-events-none opacity-0;
+    @apply pointer-events-none opacity-0 scale-0;
 }
 
 @keyframes flyout-open {
     from {
         opacity: 0;
         transform: scale(0);
-        filter: blur(4px);
     }
     to {
         opacity: 100%;
         transform: scale(100%);
-        filter: blur(0);
     }
 }
 </style>

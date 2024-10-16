@@ -36,6 +36,7 @@ body {
     --regular-font: "SPRegular";
     --serif-font: "Merriweather";
     --bounce-bezier: cubic-bezier(0.33, 1.35, 0.5, 1);
+    --surronding-shadow: 0 0 32px 6px #00000050;
     color: white;
 }
 #__nuxt {

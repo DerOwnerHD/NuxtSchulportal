@@ -312,7 +312,7 @@ type StundenplanSubjectUpdate = "room" | "teacher";
  * Splits up all combined lessons. Lessons are combined on the backend when they share the exact same classes.
  * For comparing plans, this is removed to prevent some issues.
  *
- * If, for example, a new plan only has a a subject
+ * If, for example, a new plan only has a subject
  * in the second hour, while previously, there had been something for hour 1 and 2, this would cause issues.
  * We can merge these later on again.
  * @param plan The plan for which to split lessons
@@ -333,8 +333,7 @@ function splitAllLessons(plan: Stundenplan): StundenplanLesson[][] {
 
 export const stundenplanFlyout = computed<FlyoutGroup[]>(() => {
     const plans = useStundenplan();
-    const errors = useAppErrors();
-    const title = errors.value.has(AppID.Stundenplan)
+    const title = hasAppError(AppID.Stundenplan)
         ? STATIC_STRINGS.LOADING_ERROR
         : plans.value
           ? plans.value.length
@@ -343,7 +342,10 @@ export const stundenplanFlyout = computed<FlyoutGroup[]>(() => {
           : // Due to the stundenplan useState being initialized using an array
             // (instead of being empty), this state will never be available
             STATIC_STRINGS.IS_LOADING;
-    return [{ items: [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }] }, { items: getStundenplanFlyoutItems() }];
+    return [
+        { items: [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }] },
+        { items: getStundenplanFlyoutItems() },
+    ];
 });
 
 export function getStundenplanFlyoutItems() {
