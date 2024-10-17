@@ -64,7 +64,7 @@ export const appRegistry = computed<AppRegistry[]>(() => [
     {
         icon: "/icons/moodle.svg",
         name: "Moodle",
-        flyout: computed(() => []),
+        flyout: moodleFlyout,
         id: AppID.Moodle,
         load_function: attemptMoodleLogin,
         load_on_mount: true,

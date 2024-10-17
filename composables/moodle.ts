@@ -20,6 +20,7 @@ export async function attemptMoodleLogin(bypassCheck?: boolean) {
     if (isStillValid) {
         console.log("Requested moodle re-auth while session is still valid");
         setNotificationCount(AppID.Moodle, 0);
+        void fetchMoodleCourses("all");
         return;
     }
 
@@ -34,10 +35,10 @@ export async function attemptMoodleLogin(bypassCheck?: boolean) {
             const { error, error_details, ...data } = response;
             creds.value = data;
             setNotificationCount(AppID.Moodle, 0);
+            void fetchMoodleCourses("all");
         });
     } catch (error) {
         createAppError(AppID.Moodle, error, attemptMoodleLogin, false);
-        setNotificationCount(AppID.Moodle, -1);
         console.error("Failed to fetch Moodle login", error);
     }
 }
@@ -84,13 +85,13 @@ export async function fetchMoodleCourses(type: MoodleCoursesListClassification =
         });
         list.value.set(type, response.courses);
     } catch (error) {
-        useReauthenticate(error, "moodle");
         createAppError(AppID.MoodleCourseList, error, () => fetchMoodleCourses(type, overwrite));
+        await useReauthenticate(error, "moodle");
     }
 }
 
 /**
- * Attempts to wrap a image link inside a proxy API call.
+ * Attempts to wrap an image link inside a proxy API call.
  *
  * This is only necessary when dealing with images fetched directly from Moodle.
  * These require authentication that is provided in the GET params as the cookie.
@@ -112,3 +113,41 @@ export function proxyMoodleImage(link: string) {
         return link;
     }
 }
+
+export const moodleFlyout = computed<FlyoutGroup[]>(() => {
+    const creds = useMoodleCredentials();
+    const courses = useMoodleCourses();
+    const hasError = hasAppError(AppID.Moodle);
+
+    const overviewGroup: FlyoutGroup = {
+        items: [
+            {
+                title: "Dein Moodle",
+                text: hasError ? STATIC_STRINGS.LOADING_ERROR : !creds.value ? STATIC_STRINGS.IS_LOADING : ""
+            }
+        ]
+    };
+
+    const allCourses = courses.value.get("all");
+    // TODO: rewire link when course pages are set up
+    const courseList = allCourses?.map((course) => ({ title: course.names.short, action: () => navigateTo(`/moodle`) })) ?? [];
+    const coursesFlyout: FlyoutGroup[] = [{ items: courseList }];
+
+    // Contains expands to all different categories of "things" on Moodle
+    const detailsGroup: FlyoutGroup = {
+        items: [
+            {
+                title: "Deine Kurse",
+                text: hasAppError(AppID.MoodleCourseList)
+                    ? STATIC_STRINGS.LOADING_ERROR
+                    : allCourses
+                      ? `${allCourses.length} Kurs${allCourses.length !== 1 ? "e" : ""}`
+                      : STATIC_STRINGS.IS_LOADING,
+                type: "expand",
+                chained_flyout: coursesFlyout
+            }
+        ]
+    };
+
+    return [overviewGroup, detailsGroup];
+});

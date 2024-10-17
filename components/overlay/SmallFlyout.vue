@@ -132,7 +132,11 @@ function handleTouchInputs(event: TouchEvent) {
     if (!(elFromPoint instanceof HTMLElement)) return;
 
     const el = elFromPoint.closest("[data-small-flyout-item]");
-    if (el === null) return;
+    if (el === null) {
+        hoveredGroupIndex.value = -1;
+        hoveredItemIndex.value = -1;
+        return;
+    }
 
     const indices = ["data-group-index", "data-item-index"].map((attr) => parseInt(el.getAttribute(attr)!));
     if (indices.some((index) => !Number.isSafeInteger(index) || index < 0)) return;
@@ -236,12 +240,13 @@ small {
 }
 
 .small-flyout {
-    @apply absolute h-auto text-black rounded-2xl pointer-events-auto max-h-screen overflow-y-scroll;
+    @apply absolute h-auto text-black rounded-2xl pointer-events-auto overflow-y-scroll;
     background: var(--flyout-background);
     box-shadow: var(--surronding-shadow);
     font-family: var(--semibold-font), sans-serif;
     /** @ts-ignore */
     transform-origin: var(--horizontal) var(--vertical);
+    max-height: calc(100vh - 2 * var(--screen-border-margin));
 }
 .small-flyout[data-open] {
     animation: flyout-open 400ms var(--bounce-bezier);

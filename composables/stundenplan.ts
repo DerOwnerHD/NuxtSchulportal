@@ -342,10 +342,7 @@ export const stundenplanFlyout = computed<FlyoutGroup[]>(() => {
           : // Due to the stundenplan useState being initialized using an array
             // (instead of being empty), this state will never be available
             STATIC_STRINGS.IS_LOADING;
-    return [
-        { items: [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }] },
-        { items: getStundenplanFlyoutItems() },
-    ];
+    return [{ items: [{ title: "Stundenplan", text: title, action: () => navigateTo("/stundenplan") }] }, { items: getStundenplanFlyoutItems() }];
 });
 
 export function getStundenplanFlyoutItems() {
