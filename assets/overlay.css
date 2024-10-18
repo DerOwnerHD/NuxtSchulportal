@@ -1,0 +1,46 @@
+.flyout {
+    @apply absolute h-auto rounded-2xl pointer-events-auto overflow-y-scroll;
+    box-shadow: var(--surronding-shadow);
+    font-family: var(--semibold-font), sans-serif;
+    transform-origin: var(--horizontal) var(--vertical);
+    max-height: calc(100vh - 2 * var(--screen-border-margin));
+    small {
+        @apply text-xs block;
+        font-family: var(--regular-font), sans-serif;
+    }
+}
+.flyout[data-open] {
+    animation: flyout-open 400ms var(--bounce-bezier);
+}
+
+.flyout[data-closing] {
+    transition-duration: 400ms;
+    transition-property: opacity, transform;
+    @apply pointer-events-none opacity-0 scale-0;
+}
+
+.small-flyout {
+    @apply text-black;
+    background: var(--flyout-background);
+    small {
+        @apply text-gray-500;
+    }
+}
+.large-flyout {
+    @apply p-2 text-white;
+    background: var(--dock-gradient);
+    small {
+        @apply text-gray-300;
+    }
+}
+
+@keyframes flyout-open {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+    to {
+        opacity: 100%;
+        transform: scale(100%);
+    }
+}

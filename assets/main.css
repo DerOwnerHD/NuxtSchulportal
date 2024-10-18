@@ -38,6 +38,7 @@ body {
     --bounce-bezier: cubic-bezier(0.33, 1.35, 0.5, 1);
     --surronding-shadow: 0 0 32px 6px #00000050;
     --screen-border-margin: 1rem;
+    --dock-gradient: linear-gradient(135deg, #2b2d2e, #141515);
     color: white;
 }
 #__nuxt {

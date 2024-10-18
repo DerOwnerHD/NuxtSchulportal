@@ -47,14 +47,14 @@
 </template>
 
 <script setup lang="ts">
-import type { FlyoutProperties, RegisteredFlyoutMetadata } from "~/composables/flyout";
+import type { FlyoutProperties, HorizontalOrigin, RegisteredFlyoutMetadata, SmallFlyoutProperties, VerticalOrigin } from "~/composables/flyout";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import type { AnyFunction } from "~/common";
 
 const FLYOUT_WIDTH = 190;
 
-const props = defineProps<{ properties: FlyoutProperties }>();
-defineExpose({ inputPosition, getDimensions, inputTransform, requestClose, addCloseListener });
+const props = defineProps<{ properties: SmallFlyoutProperties }>();
+defineExpose({ getDimensions, inputPosition, inputTransform, requestClose, addCloseListener });
 
 const el = useTemplateRef<HTMLElement>("flyout");
 
@@ -178,8 +178,6 @@ async function closeFlyout() {
     closeListeners.value.forEach((cb) => cb());
 }
 
-type HorizontalOrigin = "left" | "right";
-type VerticalOrigin = "top" | "bottom";
 const transformOrigin = ref<[HorizontalOrigin, VerticalOrigin] | null>(null);
 
 /**
@@ -232,40 +230,5 @@ section:not(:first-of-type) .item:first-of-type {
 
 .item[data-selected="true"] {
     @apply bg-black bg-opacity-10;
-}
-
-small {
-    @apply text-gray-500 text-xs block;
-    font-family: var(--regular-font), sans-serif;
-}
-
-.small-flyout {
-    @apply absolute h-auto text-black rounded-2xl pointer-events-auto overflow-y-scroll;
-    background: var(--flyout-background);
-    box-shadow: var(--surronding-shadow);
-    font-family: var(--semibold-font), sans-serif;
-    /** @ts-ignore */
-    transform-origin: var(--horizontal) var(--vertical);
-    max-height: calc(100vh - 2 * var(--screen-border-margin));
-}
-.small-flyout[data-open] {
-    animation: flyout-open 400ms var(--bounce-bezier);
-}
-
-.small-flyout[data-closing] {
-    transition-duration: 400ms;
-    transition-property: opacity, transform;
-    @apply pointer-events-none opacity-0 scale-0;
-}
-
-@keyframes flyout-open {
-    from {
-        opacity: 0;
-        transform: scale(0);
-    }
-    to {
-        opacity: 100%;
-        transform: scale(100%);
-    }
 }
 </style>

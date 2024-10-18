@@ -35,7 +35,7 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
         const response = await createMoodleRequest<Session_TimeRemaining_ExternalFunction>(
             { school, cookie, session, address },
             {
-                name: "core_session_external_function",
+                name: "core_session_time_remaining",
                 args: {}
             }
         );

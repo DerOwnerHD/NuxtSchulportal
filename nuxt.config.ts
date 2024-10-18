@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     },
 
     modules: ["@nuxtjs/tailwindcss", "@nuxt/image"],
-    css: ["@fortawesome/fontawesome-svg-core/styles.css", "assets/main.css", "assets/animations.css"],
+    css: ["@fortawesome/fontawesome-svg-core/styles.css", "assets/main.css", "assets/animations.css", "assets/overlay.css"],
     ssr: true,
     devServer: { port: 80 },
 

@@ -4,8 +4,10 @@
         <main v-else-if="credentials" class="w-screen max-w-screen p-5 grid gap-2">
             <section class="flex justify-between items-center">
                 <h1 class="text-2xl">Dein Moodle</h1>
-                <ButtonRoundedBlurred class="whitespace-nowrap" :icon="['fas', 'bell']">
-                    <InfiniteSpinner :size="15"></InfiniteSpinner>
+                <ButtonRoundedBlurred class="whitespace-nowrap h-8" :icon="['fas', 'bell']" ref="notifications" @click="toggleNotifications">
+                    <font-awesome-icon v-if="hasAppError(AppID.MoodleNotifications)" :icon="['fas', 'triangle-exclamation']"></font-awesome-icon>
+                    <span v-else-if="notifications">{{ notifications.length }}</span>
+                    <InfiniteSpinner v-else :size="15"></InfiniteSpinner>
                 </ButtonRoundedBlurred>
             </section>
             <section class="blurred-background rounded-xl">
@@ -40,19 +42,42 @@
 import type { FluidSelectionOption } from "~/common/component-props";
 import type { MoodleCoursesListClassification } from "~/common/moodle";
 import ScrollFader from "~/components/ScrollFader.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import MoodleNotifications from "~/components/overlay/flyouts/MoodleNotifications.vue";
+
+const notButton = useTemplateRef("notifications");
+const notFlyout = ref<RegisteredFlyoutMetadata | null>(null);
+async function toggleNotifications() {
+    if (!notFlyout.value) {
+        const data = await createFlyout({ style: "large", content: MoodleNotifications }, notButton.value?.$el);
+        if (data === null) return;
+        data.addCloseListener(() => (notFlyout.value = null));
+        notFlyout.value = data;
+        return;
+    }
+    notFlyout.value.requestClose();
+}
 
 const credentials = useMoodleCredentials();
 
 const courses = useMoodleCourses();
 const coursesEl = useTemplateRef("course-list");
-const selectedClassification = ref<MoodleCoursesListClassification>("all");
-const selCourses = computed(() => courses.value.get(selectedClassification.value));
-onMounted(() => {
-    fetchMoodleCourses();
+const selCourseType = ref<MoodleCoursesListClassification>("all");
+const selCourses = computed(() => courses.value.get(selCourseType.value));
+
+const notifications = useMoodleNotifications();
+
+onMounted(async () => {
+    if (!credentials.value) return;
+    fetchMoodleCourses(selCourseType.value).then(async () => {
+        await nextTick();
+        coursesEl.value?.update();
+    });
+    void fetchMoodleNotifications();
 });
 
 async function switchCourseType(id: MoodleCoursesListClassification) {
-    selectedClassification.value = id;
+    selCourseType.value = id;
     await fetchMoodleCourses(id, false);
     await nextTick();
     coursesEl.value?.update();

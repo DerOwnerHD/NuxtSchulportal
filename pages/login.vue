@@ -355,8 +355,6 @@ async function beginReset() {
         return showErrorMessage("Trage deine Schule oben ein", "reset");
     if (!patterns.BIRTHDAY.test(reset.value.birthday)) return showErrorMessage("Geburtstag ungültig", "reset");
     state.value = Status.ResetSending;
-    const types = ["student", "parent", "teacher"];
-    const type = types.indexOf(document.querySelector(".select#resetType > div[selected]")?.id || "student");
     const { data, error } = await useFetch<InitialResetResponse>("/api/resetpassword", {
         method: "POST",
         body: {
@@ -432,7 +430,6 @@ interface FinalResetResponse {
     password: string;
 }
 async function verifyResetCode() {
-    console.log("HIIIII");
     let code = "";
     const satisfied = Array.from(document.querySelectorAll(".reset-stage[stage='2'] input")).every((element, index) => {
         if (!(element instanceof HTMLInputElement)) return true;

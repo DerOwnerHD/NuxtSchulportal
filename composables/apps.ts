@@ -132,5 +132,6 @@ export enum AppID {
     Status = "status",
     Notifications = "notifications",
     Logoff = "logoff",
-    MoodleCourseList = "moodle-course-list"
+    MoodleCourseList = "moodle-course-list",
+    MoodleNotifications = "moodle-notifications"
 }

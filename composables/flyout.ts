@@ -1,10 +1,11 @@
 import type { AnyFunction, IconDefinition } from "~/common";
-import { createVNode, render } from "vue";
+import { h } from "vue";
 import SmallFlyout from "~/components/overlay/SmallFlyout.vue";
+import LargeFlyout from "~/components/overlay/LargeFlyout.vue";
 
-export interface FlyoutProperties {
-    style?: "small";
-    groups: FlyoutGroup[];
+type FlyoutStyle = "small" | "large";
+interface FlyoutPropertiesBase {
+    style?: FlyoutStyle;
     /**
      * Used to identify a chained flyout to prevent opening it multiple times.
      */
@@ -26,6 +27,21 @@ export interface FlyoutProperties {
         horizontal?: "top" | "bottom";
     };
 }
+
+export interface SmallFlyoutProperties extends FlyoutPropertiesBase {
+    style?: "small";
+    groups: FlyoutGroup[];
+}
+
+export interface LargeFlyoutProperties extends FlyoutPropertiesBase {
+    style: "large";
+    /**
+     * The component name to look up
+     */
+    content: Component;
+    content_props?: Record<string, any>;
+}
+export type FlyoutProperties = SmallFlyoutProperties | LargeFlyoutProperties;
 
 export interface FlyoutGroup {
     title?: string;
@@ -60,45 +76,59 @@ interface FlyoutExpandItem extends FlyoutItem {
 
 const MARGIN_TO_SCREEN_BORDER = 16;
 
-/**
- * By creating a wrapper for each overlay/flyout, multiple
- * can be visible at the same time.
- *
- * Calling Vue's internal {@link render} function
- * causes only that component to render inside.
- *
- * => multiple components like that in one wrapper are impossible
- *
- * This wrapper also gets removed when the overlay closes.
- */
-function createOverlayWrapper() {
-    const parent = document.querySelector("#overlay-wrapper");
-    if (parent === null) return null;
-    const el = document.createElement("div");
-    parent.append(el);
-    return el;
-}
-
-function getFlyoutStyle(style: string = "small") {
+function getFlyoutStyle(style: FlyoutStyle = "small"): Component {
     switch (style) {
         case "small":
             return SmallFlyout;
+        case "large":
+            return LargeFlyout;
         default:
             throw new TypeError("[Flyout] Received style of unknown type!");
     }
 }
 
+export type HorizontalOrigin = "left" | "right";
+export type VerticalOrigin = "top" | "bottom";
+
+interface ExposedFunctions {
+    getDimensions: () => DOMRect | null;
+    inputPosition: (coords: number[]) => void;
+    inputTransform: (origin: [HorizontalOrigin, VerticalOrigin]) => Promise<void>;
+    addCloseListener: ListenerAddFunction;
+    requestClose: () => void;
+}
+type ResolveFn = (data: ExposedFunctions) => void;
+interface FlyoutCreationMeta {
+    vnode: VNode;
+    callback: ResolveFn;
+}
+export const useFlyoutMap = () => useState("flyout-map", () => new Map<string, FlyoutCreationMeta>());
+
 export async function createFlyout(properties: FlyoutProperties, parent: Element | null): Promise<RegisteredFlyoutMetadata | null> {
     if (parent === null) throw new ReferenceError("[Flyout] Cannot create without parent");
-    const wrapper = createOverlayWrapper();
-    if (wrapper === null) throw new ReferenceError("[Flyout] Could not get wrapper for overlays");
 
-    const vnode = createVNode(getFlyoutStyle(properties.style), { properties });
-    render(vnode, wrapper);
+    const map = useFlyoutMap();
+    const uuid = useRandomUUID();
+    const vnode = h(getFlyoutStyle(properties.style), { properties });
 
-    await nextTick();
+    let fn: ResolveFn | null = null;
+    const promise = new Promise((resolve: ResolveFn) => (fn = resolve));
+    if (!fn) return null;
 
-    const dimensions = vnode.component?.exposed?.getDimensions();
+    /**
+     * Using Vue's internal *render* function causes the component to not inherit the Nuxt context.
+     * As that is required to use ANY composables, the vnode is mounted in the layout using <component :is>.
+     *
+     * That includes a ref prop with a function, returning the exposed functions from the component.
+     * This function awaits that promise and then continues on as normal.
+     *
+     * The vnode variable created above does not update itself if it is mounted somewhere.
+     */
+    map.value.set(uuid, { vnode, callback: fn });
+
+    const functions = await promise;
+
+    const dimensions = functions.getDimensions();
     if (!(dimensions instanceof DOMRect)) throw new ReferenceError("[Flyout] Failed to load dimensions");
 
     const parentDim = parent.getBoundingClientRect();
@@ -126,13 +156,13 @@ export async function createFlyout(properties: FlyoutProperties, parent: Element
 
     const horizontalCenterOfParent = parentDim.left + parentDim.width / 2;
 
-    vnode.component?.exposed?.inputPosition([clampNumber(x, MARGIN_TO_SCREEN_BORDER, window.innerWidth - MARGIN_TO_SCREEN_BORDER - width), y]);
+    functions.inputPosition([clampNumber(x, MARGIN_TO_SCREEN_BORDER, window.innerWidth - MARGIN_TO_SCREEN_BORDER - width), y]);
 
     await nextTick();
 
-    const updatedDim = vnode.component?.exposed?.getDimensions() as DOMRect | undefined;
+    const updatedDim = functions.getDimensions() as DOMRect | undefined;
     if (!(updatedDim instanceof DOMRect)) {
-        resolveFlyout(wrapper);
+        resolveFlyout(uuid);
         return null;
     }
     /**
@@ -154,17 +184,17 @@ export async function createFlyout(properties: FlyoutProperties, parent: Element
 
     const isAboveParent = updatedDim.top + height < parentDim.top + parentDim.height / 2;
 
-    await vnode.component?.exposed?.inputTransform(
+    await functions.inputTransform(
         // The origin from which the flyout is supposed to animate in.
         // i.e., if is spawns at the top of the parent, it should animate in from the bottom.
         [shouldSpawnOnRightSide ? "right" : "left", verticalAlignment === "top" || isAboveParent ? "bottom" : "top"]
     );
 
-    vnode.component?.exposed?.addCloseListener(() => resolveFlyout(wrapper));
+    functions.addCloseListener(() => resolveFlyout(uuid));
 
     return {
-        addCloseListener: vnode.component?.exposed?.addCloseListener,
-        requestClose: vnode.component?.exposed?.requestClose,
+        addCloseListener: functions.addCloseListener,
+        requestClose: functions.requestClose,
         id: properties.id
     };
 }
@@ -175,9 +205,9 @@ export interface RegisteredFlyoutMetadata {
     id?: string;
 }
 
-function resolveFlyout(wrapper: Element) {
-    render(null, wrapper);
-    wrapper.remove();
+export function resolveFlyout(uuid: string) {
+    const map = useFlyoutMap();
+    map.value.delete(uuid);
 }
 
 type ListenerAddFunction = (cb: AnyFunction) => void;

@@ -29,7 +29,8 @@ type MoodleExternalFunctions =
     | Message_GetConversations_ExternalFunction
     | Session_TimeRemaining_ExternalFunction
     | Message_GetConversationMessages_ExternalFunction
-    | MessagePopup_GetPopupNotifications_ExternalFunction;
+    | MessagePopup_GetPopupNotifications_ExternalFunction
+    | Message_MarkAllNotificationsAsRead_ExternalFunction;
 
 /**
  * Implemented at: https://github.com/moodle/moodle/blob/dca18ebca3b1efe46e02302906c2f2e7fa0e5e0e/course/externallib.php#L3935
@@ -120,7 +121,7 @@ export interface Message_GetConversations_ExternalFunction extends BaseMoodleExt
  * Implemented at https://github.com/moodle/moodle/blob/a3cc26f8bb8a9422a4b5a0ef3ff5f3551830d724/lib/classes/session/external.php#L84
  */
 export interface Session_TimeRemaining_ExternalFunction extends BaseMoodleExternalFunction {
-    name: "core_session_external_function";
+    name: "core_session_time_remaining";
     args: {};
     response: {
         userid: number;
@@ -177,4 +178,26 @@ export interface MessagePopup_GetPopupNotifications_ExternalFunction extends Bas
         notifications: PreMoodleNotification[];
         unreadcount: number;
     };
+}
+
+/**
+ * Implemented at: https://github.com/moodle/moodle/blob/fc29adddf96b42d07bd1e36377172a2352b8ea3d/message/externallib.php#L2232
+ */
+export interface Message_MarkAllNotificationsAsRead_ExternalFunction {
+    name: "core_message_mark_all_notifications_as_read";
+    args: {
+        /**
+         * Required, 0 for all users (not allowed for default users)
+         */
+        useridto: number;
+        /**
+         * Which user sent the notification, 0 for all. -10 or -20 for support and no-reply
+         */
+        useridfrom?: number;
+        /**
+         * Mark messages created before this timestamp as read, 0 to mark all
+         */
+        timecreatedto?: number;
+    };
+    response: boolean;
 }

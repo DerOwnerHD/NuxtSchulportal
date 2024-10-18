@@ -45,6 +45,10 @@ export function validateQueryNew(schema: SchemaEntryConsumer, query: Record<stri
             continue;
         }
 
+        if (!existsInQuery && !schemaItem.required) {
+            continue;
+        }
+
         const functionResult = schemaItem.validator_function ? schemaItem.validator_function(entry, schemaItem, queryItem) : false;
         if (functionResult) offenses.push("validator_function_failed");
 

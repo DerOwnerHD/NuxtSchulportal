@@ -1,23 +1,20 @@
 import { defineRateLimit, getRequestAddress } from "~/server/ratelimit";
-import { BasicResponse, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../utils";
-import { createMoodleRequest, getMoodleErrorResponseCode, lookupSchoolMoodle, transformMoodleNotification } from "../../moodle";
+import { BasicResponse, patterns, setErrorResponseEvent, STATIC_STRINGS } from "../../../utils";
+import { createMoodleRequest, getMoodleErrorResponseCode, lookupSchoolMoodle } from "../../../moodle";
 import { SchemaEntryConsumer, validateQueryNew } from "~/server/validator";
-import { MoodleNotification } from "~/common/moodle";
-import { MessagePopup_GetPopupNotifications_ExternalFunction } from "~/server/moodle-external-functions";
+import { Message_MarkAllNotificationsAsRead_ExternalFunction } from "~/server/moodle-external-functions";
 
 const querySchema: SchemaEntryConsumer = {
     session: { required: true, size: 10, pattern: patterns.MOODLE_SESSION },
     cookie: { required: true, size: 26, pattern: patterns.MOODLE_COOKIE },
-    school: { required: true, type: "number", min: 1, max: 9999 }
+    school: { required: true, type: "number", min: 1, max: 9999 },
+    user: { required: true, type: "number", min: 1, max: 9999 },
+    sender: { required: false, type: "number", min: 1, max: 9999 }
 };
 
-interface Response extends BasicResponse {
-    notifications: MoodleNotification[];
-}
-
 const rlHandler = defineRateLimit({ interval: 15, allowed_per_interval: 3 });
-export default defineEventHandler<Promise<Response>>(async (event) => {
-    const query = getQuery<{ session: string; cookie: string; school: string }>(event);
+export default defineEventHandler<Promise<BasicResponse>>(async (event) => {
+    const query = getQuery<{ session: string; cookie: string; school: string; user: string; sender: string }>(event);
     const queryValidation = validateQueryNew(querySchema, query);
     if (queryValidation.violations > 0) return setErrorResponseEvent(event, 400, queryValidation);
 
@@ -25,27 +22,27 @@ export default defineEventHandler<Promise<Response>>(async (event) => {
     if (rl !== null) return rl;
     const address = getRequestAddress(event);
 
-    const { session, cookie, school } = query;
+    const { session, cookie, school, user, sender } = query;
 
     try {
         const hasMoodle = await lookupSchoolMoodle(school);
         if (!hasMoodle) return setErrorResponseEvent(event, 404, STATIC_STRINGS.MOODLE_SCHOOL_NOT_EXIST);
 
-        const response = await createMoodleRequest<MessagePopup_GetPopupNotifications_ExternalFunction>(
+        const response = await createMoodleRequest<Message_MarkAllNotificationsAsRead_ExternalFunction>(
             { school, cookie, session, address },
             {
-                name: "message_popup_get_popup_notifications",
+                name: "core_message_mark_all_notifications_as_read",
                 args: {
-                    useridto: 0,
-                    newestfirst: true
+                    useridto: parseInt(user),
+                    useridfrom: parseInt(sender)
                 }
             }
         );
 
-        const { error, error_details, data } = response[0];
+        const { error, error_details } = response[0];
 
         if (error) return setErrorResponseEvent(event, getMoodleErrorResponseCode(error_details), error_details);
-        return { error: false, notifications: data.notifications.map(transformMoodleNotification) };
+        return { error: false };
     } catch (error) {
         console.error(error);
         return setErrorResponseEvent(event, 500);

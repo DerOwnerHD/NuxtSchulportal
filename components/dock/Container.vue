@@ -132,7 +132,7 @@ watch(isContainerFullSized, (value) => {
 
 <style scoped>
 .dock {
-    background: linear-gradient(135deg, #2b2d2e, #141515);
+    background: var(--dock-gradient);
     border-top: var(--small-white-border);
 }
 .dock.fullscreen {

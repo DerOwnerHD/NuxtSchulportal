@@ -17,13 +17,26 @@
                 </ClientOnly>
             </footer>
         </div>
-        <aside class="fixed h-screen w-screen top-0 left-0 z-[200] pointer-events-none" id="overlay-wrapper"></aside>
+        <aside class="fixed h-screen w-screen top-0 left-0 z-[200] pointer-events-none" id="overlay-wrapper">
+            <div v-for="[uuid, meta] of flyoutMap">
+                <component
+                    :is="meta.vnode"
+                    :ref="
+                        (el: any) => {
+                            meta.callback(el);
+                        }
+                    "
+                    :key="uuid"></component>
+            </div>
+        </aside>
     </div>
 </template>
 
 <script setup lang="ts">
 import "~/composables/prototype";
 import { type RouteLocationNormalized } from "vue-router";
+
+const flyoutMap = useFlyoutMap();
 
 const isPageScrollable = useScrollabilityStatus();
 useRouter().afterEach(async (route) => {

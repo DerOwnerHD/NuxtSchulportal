@@ -1,4 +1,6 @@
-import type { MoodleCourse, MoodleCoursesListClassification } from "~/common/moodle";
+import type { MoodleCourse, MoodleCoursesListClassification, MoodleNotification } from "~/common/moodle";
+import type { AnyFunction } from "~/common";
+import type { BasicResponse } from "~/server/utils";
 
 interface MoodleCredentials {
     cookie: string;
@@ -7,6 +9,8 @@ interface MoodleCredentials {
     user: number;
 }
 export const useMoodleCredentials = () => useCookie<MoodleCredentials>("moodle-credentials");
+export const useMoodleCourses = () => useState("moodle-courses", () => new Map<MoodleCoursesListClassification, MoodleCourse[]>());
+export const useMoodleNotifications = () => useState<MoodleNotification[]>("moodle-notifications");
 
 export async function attemptMoodleLogin(bypassCheck?: boolean) {
     const session = useSession();
@@ -58,7 +62,6 @@ export async function checkMoodleAuth(): Promise<boolean> {
     }
 }
 
-export const useMoodleCourses = () => useState("moodle-courses", () => new Map<MoodleCoursesListClassification, MoodleCourse[]>());
 export function invalidateMoodleCourseList(type?: MoodleCoursesListClassification) {
     const map = useMoodleCourses();
     if (!type) {
@@ -69,24 +72,54 @@ export function invalidateMoodleCourseList(type?: MoodleCoursesListClassificatio
 }
 export async function fetchMoodleCourses(type: MoodleCoursesListClassification = "all", overwrite?: boolean) {
     const list = useMoodleCourses();
-    clearAppError(AppID.MoodleCourseList);
     if (list.value.has(type) && !overwrite) return;
-    // @ts-ignore clearing
+    clearAppError(AppID.MoodleCourseList);
+    // Causes the UI to show loading progress IF the data was already previously loaded
     list.value.delete(type);
+    const data = await performMoodleRequest<{ courses: MoodleCourse[] }>(
+        AppID.MoodleCourseList,
+        "/api/moodle/courses",
+        () => fetchMoodleCourses(...arguments),
+        { classification: type }
+    );
+    if (data === null) return;
+    list.value.set(type, data.courses);
+}
+
+export async function fetchMoodleNotifications(overwrite?: boolean) {
+    const list = useMoodleNotifications();
+    if (Array.isArray(list.value) && !overwrite) return;
+    clearAppError(AppID.MoodleNotifications);
+    // @ts-ignore
+    list.value = null;
+    const data = await performMoodleRequest<{ notifications: MoodleNotification[] }>(AppID.MoodleNotifications, "/api/moodle/notifications", () =>
+        fetchMoodleNotifications(...arguments)
+    );
+    if (data === null) return;
+    list.value = data.notifications;
+}
+
+type HTTPMethod = "get" | "post" | "patch" | "delete";
+export async function performMoodleRequest<T = BasicResponse>(
+    id: AppID,
+    path: string,
+    retryFunction?: AnyFunction,
+    params?: Record<string, any>,
+    body?: Record<string, any>,
+    method: HTTPMethod = "get"
+): Promise<T | null> {
     const creds = useMoodleCredentials();
     if (!creds.value) {
-        createAppError(AppID.MoodleCourseList, "Nicht angemeldet", () => fetchMoodleCourses(type, overwrite));
-        return;
+        createAppError(id, "Nicht angemeldet", retryFunction);
+        return null;
     }
     try {
         const { session, cookie } = creds.value;
-        const response = await $fetch("/api/moodle/courses", {
-            params: { session, cookie, school: school.value, classification: type }
-        });
-        list.value.set(type, response.courses);
+        return await $fetch<T>(path, { params: { session, cookie, school: school.value, ...params }, body, method });
     } catch (error) {
-        createAppError(AppID.MoodleCourseList, error, () => fetchMoodleCourses(type, overwrite));
+        createAppError(id, error, retryFunction);
         await useReauthenticate(error, "moodle");
+        return null;
     }
 }
 
